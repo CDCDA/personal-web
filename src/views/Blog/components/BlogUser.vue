@@ -36,18 +36,18 @@ export default {
   },
 };
 </script>
-<style lang="less" scoped>
+<style lang="scss" scoped>
 .user-image {
   width: 100px;
   height: 100px;
   border-radius: 50px;
   margin-top: 20px;
-  color: aliceblue;
+  color: $FontColor;
   display: block;
   margin: 0 auto;
 }
 span {
-  color: aliceblue;
+  color: $FontColor;
   display: block;
   height: 20px;
   margin-top: 15px;
@@ -56,7 +56,8 @@ span {
   text-align: center;
   margin: 5px;
   border-radius: 5px;
-  background-color: #1b1f2b;
+  background-color: $insideColor;
+  border: 1px solid #888888;
   width: 100%;
 }
 .bt-concern {

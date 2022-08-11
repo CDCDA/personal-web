@@ -30,9 +30,9 @@ export default {
   //background-color: transparent;
   //color: #ffffff;
   text-align: center;
-  line-height: 60px;
+  line-height: 56px;
   padding: 0 0 0 0;
-  height: 10px;
+  height: auto !important;
 }
 // .container-inside{
 //   background-color: transparent;
@@ -51,7 +51,8 @@ export default {
 }
 .container-outside,
 .container-inside {
-  height: auto;
+  height: 100%;
+  background: transparent;
 }
 ::v-deep .el-menu.el-menu--horizontal {
   border-bottom: solid 0px #e6e6e6;

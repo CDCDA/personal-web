@@ -72,7 +72,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .button-box {
   width: 100px;
   position: fixed;
@@ -91,7 +91,7 @@ export default {
   border-radius: 8px;
   background-color: black;
   background-size: cover;
-  color: aliceblue;
+  color: $FontColor;
 }
 .button-box:hover {
   color: white;

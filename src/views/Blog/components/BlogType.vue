@@ -74,15 +74,14 @@ export default {
   },
 };
 </script>
-<style lang="less" scoped>
-
+<style lang="scss" scoped>
 .blog-type-component {
   text-align: left;
   margin: 5px;
   width: 100%;
   border-radius: 5px;
-  color: aliceblue;
-  background-color: #1b1f2b;
+  color: $FontColor;
+  background-color: $insideColor;
   font-size: 15px;
 }
 .custom-tree-node {
@@ -98,19 +97,19 @@ export default {
   line-height: 30px;
 }
 .type-tree {
-  background-color: #1b1f2b;
+  background-color: $insideColor;
   border-radius: 5px;
-  color: aliceblue;
+  color: $FontColor;
   font-size: 15px;
   margin-left: 5px;
   margin-top: 5px;
 }
 ::v-deep .el-tree-node__content:hover {
-  background-color: #1b1f2b;
+  background-color: $insideColor;
   border-radius: 5px;
 }
 ::v-deep .el-tree-node:focus > .el-tree-node__content {
-  background-color: #1b1f2b;
+  background-color: $insideColor;
 }
 .type-name {
   margin-top: 20px;
@@ -150,6 +149,8 @@ export default {
   border-width: 1px;
   border-top: 1px dashed #52627c;
 }
+</style>
+<style lang="less" scoped>
 ::v-deep & > .el-tree-node::after {
   border-top: none;
 }

@@ -43,20 +43,73 @@ export default {
   },
 };
 </script>
-<style>
+<style lang="scss">
+.blog-user,
+.blog-type,
+.blog-left-aside,
+.blog-main-aside,
+.blog-right-aside {
+  box-shadow: 5px 5px 2px #888888;
+}
+@keyframes rotate {
+  100% {
+    transform: rotate(1turn);
+  }
+}
 .blog-main {
-  background-color: #0F1224;
+  background-color: $BackGround;
   width: 80%;
   height: 100%;
   display: flex;
-  margin: 0 auto;
+  position: relative;
+  z-index: 0;
+  margin: auto;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0px 0px 2px 2px #888888;
+  &::before {
+    content: "";
+    position: absolute;
+    z-index: -2;
+    left: -50%;
+    top: -50%;
+    width: 200%;
+    height: 200%;
+    background-color: #1a232a;
+    background-repeat: no-repeat;
+    background-position: 0 0;
+    background-image: conic-gradient(
+      transparent,
+      rgba(168, 239, 255, 1),
+      transparent 30%
+    );
+    animation: rotate 10s linear infinite;
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    left: 6px;
+    top: 6px;
+    width: calc(100% - 12px);
+    height: calc(100% - 12px);
+    background: #000;
+    border-radius: 5px;
+  }
+}
+.blog-user,
+.blog-type {
+  margin: 10px 15px 10px 5px;
+  box-shadow: 12px 5px 2px #888888;
 }
 .blog-left-aside,
 .blog-main-aside,
 .blog-right-aside {
-  background-color: #0F1224;
+  background-color: $BackGround;
   height: auto;
   border-radius: 10px;
+  border: 1px solid #888888;
 }
 .blog-left-aside {
   margin: 30px 0 30px 150px;

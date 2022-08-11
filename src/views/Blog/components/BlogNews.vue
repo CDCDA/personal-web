@@ -25,13 +25,13 @@ export default {
   methods: {},
 };
 </script>
-<style lang="less" scoped>
+<style lang="scss" scoped>
 .blog-news-component {
   text-align: left;
   margin: 5px;
   border-radius: 5px;
-  background-color: #1b1f2b;
-  color: aliceblue;
+  background-color: $insideColor;
+  color: $FontColor;
 }
 .identification-container {
   font-size: 11px;

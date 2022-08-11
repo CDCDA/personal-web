@@ -20,11 +20,12 @@
             :key="i"
             size="mini"
             v-if="item"
+            icon="el-icon-plus"
+            class="icon-delete"
             @mouseenter.native="addTagOver(i)"
             @mouseleave.native="addTagLeave"
             @click="addTag(i)"
-            >{{ item }} <i class="el-icon-plus icon-delete"></i
-          ></el-button>
+            >{{item}}</el-button>
         </template>
       </div>
       <div class="custom-tags">

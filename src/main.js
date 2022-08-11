@@ -7,7 +7,6 @@ import store from './store'
 import mavonEditor from 'mavon-editor'
 import 'mavon-editor/dist/css/index.css'
 //import '@/assets/theme/nightTheme'/*引入公共样式*/
-
 Vue.use(mavonEditor)
 Vue.use(ElementUI)
 Vue.config.productionTip = false

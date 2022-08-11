@@ -17,7 +17,7 @@
           :data="item"
         />
       </el-menu>
-      <i class="el-icon-s-tools"></i>
+      <div class="icon-settings"><i class="el-icon-s-tools"></i></div>
     </div>
   </div>
 </template>
@@ -66,12 +66,58 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-.head-title {
+.icon-settings {
+  height: 56px;
+  width: auto;
+  margin-right: 10px;
+  i {
+    z-index: 999;
+    margin: auto;
+  }
+}
+.head-title,
+.icon-settings {
   width: 60%;
   color: white;
+  position: relative;
+  margin: 10px 5px 10px 5px;
+  border: 1px solid #888888;
+  cursor: pointer;
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    transition: 0.3s ease-in-out;
+  }
+
+  &::before {
+    top: -5px;
+    left: -5px;
+    border-top: 1px solid var(--borderColor);
+    border-left: 1px solid var(--borderColor);
+  }
+
+  &::after {
+    right: -5px;
+    bottom: -5px;
+    border-bottom: 1px solid var(--borderColor);
+    border-right: 1px solid var(--borderColor);
+  }
+
+  &:hover::before,
+  &:hover::after {
+    width: calc(100% + 9px);
+    height: calc(100% + 9px);
+  }
+  li:hover {
+    background: transparent !important;
+    z-index: 1;
+  }
 }
 .menu-container {
-  width: 40%;
+  width: 45%;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -82,6 +128,7 @@ export default {
   align-items: center;
   height: 100%;
   background-color: transparent;
+  transition: all 0.5s; // 表示从 hover 进入普通状态时，0.5s 内完成变换
 }
 .el-icon-s-tools {
   font-size: 23px;

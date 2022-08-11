@@ -1,15 +1,13 @@
 <template>
-  <div id="app" >
+  <div id="app">
     <!-- :style="background" -->
-    <!-- <video
+    <video
       src="./assets/images/video_appBackground.mp4"
       class="bjimg"
       autoplay
       loop
       muted
-    >
-      
-    </video> -->
+    ></video>
 
     <router-view> </router-view>
   </div>
@@ -40,16 +38,16 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
 #app {
   height: 100%;
+  background: transparent;
 }
 body,
 html {
   height: 100%;
   margin: 0px;
   padding: 0px;
-  background-color: #0F1224;
 }
 .bgBackground {
   width: 100%;
