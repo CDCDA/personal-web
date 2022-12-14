@@ -34,35 +34,35 @@ export default {
   border-radius: 10px;
   overflow: hidden;
   box-shadow: 0px 0px 2px 2px #888888;
-  &::before {
-    content: "";
-    position: absolute;
-    z-index: -2;
-    left: -50%;
-    top: -50%;
-    width: 200%;
-    height: 200%;
-    background-color: #1a232a;
-    background-repeat: no-repeat;
-    background-position: 0 0;
-    background-image: conic-gradient(
-      transparent,
-      rgba(168, 239, 255, 1),
-      transparent 30%
-    );
-    animation: rotate 6s linear infinite;
-  }
-  &::after {
-    content: "";
-    position: absolute;
-    z-index: -1;
-    left: 6px;
-    top: 6px;
-    width: calc(100% - 12px);
-    height: calc(100% - 12px);
-    background: #000;
-    border-radius: 5px;
-  }
+  // &::before {
+  //   content: "";
+  //   position: absolute;
+  //   z-index: -2;
+  //   left: -50%;
+  //   top: -50%;
+  //   width: 200%;
+  //   height: 200%;
+  //   background-color: #1a232a;
+  //   background-repeat: no-repeat;
+  //   background-position: 0 0;
+  //   background-image: conic-gradient(
+  //     transparent,
+  //     rgba(168, 239, 255, 1),
+  //     transparent 30%
+  //   );
+  //   animation: rotate 6s linear infinite;
+  // }
+  // &::after {
+  //   content: "";
+  //   position: absolute;
+  //   z-index: -1;
+  //   left: 6px;
+  //   top: 6px;
+  //   width: calc(100% - 12px);
+  //   height: calc(100% - 12px);
+  //   background: #000;
+  //   border-radius: 5px;
+  // }
 }
 .left-nav {
   width: 20%;

@@ -1,5 +1,5 @@
 <template>
-  <div class="blog-article-item">
+  <div class="blog-article-item bounceInRight animated">
     <el-image :src="url" class="article-image"></el-image>
     <div class="article-item-right">
       <span class="article-date">{{ date }}</span>

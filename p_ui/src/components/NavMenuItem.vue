@@ -48,16 +48,17 @@ export default {
 <style lang="less" scoped>
 .el-menu-item,
 .el-submenu {
-  
 }
 
 .container {
   display: inline;
   position: relative;
   margin: 10px 5px 10px 5px;
-  border: 1px solid #888888;
+  border: 1px solid #fff;
   cursor: pointer;
   width: 25%;
+  border-radius: 3px;
+  background: black;
   &::before,
   &::after {
     content: "";
@@ -70,15 +71,17 @@ export default {
   &::before {
     top: -5px;
     left: -5px;
-    border-top: 1px solid var(--borderColor);
-    border-left: 1px solid var(--borderColor);
+    border-top: 1px solid #fff;
+    border-left: 1px solid #fff;
+    border-radius: 3px;
   }
 
   &::after {
     right: -5px;
     bottom: -5px;
-    border-bottom: 1px solid var(--borderColor);
-    border-right: 1px solid var(--borderColor);
+    border-bottom: 1px solid #fff;
+    border-right: 1px solid #fff;
+    border-radius: 3px;
   }
 
   &:hover::before,

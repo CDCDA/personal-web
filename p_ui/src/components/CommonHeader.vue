@@ -71,8 +71,10 @@ export default {
   width: auto;
   margin-right: 10px;
   margin-left: 5px;
-  border: 1px solid #888888;
+  border: 1px solid #fff;
   padding: 0px 5px;
+  border-radius: 3px;
+  background: black;
   cursor: pointer;
   i {
     z-index: 999;
@@ -85,8 +87,10 @@ export default {
   color: white;
   position: relative;
   margin: 10px 5px 10px 5px;
-  border: 1px solid #888888;
+  border: 1px solid #fff;
   cursor: pointer;
+  border-radius: 3px;
+  background: black;
 }
 .head-title,
 .icon-settings {
@@ -102,15 +106,17 @@ export default {
   &::before {
     top: -5px;
     left: -5px;
-    border-top: 1px solid var(--borderColor);
-    border-left: 1px solid var(--borderColor);
+    border-top: 1px solid #fff;
+    border-left: 1px solid #fff;
+    border-radius: 3px;
   }
 
   &::after {
     right: -5px;
     bottom: -5px;
-    border-bottom: 1px solid var(--borderColor);
-    border-right: 1px solid var(--borderColor);
+    border-bottom: 1px solid #fff;
+    border-right: 1px solid #fff;
+    border-radius: 3px;
   }
 
   &:hover::before,
