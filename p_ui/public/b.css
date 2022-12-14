@@ -1,0 +1,11 @@
+.tlw-work-flow [data-id="subject_mff5ix1p"]>.el-form-item>.el-form-item__content .ql-editor::before {
+    background-color: #F0F1F9;
+    width: 100%;
+    top: -80px;
+    bottom: -5px;
+    left: -5px;
+    margin-left: 0;
+    z-index: -1;
+    border-right: 1px solid #E3E5F4;
+    height: 800%;
+}

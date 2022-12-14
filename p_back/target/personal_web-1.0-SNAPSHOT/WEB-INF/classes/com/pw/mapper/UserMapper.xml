@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pw.mapper.UserMapper" >
+    <!--完成实体类与表中类名的映射
+        private String userId;
+        private String userName;
+        private String email;
+        private String account;
+        private String phone;
+    -->
+    <resultMap id="usermap" type="user">
+        <id property="userId" column="user_id"></id>
+        <result property="userName" column="user_name"></result>
+        <result property="email" column="user_email"></result>
+        <result property="account" column="user_account"></result>
+        <result property="phone" column="user_phone"></result>
+        <result property="password" column="user_password"></result>
+    </resultMap>
+    <!--定义全部列名-->
+    <sql id="allColumns">
+        user_id,user_name,user_email,user_account,user_phone
+    </sql>
+    <!--登录验证-->
+    <select id="login" resultType="int">
+        select user_id
+        from user
+        where user_account = #{account} and user_password = #{password}
+    </select>
+
+    <select id="selectUserPage" resultMap="usermap" >
+        select <include refid="allColumns"></include>
+        from user
+        <where>
+            <if test="userName != null and userName != ''">
+                and user_name like concat('%',#{userName},'%')
+            </if>
+            <if test="phone != null and phone != ''">
+                and phone = #{phone}
+            </if>
+        </where>
+        limit #{startRow},5
+    </select>
+    <!--
+        int insert(User user);
+    -->
+    <insert id="createUser" parameterType="user">
+        insert into users values(#{userName},#{userId},#{email},#{account},#{phone})
+    </insert>
+    <!--
+        int delete(String userId);
+    -->
+    <delete id="deleteUserById" parameterType="int">
+        delete from users where user_id = #{userId}
+    </delete>
+
+    <!--
+        int getRowCount(
+            @Param("userName")
+            String userName,
+            @Param("phone")
+            String phone);
+    -->
+    <select id="getRowCount" resultType="int">
+        select count(*)
+        from users
+        <where>
+            <if test="userName != null and userName != ''">
+                and user_name like concat('%',#{userName},'%')
+            </if>
+            <if test="phone != null and phone != ''">
+                and phone = #{phone}
+            </if>
+        </where>
+    </select>
+    
+</mapper>
