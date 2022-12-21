@@ -54,11 +54,15 @@ span {
 }
 .blog-user-component {
   text-align: center;
-  margin: 5px;
+  // margin: 5px;
   border-radius: 5px;
-  background-color: $insideColor;
-  border: 1px solid #888888;
+  // background-color: $insideColor;
+  // border: 1px solid #888888;
+  color: #fff;
   width: 100%;
+  span{
+    color: #fff;
+  }
 }
 .bt-concern {
   width: 80%;

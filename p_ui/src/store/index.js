@@ -8,7 +8,7 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
     state: {
         isMenuCollapse: true,
-        userId:"1",
+        userId:"6",
     },
     mutations: {
         collapseChange(state) {

@@ -13,6 +13,16 @@ Vue.use(VueParticles)
 Vue.use(mavonEditor)
 Vue.use(ElementUI)
 Vue.config.productionTip = false
+//日期转字符串
+Vue.prototype.dateTimeToString = function (date) {
+  var y = date.getFullYear();
+  var M = date.getMonth() + 1;
+  var d = date.getDate();
+  var H = date.getHours();
+  var m = date.getMinutes();
+  var s = date.getSeconds();
+  return y + '-' + (M < 10 ? ('0' + M) : M) + '-' + (d < 10 ? ('0' + d) : d) + " " + (H < 10 ? ('0' + H) : H) + ":" + (m < 10 ? ('0' + m) : m) + ":" + (s < 10 ? ('0' + s) : s);
+}
 
 new Vue({
   router,

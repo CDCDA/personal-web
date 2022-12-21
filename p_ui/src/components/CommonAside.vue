@@ -21,10 +21,13 @@
   </div>
 </template>
 <style lang="less" scoped>
-.el-menu {
+::v-deep .el-menu-vertical-demo {
   font-size: 18px;
   height: 100%;
   border: none;
+  .el-menu-item i {
+    color: #fff;
+  }
 }
 </style>
 <script>

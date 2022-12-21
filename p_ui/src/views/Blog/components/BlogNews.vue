@@ -28,10 +28,10 @@ export default {
 <style lang="scss" scoped>
 .blog-news-component {
   text-align: left;
-  margin: 5px;
   border-radius: 5px;
-  background-color: $insideColor;
-  color: $FontColor;
+  background-color: transparent;
+  color: #fff;
+  padding-bottom: 7px;
 }
 .identification-container {
   font-size: 11px;
@@ -42,12 +42,10 @@ export default {
   font-size: 15px;
 }
 .news-introduction {
-  margin-top: 3px;
-  margin-left: 5px;
-  margin: 5px 0 15px 10px;
+  margin: 5px;
   font-size: 13px;
 }
-.news-image{
-    border-radius: 5px;
+.news-image {
+  border-radius: 5px;
 }
 </style>

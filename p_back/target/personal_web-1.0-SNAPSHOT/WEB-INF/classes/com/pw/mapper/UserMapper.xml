@@ -18,7 +18,7 @@
     </resultMap>
     <!--定义全部列名-->
     <sql id="allColumns">
-        user_id,user_name,user_email,user_account,user_phone
+        user_id,user_name,user_email,user_account,user_phone,user_phone
     </sql>
     <!--登录验证-->
     <select id="login" resultType="int">
@@ -35,10 +35,10 @@
                 and user_name like concat('%',#{userName},'%')
             </if>
             <if test="phone != null and phone != ''">
-                and phone = #{phone}
+                and user_phone = #{phone}
             </if>
         </where>
-        limit #{startRow},5
+        limit ${startRow},5
     </select>
     <!--
         int insert(User user);

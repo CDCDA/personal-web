@@ -80,8 +80,8 @@ export default {
   margin: 5px;
   width: 100%;
   border-radius: 5px;
-  color: $FontColor;
-  background-color: $insideColor;
+  color: #fff;
+  background-color: transparent;
   font-size: 15px;
 }
 .custom-tree-node {
@@ -97,9 +97,9 @@ export default {
   line-height: 30px;
 }
 .type-tree {
-  background-color: $insideColor;
+  background-color: transparent;
   border-radius: 5px;
-  color: $FontColor;
+  color: #fff;
   font-size: 15px;
   margin-left: 5px;
   margin-top: 5px;

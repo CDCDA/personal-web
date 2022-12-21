@@ -21,7 +21,7 @@ export default {
   },
   methods: {
     openBox() {
-      this.$router.push('/BlogEditor')
+      this.$router.push("/BlogEditor");
     },
     mousedowm(e) {
       // 鼠标按下时的鼠标所在的X，Y坐标
@@ -88,10 +88,12 @@ export default {
   width: 100px;
   height: 30px;
   line-height: 30px;
-  border-radius: 8px;
-  background-color: black;
+  border-radius: 5px;
   background-size: cover;
-  color: $FontColor;
+  color: #fff;
+  margin-bottom: 20px;
+  background-color: rgba(80, 81, 82, 0.6);
+  box-shadow: 0 2px 12px 0 #000000;
 }
 .button-box:hover {
   color: white;

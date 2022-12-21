@@ -74,7 +74,7 @@ export default {
   border: 1px solid #fff;
   padding: 0px 5px;
   border-radius: 3px;
-  background: black;
+  background-color: rgb(11 12 12 / 70%);
   cursor: pointer;
   i {
     z-index: 999;
@@ -90,7 +90,7 @@ export default {
   border: 1px solid #fff;
   cursor: pointer;
   border-radius: 3px;
-  background: black;
+  background-color: rgb(11 12 12 / 70%);
 }
 .head-title,
 .icon-settings {
@@ -148,10 +148,13 @@ export default {
   margin-right: 20px;
   color: white;
 }
-.el-menu-demo {
+::v-deep .el-menu-demo {
   width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  i {
+    color: #fff;
+  }
 }
 </style>

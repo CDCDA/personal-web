@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pw.mapper.BlogMapper" >
+    <!--完成实体类与表中类名的映射
+        private String userId;
+        private String blogTitle;
+        private String blogText;
+        private String blogId;
+        private String blogCreateTime;
+        private String blogUpdateTime;
+        private String blogType;
+        private String blogLabel;
+    -->
+    <resultMap id="blogmap" type="blog">
+        <id property="userId" column="user_id"></id>
+        <result property="blogTitle" column="blog_title"></result>
+        <result property="blogText" column="blog_text"></result>
+        <result property="blogId" column="blog_id"></result>
+        <result property="blogCreateTime" column="blog_createTime"></result>
+        <result property="blogUpdateTime" column="blog_updateTime"></result>
+        <result property="blogType" column="blog_type"></result>
+        <result property="blogLabel" column="blog_label"></result>
+    </resultMap>
+    <!--定义全部列名-->
+    <sql id="allColumns">
+        user_id,blog_title,blog_text,blog_id,blog_createTime,blog_updateTime,blog_type,blog_label
+    </sql>
+
+    <!--添加博客 -->
+    <insert id="createBlog"  parameterType="blog">
+        insert into blog values(#{userId},#{blogTitle},#{blogText},#{blogId},#{blogCreateTime},#{blogUpdateTime},#{blogType},#{blogLabel})
+    </insert>
+
+    <!--删除博客-->
+    <delete id="deleteBlogById" parameterType="int">
+        delete from blog where blog_id = #{blogId}
+    </delete>
+
+    <!--获取用户博客-->
+    <select id="getBlogByUserId" resultMap="blogmap" >
+        select <include refid="allColumns"></include>
+        from blog
+        <where>
+            <if test="userId != null and userId != ''">
+                and user_id =#{userId}
+            </if>
+        </where>
+        limit #{startRow},5
+    </select>
+
+    <!--获取用户博客数-->
+    <select id="getBlogRowCount" resultType="int">
+        select count(*)
+        from blog
+        <where>
+            <if test="userId != null and userId != ''">
+                and user_id =#{userId}
+            </if>
+        </where>
+    </select>
+
+    <!--获取指定id博客-->
+    <select id="getBlogByBlogId" resultMap="blogmap" >
+        select <include refid="allColumns"></include>
+        from blog
+        <where>
+            <if test="blogId != null and blogId != ''">
+                and blog_id =#{blogId}
+            </if>
+        </where>
+    </select>
+
+</mapper>

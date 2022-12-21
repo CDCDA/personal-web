@@ -58,7 +58,7 @@ export default {
   cursor: pointer;
   width: 25%;
   border-radius: 3px;
-  background: black;
+  background-color: rgb(11 12 12 / 70%);
   &::before,
   &::after {
     content: "";

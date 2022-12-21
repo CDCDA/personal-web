@@ -1,127 +1,145 @@
 <template>
-  <div class="mavon-editor-container">
-    <mavon-editor
-      v-model="content"
-      :ishljs="editorOptions.ishljs"
-      :defaultOpen="editorOptions.defaultOpen"
-      :editable="editorOptions.editable"
-      @change="updateDoc"
-      @save="contentSave"
-      @htmlCode="getHtml"
-      :toolbarsFlag="editorOptions.toolbarsFlag"
-      :subfield="editorOptions.subfield"
-    ></mavon-editor>
-    <div class="add-tags">
-      <div class="common-used-tags">
-        <span class="tag-label">常用标签</span>
-        <template v-for="(item, i) in commonTagsList">
-          <el-button
-            type="info"
-            :key="i"
-            size="mini"
-            v-if="item"
-            icon="el-icon-plus"
-            class="icon-delete"
-            @mouseenter.native="addTagOver(i)"
-            @mouseleave.native="addTagLeave"
-            @click="addTag(i)"
-            >{{item}}</el-button>
-        </template>
+  <div class="mavon-editor-container page-main">
+    <div class="mavon-editor-main">
+      <el-input
+        placeholder="请输入标题"
+        v-model="blogData.blogTitle"
+      ></el-input>
+      <mavon-editor
+        v-model="blogData.blogText"
+        :ishljs="editorOptions.ishljs"
+        :defaultOpen="editorOptions.defaultOpen"
+        :editable="editorOptions.editable"
+        @change="updateDoc"
+        @save="contentSave"
+        @htmlCode="getHtml"
+        :toolbarsFlag="editorOptions.toolbarsFlag"
+        :subfield="editorOptions.subfield"
+      ></mavon-editor>
+      <div class="add-tags">
+        <div class="common-used-tags">
+          <span class="tag-label">常用标签</span>
+          <template v-for="(item, i) in commonLabelList">
+            <el-button
+              type="info"
+              :key="i"
+              size="mini"
+              v-if="item"
+              icon="el-icon-plus"
+              class="icon-delete"
+              @mouseenter.native="addTagOver(i)"
+              @mouseleave.native="addTagLeave"
+              @click="addTag(i)"
+              >{{ item }}</el-button
+            >
+          </template>
+        </div>
+        <div class="custom-tags">
+          <span class="tag-label">添加标签</span>
+          <el-input
+            v-model="customTag"
+            placeholder="请输入"
+            :maxlength="10"
+            :clearable="true"
+            class="tag-input"
+          ></el-input>
+          <el-button size="mini"><i class="el-icon-plus">添加</i></el-button>
+        </div>
+        <div class="tags-list">
+          <span class="tag-label">标签列表</span>
+          <template v-for="(item, i) in labelList">
+            <el-button
+              type="info"
+              :key="i"
+              size="mini"
+              v-if="item"
+              @mouseenter.native="delTagOver(i)"
+              @mouseleave.native="delTagLeave"
+              >{{ item }}
+              <i
+                class="el-icon-delete icon-delete"
+                v-if="isDeleteShow[i]"
+                @click="deleteTag(i)"
+              ></i
+            ></el-button>
+          </template>
+        </div>
+        <div class="add-type">
+          <span class="tag-label">分类选择</span>
+          <el-cascader
+            v-model="typeValue"
+            :options="typeList"
+            @change="selectChange"
+          ></el-cascader>
+        </div>
       </div>
-      <div class="custom-tags">
-        <span class="tag-label">添加标签</span>
-        <el-input
-          v-model="customTag"
-          placeholder="请输入"
-          :maxlength="10"
-          :clearable="true"
-          class="tag-input"
-        ></el-input>
-        <el-button size="mini"><i class="el-icon-plus">添加</i></el-button>
+      <div class="blog-editor-footer">
+        <el-button size="small" @click="saveBlog">保存</el-button>
+        <el-button size="small" @click="releaseBlog">发布</el-button>
       </div>
-      <div class="tags-list">
-        <span class="tag-label">标签列表</span>
-        <template v-for="(item, i) in tagsList">
-          <el-button
-            type="info"
-            :key="i"
-            size="mini"
-            v-if="item"
-            @mouseenter.native="delTagOver(i)"
-            @mouseleave.native="delTagLeave"
-            >{{ item }}
-            <i
-              class="el-icon-delete icon-delete"
-              v-if="isDeleteShow[i]"
-              @click="deleteTag(i)"
-            ></i
-          ></el-button>
-        </template>
-      </div>
-      <div class="add-type">
-        <span class="tag-label">分类选择</span>
-        <el-cascader
-          v-model="typeValue"
-          :options="typeList"
-          @change="selectChange"
-        ></el-cascader>
-      </div>
-    </div>
-    <div class="blog-editor-footer">
-      <el-button @click="saveBlog">保存</el-button>
-      <el-button @click="releaseBlog">发布</el-button>
     </div>
   </div>
 </template>
 
 <script>
+import { createBlog } from "@/api/blog";
 import Blog from "./Blog.vue";
 export default {
   components: { Blog },
   data() {
     return {
-      content: "",
       typeValue: "",
       isDeleteShow: [],
       isAddShow: [],
       customTag: "",
+      blogData: {
+        blogTitle: "",
+        blogText: "",
+        blogCreateTime: "",
+        blogUpdateTime: "",
+        blogType: "",
+        blogLabel: "",
+        blogId: null,
+        userId: this.$store.state.userId,
+      },
       typeList: [
         {
           label: "前端",
-          value: 1,
+          value: "1",
           children: [
             {
               label: "html",
-              value: 2,
+              value: "1-1",
             },
             {
               label: "css",
-              value: 3,
+              value: "1-2",
             },
             {
               label: "javascript",
-              value: 4,
+              value: "1-3",
             },
             {
               label: "vue",
-              value: 5,
+              value: "1-4",
             },
           ],
         },
         {
           label: "后端",
+          value: "2",
           children: [
             {
               label: "springboot",
-              value: 6,
+              value: "2-1",
             },
             {
               label: "tomcat",
-              value: 7,
+              value: "2-2",
             },
             {
               label: "servelet",
-              value: 8,
+              value: "2-3",
             },
           ],
         },
@@ -133,8 +151,8 @@ export default {
         toolbarsFlag: true,
         subfield: true, //双栏
       },
-      tagsList: ["vue", "html", "css", "springboot", "javascript"],
-      commonTagsList: ["vue", "html", "css", "springboot", "javascript"],
+      labelList: [],
+      commonLabelList: ["vue", "html", "css", "springboot", "javascript"],
     };
   },
   methods: {
@@ -161,7 +179,7 @@ export default {
       this.isDeleteShow = [];
     },
     deleteTag(i) {
-      this.tagsList.splice(i, 1, "");
+      this.labelList.splice(i, 1, "");
     },
     addTagOver(i) {
       this.isAddShow = [];
@@ -171,37 +189,66 @@ export default {
       this.isAddShow = [];
     },
     addTag(i) {
-      this.tagsList.push(this.commonTagsList[i]);
+      this.labelList.push(this.commonLabelList[i]);
     },
-    saveBlog(){
-
+    saveBlog() {},
+    releaseBlog() {
+      let data = this.blogData;
+      data.blogCreateTime = this.dateTimeToString(new Date());
+      data.blogUpdateTime = data.blogCreateTime;
+      this.labelList.forEach((label, i) => {
+        if (i != this.labelList.length) data.blogLabel += label + "/";
+      });
+      let list = this.typeList;
+      let blogType = "";
+      this.typeValue.forEach((type) => {
+        list.forEach((e) => {
+          if (e.value == type) {
+            blogType += e.label + "/";
+            list = e.children;
+          }
+        });
+      });
+      blogType = blogType.substring(0, blogType.length - 1);
+      data.blogType = blogType;
+      data.blogLabel = data.blogLabel.substring(0, data.blogLabel.length - 1);
+      createBlog(this.blogData).then((res) => {
+        console.log("结果", res);
+      });
+      console.log("博客编辑", data);
     },
-    releaseBlog(){
-      
-    }
   },
   mounted() {
-    this.content = localStorage.getItem("blogContent");
+    this.blogData.blogText = localStorage.getItem("blogContent");
   },
 };
 </script>
 <style lang="less" scoped>
 .mavon-editor-container {
-  width: 80%;
-  border: 2px solid black;
-  border-radius: 5px;
-  //background-color: #1b1f2b;
-  color: aliceblue;
-  margin: 0 auto;
-  background-color: white;
+  display: flex;
+  flex-direction: column;
+  width: calc(100% - 400px);
+  padding: 30px 200px;
+  height: calc(100% - 60px);
+  .mavon-editor-main {
+    height: calc(100% - 60px);
+    .markdown-body {
+      height: 500px;
+    }
+  }
 }
 .add-tags {
-  width: 100%;
-  background-color: white;
+  width: calc(100% - 20px);
   text-align: left;
+  margin-top: 10px;
+  background-color: #fff;
+  /* box-shadow: 0 2px 12px 0 #000000; */
+  /* color: #fff; */
+  border-radius: 3px;
+  padding: 10px;
 }
-.blog-editor-footer{
-  margin-bottom: 25px;
+.blog-editor-footer {
+  margin-top: 15px;
 }
 .tags-list {
   margin: 15px 0 15px 10px;

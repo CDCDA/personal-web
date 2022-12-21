@@ -22,7 +22,7 @@ public class MyTest {
 
     @Test
     public void testSelectUserPage(){
-        List<User> list = userService.selectUserPage(null,"0123456789",0);
+        List<User> list = userService.selectUserPage(null,null,2);
         list.forEach(user->{
             System.out.println(user);
         });

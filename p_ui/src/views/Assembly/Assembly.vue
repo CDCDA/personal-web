@@ -1,5 +1,5 @@
 <template>
-  <div class="assembly-container">
+  <div class="assembly-container page-main">
     <leftAssemblyNav class="left-nav"></leftAssemblyNav>
     <div class="router-view-container">
       <router-view class="assembly-main"></router-view>
@@ -21,19 +21,19 @@ export default {
 </script>
 <style lang="less" scoped>
 .assembly-container {
-  display: flex;
-  justify-content: space-between;
-  border: 1px solid white;
-  border-radius: 5px;
-  height: 100%;
-  width: 100%;
-  margin: 0px auto;
-  position: relative;
-  z-index: 0;
-  margin: auto;
-  border-radius: 10px;
-  overflow: hidden;
-  box-shadow: 0px 0px 2px 2px #888888;
+  // display: flex;
+  // justify-content: space-between;
+  // border: 1px solid white;
+  // border-radius: 5px;
+  // height: 100%;
+  // width: 100%;
+  // margin: 0px auto;
+  // position: relative;
+  // z-index: 0;
+  // margin: auto;
+  // border-radius: 10px;
+  // overflow: hidden;
+  // box-shadow: 0px 0px 2px 2px #888888;
   // &::before {
   //   content: "";
   //   position: absolute;
@@ -64,11 +64,16 @@ export default {
   //   border-radius: 5px;
   // }
 }
+::v-deep .el-menu {
+  border-right: none;
+}
 .left-nav {
   width: 20%;
   height: calc(100% - 14px);
   margin: 7px;
   border-radius: 5px;
+  background-color: rgba(29, 32, 33, 0.6);
+  box-shadow: 0 2px 12px 0 #000000;
 }
 .assembly-main {
   width: 100%;
@@ -80,7 +85,8 @@ export default {
   border-radius: 5px;
   height: calc(100% - 14px);
   margin: 7px 7px 7px -5px;
-  background: #1a232a;
+  background-color: rgba(29, 32, 33, 0.6);
+  box-shadow: 0 2px 12px 0 #000000;
 }
 ::v-deep .el-menu-item {
   border-radius: 5px;

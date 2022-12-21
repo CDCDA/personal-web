@@ -48,7 +48,8 @@ export default {
   //background-color: #e9eef3;
   //color: #333;
   text-align: center;
-  padding: 10px 30px 20px 40px;
+  padding: 10px 30px 20px 30px;
+  overflow: hidden;
 }
 .container-outside,
 .container-inside {

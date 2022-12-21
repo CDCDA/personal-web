@@ -1,16 +1,17 @@
 <template>
-  <div class="blog-article-item bounceInRight animated">
+  <div class="blog-article-item">
     <el-image :src="url" class="article-image"></el-image>
     <div class="article-item-right">
-      <span class="article-date">{{ date }}</span>
-      <span class="article-title">{{ title }}</span>
-      <span class="article-type">{{ type }}</span>
+      <span class="article-date">{{ blogData.blogUpdateTime }}</span>
+      <span class="article-title">{{ blogData.blogTitle }}</span>
+      <span class="article-type">{{ blogData.blogType }}</span>
     </div>
   </div>
 </template>
 
 <script>
 export default {
+  props: ["blogData"],
   data() {
     return {
       url: require("@/assets/images/app-background1.webp"),
@@ -25,16 +26,24 @@ export default {
 <style lang="scss" scoped>
 .blog-article-item {
   text-align: left;
-  margin: 5px;
+  padding: 10px;
   border-radius: 5px;
-  background-color: $insideColor;
-  color: $FontColor;
+  background-color: transparent;
+  color: #fff;
   display: flex;
   justify-content: space-between;
+  /* border: 1px solid; */
+  margin: 5px 0px;
+  background-color: rgba(29, 32, 33, 0.6);
+}
+.blog-article-item:hover {
+  background-color: transparent;
+  box-shadow: 0 0px 12px 2px #000000;
 }
 .article-image {
-  width: 50%;
+  width: 40%;
   height: auto;
+  margin-right: 10px;
 }
 .article-date {
   font-size: 11px;
@@ -48,7 +57,16 @@ export default {
   font-size: 12px;
   display: block;
 }
-.article-item-right{
+.article-item-right {
   margin-left: 5px;
+  width: calc(60% - 10px);
+  span {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
+    overflow: hidden;
+    text-align: left;
+    height: 33%;
+  }
 }
 </style>
