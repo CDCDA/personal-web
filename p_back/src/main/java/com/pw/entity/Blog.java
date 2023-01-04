@@ -1,5 +1,7 @@
 package com.pw.entity;
 
+import java.util.List;
+
 public class Blog {
     private int userId;
     private String blogTitle;
@@ -8,18 +10,9 @@ public class Blog {
     private String blogCreateTime;
     private String blogUpdateTime;
     private String blogType;
+    private List<BlogLabel> blogLabelList;
+    private String blogLabel;
     private String blogMk;
-
-    public Blog(int userId, String blogTitle, String blogText, String blogId, String blogCreateTime, String blogUpdateTime, String blogType, String blogMk) {
-        this.userId = userId;
-        this.blogTitle = blogTitle;
-        this.blogText = blogText;
-        this.blogId = blogId;
-        this.blogCreateTime = blogCreateTime;
-        this.blogUpdateTime = blogUpdateTime;
-        this.blogType = blogType;
-        this.blogMk = blogMk;
-    }
 
     @Override
     public String toString() {
@@ -31,8 +24,23 @@ public class Blog {
                 ", blogCreateTime='" + blogCreateTime + '\'' +
                 ", blogUpdateTime='" + blogUpdateTime + '\'' +
                 ", blogType='" + blogType + '\'' +
+                ", blogLabelList=" + blogLabelList +
+                ", blogLabel='" + blogLabel + '\'' +
                 ", blogMk='" + blogMk + '\'' +
                 '}';
+    }
+
+    public Blog(int userId, String blogTitle, String blogText, String blogId, String blogCreateTime, String blogUpdateTime, String blogType, String blogMk) {
+        this.userId = userId;
+        this.blogTitle = blogTitle;
+        this.blogText = blogText;
+        this.blogId = blogId;
+        this.blogCreateTime = blogCreateTime;
+        this.blogUpdateTime = blogUpdateTime;
+        this.blogType = blogType;
+        this.blogLabelList = blogLabelList;
+        this.blogLabel = blogLabel;
+        this.blogMk = blogMk;
     }
 
     public int getUserId() {
@@ -89,6 +97,22 @@ public class Blog {
 
     public void setBlogType(String blogType) {
         this.blogType = blogType;
+    }
+
+    public List<BlogLabel> getBlogLabelList() {
+        return blogLabelList;
+    }
+
+    public void setBlogLabelList(List<BlogLabel> blogLabelList) {
+        this.blogLabelList = blogLabelList;
+    }
+
+    public String getBlogLabel() {
+        return blogLabel;
+    }
+
+    public void setBlogLabel(String blogLabel) {
+        this.blogLabel = blogLabel;
     }
 
     public String getBlogMk() {

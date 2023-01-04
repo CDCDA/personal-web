@@ -1,11 +1,16 @@
 <template>
   <div class="mavon-editor-container page-main">
     <div class="mavon-editor-main">
-      <el-input
-        placeholder="请输入标题"
-        v-model="blogData.blogTitle"
-      ></el-input>
+      <div class="blog-editor-header">
+        <el-button size="small" @click="saveBlog">保存</el-button>
+        <el-input
+          placeholder="请输入标题"
+          v-model="blogData.blogTitle"
+        ></el-input>
+        <el-button size="small" @click="releaseBlog">发布</el-button>
+      </div>
       <mavon-editor
+        ref="md"
         v-model="blogData.blogText"
         :ishljs="editorOptions.ishljs"
         :defaultOpen="editorOptions.defaultOpen"
@@ -43,7 +48,9 @@
             :clearable="true"
             class="tag-input"
           ></el-input>
-          <el-button size="mini"><i class="el-icon-plus">添加</i></el-button>
+          <el-button size="mini" @click="addCustomTag"
+            ><i class="el-icon-plus">添加</i></el-button
+          >
         </div>
         <div class="tags-list">
           <span class="tag-label">标签列表</span>
@@ -73,10 +80,6 @@
           ></el-cascader>
         </div>
       </div>
-      <div class="blog-editor-footer">
-        <el-button size="small" @click="saveBlog">保存</el-button>
-        <el-button size="small" @click="releaseBlog">发布</el-button>
-      </div>
     </div>
   </div>
 </template>
@@ -98,7 +101,7 @@ export default {
         blogCreateTime: "",
         blogUpdateTime: "",
         blogType: "",
-        blogLabel: "",
+        blogLabel: [],
         blogId: null,
         userId: this.$store.state.userId,
       },
@@ -143,6 +146,38 @@ export default {
             },
           ],
         },
+        {
+          label: "数据库",
+          value: "3",
+          children: [
+            {
+              label: "mysql",
+              value: "3-1",
+            },
+            {
+              label: "dbeaver",
+              value: "3-2",
+            },
+          ],
+        },
+        {
+          label: "问题记录",
+          value: "2",
+          children: [
+            {
+              label: "springboot",
+              value: "2-1",
+            },
+            {
+              label: "tomcat",
+              value: "2-2",
+            },
+            {
+              label: "servelet",
+              value: "2-3",
+            },
+          ],
+        },
       ],
       editorOptions: {
         ishljs: true, //代码高亮
@@ -161,7 +196,11 @@ export default {
     },
     selectChange(val) {},
     contentSave(value) {
-      localStorage.setItem("blogContent", value);
+      //保存到localstorage
+      localStorage.setItem("blogData", JSON.stringify(this.blogData));
+      localStorage.setItem("labelList", JSON.stringify(this.labelList));
+      localStorage.setItem("typeValue", JSON.stringify(this.typeValue));
+
       this.$message({
         message: "保存成功",
         type: "success",
@@ -191,44 +230,63 @@ export default {
     addTag(i) {
       this.labelList.push(this.commonLabelList[i]);
     },
+    addCustomTag() {
+      this.labelList.push(this.customTag);
+    },
     saveBlog() {},
     releaseBlog() {
       let data = this.blogData;
       data.blogCreateTime = this.dateTimeToString(new Date());
       data.blogUpdateTime = data.blogCreateTime;
+      data.blogLabel = "";
       this.labelList.forEach((label, i) => {
-        if (i != this.labelList.length) data.blogLabel += label + "/";
+        if (i != this.labelList.length) data.blogLabel += label + ",";
       });
       let list = this.typeList;
       let blogType = "";
-      this.typeValue.forEach((type) => {
-        list.forEach((e) => {
-          if (e.value == type) {
-            blogType += e.label + "/";
-            list = e.children;
-          }
+      if (this.typeValue.length > 0)
+        this.typeValue.forEach((type) => {
+          list.forEach((e) => {
+            if (e.value == type) {
+              blogType += e.label + "/";
+              list = e.children;
+            }
+          });
         });
-      });
       blogType = blogType.substring(0, blogType.length - 1);
       data.blogType = blogType;
       data.blogLabel = data.blogLabel.substring(0, data.blogLabel.length - 1);
-      createBlog(this.blogData).then((res) => {
+      data.blogText = data.blogText;
+      data.blogMk = this.$refs.md.d_render;
+      createBlog(data).then((res) => {
         console.log("结果", res);
       });
-      console.log("博客编辑", data);
+      // console.log("博客编辑", data, this.$refs.md.d_render);
     },
   },
   mounted() {
-    this.blogData.blogText = localStorage.getItem("blogContent");
+    if (
+      localStorage.getItem("blogData") &&
+      localStorage.getItem("labelList") &&
+      localStorage.getItem("typeValue") && !this.$route.query.blogData
+    ) {
+      this.blogData = JSON.parse(localStorage.getItem("blogData"));
+      this.labelList = JSON.parse(localStorage.getItem("labelList"));
+      this.typeValue = JSON.parse(localStorage.getItem("typeValue"));
+    }
+
+    if (this.$route.query.blogData) {
+      this.blogData = this.$route.query.blogData;
+    }
   },
 };
 </script>
-<style lang="less" scoped>
+<style lang="less">
 .mavon-editor-container {
   display: flex;
   flex-direction: column;
-  width: calc(100% - 400px);
-  padding: 30px 200px;
+  width: 90%;
+  padding: 30px 5%;
   height: calc(100% - 60px);
   .mavon-editor-main {
     height: calc(100% - 60px);
@@ -236,49 +294,52 @@ export default {
       height: 500px;
     }
   }
-}
-.add-tags {
-  width: calc(100% - 20px);
-  text-align: left;
-  margin-top: 10px;
-  background-color: #fff;
-  /* box-shadow: 0 2px 12px 0 #000000; */
-  /* color: #fff; */
-  border-radius: 3px;
-  padding: 10px;
-}
-.blog-editor-footer {
-  margin-top: 15px;
-}
-.tags-list {
-  margin: 15px 0 15px 10px;
-  color: black;
-}
-.add-type {
-  margin: 15px 0 15px 10px;
-  color: black;
-}
-.common-used-tags {
-  margin: 15px 0 0px 10px;
-  color: black;
-}
-.icon-delete {
-  margin-left: 5px;
-}
-.custom-tags {
-  color: black;
-  margin: 15px 0 0px 10px;
-}
-.tag-label {
-  margin: 0 5px 0 10px;
-  width: 50px;
-  white-space: nowrap;
-}
-.tag-input {
-  width: 100px;
-}
-::v-deep .el-input__inner {
-  height: 30px;
-  line-height: 30px;
+  .add-tags {
+    width: calc(100% - 20px);
+    text-align: left;
+    margin-top: 10px;
+    background-color: #fff;
+    /* box-shadow: 0 2px 12px 0 #000000; */
+    /* color: #fff; */
+    border-radius: 3px;
+    padding: 10px;
+  }
+  .blog-editor-footer {
+    margin-top: 15px;
+  }
+  .tags-list {
+    margin: 15px 0 15px 10px;
+    color: black;
+  }
+  .add-type {
+    margin: 15px 0 15px 10px;
+    color: black;
+  }
+  .common-used-tags {
+    margin: 15px 0 0px 10px;
+    color: black;
+  }
+  .icon-delete {
+    margin-left: 5px;
+  }
+  .custom-tags {
+    color: black;
+    margin: 15px 0 0px 10px;
+  }
+  .tag-label {
+    margin: 0 5px 0 10px;
+    width: 50px;
+    white-space: nowrap;
+  }
+  .tag-input {
+    width: 100px;
+  }
+  ::v-deep .el-input__inner {
+    height: 30px;
+    line-height: 30px;
+  }
+  .blog-editor-header {
+    display: flex;
+  }
 }
 </style>

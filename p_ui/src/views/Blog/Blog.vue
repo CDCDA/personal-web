@@ -10,12 +10,9 @@
     </div>
     <div class="blog-right-aside">
       <div class="blog-latest-articles bounceInRight animated">
-        <template v-for="(blogData, index) in blogList">
-          <blog-article-item
-            :key="index"
-            :blogData="blogData"
-          ></blog-article-item>
-        </template>
+        <div v-for="(blogData, index) in blogList" :key="index">
+          <blog-article-item :blogData="blogData"></blog-article-item>
+        </div>
       </div>
       <div class="blog-tags"></div>
     </div>

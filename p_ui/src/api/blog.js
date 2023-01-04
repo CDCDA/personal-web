@@ -1,5 +1,5 @@
 import request from "@/utils/request"
-
+import qs from 'qs'
 //根据用户id获取博客
 export const getBlogByUserId = (params) => {
     return request({
@@ -26,6 +26,7 @@ export const deleteBlogById = (params) => {
 }
 //添加博客
 export const createBlog = (params) => {
+    // params.blogLabel = qs.stringify(params.blogLabel)
     return request({
         url: '/blog/createBlog',
         method: 'post',

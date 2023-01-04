@@ -41,7 +41,7 @@ public class BlogTest {
 
     @Test
     public void testGetBlogByBlogId() {
-        Blog blog = blogService.getBlogByBlogId(1);
+        Blog blog = blogService.getBlogByBlogId(966);
         System.out.println("指定博客-->"+blog);
     }
 
@@ -51,14 +51,14 @@ public class BlogTest {
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//注意月和小时的格式为两个大写字母
         java.util.Date date = new Date();//获得当前时间
         String dateTime = df.format(date);//将当前时间转换成特定格式的时间字符串，这样便可以插入到数据库中
-        Blog blog = new Blog( 6,"maven编辑器研究23123","asdasd","1",dateTime,dateTime,"前端/vue",null);
-        int result = blogService.updateBlog(blog);
-        System.out.println("添加博客-->"+result);
+//        Blog blog = new Blog( 6,"maven编辑器研究23123","asdasd","1",dateTime,dateTime,"前端/vue",null);
+//        int result = blogService.updateBlog(blog);
+//        System.out.println("添加博客-->"+result);
     }
 
     @Test
     public void testDeleteBlogById(){
-        int result = blogService.deleteBlogById(3);
+        int result = blogService.deleteBlogById(750);
         System.out.println("删除博客结果-->"+result);
     }
 

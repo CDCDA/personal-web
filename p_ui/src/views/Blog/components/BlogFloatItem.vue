@@ -1,7 +1,7 @@
 <template>
   <div style="position: relative">
     <div class="button-box" v-drag draggable="false">
-      <div class="bt-edit-blog" @dblclick="openBox">
+      <div class="bt-edit-blog" @click="openBox">
         <i class="el-icon-edit-outline"></i>
         <span>{{ text }}</span>
       </div>
@@ -11,7 +11,7 @@
 
 <script>
 export default {
-  props: ["caseID"],
+  props: ["caseID", "blogData"],
   data() {
     return {
       text: "编辑博客",
@@ -21,7 +21,10 @@ export default {
   },
   methods: {
     openBox() {
-      this.$router.push("/BlogEditor");
+      this.$router.push({
+        path: "/BlogEditor",
+        query: { blogData: this.blogData },
+      });
     },
     mousedowm(e) {
       // 鼠标按下时的鼠标所在的X，Y坐标

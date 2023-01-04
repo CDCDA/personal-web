@@ -14,7 +14,7 @@ public class BlogLabelServiceImpl implements BlogLabelService {
     BlogLabelMapper blogLabelMapper;
 
     @Override
-    public List<BlogLabel> getBlogLabel(int blogId)  {
+    public List<BlogLabel> getBlogLabel(String blogId)  {
         return blogLabelMapper.getBlogLabel(blogId);
     }
 
@@ -33,8 +33,8 @@ public class BlogLabelServiceImpl implements BlogLabelService {
     }
 
     @Override
-    public int deleteBlogLabelById(List<BlogLabel> labelList) {
-        return blogLabelMapper.deleteBlogLabelById(labelList);
+    public int deleteBlogLabelById(String blogId) {
+        return blogLabelMapper.deleteBlogLabelById(blogId);
     }
 
 }

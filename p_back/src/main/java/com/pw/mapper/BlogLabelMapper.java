@@ -9,12 +9,12 @@ import java.util.List;
 @Repository
 public interface BlogLabelMapper {
 
-    List<BlogLabel> getBlogLabel(int blogId);
+    List<BlogLabel> getBlogLabel(String blogId);
 
     int getLabelCountByName(String name);
     int createBlogLabel(List<BlogLabel> labelList);
 
-    int deleteBlogLabelById(List<BlogLabel> labelList);
+    int deleteBlogLabelById(String blogId);
 
     int updateBlogLabel(List<BlogLabel> labelList);
 }

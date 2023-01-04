@@ -1,5 +1,6 @@
 package com.pw.controller;
 
+import com.alibaba.druid.util.StringUtils;
 import com.pw.entity.AjaxResult;
 import com.pw.entity.Blog;
 import com.pw.entity.BlogLabel;
@@ -11,6 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import com.pw.controller.BaseController;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static com.pw.controller.BaseController.toAjax;
@@ -24,7 +28,7 @@ public class BlogController {
     BlogService blogService;
     @Autowired
     BlogLabelService blogLabelService;
-    public static final int PAGE_SIZE = 5;
+    public static final int PAGE_SIZE = 10;
 
     @RequestMapping("/getBlogByUserId")
     public AjaxResult getBlogByUserId(int userId, Integer page) {
@@ -33,7 +37,13 @@ public class BlogController {
         if (page != null) {
             startRow = (page - 1) * PAGE_SIZE;
         }
-        return toAjax(blogService.getBlogByUserId(userId, startRow));
+        List<Blog> blogList= blogService.getBlogByUserId(userId, startRow);
+        blogList.forEach(blog->{
+            System.out.println("博客"+blog);
+//            List<BlogLabel> blogLabels = blogLabelService.getBlogLabel(blog.getBlogId());
+//            blog.setBlogLabelList(blogLabels);
+        });
+        return toAjax(blogList);
     }
 
     @RequestMapping("/getBlogRowCount")
@@ -44,7 +54,7 @@ public class BlogController {
     @RequestMapping("/getBlogByBlogId")
     public Blog getBlogByBlogId(int blogId) {
         Blog blog = blogService.getBlogByBlogId(blogId);
-        List<BlogLabel> labelList = blogLabelService.getBlogLabel(blogId);
+        List<BlogLabel> labelList = blogLabelService.getBlogLabel(String.valueOf(blogId));
 //        blog.setBlogLabel(labelList);
         return blog;
     }
@@ -58,11 +68,30 @@ public class BlogController {
     public int createUser(Blog blog) {
 //        String blogId = System.currentTimeMillis() + "";
 //        blog.setBlogId(blogId);
-        System.out.println(blog);
+
         if(blog.getBlogId() != null){
-            return blogService.updateBlog(blog);
+            blogService.updateBlog(blog);
+            blogLabelService.deleteBlogLabelById(blog.getBlogId());
+            insertBlogLabel(blog);
+            return 1;
         }
-        return blogService.createBlog(blog) ;
+        else{
+            blog.setBlogId((Math.random()*100000000)+"");
+            blogService.createBlog(blog);
+            insertBlogLabel(blog);
+            return 1;
+        }
+
+    }
+
+    private void insertBlogLabel(Blog blog) {
+        String[] updateList = blog.getBlogLabel().split(",");
+        List<BlogLabel> blogLabels =  new ArrayList<>();
+        for(int i = 0;i < updateList.length;i++) {
+            BlogLabel blogLabel = new BlogLabel(null,updateList[i],blog.getBlogId());
+            blogLabels.add(blogLabel);
+        }
+        blogLabelService.createBlogLabel(blogLabels);
     }
 
 

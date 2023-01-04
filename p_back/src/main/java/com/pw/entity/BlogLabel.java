@@ -1,15 +1,16 @@
 package com.pw.entity;
 
 public class BlogLabel {
-    private int id;
+    private String id;
     private String name;
-    private int blogId;
+    private String blogId;
 
-    public BlogLabel(int id, String name, int blogId) {
+    public BlogLabel(String id, String name, String blogId) {
         this.id = id;
         this.name = name;
         this.blogId = blogId;
     }
+
 
     @Override
     public String toString() {
@@ -20,11 +21,11 @@ public class BlogLabel {
                 '}';
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -36,11 +37,11 @@ public class BlogLabel {
         this.name = name;
     }
 
-    public int getBlogId() {
+    public String getBlogId() {
         return blogId;
     }
 
-    public void setBlogId(int blogId) {
+    public void setBlogId(String blogId) {
         this.blogId = blogId;
     }
 }

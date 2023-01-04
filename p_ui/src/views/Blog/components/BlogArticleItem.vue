@@ -1,10 +1,10 @@
 <template>
-  <div class="blog-article-item">
-    <el-image :src="url" class="article-image"></el-image>
+  <div class="blog-article-item" @click="viewBlog(blogData)">
+    <!-- <el-image :src="url" class="article-image"></el-image> -->
     <div class="article-item-right">
-      <span class="article-date">{{ blogData.blogUpdateTime }}</span>
       <span class="article-title">{{ blogData.blogTitle }}</span>
       <span class="article-type">{{ blogData.blogType }}</span>
+      <span class="article-date">{{ blogData.blogUpdateTime }}</span>
     </div>
   </div>
 </template>
@@ -20,7 +20,14 @@ export default {
       type: "前端",
     };
   },
-  methods: {},
+  methods: {
+    viewBlog(val) {
+      this.$router.push({
+        path: "/BlogDisplay",
+        query: { blogData: val },
+      });
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>
@@ -37,8 +44,11 @@ export default {
   background-color: rgba(29, 32, 33, 0.6);
 }
 .blog-article-item:hover {
-  background-color: transparent;
+  background-color: rgba(29, 32, 33, 1);
   box-shadow: 0 0px 12px 2px #000000;
+  width: calc(100% - 16px);
+  height: calc(100% + 10px);
+  margin-left: -2px;
 }
 .article-image {
   width: 40%;
@@ -59,7 +69,7 @@ export default {
 }
 .article-item-right {
   margin-left: 5px;
-  width: calc(60% - 10px);
+  width: calc(100% - 10px);
   span {
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -67,6 +77,18 @@ export default {
     overflow: hidden;
     text-align: left;
     height: 33%;
+  }
+  .article-date {
+    color: #a29b9b;
+    font-size: 12px;
+  }
+  .article-title {
+    font-size: 15px;
+    margin-bottom: 5px;
+  }
+  .article-type {
+    color: #a29b9b;
+    font-size: 12px;
   }
 }
 </style>
