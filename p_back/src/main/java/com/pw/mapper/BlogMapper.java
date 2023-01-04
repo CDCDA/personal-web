@@ -22,4 +22,5 @@ public interface BlogMapper {
             @Param("blogId") int blogId);
 
 
+    int updateBlog(Blog blog);
 }

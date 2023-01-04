@@ -8,23 +8,9 @@ public class Blog {
     private String blogCreateTime;
     private String blogUpdateTime;
     private String blogType;
-    private String blogLabel;
+    private String blogMk;
 
-    @Override
-    public String toString() {
-        return "Blog{" +
-                "userId='" + userId + '\'' +
-                ", blogTitle='" + blogTitle + '\'' +
-                ", blogText='" + blogText + '\'' +
-                ", blogId='" + blogId + '\'' +
-                ", blogCreateTime='" + blogCreateTime + '\'' +
-                ", blogUpdateTime='" + blogUpdateTime + '\'' +
-                ", blogType='" + blogType + '\'' +
-                ", blogLabel='" + blogLabel + '\'' +
-                '}';
-    }
-
-    public Blog(int userId, String blogTitle, String blogText, String blogId, String blogCreateTime, String blogUpdateTime, String blogType, String blogLabel) {
+    public Blog(int userId, String blogTitle, String blogText, String blogId, String blogCreateTime, String blogUpdateTime, String blogType, String blogMk) {
         this.userId = userId;
         this.blogTitle = blogTitle;
         this.blogText = blogText;
@@ -32,7 +18,21 @@ public class Blog {
         this.blogCreateTime = blogCreateTime;
         this.blogUpdateTime = blogUpdateTime;
         this.blogType = blogType;
-        this.blogLabel = blogLabel;
+        this.blogMk = blogMk;
+    }
+
+    @Override
+    public String toString() {
+        return "Blog{" +
+                "userId=" + userId +
+                ", blogTitle='" + blogTitle + '\'' +
+                ", blogText='" + blogText + '\'' +
+                ", blogId='" + blogId + '\'' +
+                ", blogCreateTime='" + blogCreateTime + '\'' +
+                ", blogUpdateTime='" + blogUpdateTime + '\'' +
+                ", blogType='" + blogType + '\'' +
+                ", blogMk='" + blogMk + '\'' +
+                '}';
     }
 
     public int getUserId() {
@@ -91,11 +91,11 @@ public class Blog {
         this.blogType = blogType;
     }
 
-    public String getBlogLabel() {
-        return blogLabel;
+    public String getBlogMk() {
+        return blogMk;
     }
 
-    public void setBlogLabel(String blogLabel) {
-        this.blogLabel = blogLabel;
+    public void setBlogMk(String blogMk) {
+        this.blogMk = blogMk;
     }
 }

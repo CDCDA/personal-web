@@ -19,17 +19,30 @@
         <result property="blogCreateTime" column="blog_createTime"></result>
         <result property="blogUpdateTime" column="blog_updateTime"></result>
         <result property="blogType" column="blog_type"></result>
-        <result property="blogLabel" column="blog_label"></result>
+        <result property="blogMk" column="blog_mk"></result>
     </resultMap>
+
     <!--定义全部列名-->
     <sql id="allColumns">
-        user_id,blog_title,blog_text,blog_id,blog_createTime,blog_updateTime,blog_type,blog_label
+        user_id,blog_title,blog_text,blog_id,blog_createTime,blog_updateTime,blog_type,blog_mk
     </sql>
 
     <!--添加博客 -->
     <insert id="createBlog"  parameterType="blog">
-        insert into blog values(#{userId},#{blogTitle},#{blogText},#{blogId},#{blogCreateTime},#{blogUpdateTime},#{blogType},#{blogLabel})
+        insert into blog values(#{userId},#{blogTitle},#{blogText},#{blogId},#{blogCreateTime},#{blogUpdateTime},#{blogType},#{blogMk})
     </insert>
+
+    <!--更新博客 -->
+    <update id="updateBlog"  parameterType="blog">
+        update blog
+        set blog_Title = #{blogTitle},
+            blog_text = #{blogText},
+            blog_updateTime = #{blogUpdateTime},
+            blog_type = #{blogType},
+            blog_mk = #{blogMk}
+        where blog_id = #{blogId}
+
+    </update>
 
     <!--删除博客-->
     <delete id="deleteBlogById" parameterType="int">

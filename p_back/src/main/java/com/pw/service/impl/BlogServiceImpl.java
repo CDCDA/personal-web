@@ -39,6 +39,11 @@ public class BlogServiceImpl implements BlogService {
     }
 
     @Override
+    public int updateBlog(Blog blog) {
+        return blogMapper.updateBlog(blog);
+    }
+
+    @Override
     public int deleteBlogById(int blogId) {
         return blogMapper.deleteBlogById(blogId);
     }

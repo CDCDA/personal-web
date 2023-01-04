@@ -2,7 +2,9 @@ package com.pw.controller;
 
 import com.pw.entity.AjaxResult;
 import com.pw.entity.Blog;
+import com.pw.entity.BlogLabel;
 import com.pw.entity.User;
+import com.pw.service.BlogLabelService;
 import com.pw.service.BlogService;
 import com.pw.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,8 @@ public class BlogController {
     //一定会有业务逻辑层的对象
     @Autowired
     BlogService blogService;
+    @Autowired
+    BlogLabelService blogLabelService;
     public static final int PAGE_SIZE = 5;
 
     @RequestMapping("/getBlogByUserId")
@@ -39,7 +43,10 @@ public class BlogController {
 
     @RequestMapping("/getBlogByBlogId")
     public Blog getBlogByBlogId(int blogId) {
-        return blogService.getBlogByBlogId(blogId);
+        Blog blog = blogService.getBlogByBlogId(blogId);
+        List<BlogLabel> labelList = blogLabelService.getBlogLabel(blogId);
+//        blog.setBlogLabel(labelList);
+        return blog;
     }
 
     @RequestMapping("/deleteBlogById")
@@ -52,7 +59,10 @@ public class BlogController {
 //        String blogId = System.currentTimeMillis() + "";
 //        blog.setBlogId(blogId);
         System.out.println(blog);
-        return blogService.createBlog(blog);
+        if(blog.getBlogId() != null){
+            return blogService.updateBlog(blog);
+        }
+        return blogService.createBlog(blog) ;
     }
 
 

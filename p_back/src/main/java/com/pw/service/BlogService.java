@@ -15,5 +15,6 @@ public interface BlogService {
 
     int createBlog(Blog blog);
 
+    int updateBlog(Blog blog);
     int deleteBlogById(int blogId);
 }

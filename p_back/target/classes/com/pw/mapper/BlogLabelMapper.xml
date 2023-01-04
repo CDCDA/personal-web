@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pw.mapper.BlogLabelMapper" >
+    <!--完成实体类与表中类名的映射
+        private int id;
+        private String name;
+        private int blogId;
+    -->
+    <resultMap id="labelmap" type="blogLabel">
+        <id property="id" column="id"></id>
+        <result property="name" column="name"></result>
+        <result property="blogId" column="blog_id"></result>
+
+    </resultMap>
+
+    <!--定义全部列名-->
+    <sql id="allColumns">
+        id,name,blog_id
+    </sql>
+
+    <!--添加博客标签 -->
+    <insert id="createBlogLabel"  parameterType="blogLabel">
+        insert into blog_label (id,name,blog_id)
+        values
+        <foreach collection="list" item="i" separator="," close="">
+            (#{i.id},#{i.name},#{i.blogId})
+        </foreach>
+    </insert>
+    <!--删除博客标签 -->
+    <delete id="deleteBlogLabel"  parameterType="int">
+        delete from blog_label
+        where blog_id = #{blogId}
+    </delete>
+    <!--获取博客标签 -->
+    <select id="getBlogLabel" resultMap="labelmap">
+        select <include refid="allColumns"></include>
+        from blog_label
+        where blog_id = #{blogId}
+    </select>
+
+<!--    &lt;!&ndash;获取博客标签&ndash;&gt;-->
+<!--    <select id="getBlogLabel" resultMap="labelmap">-->
+<!--        select <include refid="allColumns"></include>-->
+<!--        from blog_label-->
+<!--        where blog_id = #{blogId}-->
+<!--    </select>-->
+
+</mapper>
