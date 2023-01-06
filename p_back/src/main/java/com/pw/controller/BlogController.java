@@ -40,8 +40,8 @@ public class BlogController {
         List<Blog> blogList= blogService.getBlogByUserId(userId, startRow);
         blogList.forEach(blog->{
             System.out.println("博客"+blog);
-//            List<BlogLabel> blogLabels = blogLabelService.getBlogLabel(blog.getBlogId());
-//            blog.setBlogLabelList(blogLabels);
+            List<BlogLabel> blogLabels = blogLabelService.getBlogLabel(blog.getBlogId());
+            blog.setBlogLabelList(blogLabels);
         });
         return toAjax(blogList);
     }
@@ -70,8 +70,11 @@ public class BlogController {
 //        blog.setBlogId(blogId);
 
         if(blog.getBlogId() != null){
+
             blogService.updateBlog(blog);
-            blogLabelService.deleteBlogLabelById(blog.getBlogId());
+            System.out.println("QQQQQQQQQQQQQQQQQQQQQQQQ");
+            int result = blogLabelService.deleteBlogLabelById(blog.getBlogId());
+            System.out.println("博客"+result);
             insertBlogLabel(blog);
             return 1;
         }

@@ -27,7 +27,7 @@
         </foreach>
     </insert>
     <!--删除博客标签 -->
-    <delete id="deleteBlogLabel"  parameterType="int">
+    <delete id="deleteBlogLabelById"  parameterType="String">
         delete from blog_label
         where blog_id = #{blogId}
     </delete>

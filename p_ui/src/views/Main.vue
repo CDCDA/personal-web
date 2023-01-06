@@ -50,6 +50,7 @@ export default {
   text-align: center;
   padding: 10px 30px 20px 30px;
   overflow: hidden;
+  
 }
 .container-outside,
 .container-inside {

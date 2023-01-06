@@ -38,9 +38,9 @@ export default {
           index: "1",
         },
         {
-          label: "用户",
+          label: "统计",
           icon: "el-icon-menu",
-          name: "Users",
+          name: "Statistics",
           index: "2",
         },
         {

@@ -60,7 +60,7 @@
                 and user_id =#{userId}
             </if>
         </where>
-        limit #{startRow},5
+        limit #{startRow},10
     </select>
 
     <!--获取用户博客数-->

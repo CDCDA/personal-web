@@ -2,12 +2,16 @@
   <div class="mavon-editor-container page-main">
     <div class="mavon-editor-main">
       <div class="blog-editor-header">
-        <el-button size="small" @click="saveBlog">保存</el-button>
+        <el-button size="small" @click="contentSave" class="bt-save"
+          >保存</el-button
+        >
         <el-input
           placeholder="请输入标题"
           v-model="blogData.blogTitle"
         ></el-input>
-        <el-button size="small" @click="releaseBlog">发布</el-button>
+        <el-button size="small" @click="releaseBlog" class="bt-release"
+          >发布</el-button
+        >
       </div>
       <mavon-editor
         ref="md"
@@ -18,6 +22,9 @@
         @change="updateDoc"
         @save="contentSave"
         @htmlCode="getHtml"
+        codeStyle="atelier-cave-dark"
+        toolbarsBackground="#191D1E"
+        previewBackground="#191D1E"
         :toolbarsFlag="editorOptions.toolbarsFlag"
         :subfield="editorOptions.subfield"
       ></mavon-editor>
@@ -71,7 +78,7 @@
             ></el-button>
           </template>
         </div>
-        <div class="add-type">
+        <div class="add-type" v-if="isShowType">
           <span class="tag-label">分类选择</span>
           <el-cascader
             v-model="typeValue"
@@ -91,7 +98,8 @@ export default {
   components: { Blog },
   data() {
     return {
-      typeValue: "",
+      isShowType: true,
+      typeValue: [],
       isDeleteShow: [],
       isAddShow: [],
       customTag: "",
@@ -194,13 +202,14 @@ export default {
     updateDoc(value, render) {
       // render 为 markdown 解析后的结果
     },
-    selectChange(val) {},
+    selectChange(val) {
+      console.log("AADD", this.typeValue);
+    },
     contentSave(value) {
       //保存到localstorage
       localStorage.setItem("blogData", JSON.stringify(this.blogData));
       localStorage.setItem("labelList", JSON.stringify(this.labelList));
       localStorage.setItem("typeValue", JSON.stringify(this.typeValue));
-
       this.$message({
         message: "保存成功",
         type: "success",
@@ -258,38 +267,110 @@ export default {
       data.blogLabel = data.blogLabel.substring(0, data.blogLabel.length - 1);
       data.blogText = data.blogText;
       data.blogMk = this.$refs.md.d_render;
+      data.blogLabelList = null;
+      console.log("QQQQ", data);
       createBlog(data).then((res) => {
-        console.log("结果", res);
+        localStorage.clear();
+        if (res == "1") {
+          this.$message({
+            message: "发布成功",
+            type: "success",
+            offset: 700,
+          });
+        } else {
+          this.$message({
+            message: "发布失败",
+            res,
+            type: "error",
+            offset: 700,
+          });
+        }
       });
       // console.log("博客编辑", data, this.$refs.md.d_render);
+    },
+    async reload() {
+      this.isShowType = false;
+      await this.$nextTick();
+      this.isShowType = true;
+    },
+    findTypeValue(list, type, i) {
+      list.forEach((t) => {
+        if (t.label == type[i]) {
+          this.typeValue.push(t.value);
+          if (t.children && type[++i]) {
+            this.findTypeValue(t.children, type, i);
+          }
+        }
+      });
     },
   },
   mounted() {
     if (
       localStorage.getItem("blogData") &&
       localStorage.getItem("labelList") &&
-      localStorage.getItem("typeValue") && !this.$route.query.blogData
+      localStorage.getItem("typeValue") &&
+      !this.$route.query.blogData
     ) {
       this.blogData = JSON.parse(localStorage.getItem("blogData"));
       this.labelList = JSON.parse(localStorage.getItem("labelList"));
       this.typeValue = JSON.parse(localStorage.getItem("typeValue"));
     }
-
     if (this.$route.query.blogData) {
       this.blogData = this.$route.query.blogData;
+      this.blogData.blogLabelList.forEach((label) => {
+        this.labelList.push(label.name);
+      });
+      this.typeValue = [];
+      let type = this.blogData.blogType.split("/");
+      this.findTypeValue(this.typeList, type, 0);
+      this.reload(this.isShowType);
     }
   },
 };
 </script>
 <style lang="less">
-.mavon-editor-container {
+.mavon-editor-container.page-main {
+  span,
+  p,
+  textarea,
+  button,
+  div {
+    color: #fff;
+  }
+  .v-note-wrapper .v-note-op .v-left-item .op-icon,
+  .v-note-wrapper .v-note-op .v-right-item .op-icon {
+    color: #fff;
+  }
+  .v-note-wrapper.markdown-body.shadow {
+    box-shadow: 0 2px 12px 0 #000000 !important;
+    background-color: transparent;
+  }
+  .v-note-panel,
+  .el-button,
+  .el-input__inner,
+  .add-tags {
+    background-color: transparent;
+    box-shadow: 0 2px 12px 0 #000000;
+    border: none;
+    color: #fff;
+  }
+  .v-note-op {
+    border: none;
+    background: transparent !;
+    border-bottom: 1px solid black;
+  }
+  .content-input-wrapper,
+  .content-input,
+  .auto-textarea-input,
+  .v-show-content {
+    background-color: transparent !important;
+  }
   display: flex;
   flex-direction: column;
   width: 90%;
   padding: 30px 5%;
   height: calc(100% - 60px);
   .mavon-editor-main {
-    height: calc(100% - 60px);
     .markdown-body {
       height: 500px;
     }
@@ -297,34 +378,24 @@ export default {
   .add-tags {
     width: calc(100% - 20px);
     text-align: left;
-    margin-top: 10px;
-    background-color: #fff;
-    /* box-shadow: 0 2px 12px 0 #000000; */
-    /* color: #fff; */
+    margin-top: 5px;
+    // margin-bottom: 20px;
     border-radius: 3px;
     padding: 10px;
   }
   .blog-editor-footer {
     margin-top: 15px;
   }
-  .tags-list {
-    margin: 15px 0 15px 10px;
-    color: black;
-  }
+  .tags-list,
   .add-type {
     margin: 15px 0 15px 10px;
-    color: black;
   }
-  .common-used-tags {
+  .common-used-tags,
+  .custom-tags {
     margin: 15px 0 0px 10px;
-    color: black;
   }
   .icon-delete {
     margin-left: 5px;
-  }
-  .custom-tags {
-    color: black;
-    margin: 15px 0 0px 10px;
   }
   .tag-label {
     margin: 0 5px 0 10px;
@@ -340,6 +411,38 @@ export default {
   }
   .blog-editor-header {
     display: flex;
+    margin-bottom: 5px;
+    .bt-save {
+      margin-right: 5px;
+    }
+    .bt-release {
+      margin-left: 5px;
+    }
+  }
+  //编辑器工具栏
+  .op-icon.dropdown-wrapper.dropdown .popup-dropdown {
+    background-color: transparent;
+    box-shadow: 0 2px 12px 0 #000000;
+    border: none;
+    .dropdown-item {
+      background-color: rgba(29, 32, 33, 1);
+      span {
+        color: #fff;
+      }
+    }
+  }
+  .v-note-wrapper .v-note-op .op-icon:hover {
+    background: #e0dede;
+    color: black;
+  }
+  .v-note-wrapper .v-note-op .v-right-item .op-icon.selected {
+    background-color: rgba(29, 32, 33, 1);
+  }
+  //代码块
+  .markdown-body .highlight pre,
+  .markdown-body pre {
+    background: transparent;
+    box-shadow: 0 2px 12px 0 #000000;
   }
 }
 </style>

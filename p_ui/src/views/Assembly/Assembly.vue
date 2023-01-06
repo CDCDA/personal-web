@@ -1,8 +1,8 @@
 <template>
   <div class="assembly-container page-main">
-    <leftAssemblyNav class="left-nav"></leftAssemblyNav>
-    <div class="router-view-container">
-      <router-view class="assembly-main"></router-view>
+    <leftAssemblyNav class="left-nav bounceInLeft animated"></leftAssemblyNav>
+    <div class="router-view-container bounceInRight animated" >
+      <router-view class="assembly-body"></router-view>
     </div>
   </div>
 </template>
@@ -69,13 +69,13 @@ export default {
 }
 .left-nav {
   width: 20%;
-  height: calc(100% - 14px);
-  margin: 7px;
+  height: calc(100% - 20px);
+  margin: 10px 15px 10px 1%;
   border-radius: 5px;
   background-color: rgba(29, 32, 33, 0.6);
   box-shadow: 0 2px 12px 0 #000000;
 }
-.assembly-main {
+.assembly-body {
   width: 100%;
 }
 .router-view-container {
@@ -83,8 +83,8 @@ export default {
   justify-content: center;
   width: 80%;
   border-radius: 5px;
-  height: calc(100% - 14px);
-  margin: 7px 7px 7px -5px;
+  height: calc(100% - 20px);
+  margin: 10px 1% 10px 0px;
   background-color: rgba(29, 32, 33, 0.6);
   box-shadow: 0 2px 12px 0 #000000;
 }

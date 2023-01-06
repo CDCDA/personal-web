@@ -46,9 +46,9 @@ export default {
           name: "home",
         },
         {
-          label: "用户",
+          label: "统计",
           icon: "el-icon-menu",
-          name: "user",
+          name: "Statistics",
           // child: [
           //   {
           //     label: "菜单2-1",

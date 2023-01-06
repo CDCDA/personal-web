@@ -8,10 +8,11 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
     state: {
         isMenuCollapse: true,
-        userId:"6",
+        userId: "6",
+        userName: "Tom",
     },
     mutations: {
-        collapseChange(state) {
+        collapseChange (state) {
             state.isMenuCollapse = !state.isMenuCollapse
         }
     },
