@@ -3,20 +3,25 @@ package com.pw.entity;
 import java.util.Date;
 
 public class BlogRecord {
+
     private String blogId;
     private String blogName;
-    private String recodeType;
+    private String recordType;
     private String blogRecordId;
-    private Date recordTime;
+    private String recordTime;
+
+    private String userId;
     
     private String recordOperation;
 
-    public BlogRecord(String blogId, String blogName, String recodeType, String blogRecordId, Date recordTime) {
+    public BlogRecord(String blogId, String blogName, String recordType, String blogRecordId, String recordTime, String userId, String recordOperation) {
         this.blogId = blogId;
         this.blogName = blogName;
-        this.recodeType = recodeType;
+        this.recordType = recordType;
         this.blogRecordId = blogRecordId;
         this.recordTime = recordTime;
+        this.userId = userId;
+        this.recordOperation = recordOperation;
     }
 
     @Override
@@ -24,9 +29,11 @@ public class BlogRecord {
         return "BlogRecord{" +
                 "blogId='" + blogId + '\'' +
                 ", blogName='" + blogName + '\'' +
-                ", recodeType='" + recodeType + '\'' +
+                ", recodeType='" + recordType + '\'' +
                 ", blogRecordId='" + blogRecordId + '\'' +
                 ", recordTime=" + recordTime +
+                ", user_id='" + userId + '\'' +
+                ", recordOperation='" + recordOperation + '\'' +
                 '}';
     }
 
@@ -46,12 +53,12 @@ public class BlogRecord {
         this.blogName = blogName;
     }
 
-    public String getRecodeType() {
-        return recodeType;
+    public String getRecordType() {
+        return recordType;
     }
 
-    public void setRecodeType(String recodeType) {
-        this.recodeType = recodeType;
+    public void setRecordType(String recodeType) {
+        this.recordType = recordType;
     }
 
     public String getBlogRecordId() {
@@ -62,11 +69,27 @@ public class BlogRecord {
         this.blogRecordId = blogRecordId;
     }
 
-    public Date getRecordTime() {
+    public String getRecordTime() {
         return recordTime;
     }
 
-    public void setRecordTime(Date recordTime) {
+    public void setRecordTime(String recordTime) {
         this.recordTime = recordTime;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String user_id) {
+        this.userId = user_id;
+    }
+
+    public String getRecordOperation() {
+        return recordOperation;
+    }
+
+    public void setRecordOperation(String recordOperation) {
+        this.recordOperation = recordOperation;
     }
 }

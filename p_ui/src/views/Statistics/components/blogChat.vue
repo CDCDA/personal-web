@@ -29,6 +29,10 @@ export default {
         "2022-9-18",
       ],
       option: {
+        textStyle: {
+          fontSize: 12,
+          color: "#FFFFFF",
+        },
         tooltip: {
           trigger: "axis",
           axisPointer: {
@@ -99,9 +103,9 @@ export default {
 //     margin-right: -100px !important;
 //   }
 // }
-.blog-line-chat{
-    width: 100%;
-    height: 100%;
-    margin-left: 30px
+.blog-line-chat {
+  width: 100%;
+  height: 100%;
+  margin-left: 30px;
 }
 </style>
