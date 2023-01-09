@@ -7,10 +7,10 @@
         private int blogId;
     -->
     <resultMap id="recordMap" type="WebRecord">
-        <id property="id" column="id"></id>
+        <id property="recordId" column="id"></id>
         <result property="recordType" column="type"></result>
         <result property="recordTime" column="time"></result>
-        <result property="operation" column="operation"></result>
+        <result property="recordOperation" column="operation"></result>
     </resultMap>
 
     <!--定义全部列名-->
@@ -20,37 +20,29 @@
 
     <!--添加网站修改记录 -->
     <insert id="createWebRecord"  parameterType="WebRecord">
-        insert into Web_record
-        values values(#{id},#{recordType},#{recordTime},#{operation})
+        insert into web_record
+        values(#{recordId},#{recordType},#{recordTime},#{recordOperation})
     </insert>
     <!--删除网站修改记录 -->
     <delete id="deleteWebRecord"  parameterType="String">
         delete from web_record
-        where id = #{id}
+        where id = #{recordId}
     </delete>
     <!--获取网站修改记录 -->
     <select id="getWebRecord" resultMap="recordMap">
         select <include refid="allColumns"></include>
         from web_record
-        <where>
-            <if test="userId != null and userId != ''">
-                and user_id =#{userId}
-            </if>
-        </where>
-        ORDER BY time;
+        ORDER BY time desc
         limit #{startRow},10
     </select>
 
     <!--更新网站修改记录-->
     <update id="updateWebRecord"  parameterType="WebRecord">
         update web_record
-        set blog_name = #{blogName},
-            blog_id = #{blogId},
-            record_type = #{recordType},
-            record_time = #{time},
-            record_operation = #{operation},
-            user_id = #{userId}
-        where blog_id = #{blogId}
+        set type = #{recordType},
+            time = #{recordTime},
+            operation = #{recordOperation}
+        where id = #{recordId}
     </update>
 
 </mapper>

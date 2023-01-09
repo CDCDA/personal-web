@@ -4,23 +4,13 @@ public class WebRecord {
     private String recordId;
     private String recordType;
     private String recordTime;
-    private String operation;
+    private String recordOperation;
 
-    public WebRecord(String recordId, String recordType, String recordTime, String operation) {
+    public WebRecord(String recordId, String recordType, String recordTime, String recordOperation) {
         this.recordId = recordId;
         this.recordType = recordType;
         this.recordTime = recordTime;
-        this.operation = operation;
-    }
-
-    @Override
-    public String toString() {
-        return "WebRecord{" +
-                "recordId='" + recordId + '\'' +
-                ", recordType='" + recordType + '\'' +
-                ", recordTime='" + recordTime + '\'' +
-                ", operation='" + operation + '\'' +
-                '}';
+        this.recordOperation = recordOperation;
     }
 
     public String getRecordId() {
@@ -47,11 +37,21 @@ public class WebRecord {
         this.recordTime = recordTime;
     }
 
-    public String getOperation() {
-        return operation;
+    public String getRecordOperation() {
+        return recordOperation;
     }
 
-    public void setOperation(String operation) {
-        this.operation = operation;
+    public void setRecordOperation(String recordOperation) {
+        this.recordOperation = recordOperation;
+    }
+
+    @Override
+    public String toString() {
+        return "WebRecord{" +
+                "recordId='" + recordId + '\'' +
+                ", recordType='" + recordType + '\'' +
+                ", recordTime='" + recordTime + '\'' +
+                ", recordOperation='" + recordOperation + '\'' +
+                '}';
     }
 }

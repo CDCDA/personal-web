@@ -1,7 +1,7 @@
 package test;
 
-import com.pw.entity.BlogRecord;
-import com.pw.service.BlogRecordService;
+import com.pw.entity.WebRecord;
+import com.pw.service.WebRecordService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,14 +18,14 @@ import java.util.List;
 @ContextConfiguration(locations = {"classpath:applicationContext_mapper.xml",
         "classpath:applicationContext_service.xml"})
 @ComponentScan(basePackages = {"com.pw.service"})
-public class BlogRecordTest {
+public class WebRecordTest {
     @Autowired
-    BlogRecordService blogRecordService;
+    WebRecordService webRecordService;
     @Test
     public void testGetWebRecord() {
-        List<BlogRecord> list = blogRecordService.getBlogRecord("6",0);
+        List<WebRecord> list = webRecordService.getWebRecord(0);
         list.forEach(blog -> {
-            System.out.println("用户博客记录-->"+blog);
+            System.out.println("网站修改记录-->"+blog);
         });
     }
 
@@ -35,25 +35,25 @@ public class BlogRecordTest {
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//注意月和小时的格式为两个大写字母
         java.util.Date date = new Date();//获得当前时间
         String dateTime = df.format(date);//将当前时间转换成特定格式的时间字符串，这样便可以插入到数据库中
-        BlogRecord blogRecord = new BlogRecord( "1","maven编辑器研究23123","更新",null,dateTime,"6",null);
-        int result = blogRecordService.createBlogRecord(blogRecord);
-        System.out.println("添加博客记录-->"+result);
+        WebRecord webRecord = new WebRecord( null,"修改",dateTime,"SSAAAAA");
+        int result = webRecordService.createWebRecord(webRecord);
+        System.out.println("添加网站修改记录-->"+result);
     }
 
     @Test
-    public void testDeleteBlogById(){
-        int result = blogRecordService.deleteBlogRecord("3");
-        System.out.println("删除博客记录结果-->"+result);
+    public void testDeleteWebRecord(){
+        int result = webRecordService.deleteWebRecord("2");
+        System.out.println("删除网站修改记录结果-->"+result);
     }
 
     @Test
-    public void testUpdateBlogById(){
+    public void testUpdateWebRecord(){
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//注意月和小时的格式为两个大写字母
         java.util.Date date = new Date();//获得当前时间
         String dateTime = df.format(date);//将当前时间转换成特定格式的时间字符串，这样便可以插入到数据库中
-        BlogRecord blogRecord = new BlogRecord( "1","maven编辑器研究1111111","测试","2",dateTime,"6","测试");
-        int result = blogRecordService.updateBlogRecord(blogRecord);
-        System.out.println("修改博客结果-->"+result);
+        WebRecord webRecord = new WebRecord( "1","新增111111",dateTime,"SSSSS11111");
+        int result = webRecordService.updateWebRecord(webRecord);
+        System.out.println("修改网站修改记录结果-->"+result);
     }
 
 }

@@ -21,13 +21,13 @@
     </resultMap>
     <!--定义全部列名-->
     <sql id="allColumns">
-        id,blog_name,record_type,blog_id,record_time,record_operation
+        id,blog_name,record_type,blog_id,record_time,record_operation,user_id
     </sql>
 
     <!--添加博客修改记录 -->
     <insert id="createBlogRecord"  parameterType="blogRecord">
         insert into blog_record
-        values(#{blogId},#{blogRecordId},#{blogName},#{recordType},#{recordTime},#{recordOperation},#{userId})
+        values(#{blogName},#{blogRecordId},#{recordType},#{blogId},#{recordTime},#{recordOperation},#{userId})
     </insert>
     <!--删除博客修改记录 -->
     <delete id="deleteBlogRecord"  parameterType="String">
@@ -43,8 +43,9 @@
                 and user_id =#{userId}
             </if>
         </where>
-        ORDER BY record_time;
+        ORDER BY record_time desc
         limit #{startRow},10
+
     </select>
 
     <!--更新博客 -->
@@ -56,7 +57,7 @@
             record_time = #{recordTime},
             record_operation = #{recordOperation},
             user_id = #{userId}
-        where blog_id = #{blogId}
+        where id = #{blogRecordId}
     </update>
 
 </mapper>
