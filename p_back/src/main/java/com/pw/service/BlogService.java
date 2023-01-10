@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 public interface BlogService {
-    List<Blog> getBlogByUserId(int userId, int starRow);
+    List<Blog> getBlogByUserId(int userId, int starRow,int pageSize);
 
     int getBlogRowCount(int userId);
 

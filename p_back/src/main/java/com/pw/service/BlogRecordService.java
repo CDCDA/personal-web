@@ -6,7 +6,7 @@ package com.pw.service;
         import java.util.List;
 @Service
 public interface BlogRecordService {
-    List<BlogRecord> getBlogRecord(String userId, int startRow);
+    List<BlogRecord> getBlogRecord(String userId, int startRow,int pageSize);
 
     int createBlogRecord(BlogRecord blogRecord);
 

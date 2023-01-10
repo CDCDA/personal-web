@@ -19,8 +19,8 @@ public class BlogServiceImpl implements BlogService {
     BlogMapper blogMapper;
 
     @Override
-    public List<Blog> getBlogByUserId(int userId, int starRow) {
-        return blogMapper.getBlogByUserId(userId, starRow);
+    public List<Blog> getBlogByUserId(int userId, int starRow,int pageSize) {
+        return blogMapper.getBlogByUserId(userId, starRow,pageSize);
     }
 
     @Override

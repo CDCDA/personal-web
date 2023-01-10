@@ -11,7 +11,8 @@ import java.util.List;
 public interface BlogRecordMapper {
 
     List<BlogRecord> getBlogRecord(@Param("userId") String userId,
-                                   @Param("startRow") int startRow);
+                                   @Param("startRow") int startRow,
+                                   @Param("pageSize") int pageSize);
 
     int createBlogRecord(BlogRecord blogRecord);
 

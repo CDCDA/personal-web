@@ -14,8 +14,8 @@ public class BlogRecordServiceImpl implements BlogRecordService {
     BlogRecordMapper blogRecordMapper;
 
     @Override
-    public List<BlogRecord> getBlogRecord(String userId, int startRow)  {
-        return blogRecordMapper.getBlogRecord(userId,startRow);
+    public List<BlogRecord> getBlogRecord(String userId, int startRow,int pageSize)  {
+        return blogRecordMapper.getBlogRecord(userId,startRow,pageSize);
     }
 
     @Override

@@ -33,7 +33,7 @@
         select <include refid="allColumns"></include>
         from web_record
         ORDER BY time desc
-        limit #{startRow},10
+        limit #{startRow},#{pageSize}
     </select>
 
     <!--更新网站修改记录-->

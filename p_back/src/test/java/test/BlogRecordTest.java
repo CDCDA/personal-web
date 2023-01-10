@@ -23,7 +23,7 @@ public class BlogRecordTest {
     BlogRecordService blogRecordService;
     @Test
     public void testGetWebRecord() {
-        List<BlogRecord> list = blogRecordService.getBlogRecord("6",0);
+        List<BlogRecord> list = blogRecordService.getBlogRecord("6",0,10);
         list.forEach(blog -> {
             System.out.println("用户博客记录-->"+blog);
         });

@@ -27,7 +27,7 @@ public class BlogTest {
     BlogLabelService blogLabelService;
     @Test
     public void testGetBlogByUserId() {
-        List<Blog> list = blogService.getBlogByUserId(6, 0);
+        List<Blog> list = blogService.getBlogByUserId(6, 0,10);
         list.forEach(blog -> {
             System.out.println("用户博客-->"+blog);
         });

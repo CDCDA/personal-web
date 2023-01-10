@@ -1,11 +1,9 @@
 package com.pw.controller;
 
 import com.alibaba.druid.util.StringUtils;
-import com.pw.entity.AjaxResult;
-import com.pw.entity.Blog;
-import com.pw.entity.BlogLabel;
-import com.pw.entity.User;
+import com.pw.entity.*;
 import com.pw.service.BlogLabelService;
+import com.pw.service.BlogRecordService;
 import com.pw.service.BlogService;
 import com.pw.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,16 +26,24 @@ public class BlogController {
     BlogService blogService;
     @Autowired
     BlogLabelService blogLabelService;
+    @Autowired
+    BlogRecordService blogRecordService;
+    public static final int START_ROW = 0;
     public static final int PAGE_SIZE = 10;
 
     @RequestMapping("/getBlogByUserId")
-    public AjaxResult getBlogByUserId(int userId, Integer page) {
+    public AjaxResult getBlogByUserId(int userId, Integer startRow,Integer pageSize) {
         //根据页码计算起始行
-        int startRow = 0;
-        if (page != null) {
-            startRow = (page - 1) * PAGE_SIZE;
+        int start_row = 0;
+        int page_size = 10;
+        if (pageSize != null) {
+            page_size = pageSize;
         }
-        List<Blog> blogList= blogService.getBlogByUserId(userId, startRow);
+        if (startRow != null) {
+            start_row = (startRow - 1) * page_size;
+        }
+
+        List<Blog> blogList= blogService.getBlogByUserId(userId, start_row,page_size);
         blogList.forEach(blog->{
             System.out.println("博客"+blog);
             List<BlogLabel> blogLabels = blogLabelService.getBlogLabel(blog.getBlogId());
@@ -68,11 +74,8 @@ public class BlogController {
     public int createUser(Blog blog) {
 //        String blogId = System.currentTimeMillis() + "";
 //        blog.setBlogId(blogId);
-
         if(blog.getBlogId() != null){
-
             blogService.updateBlog(blog);
-            System.out.println("QQQQQQQQQQQQQQQQQQQQQQQQ");
             int result = blogLabelService.deleteBlogLabelById(blog.getBlogId());
             System.out.println("博客"+result);
             insertBlogLabel(blog);
@@ -97,5 +100,30 @@ public class BlogController {
         blogLabelService.createBlogLabel(blogLabels);
     }
 
+    @RequestMapping("/createBlogRecord")
+    private void insertBlogRecord(BlogRecord blogRecord){
+        if(blogRecord.getBlogRecordId() != null)
+            blogRecordService.createBlogRecord(blogRecord);
+        else
+            blogRecordService.updateBlogRecord(blogRecord);
+    }
+    @RequestMapping("/deleteBlogRecord")
+    private void deleteBlogRecord(String blogRecordId){
+        blogRecordService.deleteBlogRecord(blogRecordId);
+    }
+    @RequestMapping("/getBlogRecord")
+    public AjaxResult getBlogRecord(String userId, Integer startRow,Integer pageSize) {
+        //根据页码计算起始行
+        int start_row = 0;
+        int page_size = 10;
+        if (pageSize != null) {
+            page_size = pageSize;
+        }
+        if (startRow != null) {
+            start_row = (startRow - 1) * page_size;
+        }
+        List<BlogRecord> blogRecordList= blogRecordService.getBlogRecord(userId, startRow,page_size);
+        return toAjax(blogRecordList);
+    }
 
 }

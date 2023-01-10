@@ -58,7 +58,7 @@
                 and user_id =#{userId}
             </if>
         </where>
-        limit #{startRow},10
+        limit #{startRow},#{pageSize}
     </select>
 
     <!--获取用户博客数-->

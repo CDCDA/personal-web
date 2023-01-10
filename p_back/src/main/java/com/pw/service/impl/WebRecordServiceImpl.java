@@ -13,8 +13,8 @@ public class WebRecordServiceImpl implements WebRecordService {
     WebRecordMapper webRecordMapper;
 
     @Override
-    public List<WebRecord> getWebRecord(int startRow) {
-        return webRecordMapper.getWebRecord(startRow);
+    public List<WebRecord> getWebRecord(int startRow,int pageSize) {
+        return webRecordMapper.getWebRecord(startRow,pageSize);
     }
 
     @Override

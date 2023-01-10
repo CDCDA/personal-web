@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 @Service
 public interface WebRecordService {
-    List<WebRecord> getWebRecord(int startRow);
+    List<WebRecord> getWebRecord(int startRow,int pageSize);
 
     int createWebRecord(WebRecord webRecord);
 

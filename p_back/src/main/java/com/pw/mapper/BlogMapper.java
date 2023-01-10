@@ -8,7 +8,8 @@ import java.util.List;
 public interface BlogMapper {
     List<Blog> getBlogByUserId(
             @Param("userId") int userId,
-            @Param("startRow") int startRow);
+            @Param("startRow") int startRow,
+            @Param("pageSize") int pageSize);
 
     int getBlogRowCount(
             @Param("userId") int userId);
