@@ -92,7 +92,7 @@
 </template>
 
 <script>
-import { createBlog } from "@/api/blog";
+import { createBlog,createBlogRecord } from "@/api/blog";
 import Blog from "./Blog.vue";
 export default {
   components: { Blog },
@@ -268,7 +268,7 @@ export default {
       data.blogText = data.blogText;
       data.blogMk = this.$refs.md.d_render;
       data.blogLabelList = null;
-      console.log("QQQQ", data);
+      // console.log("QQQQ", data);
       createBlog(data).then((res) => {
         localStorage.clear();
         if (res == "1") {
@@ -277,10 +277,10 @@ export default {
             type: "success",
             offset: 700,
           });
+          
         } else {
           this.$message({
-            message: "发布失败",
-            res,
+            message: "发布失败" + res,
             type: "error",
             offset: 700,
           });
@@ -353,6 +353,7 @@ export default {
     box-shadow: 0 2px 12px 0 #000000;
     border: none;
     color: #fff;
+    text-align: center;
   }
   .v-note-op {
     border: none;
@@ -369,7 +370,7 @@ export default {
   flex-direction: column;
   width: 90%;
   padding: 30px 5%;
-  height: calc(100% - 60px);
+  height: calc(100% - 55px);
   .mavon-editor-main {
     .markdown-body {
       height: 500px;

@@ -8,16 +8,18 @@
         <router-view></router-view>
       </el-main>
     </el-container>
+    <!-- <float-button></float-button> -->
   </el-container>
 </template>
 <script>
 import CommonAside from "../components/CommonAside.vue";
 import CommonHeader from "../components/CommonHeader.vue";
-
+import floatButton from "./floatButton/floatButton.vue";
 export default {
   components: {
     CommonAside,
     CommonHeader,
+    floatButton,
   },
   data() {
     return {};
@@ -50,7 +52,6 @@ export default {
   text-align: center;
   padding: 10px 30px 20px 30px;
   overflow: hidden;
-  
 }
 .container-outside,
 .container-inside {

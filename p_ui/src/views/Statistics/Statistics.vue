@@ -54,21 +54,25 @@ export default {
     // margin: 20px 15px 20px 3%;
     margin: 10px 15px 10px 1%;
     width: 20%;
+    border-radius: 5px;
   }
   .statistic-right {
     // margin: 20px 3% 20px 15px;
     margin: 10px 1% 10px 15px;
     width: 20%;
+    border-radius: 5px;
   }
   .statistic-center {
     width: calc(58% - 30px);
     box-shadow: none;
+    background-color: transparent;
     .el-row {
       margin-bottom: 15px;
       min-height: 240px;
       margin-top: 10px;
       min-width: 600px;
       height: calc(33% - 7px);
+      border-radius: 5px;
     }
   }
 }

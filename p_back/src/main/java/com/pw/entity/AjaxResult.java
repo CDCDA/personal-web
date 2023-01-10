@@ -1,34 +1,25 @@
 package com.pw.entity;
 
-import java.util.List;
-
-public class AjaxResult {
+public class AjaxResult<T> {
     private String code;
-    private List<?> data;
+    private T data;
     private String msg;
     private String success;
     private int total;
-
-    public AjaxResult(String code, List<?> data, String msg, String success, int total) {
-        this.code = code;
-        this.data = data;
-        this.msg = msg;
-        this.success = success;
-        this.total = total;
-    }
 
     public AjaxResult() {
 
     }
 
+
     @Override
     public String toString() {
-        return "AjaxResult{" +
+        return "AjaxListResult{" +
                 "code='" + code + '\'' +
                 ", data=" + data +
                 ", msg='" + msg + '\'' +
                 ", success='" + success + '\'' +
-                ", total='" + total + '\'' +
+                ", total=" + total +
                 '}';
     }
 
@@ -40,11 +31,11 @@ public class AjaxResult {
         this.code = code;
     }
 
-    public List<?> getData() {
+    public T getData() {
         return data;
     }
 
-    public void setData(List<?> data) {
+    public void setData(T data) {
         this.data = data;
     }
 

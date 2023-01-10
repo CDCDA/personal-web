@@ -20,8 +20,6 @@
         <result property="blogUpdateTime" column="blog_updateTime"></result>
         <result property="blogType" column="blog_type"></result>
         <result property="blogMk" column="blog_mk"></result>
-<!--        <result property="blogLabelList" column=""></result>-->
-<!--        <result property="blogLabel" column=""></result>-->
     </resultMap>
 
     <!--定义全部列名-->
@@ -60,7 +58,7 @@
                 and user_id =#{userId}
             </if>
         </where>
-        limit #{startRow},10
+        limit #{startRow},#{pageSize}
     </select>
 
     <!--获取用户博客数-->

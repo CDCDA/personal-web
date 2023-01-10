@@ -1,18 +1,16 @@
 package com.pw.controller;
 
-import com.alibaba.druid.util.StringUtils;
 import com.pw.entity.*;
 import com.pw.service.BlogLabelService;
 import com.pw.service.BlogRecordService;
 import com.pw.service.BlogService;
-import com.pw.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import com.pw.controller.BaseController;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import static com.pw.controller.BaseController.toAjax;
@@ -32,7 +30,7 @@ public class BlogController {
     public static final int PAGE_SIZE = 10;
 
     @RequestMapping("/getBlogByUserId")
-    public AjaxResult getBlogByUserId(int userId, Integer startRow,Integer pageSize) {
+    public AjaxResult getBlogByUserId(int userId, Integer startRow, Integer pageSize) {
         //根据页码计算起始行
         int start_row = 0;
         int page_size = 10;
@@ -49,6 +47,8 @@ public class BlogController {
             List<BlogLabel> blogLabels = blogLabelService.getBlogLabel(blog.getBlogId());
             blog.setBlogLabelList(blogLabels);
         });
+
+
         return toAjax(blogList);
     }
 
@@ -58,11 +58,11 @@ public class BlogController {
     }
 
     @RequestMapping("/getBlogByBlogId")
-    public Blog getBlogByBlogId(int blogId) {
+    public AjaxResult getBlogByBlogId(int blogId) {
         Blog blog = blogService.getBlogByBlogId(blogId);
         List<BlogLabel> labelList = blogLabelService.getBlogLabel(String.valueOf(blogId));
-//        blog.setBlogLabel(labelList);
-        return blog;
+        blog.setBlogLabel(labelList.toString());
+        return toAjax(blog);
     }
 
     @RequestMapping("/deleteBlogById")
@@ -74,17 +74,24 @@ public class BlogController {
     public int createUser(Blog blog) {
 //        String blogId = System.currentTimeMillis() + "";
 //        blog.setBlogId(blogId);
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//注意月和小时的格式为两个大写字母
+        java.util.Date date = new Date();//获得当前时间
+        String dateTime = df.format(date);//将当前时间转换成特定格式的时间字符串，这样便可以插入到数据库中
         if(blog.getBlogId() != null){
             blogService.updateBlog(blog);
             int result = blogLabelService.deleteBlogLabelById(blog.getBlogId());
             System.out.println("博客"+result);
             insertBlogLabel(blog);
+            BlogRecord blogRecord = new BlogRecord(blog.getBlogId(),blog.getBlogTitle(),"更新",null,dateTime,blog.getUserId()+"",null);
+            blogRecordService.createBlogRecord(blogRecord);
             return 1;
         }
         else{
             blog.setBlogId((Math.random()*100000000)+"");
             blogService.createBlog(blog);
             insertBlogLabel(blog);
+            BlogRecord blogRecord = new BlogRecord(blog.getBlogId(),blog.getBlogTitle(),"新增",null,dateTime,blog.getUserId()+"",null);
+            blogRecordService.createBlogRecord(blogRecord);
             return 1;
         }
 
@@ -112,7 +119,7 @@ public class BlogController {
         blogRecordService.deleteBlogRecord(blogRecordId);
     }
     @RequestMapping("/getBlogRecord")
-    public AjaxResult getBlogRecord(String userId, Integer startRow,Integer pageSize) {
+    public AjaxResult getBlogRecord(String userId, Integer startRow, Integer pageSize) {
         //根据页码计算起始行
         int start_row = 0;
         int page_size = 10;
@@ -125,5 +132,10 @@ public class BlogController {
         List<BlogRecord> blogRecordList= blogRecordService.getBlogRecord(userId, startRow,page_size);
         return toAjax(blogRecordList);
     }
-
+    @RequestMapping("/getBlogCountByTime")
+    public AjaxResult getBlogCountByTime(String startTime, String endTime) {
+        //根据页码计算起始行
+        List<BlogRecord> blogRecordList= blogRecordService.getBlogRecord(userId, startRow,page_size);
+        return toAjax(blogRecordList);
+    }
 }

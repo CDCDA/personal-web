@@ -1,7 +1,6 @@
 package com.pw.controller;
 
 import com.pw.entity.AjaxResult;
-import com.pw.entity.BlogRecord;
 import com.pw.entity.WebRecord;
 import com.pw.service.WebRecordService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +30,7 @@ public class WebController {
         webRecordService.deleteWebRecord(webRecordId);
     }
     @RequestMapping("/getWebRecord")
-    public AjaxResult getWebRecord(String userId, Integer startRow, Integer pageSize) {
+    public AjaxResult getWebRecord(Integer startRow, Integer pageSize) {
         //根据页码计算起始行
         int start_row = 0;
         int page_size = 10;
@@ -41,7 +40,7 @@ public class WebController {
         if (startRow != null) {
             start_row = (startRow - 1) * page_size;
         }
-        List<WebRecord> webRecordList= webRecordService.getWebRecord(startRow,page_size);
+        List<WebRecord> webRecordList= webRecordService.getWebRecord(start_row,page_size);
         return toAjax(webRecordList);
     }
 }

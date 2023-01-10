@@ -23,7 +23,7 @@ public class WebRecordTest {
     WebRecordService webRecordService;
     @Test
     public void testGetWebRecord() {
-        List<WebRecord> list = webRecordService.getWebRecord(0);
+        List<WebRecord> list = webRecordService.getWebRecord(0,10);
         list.forEach(blog -> {
             System.out.println("网站修改记录-->"+blog);
         });
