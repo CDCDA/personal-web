@@ -8,13 +8,13 @@
         <router-view></router-view>
       </el-main>
     </el-container>
-    <!-- <float-button></float-button> -->
+    <float-button></float-button>
   </el-container>
 </template>
 <script>
 import CommonAside from "../components/CommonAside.vue";
 import CommonHeader from "../components/CommonHeader.vue";
-import floatButton from "./floatButton/floatButton.vue";
+import floatButton from "../components/floatButton.vue";
 export default {
   components: {
     CommonAside,

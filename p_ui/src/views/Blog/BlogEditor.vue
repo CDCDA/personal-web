@@ -9,7 +9,7 @@
           placeholder="请输入标题"
           v-model="blogData.blogTitle"
         ></el-input>
-        <el-button size="small" @click="releaseBlog" class="bt-release"
+        <el-button size="small" @click="releaseConfirm" class="bt-release"
           >发布</el-button
         >
       </div>
@@ -92,7 +92,7 @@
 </template>
 
 <script>
-import { createBlog,createBlogRecord } from "@/api/blog";
+import { createBlog, createBlogRecord } from "@/api/blog";
 import Blog from "./Blog.vue";
 export default {
   components: { Blog },
@@ -243,6 +243,22 @@ export default {
       this.labelList.push(this.customTag);
     },
     saveBlog() {},
+    releaseConfirm() {
+      this.$confirm("此操作将永久删除该文件, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      })
+        .then(() => {
+          this.releaseBlog();
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消删除",
+          });
+        });
+    },
     releaseBlog() {
       let data = this.blogData;
       data.blogCreateTime = this.dateTimeToString(new Date());
@@ -277,7 +293,6 @@ export default {
             type: "success",
             offset: 700,
           });
-          
         } else {
           this.$message({
             message: "发布失败" + res,

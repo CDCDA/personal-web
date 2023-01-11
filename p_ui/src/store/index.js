@@ -10,10 +10,14 @@ const store = new Vuex.Store({
         isMenuCollapse: true,
         userId: "6",
         userName: "Tom",
+        blogData: {}
     },
     mutations: {
         collapseChange (state) {
             state.isMenuCollapse = !state.isMenuCollapse
+        },
+        setBlogData (state, blogData) {
+            state.blogData = blogData
         }
     },
     actions: {

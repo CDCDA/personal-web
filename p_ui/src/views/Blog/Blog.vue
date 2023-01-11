@@ -50,6 +50,12 @@ export default {
         res.data ? (this.blogList = res.data) : "";
       });
     },
+    toBlogEdit() {
+      this.$router.push({
+        path: "/BlogEditor",
+        query: { blogData: this.blogData },
+      });
+    },
   },
   mounted() {
     this.getBlogData();

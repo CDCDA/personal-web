@@ -83,4 +83,11 @@
         </where>
     </select>
 
+    <!--根据时间获取用户博客数-->
+    <select id="getBlogRowCount" resultType="int">
+        select count(*)
+        from blog
+        WHERE blog_createTime>=#{startTime} and blog_createTime < #{endTime}
+    </select>
+
 </mapper>

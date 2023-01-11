@@ -22,6 +22,7 @@ export default {
   },
   methods: {
     viewBlog(val) {
+      this.$store.commit("setBlogData", this.blogData);
       this.$router.push({
         path: "/BlogDisplay",
         query: { blogData: val },
