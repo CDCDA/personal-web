@@ -37,7 +37,7 @@ public class BlogController {
         if (pageSize != null) {
             page_size = pageSize;
         }
-        if (startRow != null) {
+        if (startRow != null && startRow != 0) {
             start_row = (startRow - 1) * page_size;
         }
 
@@ -126,16 +126,16 @@ public class BlogController {
         if (pageSize != null) {
             page_size = pageSize;
         }
-        if (startRow != null) {
+        if (startRow != null && startRow != 0) {
             start_row = (startRow - 1) * page_size;
         }
-        List<BlogRecord> blogRecordList= blogRecordService.getBlogRecord(userId, startRow,page_size);
+        List<BlogRecord> blogRecordList= blogRecordService.getBlogRecord(userId, start_row,page_size);
         return toAjax(blogRecordList);
     }
     @RequestMapping("/getBlogCountByTime")
-    public AjaxResult getBlogCountByTime(String startTime, String endTime) {
+    public AjaxResult getBlogCountByTime(String userId,String startTime, String endTime) {
         //根据页码计算起始行
-        List<BlogRecord> blogRecordList= blogRecordService.getBlogRecord(userId, startRow,page_size);
+        List<Blog> blogRecordList= blogService.getBlogByTime(userId,startTime,endTime);
         return toAjax(blogRecordList);
     }
 }

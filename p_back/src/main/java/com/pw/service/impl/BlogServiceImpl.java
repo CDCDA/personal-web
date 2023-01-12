@@ -48,4 +48,9 @@ public class BlogServiceImpl implements BlogService {
         return blogMapper.deleteBlogById(blogId);
     }
 
+    @Override
+    public List<Blog> getBlogByTime(String userId,  String stratTime, String endTime) {
+        return blogMapper.getBlogByTime(userId,stratTime,endTime);
+    }
+
 }

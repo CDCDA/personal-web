@@ -84,10 +84,11 @@
     </select>
 
     <!--根据时间获取用户博客数-->
-    <select id="getBlogRowCount" resultType="int">
-        select count(*)
+    <select id="getBlogByTime" resultMap="blogmap">
+        select <include refid="allColumns"></include>
         from blog
-        WHERE blog_createTime>=#{startTime} and blog_createTime < #{endTime}
+        where blog_createTime between #{startTime} and #{endTime}
+            and user_id = #{userId};
     </select>
 
 </mapper>

@@ -1,3 +1,9 @@
+<!--
+ * @Author: chenyd
+ * @Date: 2023-01-05 17:24:42
+ * @LastEditTime: 2023-01-12 17:45:42
+ * @Description: 
+-->
 <template>
   <div class="page-main statistic-main">
     <el-row class="statistic-container">
@@ -5,9 +11,11 @@
         <blog-timeline></blog-timeline>
       </el-col>
       <el-col :span="12" class="statistic-center">
-        <el-row class="bounceInDown animated"><blog-chat></blog-chat></el-row>
-        <el-row> <blog-chat></blog-chat></el-row>
-        <el-row class="bounceInUp animated"><blog-chat></blog-chat> </el-row>
+        <el-row class="bounceInDown animated"
+          ><ring-chart></ring-chart>
+        </el-row>
+        <el-row> <blog-count-chat></blog-count-chat></el-row>
+        <el-row class="bounceInUp animated"> </el-row>
       </el-col>
       <el-col :span="6" class="statistic-right bounceInRight animated">
         <update-time-line></update-time-line>
@@ -19,15 +27,15 @@
 <script>
 import blogTimeline from "./components/blogTimeline";
 import updateTimeLine from "./components/updateTimeLine";
-import blogChat from "./components/blogChat";
 import blogTypeChat from "./components/blogTypeChat";
-
+import BlogCountChat from "./components/blogCountChat.vue";
+import RingChart from "@/components/charts/ringChart.vue";
 export default {
   components: {
     blogTimeline,
     updateTimeLine,
-    blogChat,
-    blogTypeChat,
+    BlogCountChat,
+    RingChart,
   },
   data() {
     return {};

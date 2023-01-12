@@ -1,3 +1,9 @@
+<!--
+ * @Author: chenyd
+ * @Date: 2023-01-04 10:41:53
+ * @LastEditTime: 2023-01-12 16:59:28
+ * @Description: 
+-->
 <template>
   <div class="blog-display-container page-main">
     <div class="blog-display" v-html="html"></div>
@@ -18,8 +24,11 @@ export default {
   },
   methods: {},
   mounted() {
-    console.log("QQQQ", this.$route.query.blogData);
+    // console.log("QQQQ", this.$store.state.blogData);
     this.html = this.$route.query.blogData.blogMk;
+  },
+   destroyed() {
+    this.$store.commit("setBlogData", null);
   },
 };
 </script>
@@ -31,7 +40,7 @@ export default {
     color: #fff;
     background-color: rgba(29, 32, 33, 0.6);
     box-shadow: 0 2px 12px 0 #000000;
-        text-align: left;
+    text-align: left;
     padding: 0px 20%;
   }
   pre {

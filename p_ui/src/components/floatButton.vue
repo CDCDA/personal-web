@@ -16,7 +16,10 @@
           <span>发布博客</span>
           <!-- </el-tooltip> -->
         </el-dropdown-item>
-        <el-dropdown-item @click.native="toBlogEdit" :disabled="blogData">
+        <el-dropdown-item
+          @click.native="toBlogEdit"
+          :disabled="disabled ? true : false"
+        >
           <!-- <el-tooltip class="item" effect="dark" content="" placement="left"> -->
           <span>编辑博客</span>
           <!-- </el-tooltip> -->
@@ -48,7 +51,16 @@ export default {
         type: "",
       },
       blogData: this.$store.state.blogData,
+      disabled: true,
     };
+  },
+  watch: {
+    "$store.state.blogData": {
+      handler(val, oldVal) {
+        val ? (this.disabled = false) : (this.disabled = true);
+      },
+      deep: true,
+    },
   },
   methods: {
     addWebRecord() {

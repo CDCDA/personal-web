@@ -2,10 +2,21 @@
   <div class="update-time-line">
     <el-timeline>
       <template v-for="(item, index) in timeLineData">
-        <el-timeline-item :timestamp="item.time" placement="top" :key="index">
+        <el-timeline-item
+          :timestamp="getDateStr(item.recordTime)"
+          placement="top"
+          :key="index"
+        >
           <el-card>
-            <h4>{{ item.operation }}</h4>
-            <p>{{ item.submit }}</p>
+            <div class="card-line">
+              <p style="margin: 0px 5px 0px 0px">
+                {{ item.recordOperation }}
+              </p>
+              <p style="margin-top: 0px" @click="jumpToBlog(item.blogId)">
+                {{ item.blogName }}
+              </p>
+            </div>
+            <p>{{ userName }} 提交于 {{ item.recordTime }}</p>
           </el-card>
         </el-timeline-item>
       </template>
@@ -13,38 +24,49 @@
   </div>
 </template>
 <script>
+import { createWebRecord, deleteWebRecord, getWebRecord } from "@/api/web";
 export default {
   data() {
     return {
-      timeLineData: [
-        {
-          time: "2022-10-20",
-          operation: "新增博客aaaaa",
-          submit: "Tom 提交于2022-10-20:20:18",
-        },
-        {
-          time: "2022-10-20",
-          operation: "新增博客aaaaa",
-          submit: "Tom 提交于2022-10-20:20:18",
-        },
-        {
-          time: "2022-10-20",
-          operation: "新增博客aaaaa",
-          submit: "Tom 提交于2022-10-20:20:18",
-        },
-        {
-          time: "2022-10-20",
-          operation: "新增博客aaaaa",
-          submit: "Tom 提交于2022-10-20:20:18",
-        },
-        {
-          time: "2022-10-20",
-          operation: "新增博客aaaaa",
-          submit: "Tom 提交于2022-10-20:20:18",
-        },
-
-      ],
+      timeLineData: [],
+      userName: this.$store.state.userName,
+      params: {
+        // userId: this.$store.state.userId,
+        startRow: 0,
+        pageSize: 10,
+      },
     };
+  },
+  methods: {
+    getDateStr(recordTime) {
+      if (recordTime) return recordTime.substring(0, 10);
+      return null;
+    },
+
+    //获取网站操作记录
+    getWebimeLineData() {
+      getWebRecord(this.params)
+        .then((res) => {
+          console.log("博客操作记录", res);
+          if (res.data) {
+            this.timeLineData = [];
+            res.data.forEach((e) => {
+              this.timeLineData.push(e);
+            });
+            console.log("SSSS", this.timeLineData);
+          }
+        })
+        .catch((err) => {
+          this.$message({
+            message: "获取网站修改记录失败" + err,
+            type: "error",
+            offset: 700,
+          });
+        });
+    },
+  },
+  mounted() {
+    this.getWebimeLineData();
   },
 };
 </script>
@@ -69,6 +91,18 @@ export default {
       border: none;
       background-color: transparent;
       box-shadow: 0 2px 12px 0 #000000;
+      .card-line {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        a {
+          color: #fff;
+          margin-left: 5px;
+          text-overflow: ellipsis;
+          overflow: hidden;
+          white-space: nowrap;
+        }
+      }
       .el-card__body {
         padding: 15px;
 

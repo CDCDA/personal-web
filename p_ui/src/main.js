@@ -1,3 +1,9 @@
+/*
+ * @Author: chenyd
+ * @Date: 2022-07-12 09:28:14
+ * @LastEditTime: 2023-01-12 15:23:01
+ * @Description: 
+ */
 import Vue from 'vue'
 import App from './App.vue'
 import ElementUI from 'element-ui'
@@ -13,7 +19,7 @@ Vue.use(VueParticles)
 Vue.use(mavonEditor)
 Vue.use(ElementUI)
 Vue.config.productionTip = false
-//日期转字符串
+//日期转字符串 date.js中也有
 Vue.prototype.dateTimeToString = function (date) {
   var y = date.getFullYear();
   var M = date.getMonth() + 1;
@@ -23,7 +29,7 @@ Vue.prototype.dateTimeToString = function (date) {
   var s = date.getSeconds();
   return y + '-' + (M < 10 ? ('0' + M) : M) + '-' + (d < 10 ? ('0' + d) : d) + " " + (H < 10 ? ('0' + H) : H) + ":" + (m < 10 ? ('0' + m) : m) + ":" + (s < 10 ? ('0' + s) : s);
 }
-
+//拖拽事件
 Vue.directive("drag", {
   inserted: function (el) {
     let oDiv = el; //当前元素

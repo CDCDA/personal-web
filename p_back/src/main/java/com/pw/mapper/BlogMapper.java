@@ -25,6 +25,8 @@ public interface BlogMapper {
 
     int updateBlog(Blog blog);
 
-    int getBlogCountByTime(@Param("startTime") String startTime,
-                           @Param("startTime") String endTime);
+    List<Blog> getBlogByTime(
+            @Param("userId") String userId,
+            @Param("startTime") String startTime,
+            @Param("endTime") String endTime);
 }
