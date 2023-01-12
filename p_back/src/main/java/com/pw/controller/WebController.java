@@ -31,15 +31,17 @@ public class WebController {
     }
     @RequestMapping("/getWebRecord")
     public AjaxResult getWebRecord(Integer startRow, Integer pageSize) {
+
         //根据页码计算起始行
         int start_row = 0;
         int page_size = 10;
         if (pageSize != null) {
             page_size = pageSize;
         }
-        if (startRow != null) {
+        if (startRow != null && !startRow.equals(0)) {
             start_row = (startRow - 1) * page_size;
         }
+        System.out.println("DDD"+(startRow.equals(0)));
         List<WebRecord> webRecordList= webRecordService.getWebRecord(start_row,page_size);
         return toAjax(webRecordList);
     }

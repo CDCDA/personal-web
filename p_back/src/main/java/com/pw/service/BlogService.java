@@ -17,4 +17,6 @@ public interface BlogService {
 
     int updateBlog(Blog blog);
     int deleteBlogById(int blogId);
+
+    List<Blog> getBlogByTime(String userId, String stratTime,String endTime);
 }

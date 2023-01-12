@@ -40,36 +40,10 @@
         </el-table-column>
       </el-table>
     </el-form>
-    <outgoing-order-dialog
-      :open="isOrderOpen"
-      :customerName="form.customerName"
-      title="客户的外发订单"
-      @orderResOpen="orderResOpen"
-      @handleOrderData="handleOrderData"
-    ></outgoing-order-dialog>
-    <customer-dialog
-      :open="isCustomerOpen"
-      :customerId="customerId"
-      @customerResOpen="customerResOpen"
-      @handleCustomerData="handleCustomerData"
-    ></customer-dialog>
   </div>
 </template>
 
 <script>
-import {
-  listDeliveryOrder,
-  getDeliveryOrder,
-  delDeliveryOrder,
-  addDeliveryOrder,
-  updateDeliveryOrder,
-} from "@/api/crm/deliveryOrder";
-import { getUserProfile } from "@/api/system/user";
-import CustomerDialog from "../customerProfile/customerDialog.vue";
-import OutgoingOrderDialog from "../outgoingOrder/outgoingOrderDialog";
-import { routeJump } from "@/api/crm/routeJump.js";
-
-import { listMaterialDetails } from "@/api/crm/materialDetails";
 
 export default {
   name: "DeliveryOrder",

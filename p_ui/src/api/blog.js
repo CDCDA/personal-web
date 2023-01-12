@@ -1,3 +1,10 @@
+/*
+ * @Author: chenyd
+ * @Date: 2022-12-20 11:09:51
+ * @LastEditTime: 2023-01-12 14:43:13
+ * @Description: 
+ */
+
 import request from "@/utils/request"
 import qs from 'qs'
 //根据用户id获取博客
@@ -8,10 +15,19 @@ export const getBlogByUserId = (params) => {
         params: params
     })
 }
+
 //根据用户id获取博客数
 export const getBlogRowCount = (params) => {
     return request({
         url: '/blog/getBlogRowCount',
+        method: 'post',
+        params: params
+    })
+}
+//根据时间获取博客 params :{userId,startTime,endTime}
+export const getBlogCountByTime = (params) => {
+    return request({
+        url: '/blog/getBlogCountByTime',
         method: 'post',
         params: params
     })

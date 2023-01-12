@@ -62,6 +62,15 @@ public class BlogTest {
         System.out.println("删除博客结果-->"+result);
     }
 
+    @Test
+    public void testgetBlogCountByTime(){
+        System.out.println("根据时间获取博客");
+        List<Blog> result = blogService.getBlogByTime("6","2023-01-01","2023-01-05");
+//        result.forEach(blog -> {
+//            System.out.println("用户博客-->"+blog);
+//        });
+    }
+
 
 
 
