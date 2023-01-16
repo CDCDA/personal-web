@@ -1,7 +1,7 @@
 <!--
  * @Author: chenyd
  * @Date: 2023-01-12 17:18:41
- * @LastEditTime: 2023-01-12 17:52:04
+ * @LastEditTime: 2023-01-16 09:21:12
  * @Description: 环状图
 -->
 <template>
@@ -35,13 +35,13 @@ export default {
           {
             name: "Access From",
             type: "pie",
-            radius: ["40%", "70%"],
+            radius: "80%",
             avoidLabelOverlap: false,
             label: {
               show: false,
               position: "center",
             },
-            center: ["50%", "50%"],
+            center: ["20%", "50%"],
             grid: {
               left: 0,
               top: 0,
@@ -72,7 +72,6 @@ export default {
   },
   mounted() {
     this.initChart();
-    alert("S");
     this.option && this.myChart
       ? this.option && this.myChart.setOption(this.option)
       : "";

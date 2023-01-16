@@ -1,7 +1,7 @@
 <!--
  * @Author: chenyd
  * @Date: 2023-01-05 17:24:42
- * @LastEditTime: 2023-01-12 17:45:42
+ * @LastEditTime: 2023-01-16 09:46:21
  * @Description: 
 -->
 <template>
@@ -15,7 +15,9 @@
           ><ring-chart></ring-chart>
         </el-row>
         <el-row> <blog-count-chat></blog-count-chat></el-row>
-        <el-row class="bounceInUp animated"> </el-row>
+        <el-row class="bounceInUp animated">
+          <radar-chart></radar-chart
+        ></el-row>
       </el-col>
       <el-col :span="6" class="statistic-right bounceInRight animated">
         <update-time-line></update-time-line>
@@ -29,13 +31,15 @@ import blogTimeline from "./components/blogTimeline";
 import updateTimeLine from "./components/updateTimeLine";
 import blogTypeChat from "./components/blogTypeChat";
 import BlogCountChat from "./components/blogCountChat.vue";
-import RingChart from "@/components/charts/ringChart.vue";
+import RingChart from "@/components/Charts/ringChart";
+import RadarChart from "@/components/Charts/radarChart";
 export default {
   components: {
     blogTimeline,
     updateTimeLine,
     BlogCountChat,
     RingChart,
+    RadarChart,
   },
   data() {
     return {};

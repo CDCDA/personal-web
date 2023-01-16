@@ -1,3 +1,9 @@
+<!--
+ * @Author: chenyd
+ * @Date: 2022-07-12 09:28:14
+ * @LastEditTime: 2023-01-16 10:52:03
+ * @Description: 
+-->
 <template>
   <div id="app">
     <!-- :style="background" -->
@@ -65,6 +71,7 @@ html {
   height: 100%;
   margin: 0px;
   padding: 0px;
+  overflow: hidden;
 }
 .bgBackground {
   width: 100%;

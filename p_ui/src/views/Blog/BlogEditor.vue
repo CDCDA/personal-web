@@ -330,8 +330,11 @@ export default {
       this.labelList = JSON.parse(localStorage.getItem("labelList"));
       this.typeValue = JSON.parse(localStorage.getItem("typeValue"));
     }
-    if (this.$route.query.blogData) {
-      this.blogData = this.$route.query.blogData;
+    if (this.$route.query.blogData || this.$store.state.blogData) {
+      // console.log("SSS",this.$store.state.blogData)
+      this.blogData = this.$store.state.blogData
+        ? this.$store.state.blogData
+        : this.$route.query.blogData;
       this.blogData.blogLabelList.forEach((label) => {
         this.labelList.push(label.name);
       });
@@ -380,6 +383,7 @@ export default {
   .auto-textarea-input,
   .v-show-content {
     background-color: transparent !important;
+    text-align: left;
   }
   display: flex;
   flex-direction: column;
@@ -459,6 +463,7 @@ export default {
   .markdown-body pre {
     background: transparent;
     box-shadow: 0 2px 12px 0 #000000;
+    
   }
 }
 </style>
