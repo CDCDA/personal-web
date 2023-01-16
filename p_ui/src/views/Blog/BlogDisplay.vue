@@ -4,6 +4,12 @@
  * @LastEditTime: 2023-01-16 17:40:02
  * @Description: 博客展示页
 -->
+<!--
+ * @Author: chenyd
+ * @Date: 2023-01-04 10:41:53
+ * @LastEditTime: 2023-01-12 16:59:28
+ * @Description: 
+-->
 <template>
   <div class="blog-display-container page-main">
     <div class="blog-display-left">
@@ -74,12 +80,17 @@ export default {
   methods: {},
   created() {
     console.log("WER", this.$route.query.blogData.blogMk);
+  mounted() {
+    // console.log("QQQQ", this.$store.state.blogData);
     this.html = this.$route.query.blogData.blogMk;
     this.$store.commit("setBlogData", this.$route.query.blogData);
   },
   mounted() {},
   destroyed() {
     // this.$store.commit("setBlogData", null);
+  },
+   destroyed() {
+    this.$store.commit("setBlogData", null);
   },
 };
 </script>
@@ -123,6 +134,8 @@ export default {
     td {
       border: 1px solid;
     }
+    text-align: left;
+    padding: 0px 20%;
   }
   pre {
     background: transparent;
