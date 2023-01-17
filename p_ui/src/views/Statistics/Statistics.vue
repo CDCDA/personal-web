@@ -1,7 +1,7 @@
 <!--
  * @Author: chenyd
  * @Date: 2023-01-05 17:24:42
- * @LastEditTime: 2023-01-16 09:46:21
+ * @LastEditTime: 2023-01-17 08:48:20
  * @Description: 
 -->
 <!--
@@ -44,8 +44,6 @@ import blogTypeChat from "./components/blogTypeChat";
 import BlogCountChat from "./components/blogCountChat.vue";
 import RingChart from "@/components/Charts/ringChart";
 import RadarChart from "@/components/Charts/radarChart";
-import BlogCountChat from "./components/blogCountChat.vue";
-import RingChart from "@/components/charts/ringChart.vue";
 export default {
   components: {
     blogTimeline,

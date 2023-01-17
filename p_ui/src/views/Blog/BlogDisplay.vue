@@ -78,18 +78,15 @@ export default {
     };
   },
   methods: {},
-  created() {
-    console.log("WER", this.$route.query.blogData.blogMk);
   mounted() {
     // console.log("QQQQ", this.$store.state.blogData);
     this.html = this.$route.query.blogData.blogMk;
     this.$store.commit("setBlogData", this.$route.query.blogData);
   },
-  mounted() {},
   destroyed() {
     // this.$store.commit("setBlogData", null);
   },
-   destroyed() {
+  destroyed() {
     this.$store.commit("setBlogData", null);
   },
 };
