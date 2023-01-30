@@ -94,6 +94,7 @@
 <script>
 import { createBlog, createBlogRecord } from "@/api/blog";
 import Blog from "./Blog.vue";
+
 export default {
   components: { Blog },
   data() {
@@ -213,7 +214,7 @@ export default {
       this.$message({
         message: "保存成功",
         type: "success",
-        offset: 700,
+        offset: 0,
       });
     },
     getHtml(value) {
@@ -244,7 +245,7 @@ export default {
     },
     saveBlog() {},
     releaseConfirm() {
-      this.$confirm("此操作将永久删除该文件, 是否继续?", "提示", {
+      this.$confirm("是否发布博客?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning",
@@ -255,12 +256,13 @@ export default {
         .catch(() => {
           this.$message({
             type: "info",
-            message: "已取消删除",
+            message: "已取消发布",
           });
         });
     },
     releaseBlog() {
       let data = this.blogData;
+      data.userId = this.$store.state.userId;
       data.blogCreateTime = this.dateTimeToString(new Date());
       data.blogUpdateTime = data.blogCreateTime;
       data.blogLabel = "";
@@ -279,6 +281,7 @@ export default {
           });
         });
       blogType = blogType.substring(0, blogType.length - 1);
+
       data.blogType = blogType;
       data.blogLabel = data.blogLabel.substring(0, data.blogLabel.length - 1);
       data.blogText = data.blogText;
@@ -291,13 +294,13 @@ export default {
           this.$message({
             message: "发布成功",
             type: "success",
-            offset: 700,
+            offset: 0,
           });
         } else {
           this.$message({
             message: "发布失败" + res,
             type: "error",
-            offset: 700,
+            offset: 0,
           });
         }
       });
@@ -335,13 +338,17 @@ export default {
       this.blogData = this.$store.state.blogData
         ? this.$store.state.blogData
         : this.$route.query.blogData;
-      this.blogData.blogLabelList.forEach((label) => {
-        this.labelList.push(label.name);
-      });
+      if (this.blogData.blogLabelList)
+        this.blogData.blogLabelList.forEach((label) => {
+          this.labelList.push(label.name);
+        });
       this.typeValue = [];
-      let type = this.blogData.blogType.split("/");
-      this.findTypeValue(this.typeList, type, 0);
-      this.reload(this.isShowType);
+      let type;
+      if (this.blogData.blogType) {
+        type = this.blogData.blogType.split("/");
+        this.findTypeValue(this.typeList, type, 0);
+        this.reload(this.isShowType);
+      }
     }
   },
 };
@@ -463,7 +470,6 @@ export default {
   .markdown-body pre {
     background: transparent;
     box-shadow: 0 2px 12px 0 #000000;
-    
   }
 }
 </style>

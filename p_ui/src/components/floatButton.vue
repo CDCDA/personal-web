@@ -57,7 +57,9 @@ export default {
   watch: {
     "$store.state.blogData": {
       handler(val, oldVal) {
-        val ? (this.disabled = false) : (this.disabled = true);
+        val
+          ? (this.disabled = false && (this.blogData = val))
+          : (this.disabled = true);
       },
       deep: true,
     },
@@ -69,18 +71,19 @@ export default {
           this.$message({
             message: "提交成功",
             type: "success",
-            offset: 700,
+            offset: 0,
           });
         } else {
           this.$message({
             message: "提交失败" + res,
             type: "error",
-            offset: 700,
+            offset: 0,
           });
         }
       });
     },
     toBlogEdit() {
+      this.blogData = this.$store.state.blogData;
       this.$router.push({
         path: "/BlogEditor",
         query: { blogData: this.blogData },

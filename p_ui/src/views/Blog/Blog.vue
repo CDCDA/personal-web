@@ -16,9 +16,9 @@
       </div>
       <div class="blog-tags"></div>
     </div>
-    <div>
+    <!-- <div>
       <blog-float-item></blog-float-item>
-    </div>
+    </div> -->
   </div>
 </template>
 

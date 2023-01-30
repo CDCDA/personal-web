@@ -39,51 +39,62 @@ export default {
     };
   },
   mounted() {
-    this.titles = this.getTitles();
-    // 监听滚动事件并更新样式
-    window.addEventListener("scroll", function () {
-      this.progress =
-        parseInt(
-          (window.scrollY / document.documentElement.scrollHeight) * 100
-        ) + "%";
-      let visibleTitles = [];
-
-      for (let i = titles.length - 1; i >= 0; i--) {
-        const title = titles[i];
-        if (title.scrollTop <= window.scrollY) {
-          if (this.currentTitle.id === title.id) return;
-
-          Object.assign(this.currentTitle, title);
-
-          // 展开节点
-          this.setChildrenVisible(title, true);
-          visibleTitles.push(title);
-
-          // 展开父节点
-          let parent = title.parent;
-          while (parent) {
-            this.setChildrenVisible(parent, true);
-            visibleTitles.push(parent);
-            parent = parent.parent;
-          }
-
-          // 折叠其余节点
-          for (const t of titles) {
-            if (!visibleTitles.includes(t)) {
-              this.setChildrenVisible(t, false);
-            }
-          }
-          return;
-        }
-      }
+    this.$nextTick(() => {
+      this.titles = this.getTitles();
+      // 监听滚动事件并更新样式
+      console.log("sss", this.articleElement);
+      window.addEventListener("scroll", this.scrollEvent, true);
     });
   },
   methods: {
+    scrollEvent() {
+      if (this.articleElement)
+        this.progress =
+          parseInt(
+            (this.articleElement.scrollTop /
+              (this.articleElement.scrollHeight -
+                this.articleElement.clientHeight)) *
+              100
+          ) + "%";
+
+      let visibleTitles = [];
+      if (this.titles && this.titles.length) {
+        let titles = this.titles;
+        for (let i = titles.length - 1; i >= 0; i--) {
+          const title = titles[i];
+          if (title.scrollTop <= window.scrollY) {
+            if (this.currentTitle.id === title.id) return;
+
+            Object.assign(this.currentTitle, title);
+
+            // 展开节点
+            this.setChildrenVisible(title, true);
+            visibleTitles.push(title);
+
+            // 展开父节点
+            let parent = title.parent;
+            while (parent) {
+              this.setChildrenVisible(parent, true);
+              visibleTitles.push(parent);
+              parent = parent.parent;
+            }
+
+            // 折叠其余节点
+            for (const t of titles) {
+              if (!visibleTitles.includes(t)) {
+                this.setChildrenVisible(t, false);
+              }
+            }
+            return;
+          }
+        }
+      }
+    },
     // 获取目录的标题
     getTitles() {
       let titles = [];
       let levels = ["h1", "h2", "h3", "h4"];
-
+      // console.log("QWEQEW",this.html)
       let articleElement = document.querySelector("." + this.html);
       this.articleElement = articleElement;
       if (!articleElement) {
@@ -156,6 +167,7 @@ export default {
     },
     // 滚动到指定的位置
     scrollToView(scrollTop) {
+      console.log("SS", this.articleElement);
       this.articleElement.scrollTo({ top: scrollTop, behavior: "smooth" });
     },
     // 设置子节点的可见性

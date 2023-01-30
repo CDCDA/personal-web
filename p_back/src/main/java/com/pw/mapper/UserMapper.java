@@ -24,4 +24,6 @@ public interface UserMapper {
             String account,
             @Param("password")
             String password);
+
+    User getUserById(int userId);
 }

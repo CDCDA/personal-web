@@ -27,6 +27,14 @@
         where user_account = #{account} and user_password = #{password}
     </select>
 
+    <!--根据Id获取用户信息-->
+    <select id="getUserById" resultMap="usermap">
+        select <include refid="allColumns"></include>
+        from user
+        where user_id = #{userId}
+    </select>
+
+
     <select id="selectUserPage" resultMap="usermap" >
         select <include refid="allColumns"></include>
         from user

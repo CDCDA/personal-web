@@ -17,7 +17,34 @@
           :data="item"
         />
       </el-menu>
-      <div class="icon-settings"><i class="el-icon-s-tools"></i></div>
+      <div style="margin:5px">
+        <el-dropdown
+          trigger="click"
+          ref="dropDown"
+          v-drag
+          class=""
+          draggable="false"
+          placement="bottom"
+        >
+          <div class="icon-settings"><i class="el-icon-s-tools"></i></div>
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item>
+              <span>个人中心</span>
+            </el-dropdown-item>
+            <el-dropdown-item>
+              <span>皮肤</span>
+            </el-dropdown-item>
+            <el-dropdown-item>
+              <span>设置</span>
+            </el-dropdown-item>
+            <el-dropdown-item>
+              <span>推出登录</span>
+            </el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
+      </div>
+
+      <!-- <div class="icon-settings"></div> -->
     </div>
   </div>
 </template>
@@ -62,79 +89,98 @@ export default {
     isCollapseChange() {
       this.$store.commit("collapseChange");
     },
+    toBlogEdit() {},
   },
 };
 </script>
-<style lang="less" scoped>
-.icon-settings {
-  height: 56px;
-  width: auto;
-  margin-right: 10px;
-  margin-left: 5px;
-  border: 1px solid #fff;
-  padding: 0px 5px;
-  border-radius: 3px;
-  background-color: rgb(11 12 12 / 70%);
-  cursor: pointer;
-  i {
-    z-index: 999;
-    margin: auto;
-  }
-  position: relative;
-}
-.head-title {
-  width: 60%;
-  color: white;
-  position: relative;
-  margin: 10px 5px 10px 5px;
-  border: 1px solid #fff;
-  cursor: pointer;
-  border-radius: 3px;
-  background-color: rgb(11 12 12 / 70%);
-}
-.head-title,
-.icon-settings {
-  &::before,
-  &::after {
-    content: "";
-    position: absolute;
-    width: 20px;
-    height: 20px;
-    transition: 0.3s ease-in-out;
-  }
-
-  &::before {
-    top: -5px;
-    left: -5px;
-    border-top: 1px solid #fff;
-    border-left: 1px solid #fff;
+<style lang="less">
+.commonHead {
+  .icon-settings {
+    height: 56px;
+    width: auto;
+    margin: 0px;
+    border: 1px solid #fff;
+    padding: 0px 5px;
     border-radius: 3px;
+    background-color: rgb(11 12 12 / 70%);
+    cursor: pointer;
+    i {
+      z-index: 999;
+      margin: auto;
+    }
+    // position: relative;
   }
-
-  &::after {
-    right: -5px;
-    bottom: -5px;
-    border-bottom: 1px solid #fff;
-    border-right: 1px solid #fff;
+  .head-title {
+    width: 60%;
+    color: white;
+    position: relative;
+    margin: 10px 5px 10px 5px;
+    border: 1px solid #fff;
+    cursor: pointer;
     border-radius: 3px;
+    background-color: rgb(11 12 12 / 70%);
   }
+  .head-title,
+  .icon-settings {
+    &::before,
+    &::after {
+      content: "";
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      transition: 0.3s ease-in-out;
+    }
+    .el-dropdown {
+      margin-left: 5px;
+    }
+    &::before {
+      top: -5px;
+      left: -5px;
+      border-top: 1px solid #fff;
+      border-left: 1px solid #fff;
+      border-radius: 3px;
+    }
 
-  &:hover::before,
-  &:hover::after {
-    width: calc(100% + 9px);
-    height: calc(100% + 9px);
+    &::after {
+      right: -5px;
+      bottom: -5px;
+      border-bottom: 1px solid #fff;
+      border-right: 1px solid #fff;
+      border-radius: 3px;
+    }
+
+    &:hover::before,
+    &:hover::after {
+      width: calc(100% + 9px);
+      height: calc(100% + 9px);
+    }
+    li:hover {
+      background: transparent !important;
+      z-index: 1;
+    }
   }
-  li:hover {
-    background: transparent !important;
-    z-index: 1;
+  .menu-container {
+    width: 40%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .el-icon-s-tools {
+    font-size: 23px;
+    margin-right: 20px;
+    color: white;
+  }
+  .el-menu-demo {
+    width: calc(100% - 40px);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    i {
+      color: #fff;
+    }
   }
 }
-.menu-container {
-  width: 40%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
+
 .commonHead {
   display: flex;
   justify-content: space-between;
@@ -142,19 +188,5 @@ export default {
   height: 100%;
   background-color: transparent;
   transition: all 0.5s; // 表示从 hover 进入普通状态时，0.5s 内完成变换
-}
-.el-icon-s-tools {
-  font-size: 23px;
-  margin-right: 20px;
-  color: white;
-}
-::v-deep .el-menu-demo {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  i {
-    color: #fff;
-  }
 }
 </style>

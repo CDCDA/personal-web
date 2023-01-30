@@ -1,42 +1,43 @@
 <!--
  * @Author: chenyd
  * @Date: 2023-01-04 10:41:53
- * @LastEditTime: 2023-01-16 17:40:02
+ * @LastEditTime: 2023-01-25 15:20:46
  * @Description: 博客展示页
 -->
-<!--
- * @Author: chenyd
- * @Date: 2023-01-04 10:41:53
- * @LastEditTime: 2023-01-12 16:59:28
- * @Description: 
--->
 <template>
-  <div class="blog-display-container page-main">
+  <div class="blog-display-main page-main">
     <div class="blog-display-left">
       <blog-user-item></blog-user-item>
-      <directory html="blog-display-html"></directory>
+      <directory html="blog-display"></directory>
     </div>
     <div class="blog-display">
       <div class="blog-display-header">
-        <h2 style="text-align: center" class="blog-title">{{ "QWEQWEEQW" }}</h2>
+        <h2 style="text-align: center" class="blog-title">{{ blogData.blogTitle }}</h2>
         <div class="blog-label">
-          <div>
-            <span>{{ "用户名" }}</span>
-            <i class="el-icon-time">于{{ "2022-10-05" }}发布</i>
+          <div class="blog-info">
+            <span>{{ blogInfo.userName }}</span>
+            <i class="el-icon-time">{{ blogData.blogCreateTime }}发布</i>
             <i class="el-icon-view">{{ "554" }}</i>
             <i class="el-icon-star-on">{{ "143" }}</i>
           </div>
-          <div style="display: flex; margin-top: 5px">
-            <span>分类专栏：{{ "分类" }}</span>
+          <div style="display: flex; margin-top: 10px">
+            <span>分类专栏：{{ blogData.blogType }}</span>
             <div style="margin-left: 10px">
-              标签： <el-button size="mini">标签1</el-button
-              ><el-button size="mini">标签2</el-button
-              ><el-button size="mini">标签3</el-button>
+              标签：
+              <span
+                v-for="(label, index) in blogData.blogLabelList"
+                :key="index"
+                style="margin-right: 10px"
+              >
+                <el-button size="mini">{{ label.name }}</el-button>
+              </span>
             </div>
           </div>
+          <el-divider></el-divider>
         </div>
       </div>
       <div class="blog-display-html" v-html="html"></div>
+      <el-divider></el-divider>
       <div style="text-align: right" class="blog-display-footer">
         <el-tooltip class="item" effect="dark" content="点赞" placement="top">
           <div style="width: 20px; height: 20px; overflow: hidden"></div>
@@ -55,11 +56,17 @@
           <i class="el-icon-share"></i>
         </el-tooltip>
       </div>
+      <el-divider></el-divider>
       <div class="blog-display-comment">
         <comment></comment>
       </div>
     </div>
-    <div class="blog-display-right"></div>
+    
+    <div class="blog-display-right">
+      <div v-for="(blogData, index) in blogList" :key="index">
+        <blog-article-item :blogData="blogData"></blog-article-item>
+      </div>
+    </div>
     <!-- <float-botton :blogData="blogData"></float-botton> -->
   </div>
 </template>
@@ -69,19 +76,47 @@ import Comment from "bright-comment";
 import BlogUserItem from "./components/BlogUser";
 import Directory from "@/components/Directory/directory";
 import FloatBotton from "./components/BlogFloatItem.vue";
+import BlogArticleItem from "./components/BlogArticleItem.vue";
+import { getBlogByUserId } from "@/api/blog";
+import { getUserById } from "@/api/login";
 export default {
-  components: { BlogUserItem, Directory, FloatBotton, Comment },
+  components: {
+    BlogUserItem,
+    Directory,
+    FloatBotton,
+    Comment,
+    BlogArticleItem,
+  },
   data() {
     return {
       html: "<h3>暂无数据</h3>",
       blogData: this.$route.query.blogData,
+      blogList: [],
+      blogInfo: [],
     };
   },
-  methods: {},
+  methods: {
+    getBlogData() {
+      getBlogByUserId({ userId: this.$store.state.userId }).then((res) => {
+        res.data ? (this.blogList = res.data) : "";
+        this.blogList.length = 7;
+      });
+    },
+    toBlogEdit() {
+      this.$router.push({
+        path: "/BlogEditor",
+        query: { blogData: this.blogData },
+      });
+    },
+  },
   mounted() {
     // console.log("QQQQ", this.$store.state.blogData);
     this.html = this.$route.query.blogData.blogMk;
     this.$store.commit("setBlogData", this.$route.query.blogData);
+    this.getBlogData();
+    getUserById({ userId: this.blogData.userId }).then((res) => {
+      this.blogInfo = res.data;
+    });
   },
   destroyed() {
     // this.$store.commit("setBlogData", null);
@@ -92,8 +127,9 @@ export default {
 };
 </script>
 <style lang="scss">
-.blog-display-container {
+.blog-display-main.page-main {
   overflow: auto;
+  // display: block;
   .blog-display {
     border-radius: 5px;
   }
@@ -108,12 +144,12 @@ export default {
     margin-top: 15px;
   }
   .blog-display-left {
-    width: 300px;
-    margin-left: 5%;
+    min-width: 260px;
+    // margin-left: 5%;
   }
   .blog-display-right {
-    width: 300px;
-    margin-right: 5%;
+    min-width: 260px;
+    // margin-left: 5%;
   }
   .blog-display {
     overflow-y: auto;
@@ -123,16 +159,29 @@ export default {
     padding: 0px 25px;
     margin: 0px 15px;
     margin-top: 5px;
-    min-width: 750px;
-    max-width: 1200px;
+    min-width: 660px;
+    /* max-width: 1200px; */
     background-color: rgba(29, 32, 33, 0.6);
     box-shadow: 0 2px 12px 0 #000000;
+    text-align: left;
+    padding: 0px 100px;
     th,
     td {
       border: 1px solid;
     }
-    text-align: left;
-    padding: 0px 20%;
+    .blog-info {
+      span,
+      i {
+        margin-right: 15px;
+      }
+      
+    }
+    .blog-label{
+      .el-button{
+        padding: 3px 13px;
+        font-size: 15px;
+      }
+    }
   }
   pre {
     background: transparent;
@@ -147,5 +196,8 @@ export default {
       stroke: #fff;
     }
   }
+}
+.page-main {
+  overflow: auto;
 }
 </style>

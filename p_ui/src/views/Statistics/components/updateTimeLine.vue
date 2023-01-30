@@ -1,11 +1,10 @@
 <template>
   <div class="update-time-line">
     <el-timeline>
-      <template v-for="(item, index) in timeLineData">
+      <div v-for="(item, index) in timeLineData" :key="index">
         <el-timeline-item
           :timestamp="getDateStr(item.recordTime)"
           placement="top"
-          :key="index"
         >
           <el-card>
             <div class="card-line">
@@ -19,7 +18,7 @@
             <p>{{ userName }} 提交于 {{ item.recordTime }}</p>
           </el-card>
         </el-timeline-item>
-      </template>
+      </div>
     </el-timeline>
   </div>
 </template>
@@ -60,7 +59,7 @@ export default {
           this.$message({
             message: "获取网站修改记录失败" + err,
             type: "error",
-            offset: 700,
+            offset: 0,
           });
         });
     },

@@ -30,6 +30,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User getUserById(int userId) {
+        return userMapper.getUserById(userId);
+    }
+
+    @Override
     public int getRowCount(String userName, String phone) {
         return userMapper.getRowCount(userName,phone);
     }

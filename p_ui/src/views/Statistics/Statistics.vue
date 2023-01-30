@@ -1,15 +1,10 @@
 <!--
  * @Author: chenyd
  * @Date: 2023-01-05 17:24:42
- * @LastEditTime: 2023-01-17 08:48:20
+ * @LastEditTime: 2023-01-25 12:22:40
  * @Description: 
 -->
-<!--
- * @Author: chenyd
- * @Date: 2023-01-05 17:24:42
- * @LastEditTime: 2023-01-12 17:45:42
- * @Description: 
--->
+
 <template>
   <div class="page-main statistic-main">
     <el-row class="statistic-container">
@@ -24,11 +19,11 @@
         <el-row class="bounceInUp animated">
           <radar-chart></radar-chart
         ></el-row>
-        <el-row class="bounceInDown animated"
+        <!-- <el-row class="bounceInDown animated"
           ><ring-chart></ring-chart>
-        </el-row>
-        <el-row> <blog-count-chat></blog-count-chat></el-row>
-        <el-row class="bounceInUp animated"> </el-row>
+        </el-row> -->
+        <!-- <el-row> <blog-count-chat></blog-count-chat></el-row> -->
+        <!-- <el-row class="bounceInUp animated"> </el-row> -->
       </el-col>
       <el-col :span="6" class="statistic-right bounceInRight animated">
         <update-time-line></update-time-line>
@@ -42,8 +37,8 @@ import blogTimeline from "./components/blogTimeline";
 import updateTimeLine from "./components/updateTimeLine";
 import blogTypeChat from "./components/blogTypeChat";
 import BlogCountChat from "./components/blogCountChat.vue";
-import RingChart from "@/components/Charts/ringChart";
-import RadarChart from "@/components/Charts/radarChart";
+import RingChart from "@/components/charts/ringChart";
+import RadarChart from "@/components/charts/radarChart";
 export default {
   components: {
     blogTimeline,
@@ -80,23 +75,25 @@ export default {
     margin: 10px 15px 10px 1%;
     width: 20%;
     border-radius: 5px;
+    min-width: 330px;
   }
   .statistic-right {
     // margin: 20px 3% 20px 15px;
     margin: 10px 1% 10px 15px;
     width: 20%;
     border-radius: 5px;
+    min-width: 330px;
   }
   .statistic-center {
-    width: calc(58% - 30px);
+    // width: calc(58% - 30px);
     box-shadow: none;
     background-color: transparent;
     .el-row {
       margin-bottom: 15px;
-      min-height: 240px;
+      min-height: 200px;
       margin-top: 10px;
       min-width: 600px;
-      height: calc(33% - 7px);
+      height: calc(33% - 25px);
       border-radius: 5px;
     }
   }

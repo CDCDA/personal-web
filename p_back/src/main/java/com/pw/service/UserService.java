@@ -18,6 +18,7 @@ public interface UserService {
      * */
     int deleteUserById(int userId);
 
+    User getUserById(int userId);
     /*
      * */
     int getRowCount(String userName,String phone);

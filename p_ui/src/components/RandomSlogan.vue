@@ -1,3 +1,11 @@
+<!--
+ * @Author: chenyd 1205489124@qq.com
+ * @Date: 2023-01-24 19:29:51
+ * @LastEditors: chenyd 1205489124@qq.com
+ * @LastEditTime: 2023-01-25 11:42:47
+ * @FilePath: \p_ui\src\components\RandomSlogan.vue
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+-->
 <template>
   <span class="random-slogan">{{ this.currentSlogan }}</span>
 </template>
@@ -49,7 +57,7 @@ export default {
   border: solid 1px gray;
   padding: 10px 2px 10px 15px;
   font-size: 20px;
-  color: black;
+  color: #fff;
   width: auto;
   border-radius: 5px;
 }

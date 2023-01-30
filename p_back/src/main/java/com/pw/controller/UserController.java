@@ -1,5 +1,6 @@
 package com.pw.controller;
 
+import com.pw.entity.AjaxResult;
 import com.pw.entity.User;
 import com.pw.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+import static com.pw.controller.BaseController.toAjax;
 
 @CrossOrigin //在服务器端支持跨域访问
 @RestController //如果全是ajax请求
@@ -49,6 +52,11 @@ public class UserController {
         String userId = System.currentTimeMillis()+"";
         user.setUserId(userId);
         return userService.createUser(user);
+    }
+
+    @RequestMapping("/getUserById")
+    public AjaxResult getUserById(int userId){
+        return toAjax(userService.getUserById(userId));
     }
 
 

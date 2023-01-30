@@ -66,7 +66,7 @@ export default {
           this.$message({
             message: "获取博客操作记录失败" + err,
             type: "error",
-            offset: 700,
+            offset: 0,
           });
         });
     },
@@ -109,7 +109,7 @@ export default {
       box-shadow: 0 2px 12px 0 #000000;
       .card-line {
         display: flex;
-        justify-content: center;
+        justify-content: space-around;
         align-items: center;
         a {
           color: #fff;

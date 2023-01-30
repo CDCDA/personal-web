@@ -215,7 +215,7 @@ ul li >>> .el-tree .el-tree-node__content {
 }
 .el-tree >>> .is-current .el-tree-node__label {
   color: #409eff;
-  font-weight: 700;
+  font-weight: 0;
 }
 .el-tree >>> .is-current .el-tree-node__children .el-tree-node__label {
   color: #606266;
