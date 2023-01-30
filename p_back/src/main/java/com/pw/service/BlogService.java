@@ -19,4 +19,22 @@ public interface BlogService {
     int deleteBlogById(int blogId);
 
     List<Blog> getBlogByTime(String userId, String stratTime,String endTime);
+
+    int addViewCount(int blogId);
+
+    int addPraiseCount(int blogId,int userId);
+
+    int addUnPraiseCount(int blogId,int userId);
+
+    int decreaseUnPraiseCount(int blogId,int userId);
+
+//    int createBlogCollection(int blogId,int userId);
+
+    int decreasePraiseCount(int blogId,int userId);
+
+    int getPraiseCount(int blogId);
+    int getUnPraiseCount(int blogId);
+
+    int isPraised(int blogId,int userId);
+    int isUnPraised(int blogId,int userId);
 }

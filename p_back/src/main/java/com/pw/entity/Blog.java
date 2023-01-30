@@ -14,6 +14,27 @@ public class Blog {
     private String blogLabel;
     private String blogMk;
 
+    private int blogViewCount;
+
+    private int blogCollectCount;
+    private int blogPraiseCount;
+    private int blogUnPraiseCount;
+
+    public Blog(int userId, String blogTitle, String blogText, String blogId, String blogCreateTime, String blogUpdateTime, String blogType, String blogMk, int blogViewCount, int blogCollectCount, int blogPraiseCount, int blogUnPraiseCount) {
+        this.userId = userId;
+        this.blogTitle = blogTitle;
+        this.blogText = blogText;
+        this.blogId = blogId;
+        this.blogCreateTime = blogCreateTime;
+        this.blogUpdateTime = blogUpdateTime;
+        this.blogType = blogType;
+        this.blogMk = blogMk;
+        this.blogViewCount = blogViewCount;
+        this.blogCollectCount = blogCollectCount;
+        this.blogPraiseCount = blogPraiseCount;
+        this.blogUnPraiseCount = blogUnPraiseCount;
+    }
+
     @Override
     public String toString() {
         return "Blog{" +
@@ -27,20 +48,11 @@ public class Blog {
                 ", blogLabelList=" + blogLabelList +
                 ", blogLabel='" + blogLabel + '\'' +
                 ", blogMk='" + blogMk + '\'' +
+                ", blogViewCount=" + blogViewCount +
+                ", blogCollectCount=" + blogCollectCount +
+                ", blogPraiseCount=" + blogPraiseCount +
+                ", blogUnPraiseCount=" + blogUnPraiseCount +
                 '}';
-    }
-
-    public Blog(int userId, String blogTitle, String blogText, String blogId, String blogCreateTime, String blogUpdateTime, String blogType, String blogMk) {
-        this.userId = userId;
-        this.blogTitle = blogTitle;
-        this.blogText = blogText;
-        this.blogId = blogId;
-        this.blogCreateTime = blogCreateTime;
-        this.blogUpdateTime = blogUpdateTime;
-        this.blogType = blogType;
-        this.blogLabelList = blogLabelList;
-        this.blogLabel = blogLabel;
-        this.blogMk = blogMk;
     }
 
     public int getUserId() {
@@ -121,5 +133,37 @@ public class Blog {
 
     public void setBlogMk(String blogMk) {
         this.blogMk = blogMk;
+    }
+
+    public int getBlogViewCount() {
+        return blogViewCount;
+    }
+
+    public void setBlogViewCount(int blogViewCount) {
+        this.blogViewCount = blogViewCount;
+    }
+
+    public int getBlogCollectCount() {
+        return blogCollectCount;
+    }
+
+    public void setBlogCollectCount(int blogCollectCount) {
+        this.blogCollectCount = blogCollectCount;
+    }
+
+    public int getBlogPraiseCount() {
+        return blogPraiseCount;
+    }
+
+    public void setBlogPraiseCount(int blogPraiseCount) {
+        this.blogPraiseCount = blogPraiseCount;
+    }
+
+    public int getBlogUnPraiseCount() {
+        return blogUnPraiseCount;
+    }
+
+    public void setBlogUnPraiseCount(int blogUnPraiseCount) {
+        this.blogUnPraiseCount = blogUnPraiseCount;
     }
 }

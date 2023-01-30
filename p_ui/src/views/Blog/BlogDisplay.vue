@@ -1,7 +1,7 @@
 <!--
  * @Author: chenyd
  * @Date: 2023-01-04 10:41:53
- * @LastEditTime: 2023-01-25 15:20:46
+ * @LastEditTime: 2023-01-30 17:30:54
  * @Description: 博客展示页
 -->
 <template>
@@ -12,13 +12,15 @@
     </div>
     <div class="blog-display">
       <div class="blog-display-header">
-        <h2 style="text-align: center" class="blog-title">{{ blogData.blogTitle }}</h2>
+        <h2 style="text-align: center" class="blog-title">
+          {{ blogData && blogData.blogTitle ? blogData.blogTitle : "暂无" }}
+        </h2>
         <div class="blog-label">
           <div class="blog-info">
             <span>{{ blogInfo.userName }}</span>
             <i class="el-icon-time">{{ blogData.blogCreateTime }}发布</i>
-            <i class="el-icon-view">{{ "554" }}</i>
-            <i class="el-icon-star-on">{{ "143" }}</i>
+            <i class="el-icon-view">{{ " " + blogData.blogViewCount }}</i>
+            <i class="el-icon-star-on">{{ " " + blogData.blogCollectCount }}</i>
           </div>
           <div style="display: flex; margin-top: 10px">
             <span>分类专栏：{{ blogData.blogType }}</span>
@@ -38,22 +40,28 @@
       </div>
       <div class="blog-display-html" v-html="html"></div>
       <el-divider></el-divider>
-      <div style="text-align: right" class="blog-display-footer">
+      <div class="blog-display-footer">
         <el-tooltip class="item" effect="dark" content="点赞" placement="top">
-          <div style="width: 20px; height: 20px; overflow: hidden"></div>
-          <img src="@/assets/svg/icon-praise.svg" class="icon1" />
+          <img src="@/assets/svg/icon-praise.svg" @click="parise"/>
         </el-tooltip>
+        <span>{{ blogData.blogPraiseCount }}</span>
         <el-tooltip class="item" effect="dark" content="踩" placement="top">
-          <i class="el-icon-star-on"></i>
+          <img
+            src="@/assets/svg/icon-praise.svg"
+            style="transform: rotate(180deg)"
+          />
         </el-tooltip>
+        <span>{{ blogData.blogUnPraiseCount }}</span>
         <el-tooltip class="item" effect="dark" content="收藏" placement="top">
-          <i class="el-icon-star-on"></i>
+          <img src="@/assets/svg/icon-collection.svg" />
         </el-tooltip>
+        <span>{{ blogData.blogCollectCount }}</span>
         <el-tooltip class="item" effect="dark" content="评论" placement="top">
-          <i class="el-icon-chat-line-square"></i>
+          <img src="@/assets/svg/icon-comment.svg" />
         </el-tooltip>
+        <span>{{ blogData.blogPraiseCount }}</span>
         <el-tooltip class="item" effect="dark" content="分享" placement="top">
-          <i class="el-icon-share"></i>
+          <img src="@/assets/svg/icon-share-full.svg" />
         </el-tooltip>
       </div>
       <el-divider></el-divider>
@@ -61,7 +69,7 @@
         <comment></comment>
       </div>
     </div>
-    
+
     <div class="blog-display-right">
       <div v-for="(blogData, index) in blogList" :key="index">
         <blog-article-item :blogData="blogData"></blog-article-item>
@@ -77,7 +85,16 @@ import BlogUserItem from "./components/BlogUser";
 import Directory from "@/components/Directory/directory";
 import FloatBotton from "./components/BlogFloatItem.vue";
 import BlogArticleItem from "./components/BlogArticleItem.vue";
-import { getBlogByUserId } from "@/api/blog";
+import {
+  getBlogByUserId,
+  addViewCount,
+  addPraiseCount,
+  decreasePraiseCount,
+  addUnPraiseCount,
+  decreaseUnPraiseCount,
+  getPraiseCount,
+  getUnPraiseCount,
+} from "@/api/blog";
 import { getUserById } from "@/api/login";
 export default {
   components: {
@@ -90,7 +107,7 @@ export default {
   data() {
     return {
       html: "<h3>暂无数据</h3>",
-      blogData: this.$route.query.blogData,
+      blogData: null,
       blogList: [],
       blogInfo: [],
     };
@@ -108,21 +125,52 @@ export default {
         query: { blogData: this.blogData },
       });
     },
+    addPraiseCount() {
+      let blogData = this.blogData;
+      addPraiseCount({ userId: blogData.userId, blogId: blogData.blogId });
+    },
+    addUnPraiseCount() {
+      let blogData = this.blogData;
+      addUnPraiseCount({ userId: blogData.userId, blogId: blogData.blogId });
+    },
+    decreasePraiseCount() {
+      let blogData = this.blogData;
+      decreasePraiseCount({ userId: blogData.userId, blogId: blogData.blogId });
+    },
+    decreaseUnPraiseCount() {
+      let blogData = this.blogData;
+      decreaseUnPraiseCount({
+        userId: blogData.userId,
+        blogId: blogData.blogId,
+      });
+    },
   },
-  mounted() {
-    // console.log("QQQQ", this.$store.state.blogData);
-    this.html = this.$route.query.blogData.blogMk;
-    this.$store.commit("setBlogData", this.$route.query.blogData);
+  created() {
+    this.blogData = this.$route.query.blogData;
+    //判断你是否刷新
+    if (!this.blogData.blogId) {
+      this.blogData = JSON.parse(localStorage.getItem("blogDisplayData"));
+      console.log(this.blogData);
+    }
+    this.html = this.blogData.blogMk;
+    this.$store.commit("setBlogData", this.blogData);
     this.getBlogData();
     getUserById({ userId: this.blogData.userId }).then((res) => {
       this.blogInfo = res.data;
     });
-  },
-  destroyed() {
-    // this.$store.commit("setBlogData", null);
+    console.log(this.blogData)
+    //浏览数+1
+    addViewCount(this.blogData.blogId);
+    getPraiseCount({ blogId: this.blogData.blogId }).then((res) => {
+      this.blogData.blogPraiseCount = res.data;
+    });
+    getUnPraiseCount({ blogId: this.blogData.blogId }).then((res) => {
+      this.blogData.blogPraiseCount = res.data;
+    });
   },
   destroyed() {
     this.$store.commit("setBlogData", null);
+    localStorage.setItem("blogDisplayData", JSON.stringify(this.blogData));
   },
 };
 </script>
@@ -146,14 +194,18 @@ export default {
   .blog-display-left {
     min-width: 260px;
     // margin-left: 5%;
+    width: 16%;
+    max-width: 350px;
   }
   .blog-display-right {
     min-width: 260px;
     // margin-left: 5%;
+    width: 16%;
+    max-width: 350px;
   }
   .blog-display {
     overflow-y: auto;
-    width: calc(90% - 630px);
+    width: calc(68% - 230px);
     color: #fff;
     text-align: left;
     padding: 0px 25px;
@@ -174,12 +226,24 @@ export default {
       i {
         margin-right: 15px;
       }
-      
     }
-    .blog-label{
-      .el-button{
+    .blog-label {
+      .el-button {
         padding: 3px 13px;
         font-size: 15px;
+      }
+    }
+    .blog-display-footer {
+      display: flex;
+      align-items: center;
+      justify-content: end;
+      img {
+        height: 25px;
+        width: 25px;
+        margin: 0px 5px;
+      }
+      span {
+        margin-right: 15px;
       }
     }
   }
@@ -188,13 +252,6 @@ export default {
     box-shadow: 0 2px 12px 0 #000000;
     padding: 10px 5px;
     font-size: 17px;
-  }
-  .icon1 {
-    height: 20px;
-    width: 20px;
-    g polyline {
-      stroke: #fff;
-    }
   }
 }
 .page-main {

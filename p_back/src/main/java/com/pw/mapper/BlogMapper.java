@@ -29,4 +29,26 @@ public interface BlogMapper {
             @Param("userId") String userId,
             @Param("startTime") String startTime,
             @Param("endTime") String endTime);
+
+    int addViewCount(int blogId);
+
+    int addPraiseCount(@Param("blogId") int blogId,
+                       @Param("userId") int userId);
+
+    int decreasePraiseCount(@Param("blogId") int blogId,
+                            @Param("userId") int userId);
+
+    int addUnPraiseCount(@Param("blogId") int blogId,
+                         @Param("userId") int userId);
+
+    int decreaseUnPraiseCount(@Param("blogId") int blogId,
+                              @Param("userId") int userId);
+
+    int getUnPraiseCount(int blogId);
+
+    int getPraiseCount(int blogId);
+
+    int isPraised(int blogId, int userId);
+
+    int isUnPraised(int blogId, int userId);
 }

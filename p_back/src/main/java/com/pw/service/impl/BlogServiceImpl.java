@@ -1,12 +1,8 @@
 package com.pw.service.impl;
 
 import com.pw.entity.Blog;
-import com.pw.entity.User;
 import com.pw.mapper.BlogMapper;
-import com.pw.mapper.UserMapper;
 import com.pw.service.BlogService;
-import com.pw.service.UserService;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -51,6 +47,51 @@ public class BlogServiceImpl implements BlogService {
     @Override
     public List<Blog> getBlogByTime(String userId,  String stratTime, String endTime) {
         return blogMapper.getBlogByTime(userId,stratTime,endTime);
+    }
+
+    @Override
+    public int addViewCount(int blogId) {
+        return blogMapper.addViewCount(blogId);
+    }
+
+    @Override
+    public int addPraiseCount(int blogId, int userId) {
+        return blogMapper.addPraiseCount(blogId,userId);
+    }
+
+    @Override
+    public int addUnPraiseCount(int blogId, int userId) {
+        return blogMapper.addUnPraiseCount(blogId,userId);
+    }
+
+    @Override
+    public int decreasePraiseCount(int blogId, int userId) {
+        return blogMapper.decreasePraiseCount(blogId,userId);
+    }
+
+    @Override
+    public int decreaseUnPraiseCount(int blogId, int userId) {
+        return blogMapper.decreaseUnPraiseCount(blogId,userId);
+    }
+
+    @Override
+    public int getPraiseCount(int blogId) {
+        return blogMapper.getPraiseCount(blogId);
+    }
+
+    @Override
+    public int getUnPraiseCount(int blogId) {
+        return blogMapper.getUnPraiseCount(blogId);
+    }
+
+    @Override
+    public int isPraised(int blogId, int userId) {
+        return blogMapper.isPraised(blogId,userId);
+    }
+
+    @Override
+    public int isUnPraised(int blogId, int userId) {
+        return blogMapper.isUnPraised(blogId,userId);
     }
 
 }

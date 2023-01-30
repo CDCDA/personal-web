@@ -40,7 +40,6 @@ public class BlogController {
         if (startRow != null && startRow != 0) {
             start_row = (startRow - 1) * page_size;
         }
-
         List<Blog> blogList= blogService.getBlogByUserId(userId, start_row,page_size);
         blogList.forEach(blog->{
             System.out.println("博客"+blog);
@@ -138,4 +137,43 @@ public class BlogController {
         List<Blog> blogRecordList= blogService.getBlogByTime(userId,startTime,endTime);
         return toAjax(blogRecordList);
     }
+
+    @RequestMapping("/addViewCount")
+    public int addViewCount(int blogId) {
+        return blogService.addViewCount(blogId);
+    }
+    @RequestMapping("/addPraiseCount")
+    public int addPraiseCount(int blogId,int userId) {
+        return blogService.addPraiseCount(blogId,userId);
+    }
+
+    @RequestMapping("/decreasePraiseCount")
+    public int decreasePraiseCount(int blogId,int userId) {
+        return blogService.decreasePraiseCount(blogId,userId);
+    }
+    @RequestMapping("/addUnPraiseCount")
+    public int addUnPraiseCount(int blogId,int userId) {
+        return blogService.addUnPraiseCount(blogId,userId);
+    }
+
+    @RequestMapping("/getPraiseCount")
+    public AjaxResult getPraiseCount(int blogId) {
+        return toAjax( blogService.getPraiseCount(blogId));
+    }
+
+    @RequestMapping("/isPraised")
+    public AjaxResult isPraised(int blogId,int userId) {
+        return toAjax( blogService.isPraised(blogId,userId));
+    }
+
+    @RequestMapping("/isUnPraised")
+    public AjaxResult isUnPraised(int blogId,int userId) {
+        return toAjax( blogService.isUnPraised(blogId,userId));
+    }
+
+
+//    @RequestMapping("/createBlogCollection")
+//    public int createBlogCollection(int blogId) {
+//        return blogService.createBlogCollection(blogId);
+//    }
 }

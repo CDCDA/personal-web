@@ -1,7 +1,7 @@
 /*
  * @Author: chenyd
  * @Date: 2022-12-20 11:09:51
- * @LastEditTime: 2023-01-12 14:43:13
+ * @LastEditTime: 2023-01-30 17:12:43
  * @Description: 
  */
 
@@ -86,4 +86,95 @@ export const getBlogRecord = (params) => {
         method: 'post',
         params: params
     })
-}  
+}
+
+/**
+ * @param {*} params：{userId}
+ * @return {*}
+ * @Description: 浏览数+1
+ */
+export const addViewCount = (params) => {
+    return request({
+        url: '/blog/addViewCount',
+        method: 'post',
+        params: params
+    })
+}
+
+/**
+ * @param {*} params：{blogId}
+ * @return {*}
+ * @Description: 点赞数+1
+ */
+export const addPraiseCount = (params) => {
+    return request({
+        url: '/blog/addPraiseCount',
+        method: 'post',
+        params: params
+    })
+}
+
+/**
+ * @param {*} params：{blogId}
+ * @return {*}
+ * @Description: 点赞数-1
+ */
+export const decreasePraiseCount = (params) => {
+    return request({
+        url: '/blog/decreasePraiseCount',
+        method: 'post',
+        params: params
+    })
+}
+
+/**
+ * @param {*} params：{blogId}
+ * @return {*}
+ * @Description: 获取点赞数
+ */
+export const getPraiseCount = (params) => {
+    return request({
+        url: '/blog/getPraiseCount',
+        method: 'post',
+        params: params
+    })
+}
+
+/**
+ * @param {*} params：{blogId}
+ * @return {*}
+ * @Description: 点踩数+1
+ */
+export const addUnPraiseCount = (params) => {
+    return request({
+        url: '/blog/addUnPraiseCount',
+        method: 'post',
+        params: params
+    })
+}
+
+/**
+ * @param {*} params：{blogId}
+ * @return {*}
+ * @Description: 点踩数-1
+ */
+export const decreaseUnPraiseCount = (params) => {
+    return request({
+        url: '/blog/decreaseUnPraiseCount',
+        method: 'post',
+        params: params
+    })
+} 
+
+/**
+ * @param {*} params：{blogId}
+ * @return {*}
+ * @Description: 获取点踩数
+ */
+export const getUnPraiseCount = (params) => {
+    return request({
+        url: '/blog/getUnPraiseCount',
+        method: 'post',
+        params: params
+    })
+}

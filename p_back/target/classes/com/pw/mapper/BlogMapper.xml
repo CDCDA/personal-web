@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.pw.mapper.BlogMapper" >
+<mapper namespace="com.pw.mapper.BlogMapper">
     <!--完成实体类与表中类名的映射
         private String userId;
         private String blogTitle;
@@ -20,38 +20,54 @@
         <result property="blogUpdateTime" column="blog_updateTime"></result>
         <result property="blogType" column="blog_type"></result>
         <result property="blogMk" column="blog_mk"></result>
+        <result property="blogViewCount" column="blog_view_count"></result>
+        <result property="blogCollectCount" column="blog_collect_count"></result>
+        <result property="blogPraiseCount" column="blog_praise_count"></result>
+        <result property="blogUnPraiseCount" column="blog_unPraise_count"></result>
+    </resultMap>
+    <resultMap id="collectionmap" type="blogCollection">
+        <id property="blogCollectionId" column="blog_collection_id"></id>
+        <result property="blogId" column="blog_id"></result>
+        <result property="authorId" column="author_id"></result>
+        <result property="blogName" column="blog_name"></result>
     </resultMap>
 
     <!--定义全部列名-->
     <sql id="allColumns">
-        user_id,blog_title,blog_text,blog_id,blog_createTime,blog_updateTime,blog_type,blog_mk
+        user_id
+        ,blog_title,blog_text,blog_id,blog_createTime,blog_updateTime,blog_type,blog_mk,blog_view_count,blog_collect_count,blog_praise_count,blog_unPraise_count
     </sql>
 
     <!--添加博客 -->
-    <insert id="createBlog"  parameterType="blog">
-        insert into blog values(#{userId},#{blogTitle},#{blogText},#{blogId},#{blogCreateTime},#{blogUpdateTime},#{blogType},#{blogMk})
+    <insert id="createBlog" parameterType="blog">
+        insert into blog
+        values (#{userId}, #{blogTitle}, #{blogText}, #{blogId}, #{blogCreateTime}, #{blogUpdateTime}, #{blogType},
+                #{blogMk})
     </insert>
 
     <!--更新博客 -->
-    <update id="updateBlog"  parameterType="blog">
+    <update id="updateBlog" parameterType="blog">
         update blog
-        set blog_Title = #{blogTitle},
-            blog_text = #{blogText},
+        set blog_Title      = #{blogTitle},
+            blog_text       = #{blogText},
             blog_updateTime = #{blogUpdateTime},
-            blog_type = #{blogType},
-            blog_mk = #{blogMk}
+            blog_type       = #{blogType},
+            blog_mk         = #{blogMk}
         where blog_id = #{blogId}
 
     </update>
 
     <!--删除博客-->
     <delete id="deleteBlogById" parameterType="int">
-        delete from blog where blog_id = #{blogId}
+        delete
+        from blog
+        where blog_id = #{blogId}
     </delete>
 
     <!--获取用户博客-->
-    <select id="getBlogByUserId" resultMap="blogmap" >
-        select <include refid="allColumns"></include>
+    <select id="getBlogByUserId" resultMap="blogmap">
+        select
+        <include refid="allColumns"></include>
         from blog
         <where>
             <if test="userId != null and userId != ''">
@@ -73,8 +89,9 @@
     </select>
 
     <!--获取指定id博客-->
-    <select id="getBlogByBlogId" resultMap="blogmap" >
-        select <include refid="allColumns"></include>
+    <select id="getBlogByBlogId" resultMap="blogmap">
+        select
+        <include refid="allColumns"></include>
         from blog
         <where>
             <if test="blogId != null and blogId != ''">
@@ -85,10 +102,82 @@
 
     <!--根据时间获取用户博客数-->
     <select id="getBlogByTime" resultMap="blogmap">
-        select <include refid="allColumns"></include>
+        select
+        <include refid="allColumns"></include>
         from blog
         where blog_createTime between #{startTime} and #{endTime}
-            and user_id = #{userId};
+        and user_id = #{userId};
     </select>
 
+    <!--增加浏览数-->
+    <update id="addViewCount" parameterType="int">
+        update blog
+        set blog_view_count = blog_view_count + 1,
+            where blog_id = #{blogId}
+    </update>
+    <!--增加点赞数-->
+    <insert id="addPraiseCount">
+        insert into blog_praise
+        values (#{blogId}, #{userId})
+    </insert>
+    <!--减少点赞数-->
+    <delete id="deletePraiseCount">
+        delete
+        from blog
+        where blog_id = #{blogId} and user_id=#{userId}
+    </delete>
+    <!--获取点赞数-->
+    <select id="getPraiseCount" resultType="int">
+        select count(*)
+        from blog_praise
+        where blog_id = #{blogId}
+    </select>
+    <!--是否已点赞-->
+    <select id="isPraised" resultType="int">
+        select count(*)
+        from blog_praise
+        where blog_id = #{blogId} and user_id=#{userId}
+    </select>
+    <!--增加点踩数-->
+    <insert id="addUnPraiseCount">
+        insert into blog_unpraise
+        values (#{blogId}, #{userId})
+    </insert>
+    <!--减少点踩数-->
+    <delete id="deleteUnPraiseCount">
+        delete
+        from blog_unpraise
+        where blog_id = #{blogId} and user_id=#{userId}
+    </delete>
+    <!--获取点踩数-->
+    <select id="getUnPraiseCount" resultType="int">
+        select count(*)
+        from blog_unpraise
+        where blog_id = #{blogId}
+    </select>
+    <!--是否已点踩-->
+    <select id="isUnPraised" resultType="int">
+        select count(*)
+        from blog_unpraise
+        where blog_id = #{blogId} and user_id=#{userId}
+    </select>
+    <!--    &lt;!&ndash;添加博客收藏&ndash;&gt;-->
+    <!--    <insert id="createBlogCollection"  parameterType="collectionmap">-->
+    <!--        insert into blog_collection values(#{blogId},#{authorId})-->
+    <!--    </insert>-->
+    <!--    &lt;!&ndash;删除博客收藏&ndash;&gt;-->
+    <!--    <delete id="deleteBlogCollection" parameterType="int">-->
+    <!--        delete from blog where blog_collection_id = #{blogCollectionId}-->
+    <!--    </delete>-->
+    <!--    &lt;!&ndash;获取用户博客&ndash;&gt;-->
+    <!--    <select id="getBlogCollection" resultMap="collectionmap" >-->
+    <!--        select <include refid="allColumns"></include>-->
+    <!--        from blog-->
+    <!--        <where>-->
+    <!--            <if test="userId != null and userId != ''">-->
+    <!--                and user_id =#{userId}-->
+    <!--            </if>-->
+    <!--        </where>-->
+    <!--        limit #{startRow},#{pageSize}-->
+    <!--    </select>-->
 </mapper>

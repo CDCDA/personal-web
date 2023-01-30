@@ -1,8 +1,8 @@
 <!--
  * @Author: chenyd
  * @Date: 2023-01-05 17:24:42
- * @LastEditTime: 2023-01-25 12:22:40
- * @Description: 
+ * @LastEditTime: 2023-01-30 09:04:13
+ * @Description: 数据统计 
 -->
 
 <template>
@@ -37,8 +37,8 @@ import blogTimeline from "./components/blogTimeline";
 import updateTimeLine from "./components/updateTimeLine";
 import blogTypeChat from "./components/blogTypeChat";
 import BlogCountChat from "./components/blogCountChat.vue";
-import RingChart from "@/components/charts/ringChart";
-import RadarChart from "@/components/charts/radarChart";
+import RingChart from "@/components/Charts/ringChart";
+import RadarChart from "@/components/Charts/radarChart";
 export default {
   components: {
     blogTimeline,

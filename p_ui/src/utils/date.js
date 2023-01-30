@@ -87,7 +87,7 @@ const getYearEndDay = (date) => {
 
 /**
  * @param {Date} date
- * * @param {int} preNum
+ * @param {int} preNum
  * @return {string}  yy-mm-dd
  * @Description: 获取前n个月时间
  */
