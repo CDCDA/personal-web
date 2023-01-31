@@ -89,7 +89,7 @@ export const getBlogRecord = (params) => {
 }
 
 /**
- * @param {*} params：{userId}
+ * @param {*} params：{blogId}
  * @return {*}
  * @Description: 浏览数+1
  */
@@ -174,6 +174,32 @@ export const decreaseUnPraiseCount = (params) => {
 export const getUnPraiseCount = (params) => {
     return request({
         url: '/blog/getUnPraiseCount',
+        method: 'post',
+        params: params
+    })
+}
+
+/**
+ * @param {*} params：{blogId}
+ * @return {*}
+ * @Description: 是否已点赞
+ */
+export const isPraised = (params) => {
+    return request({
+        url: '/blog/isPraised',
+        method: 'post',
+        params: params
+    })
+}
+
+/**
+ * @param {*} params：{blogId}
+ * @return {*}
+ * @Description: 是否已点踩
+ */
+export const isUnPraised = (params) => {
+    return request({
+        url: '/blog/isUnPraised',
         method: 'post',
         params: params
     })

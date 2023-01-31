@@ -39,12 +39,11 @@ export default {
     };
   },
   mounted() {
-    this.$nextTick(() => {
+    setTimeout(() => {
       this.titles = this.getTitles();
       // 监听滚动事件并更新样式
-      console.log("sss", this.articleElement);
       window.addEventListener("scroll", this.scrollEvent, true);
-    });
+    }, 200);
   },
   methods: {
     scrollEvent() {
@@ -56,7 +55,6 @@ export default {
                 this.articleElement.clientHeight)) *
               100
           ) + "%";
-
       let visibleTitles = [];
       if (this.titles && this.titles.length) {
         let titles = this.titles;
@@ -162,7 +160,7 @@ export default {
         node.name = serialNumber + ". " + element.innerText;
         titles.push(node);
       }
-      console.log("QWE", titles);
+      // console.log("QWE", titles);
       return titles;
     },
     // 滚动到指定的位置

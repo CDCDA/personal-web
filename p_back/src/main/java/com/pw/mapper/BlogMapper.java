@@ -48,7 +48,9 @@ public interface BlogMapper {
 
     int getPraiseCount(int blogId);
 
-    int isPraised(int blogId, int userId);
+    int isPraised(@Param("blogId") int blogId,
+                  @Param("userId") int userId);
 
-    int isUnPraised(int blogId, int userId);
+    int isUnPraised(@Param("blogId") int blogId,
+                    @Param("userId") int userId);
 }

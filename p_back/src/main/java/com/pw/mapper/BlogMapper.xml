@@ -112,19 +112,20 @@
     <!--增加浏览数-->
     <update id="addViewCount" parameterType="int">
         update blog
-        set blog_view_count = blog_view_count + 1,
-            where blog_id = #{blogId}
+        set blog_view_count = blog_view_count + 1
+        where blog_id = #{blogId}
     </update>
     <!--增加点赞数-->
     <insert id="addPraiseCount">
         insert into blog_praise
-        values (#{blogId}, #{userId})
+        values (#{userId}, #{blogId})
     </insert>
     <!--减少点赞数-->
     <delete id="deletePraiseCount">
         delete
         from blog
-        where blog_id = #{blogId} and user_id=#{userId}
+        where blog_id = #{blogId}
+          and user_id = #{userId}
     </delete>
     <!--获取点赞数-->
     <select id="getPraiseCount" resultType="int">
@@ -136,18 +137,20 @@
     <select id="isPraised" resultType="int">
         select count(*)
         from blog_praise
-        where blog_id = #{blogId} and user_id=#{userId}
+        where blog_id = #{blogId}
+          and user_id = #{userId}
     </select>
     <!--增加点踩数-->
     <insert id="addUnPraiseCount">
         insert into blog_unpraise
-        values (#{blogId}, #{userId})
+        values (#{userId}, #{blogId})
     </insert>
     <!--减少点踩数-->
     <delete id="deleteUnPraiseCount">
         delete
         from blog_unpraise
-        where blog_id = #{blogId} and user_id=#{userId}
+        where blog_id = #{blogId}
+          and user_id = #{userId}
     </delete>
     <!--获取点踩数-->
     <select id="getUnPraiseCount" resultType="int">
@@ -159,7 +162,8 @@
     <select id="isUnPraised" resultType="int">
         select count(*)
         from blog_unpraise
-        where blog_id = #{blogId} and user_id=#{userId}
+        where blog_id = #{blogId}
+          and user_id = #{userId}
     </select>
     <!--    &lt;!&ndash;添加博客收藏&ndash;&gt;-->
     <!--    <insert id="createBlogCollection"  parameterType="collectionmap">-->
