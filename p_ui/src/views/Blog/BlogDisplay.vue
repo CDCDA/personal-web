@@ -1,7 +1,7 @@
 <!--
  * @Author: chenyd
  * @Date: 2023-01-04 10:41:53
- * @LastEditTime: 2023-01-31 15:08:50
+ * @LastEditTime: 2023-02-01 12:01:05
  * @Description: 博客展示页
 -->
 <template>
@@ -39,6 +39,7 @@
         </div>
       </div>
       <div class="blog-display-html" v-html="html"></div>
+
       <el-divider></el-divider>
       <div class="blog-display-footer">
         <div v-for="(item, index) in footerData" :key="index">
@@ -61,6 +62,7 @@
       <div class="blog-display-comment">
         <comment></comment>
       </div>
+      <el-backtop target=".blog-display"></el-backtop>
     </div>
 
     <div class="blog-display-right">
@@ -391,6 +393,15 @@ export default {
     box-shadow: 0 2px 12px 0 #000000;
     padding: 10px 5px;
     font-size: 17px;
+  }
+  .el-backtop {
+    right: 19% !important;
+    bottom: 80px !important;
+    border: 1px solid #DCDFE6;
+    background: transparent;
+    i{
+      color: #DCDFE6;
+    }
   }
 }
 .page-main {

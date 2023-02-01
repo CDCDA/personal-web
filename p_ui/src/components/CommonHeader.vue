@@ -17,7 +17,7 @@
           :data="item"
         />
       </el-menu>
-      <div style="margin:5px">
+      <div style="margin: 5px">
         <el-dropdown
           trigger="click"
           ref="dropDown"
@@ -28,7 +28,7 @@
         >
           <div class="icon-settings"><i class="el-icon-s-tools"></i></div>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item>
+            <el-dropdown-item @click.native="toUser">
               <span>个人中心</span>
             </el-dropdown-item>
             <el-dropdown-item>
@@ -38,7 +38,7 @@
               <span>设置</span>
             </el-dropdown-item>
             <el-dropdown-item>
-              <span>推出登录</span>
+              <span>退出登录</span>
             </el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
@@ -90,6 +90,9 @@ export default {
       this.$store.commit("collapseChange");
     },
     toBlogEdit() {},
+    toUser(){
+      this.$router.push("/Users")
+    }
   },
 };
 </script>

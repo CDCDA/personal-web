@@ -1,3 +1,9 @@
+<!--
+ * @Author: chenyd
+ * @Date: 2022-07-12 09:28:14
+ * @LastEditTime: 2023-02-01 15:00:07
+ * @Description: 
+-->
 <template>
   <el-container class="container-outside">
     <el-container class="container-inside">
@@ -24,6 +30,9 @@ export default {
   data() {
     return {};
   },
+  mounted(){
+    this.$router.push("/Home")
+  }
 };
 </script>
 

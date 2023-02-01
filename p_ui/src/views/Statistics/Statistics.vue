@@ -1,7 +1,7 @@
 <!--
  * @Author: chenyd
  * @Date: 2023-01-05 17:24:42
- * @LastEditTime: 2023-01-30 09:04:13
+ * @LastEditTime: 2023-02-01 14:42:07
  * @Description: 数据统计 
 -->
 
@@ -19,11 +19,6 @@
         <el-row class="bounceInUp animated">
           <radar-chart></radar-chart
         ></el-row>
-        <!-- <el-row class="bounceInDown animated"
-          ><ring-chart></ring-chart>
-        </el-row> -->
-        <!-- <el-row> <blog-count-chat></blog-count-chat></el-row> -->
-        <!-- <el-row class="bounceInUp animated"> </el-row> -->
       </el-col>
       <el-col :span="6" class="statistic-right bounceInRight animated">
         <update-time-line></update-time-line>
@@ -35,7 +30,6 @@
 <script>
 import blogTimeline from "./components/blogTimeline";
 import updateTimeLine from "./components/updateTimeLine";
-import blogTypeChat from "./components/blogTypeChat";
 import BlogCountChat from "./components/blogCountChat.vue";
 import RingChart from "@/components/Charts/ringChart";
 import RadarChart from "@/components/Charts/radarChart";
@@ -58,6 +52,8 @@ export default {
 .statistic-container {
   width: 100%;
   height: 100%;
+  overflow-x: auto;
+  display: flex;
   .el-col,
   .el-row {
     background-color: rgba(29, 32, 33, 0.6);
@@ -85,17 +81,27 @@ export default {
     min-width: 330px;
   }
   .statistic-center {
-    // width: calc(58% - 30px);
+    width: calc(58% - 30px);
     box-shadow: none;
     background-color: transparent;
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     .el-row {
-      margin-bottom: 15px;
+      // margin-bottom: 15px;
       min-height: 200px;
       margin-top: 10px;
       min-width: 600px;
-      height: calc(33% - 25px);
+      height: 100%;
       border-radius: 5px;
     }
+    .el-row:nth-child(1) {
+      margin-top: 0px;
+    }
+  }
+  .el-timeline-item__tail {
+    display: block !important;
   }
 }
 </style>
