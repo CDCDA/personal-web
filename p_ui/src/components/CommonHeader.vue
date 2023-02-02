@@ -90,9 +90,9 @@ export default {
       this.$store.commit("collapseChange");
     },
     toBlogEdit() {},
-    toUser(){
-      this.$router.push("/Users")
-    }
+    toUser() {
+      this.$router.push("/Users");
+    },
   },
 };
 </script>
@@ -167,6 +167,9 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    .el-dropdown {
+      position: sticky;
+    }
   }
   .el-icon-s-tools {
     font-size: 23px;
