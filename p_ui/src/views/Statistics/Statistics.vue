@@ -7,7 +7,7 @@
 
 <template>
   <div class="page-main statistic-main">
-    <el-row class="statistic-container">
+    <!-- <el-row class="statistic-container">
       <el-col :span="6" class="statistic-left bounceInLeft animated">
         <blog-timeline></blog-timeline>
       </el-col>
@@ -23,25 +23,25 @@
       <el-col :span="6" class="statistic-right bounceInRight animated">
         <update-time-line></update-time-line>
       </el-col>
-    </el-row>
+    </el-row> -->
   </div>
 </template>
 
 <script>
-import blogTimeline from "./components/blogTimeline";
-import updateTimeLine from "./components/updateTimeLine";
-import BlogCountChat from "./components/blogCountChat.vue";
-import RingChart from "@/components/Charts/ringChart";
-import RadarChart from "@/components/Charts/radarChart";
+// import blogTimeline from "./components/blogTimeline";
+// import updateTimeLine from "./components/updateTimeLine";
+// import BlogCountChat from "./components/blogCountChat.vue";
+// import RingChart from "@/components/Charts/ringChart";
+// import RadarChart from "@/components/Charts/radarChart";
 export default {
   components: {
-    blogTimeline,
-    updateTimeLine,
-    BlogCountChat,
-    RingChart,
-    RadarChart,
-    BlogCountChat,
-    RingChart,
+    // blogTimeline,
+    // updateTimeLine,
+    // BlogCountChat,
+    // RingChart,
+    // RadarChart,
+    // BlogCountChat,
+    // RingChart,
   },
   data() {
     return {};

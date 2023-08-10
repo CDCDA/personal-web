@@ -1,8 +1,8 @@
 <!--
- * @Author: chenyd
- * @Date: 2022-07-12 09:28:14
- * @LastEditTime: 2023-02-01 15:00:07
- * @Description: 
+ * @Description: 博客首页
+ * @Author: cyd 1205489124@qq.com
+ * @Date: 2023-04-25 15:54:36
+ * @LastEditTime: 2023-06-29 16:54:07
 -->
 <template>
   <el-container class="container-outside">
@@ -18,21 +18,21 @@
   </el-container>
 </template>
 <script>
-import CommonAside from "../components/CommonAside.vue";
+// import CommonAside from "../components/CommonAside.vue";
 import CommonHeader from "../components/CommonHeader.vue";
 import floatButton from "../components/floatButton.vue";
 export default {
   components: {
-    CommonAside,
+    // CommonAside,
     CommonHeader,
     floatButton,
   },
   data() {
     return {};
   },
-  mounted(){
-    this.$router.push("/Home")
-  }
+  mounted() {
+    this.$router.push("/Home");
+  },
 };
 </script>
 

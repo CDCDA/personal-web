@@ -1,7 +1,7 @@
 /*
  * @Author: chenyd
  * @Date: 2022-07-12 09:28:14
- * @LastEditTime: 2023-01-12 15:23:01
+ * @LastEditTime: 2023-07-03 16:57:30
  * @Description: 
  */
 import Vue from 'vue'
@@ -33,7 +33,7 @@ Vue.prototype.dateTimeToString = function (date) {
 Vue.directive("drag", {
   inserted: function (el) {
     let oDiv = el; //当前元素
-    let self = this; //上下文
+    oDiv.style.cssText += ';cursor:move;'
     // let menu = document.querySelector(".el-dropdown-menu");
     //禁止选择网页上的文字
     document.onselectstart = function () {

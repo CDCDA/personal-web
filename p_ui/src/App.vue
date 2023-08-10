@@ -1,7 +1,7 @@
 <!--
  * @Author: chenyd
  * @Date: 2022-07-12 09:28:14
- * @LastEditTime: 2023-01-16 10:52:03
+ * @LastEditTime: 2023-06-27 17:29:29
  * @Description: 
 -->
 <template>
@@ -64,6 +64,7 @@ export default {
 <style lang="scss">
 #app {
   height: 100%;
+  width: 100%;
   background: transparent;
 }
 body,

@@ -63,6 +63,9 @@ export default {
           icon: "el-icon-s-home",
           name: "Home",
           index: "1",
+          child: [
+            { label: "首页", icon: "el-icon-s-home", name: "Home", index: "1" },
+          ],
         },
         {
           label: "统计",

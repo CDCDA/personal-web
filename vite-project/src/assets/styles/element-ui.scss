@@ -1,0 +1,191 @@
+/*
+ * @Description: element ui 样式
+ * @Author: cyd 1205489124@qq.com
+ * @Date: 2023-06-29 09:34:04
+ * @LastEditTime: 2023-07-13 18:53:51
+ */
+
+.el-popper.is-pure.is-light {
+  background-color: transparent;
+  backdrop-filter: blur(20px);
+}
+.el-tag {
+  border: 1px solid white;
+  background-color: transparent;
+  margin-right: 6px;
+  .el-icon {
+    color: white;
+  }
+  .el-tag__content {
+    color: white;
+  }
+}
+
+.el-input {
+  background-color: transparent;
+  .el-input__wrapper {
+    background-color: transparent;
+    .el-input__inner {
+      color: white;
+      background-color: transparent;
+    }
+  }
+}
+
+.el-dialog {
+  background-color: transparent;
+  box-shadow: 0 2px 12px 0 #000000;
+  backdrop-filter: blur(20px);
+  .el-dialog__title {
+    color: white;
+  }
+  .el-icon.el-dialog__close {
+    color: white;
+  }
+  color: white;
+}
+.el-textarea .el-textarea__inner {
+  background: transparent;
+  color: white;
+}
+.el-form-item .el-form-item__label {
+  color: white;
+}
+
+//提示
+.el-message--error {
+  box-shadow: 0 2px 12px 0 #000000;
+  background: transparent;
+  border: 1px solid var(--el-color-error);
+}
+.el-message.el-message--success {
+  box-shadow: 0 2px 12px 0 #000000;
+  background: transparent;
+  .el-icon,
+  .el-message__content {
+    color: white;
+  }
+  border: 1px solid white;
+}
+
+.el-menu {
+  border: none;
+  background-color: transparent;
+  .el-menu-item:hover {
+    box-shadow: 0 2px 12px 0 #000000;
+  }
+}
+
+// 表格
+.el-table {
+  background-color: transparent;
+  // box-shadow: 0 2px 12px 0 #000000;
+  border-color: #a3a3a3;
+  tr,
+  th,
+  td {
+    color: #fff;
+    background-color: transparent;
+    border-color: #a3a3a3;
+    // box-shadow: 0 2px 12px 0 #000000;
+  }
+  td.el-table__cell,
+  th.el-table__cell.is-leaf {
+    background-color: transparent;
+    // box-shadow: 0 2px 12px 0 #000000;
+  }
+  border-radius: 5px;
+  tbody tr:hover > td {
+    background-color: transparent !important;
+    backdrop-filter: blur(20px);
+  }
+}
+
+//按钮
+.el-button {
+  background-color: transparent;
+  color: #fff;
+}
+
+//日期
+.el-date-editor {
+  background-color: transparent;
+  color: #fff;
+  .el-range-separator {
+    color: #fff;
+  }
+}
+
+.el-picker-panel__body,
+.el-picker-panel,
+.el-picker-panel__footer,
+.el-time-panel {
+  background-color: transparent;
+  color: #fff;
+}
+
+.el-date-range-picker__time-picker-wrap .el-time-panel {
+  background-color: #191818;
+  box-shadow: 0 2px 12px 0 #000000;
+  backdrop-filter: blur(20px);
+  color: #fff;
+  .el-time-spinner__item {
+    color: #fff;
+  }
+}
+
+.el-date-table td.in-range .el-date-table-cell {
+  span {
+    color: #000000;
+  }
+}
+.el-time-panel__btn {
+  color: #fff;
+}
+
+//分页
+.el-pagination {
+  float: right;
+  span {
+    color: white;
+  }
+  .el-input__inner {
+    color: white;
+  }
+  .btn-prev,
+  .btn-next {
+    background-color: transparent !important;
+    border: 1px solid white;
+    i {
+      color: white;
+    }
+  }
+  .is-active.number {
+    background-color: #5c5c5c !important;
+    backdrop-filter: blur(20px) !important;
+  }
+}
+
+// 树
+.el-tree {
+  background: transparent;
+  color: white;
+  .el-tree-node__content:hover {
+    background: transparent; // hover 节点背景色，否则是白色
+  }
+  .el-tree-node:focus > .el-tree-node__content {
+    background-color: transparent; // focus 节点背景透明，否则是白色
+  }
+}
+
+//Elmessage-box
+.el-message-box {
+  background-color: transparent;
+  backdrop-filter: blur(20px);
+  box-shadow: 0 2px 12px 0 #000000;
+  .el-message-box__title,
+  .el-message-box__message,
+  .el-icon.el-message-box__close {
+    color: white;
+  }
+}
