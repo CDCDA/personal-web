@@ -2,7 +2,7 @@
  * @Author: chenyd 1205489124@qq.com
  * @Date: 2023-01-24 19:29:51
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2023-08-05 13:33:43
+ * @LastEditTime: 2023-09-21 16:00:42
  * @FilePath: \p_ui\src\components\RandomSlogan.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -52,13 +52,15 @@
 //   }
 // };
 </script>
-<style lang="less" scoped>
-.random-slogan {
-  border: solid 1px gray;
-  padding: 10px 2px 10px 15px;
-  font-size: 20px;
-  color: #fff;
-  width: auto;
-  border-radius: 5px;
+<style lang="scss" scoped>
+@include theme() {
+  .random-slogan {
+    border: solid 1px gray;
+    padding: 10px 2px 10px 15px;
+    font-size: 20px;
+    color: get('font-color');
+    width: auto;
+    border-radius: 5px;
+  }
 }
 </style>

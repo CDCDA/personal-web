@@ -7,9 +7,9 @@ const directives = {
 } as any;
 //注册的一般写法，循环遍历directives，通过vue.directive注册
 export default {
-  install(Vue: any) {
+  install(app: any) {
     Object.keys(directives).forEach(key => {
-      Vue.directive(key, directives[key]);
+      app.directive(key, directives[key]);
     });
   }
 };

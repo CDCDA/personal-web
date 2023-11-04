@@ -1,43 +1,30 @@
+<!--
+ * @Description:  
+-->
 <template>
-  <div class="float-item-container">
-    <el-dropdown
-      trigger="click"
-      ref="dropDown"
-      v-drag
-      class="float-item"
-      v-dialogDrag
-      placement="top"
-    >
+  <div class="float-item-container" v-drag>
+    <el-dropdown trigger="click" ref="dropDown" class="float-item" placement="top">
       <el-button icon="Menu" circle class="float-button"></el-button>
       <template #dropdown>
         <el-dropdown-menu slot="dropdown">
           <el-dropdown-item @click.native="routerTo('BlogEditor')">
-            <!-- <el-tooltip class="item" effect="dark" content="" placement="left"> -->
             <span>发布博客</span>
-            <!-- </el-tooltip> -->
           </el-dropdown-item>
           <el-dropdown-item
             @click.native="routerTo('BlogEditor')"
             :disabled="disabled ? true : false"
           >
-            <!-- <el-tooltip class="item" effect="dark" content="" placement="left"> -->
             <span>编辑博客</span>
-            <!-- </el-tooltip> -->
           </el-dropdown-item>
           <el-dropdown-item @click.native="routerTo('BlogEditor')">
-            <!-- <el-tooltip class="item" effect="dark" content="" placement="left"> -->
             <span>我的博客</span>
-            <!-- </el-tooltip> -->
           </el-dropdown-item>
           <el-dropdown-item @click.native="routerTo('BlogEditor')">
-            <!-- <el-tooltip class="item" effect="dark" content="" placement="left"> -->
             <span>修改记录</span>
-            <!-- </el-tooltip> -->
           </el-dropdown-item>
         </el-dropdown-menu>
       </template>
     </el-dropdown>
-    <el-dialog> </el-dialog>
   </div>
 </template>
 <script setup lang="ts">
@@ -70,41 +57,43 @@ onMounted(() => {
 });
 </script>
 <style lang="scss">
-.float-item {
-  position: fixed;
-  cursor: pointer;
-  .el-button.is-circle {
-    padding: 6px;
-    background: rgba(17, 17, 17, 0.8);
-    color: #fff;
-    i {
-      font-size: 20px;
+@include theme() {
+  .float-item {
+    position: fixed;
+    cursor: pointer;
+    .el-button.is-circle {
+      padding: 6px;
+      background: rgba(17, 17, 17, 0.8);
+      color: get('font-color');
+      i {
+        font-size: 20px;
+      }
+    }
+    .el-button.is-circle:hover {
+      // background: get('font-color');
+      border: 1px solid #dcdfe6;
+      background: rgba(17, 17, 17, 0.8);
+      color: get('font-color');
+      // color: #606266;
     }
   }
-  .el-button.is-circle:hover {
-    // background: #fff;
-    border: 1px solid #dcdfe6;
-    background: rgba(17, 17, 17, 0.8);
-    color: #fff;
-    // color: #606266;
-  }
-}
-.el-dropdown-menu {
-  background-color: rgba(29, 32, 33, 0.6);
-  box-shadow: 0 2px 12px 0 #000000;
-  border: none;
-  padding: 0px;
-  .el-dropdown-menu__item {
-    background-color: transparent;
-    span {
-      color: #fff;
+  .el-dropdown-menu {
+    background: rgba(29, 32, 33, 0.6);
+    box-shadow: get('box-shadow');
+    border: none;
+    padding: 0px;
+    .el-dropdown-menu__item {
+      background: transparent;
+      span {
+        color: get('font-color');
+      }
+      padding: 0px 12px;
     }
-    padding: 0px 12px;
-  }
-  .el-dropdown-menu__item:hover {
-    background-color: rgba(54, 55, 56, 0.9);
-    span {
-      color: #fff;
+    .el-dropdown-menu__item:hover {
+      background: rgba(54, 55, 56, 0.9);
+      span {
+        color: get('font-color');
+      }
     }
   }
 }

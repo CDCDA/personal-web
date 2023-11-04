@@ -1,26 +1,24 @@
 <!--
- * @Author: chenyd
- * @Date: 2022-07-12 09:28:14
- * @LastEditTime: 2023-08-02 14:46:44
- * @Description: 
+ * @Description: 博客管理
 -->
 <template>
   <div class="blog-manage">
-    <el-form :inline="true" class="manage-form">
-      <el-form-item label="名称">
-        <el-input v-model="queryParams.blogTitle"></el-input>
+    <el-form :inline="true" class="manage-form" label-width="80">
+      <el-form-item label="">
+        <el-input v-model="queryParams.blogTitle" placeholder="名称" clearable></el-input>
       </el-form-item>
-      <el-form-item label="日期">
+      <el-form-item label="">
         <el-date-picker
           v-model="queryParams.createTime"
+          clearable
           type="datetimerange"
           range-separator="To"
           start-placeholder="Start date"
           end-placeholder="End date"
         />
       </el-form-item>
-      <el-form-item label="分类">
-        <el-input v-model="queryParams.blogType"></el-input>
+      <el-form-item label="">
+        <el-input v-model="queryParams.blogType" placeholder="分类" clearable></el-input>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="Search" @click="getList">查询</el-button>
@@ -61,9 +59,15 @@
       />
       <el-table-column prop="option" label="操作" width="130" align="center">
         <template #default="scope: any">
-          <el-button type="text" @click="edit(scope.row)" icon="Edit" style="font-size: 18px" />
-          <el-button type="text" @click="view(scope.row)" icon="View" style="font-size: 18px" />
-          <el-button type="text" @click="del(scope.row)" icon="Delete" style="font-size: 18px" />
+          <el-icon @click="edit(scope.row)" style="font-size: 18px; margin: 5px">
+            <Edit />
+          </el-icon>
+          <el-icon @click="view(scope.row)" style="font-size: 18px; margin: 5px">
+            <View />
+          </el-icon>
+          <el-icon @click="del(scope.row)" style="font-size: 18px; margin: 5px">
+            <Delete />
+          </el-icon>
         </template>
       </el-table-column>
     </el-table>
@@ -143,7 +147,7 @@ onMounted(() => {
   getList();
 });
 </script>
-<style lang="less">
+<style lang="scss">
 .blog-manage {
   width: 800px;
   height: calc(100% - 15px);

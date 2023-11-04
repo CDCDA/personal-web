@@ -47,51 +47,53 @@ onMounted(() => {
   getList();
 });
 </script>
-<style lang="less">
-.update-time-line {
-  height: 100%;
-  overflow: auto;
-  .el-timeline-item__wrapper {
-    width: calc(100% - 50px);
-    .el-timeline-item__timestamp {
-      color: #fff;
-    }
-  }
-  .el-timeline {
-    overflow: auto;
+<style lang="scss">
+@include theme() {
+  .update-time-line {
     height: 100%;
-    padding: 20px 0px 0px 10px;
-    .el-card {
-      border: none;
-      background-color: transparent;
-      box-shadow: 0 2px 12px 0 #000000;
-      .card-line {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        p {
-          width: 65px;
-        }
-        .el-link {
-          color: #fff;
-          margin-left: 5px;
+    overflow: auto;
+    .el-timeline-item__wrapper {
+      width: calc(100% - 50px);
+      .el-timeline-item__timestamp {
+        color: get('font-color');
+      }
+    }
+    .el-timeline {
+      overflow: auto;
+      height: 100%;
+      padding: 20px 0px 0px 10px;
+      .el-card {
+        border: none;
+        background: transparent;
+        box-shadow: get('box-shadow');
+        .card-line {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
           p {
-            white-space: normal;
-            word-wrap: break-word;
+            width: 65px;
+          }
+          .el-link {
+            color: get('font-color');
+            margin-left: 5px;
+            p {
+              white-space: normal;
+              word-wrap: break-word;
+            }
           }
         }
-      }
-      .el-card__body {
-        padding: 15px;
+        .el-card__body {
+          padding: 15px;
 
-        h4 {
-          margin: 0px;
-          color: #fff;
-        }
-        p {
-          margin: 10px 0 0 0;
-          color: #fff;
+          h4 {
+            margin: 0px;
+            color: get('font-color');
+          }
+          p {
+            margin: 10px 0 0 0;
+            color: get('font-color');
+          }
         }
       }
     }

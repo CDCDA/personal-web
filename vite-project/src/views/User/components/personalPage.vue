@@ -1,8 +1,5 @@
 <!--
- * @Author: chenyd
- * @Date: 2022-07-12 09:28:14
- * @LastEditTime: 2023-07-13 19:02:59
- * @Description: 
+ * @Description: 个人信息管理
 -->
 <template>
   <div class="personal-page">
@@ -76,57 +73,59 @@ onMounted(() => {
   getUserInfo(userStore.userId);
 });
 </script>
-<style lang="less">
-.personal-page {
-  height: 100%;
-  .user-info {
-    display: flex;
-    justify-content: start;
-    align-items: center;
-    margin: 20px;
-    .el-image {
-      border-radius: 5px;
-      margin-right: 20px;
-    }
-    .info {
+<style lang="scss">
+@include theme() {
+  .personal-page {
+    height: 100%;
+    .user-info {
       display: flex;
-      flex-direction: column;
+      justify-content: start;
+      align-items: center;
+      margin: 20px;
+      .el-image {
+        border-radius: 5px;
+        margin-right: 20px;
+      }
+      .info {
+        display: flex;
+        flex-direction: column;
+      }
     }
-  }
-  .info-form {
-    margin: 20px;
-    position: relative;
-    height: calc(100% - 180px);
-    .el-input {
-      width: 250px;
-      margin-left: 15px;
-    }
-    .el-textarea {
-      width: calc(100% - 100px);
-    }
-    .el-icon {
-      font-size: 25px;
-      margin-left: 10px;
-      // visibility: hidden;
-    }
-    .el-icon:hover {
-      visibility: visible;
-    }
-    .el-form-item__content > span {
-      margin-left: 15px;
-    }
-    .el-button {
-      background-color: transparent;
-      color: #fff;
-    }
-    .user-footer {
-      bottom: 0px;
-      position: absolute;
-      width: 100%;
-    }
-    .el-pagination {
-      display: flex;
-      justify-content: center;
+    .info-form {
+      margin: 20px;
+      position: relative;
+      height: calc(100% - 180px);
+      .el-input {
+        width: 250px;
+        margin-left: 15px;
+      }
+      .el-textarea {
+        width: calc(100% - 100px);
+      }
+      .el-icon {
+        font-size: 25px;
+        margin-left: 10px;
+        // visibility: hidden;
+      }
+      .el-icon:hover {
+        visibility: visible;
+      }
+      .el-form-item__content > span {
+        margin-left: 15px;
+      }
+      // .el-button {
+      //   background: transparent;
+      //   color: get('font-color');
+      // }
+      .user-footer {
+        bottom: 0px;
+        position: absolute;
+        width: 100%;
+      }
+      .el-pagination {
+        display: flex;
+        justify-content: center;
+      }
     }
   }
 }

@@ -1,26 +1,26 @@
 /*
  * @Description:
- * @Author: cyd 1205489124@qq.com
- * @Date: 2023-06-26 16:41:56
- * @LastEditTime: 2023-08-09 18:05:34
+ */
+/*
+ * @Description:入口文件
  */
 import { createApp } from 'vue';
-import './style.css';
 import App from './App.vue';
 //粒子特效
 import Particles from 'particles.vue3';
 import ElementPlus from 'element-plus';
 import 'element-plus/dist/index.css';
-import '@/assets/theme/public.scss';
-import '@/assets/styles/element-ui.scss';
-import '@/assets/styles/bounce.scss';
-
-import Vue from 'vue';
+// import '@/assets/theme/public.scss';
+import '@/assets/styles/animate.scss';
+import '@/assets/styles/element-ui-out-app.scss';
+// import '@/assets/styles/bounce.scss';
+import VueGridLayout from 'vue-grid-layout';
 
 import router from './router';
 import * as ElementPlusIconsVue from '@element-plus/icons-vue';
 import directives from '@/directives/index';
-
+// import VueMarkdownEditor from '@kangc/v-md-editor';
+import createLineNumbertPlugin from '@kangc/v-md-editor/lib/plugins/line-number/index';
 import VMdEditor from '@kangc/v-md-editor/lib/codemirror-editor';
 import '@kangc/v-md-editor/lib/style/codemirror-editor.css';
 import githubTheme from '@kangc/v-md-editor/lib/theme/github.js';
@@ -30,7 +30,7 @@ import pinia from './store';
 import hljs from 'highlight.js';
 
 // codemirror 编辑器的相关资源
-// import Codemirror from 'codemirror';
+import Codemirror from 'codemirror';
 // mode
 import 'codemirror/mode/markdown/markdown';
 import 'codemirror/mode/javascript/javascript';
@@ -63,11 +63,12 @@ VMdPreview.use(githubTheme, {
   Hljs: hljs
 });
 
-// VMdEditor.Codemirror = Codemirror;
+VMdEditor.Codemirror = Codemirror;
 VMdEditor.use(githubTheme, {
   Hljs: hljs
 });
-
+VMdEditor.use(createLineNumbertPlugin());
+VMdPreview.use(createLineNumbertPlugin());
 const app = createApp(App);
 
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
@@ -81,4 +82,5 @@ app.use(ElementPlus, { zIndex: 3000 });
 app.use(Particles);
 app.use(router);
 app.use(VMdPreview);
+app.use(VueGridLayout);
 app.mount('#app');

@@ -4,6 +4,7 @@
 // 拖拽的指令
 export const drag = {
   beforeMount(el: any, binding: any) {
+    alert('SS');
     // 自定义属性，判断是否可拖拽
     if (!binding.value) return;
     let oDiv = el; //当前元素

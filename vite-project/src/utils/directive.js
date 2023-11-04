@@ -1,3 +1,9 @@
+/*
+ * @Description:  
+ */
+/*
+ * @Description:  
+ */
 // 引入拖拽js
 import { startDrag } from '@/utils/drag'
 
@@ -8,10 +14,10 @@ import { startDrag } from '@/utils/drag'
  * desc   只要用到了el-dialog的组件，都可以通过增加v-draggable属性变为可拖拽的弹框
  */
 const draggable = (el, binding) => {
-    // 绑定拖拽事件 [绑定拖拽触发元素为弹框头部、拖拽移动元素为整个弹框]
-    startDrag(el.querySelector('.el-dialog__header'), el.querySelector('.el-dialog'), binding.value);
+  // 绑定拖拽事件 [绑定拖拽触发元素为弹框头部、拖拽移动元素为整个弹框]
+  startDrag(el.querySelector('.el-dialog__header'), el.querySelector('.el-dialog'), binding.value);
 };
 
 export default {
-    draggable,
+  draggable,
 }

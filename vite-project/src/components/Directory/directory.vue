@@ -171,74 +171,76 @@ onMounted(() => {
 });
 </script>
 
-<style lang="less">
-.directory {
-  border-radius: 8px;
-  background-color: rgba(29, 32, 33, 0.6);
-  box-shadow: 0 2px 12px 0 #000000;
-  padding: 20px 24px;
-  width: 100%;
-  margin-top: 15px;
-  box-sizing: border-box;
-  .directory-header {
-    text-align: left !important;
-    margin-bottom: 15px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .directory-icon {
-    font-size: 18px;
-    margin-right: 10px;
-    color: #363c41;
-  }
-
-  .directory-header div > span {
-    font-size: 17px;
-    color: #fff;
-  }
-
-  .progress {
-    color: #fff;
-    font-style: italic;
-    font-size: 140%;
-  }
-
-  .directory-content {
-    max-height: calc(100vh - 120px);
-    overflow: auto;
-    margin-right: -24px;
-    padding-right: 20px;
-    text-align: left;
-  }
-
-  .directory-item {
-    color: #fff;
-    margin: 5px 0;
-    line-height: 28px;
-    cursor: pointer;
-    transition: all 0.2s ease-in-out;
-    font-size: 14px;
-    padding: 2px 6px;
-    display: -webkit-box;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    -webkit-line-clamp: 1;
-    -webkit-box-orient: vertical;
-
-    &:hover {
-      color: #8d9daa;
+<style lang="scss">
+@include theme() {
+  .directory {
+    border-radius: 8px;
+    background: get('background');
+    box-shadow: get('box-shadow');
+    padding: 20px 24px;
+    width: 100%;
+    margin-top: 15px;
+    box-sizing: border-box;
+    .directory-header {
+      text-align: left !important;
+      margin-bottom: 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
-  }
 
-  .active {
-    //   background-color: #;
-    color: white;
+    .directory-icon {
+      font-size: 18px;
+      margin-right: 10px;
+      color: #363c41;
+    }
 
-    &:hover {
-      background-color: #828e97;
-      color: white;
+    .directory-header div > span {
+      font-size: 17px;
+      color: get('font-color');
+    }
+
+    .progress {
+      color: get('font-color');
+      font-style: italic;
+      font-size: 140%;
+    }
+
+    .directory-content {
+      max-height: calc(100vh - 120px);
+      overflow: auto;
+      margin-right: -24px;
+      padding-right: 20px;
+      text-align: left;
+    }
+
+    .directory-item {
+      color: get('font-color');
+      margin: 5px 0;
+      line-height: 28px;
+      cursor: pointer;
+      transition: all 0.2s ease-in-out;
+      font-size: 14px;
+      padding: 2px 6px;
+      display: -webkit-box;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;
+
+      &:hover {
+        color: #8d9daa;
+      }
+    }
+
+    .active {
+      //   background: #;
+      color: get('font-color');
+
+      &:hover {
+        background: #828e97;
+        color: get('font-color');
+      }
     }
   }
 }

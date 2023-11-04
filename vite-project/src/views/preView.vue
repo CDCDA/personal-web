@@ -1,5 +1,5 @@
 <!--
- * @Description: 
+ * @Description:  
 -->
 <!--
  * @Description: 首页前置页面
@@ -66,15 +66,13 @@ const options = ref({
 } as any);
 
 function toMain() {
-  router.push({ name: 'Home' });
+  router.push({ name: 'home' });
 }
 
-onMounted(() => {
-  // router.push({ name: 'Home' });
-});
+onMounted(() => {});
 </script>
 
-<style lang="less">
+<style lang="scss">
 .preView-main {
   display: flex;
   justify-content: center;

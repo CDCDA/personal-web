@@ -1,61 +1,51 @@
 <!--
- * @Description: 首页布局
- * @Author: cyd 1205489124@qq.com
- * @Date: 2023-06-26 16:56:13
- * @LastEditTime: 2023-07-07 13:35:04
+ * @Description: 首页布局 
 -->
 <template>
-  <el-container class="container-outside">
+  <el-container class="container-outside vacuumization">
     <el-container class="container-inside">
       <el-header class="el-header">
         <common-header></common-header>
       </el-header>
       <el-main>
         <keep-alive><router-view></router-view></keep-alive>
+        <common-footer></common-footer>
       </el-main>
     </el-container>
     <float-button></float-button>
   </el-container>
 </template>
 <script setup lang="ts">
-// import CommonAside from '@/views/Layout/CommonHeader/CommonHeader.vue'
+import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import CommonHeader from '@/views/Layout/CommonHeader/CommonHeader.vue';
+import CommonHeader from '@/views/layout/commonHeader/commonHeader.vue';
+import CommonFooter from '@/views/layout/commonFooter/index.vue';
 import { onMounted } from 'vue';
 import floatButton from '@/components/floatButton.vue';
 
 const router = useRouter();
 
 onMounted(() => {
-  router.push({ name: 'Home' });
+  router.push({ name: 'home' });
 });
 </script>
 
-<style lang="less" scoped>
+<style lang="scss" scoped>
 .el-header {
-  //background-color: transparent;
-  //color: #ffffff;
   text-align: center;
   line-height: 56px;
   padding: 0 0 0 0;
   height: auto !important;
 }
-// .container-inside{
-//   background-color: transparent;
-// }
 
 .el-aside {
-  //background-color: #333;
-  //color: #ffffff;
   text-align: center;
 }
 
 .el-main {
-  //background-color: #e9eef3;
-  //color: #333;
   text-align: center;
-  padding: 00px 30px 20px 30px;
-  overflow: hidden;
+  padding: 0px;
+  overflow: auto;
 }
 .container-outside,
 .container-inside {

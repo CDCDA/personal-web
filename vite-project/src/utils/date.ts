@@ -1,7 +1,7 @@
 /*
  * @Author: chenyd
  * @Date: 2023-01-12 14:03:57
- * @LastEditTime: 2023-08-05 13:44:48
+ * @LastEditTime: 2023-11-03 16:45:39
  * @Description:日期处理方法合集
  */
 
@@ -23,6 +23,22 @@ export const formateDate = (type: String, date: Date) => {
   }${type.includes('hh') ? '-' + hours : ''}${type.includes('mm') ? '-' + minutes : ''}${
     type.includes('ss') ? '-' + seconds : ''
   }`;
+};
+
+/**
+ * @param {Date} date 中文
+ * @return {string}  yy-mm-dd
+ * @Description: 日期转 年-月-日 string
+ */
+export const sFormateDate = (date: Date) => {
+  let year = date.getFullYear().toString();
+  let month = (date.getMonth() + 1).toString().padStart(2, '0');
+  let day = date.getDate().toString().padStart(2, '0');
+  let hours = date.getHours().toString().padStart(2, '0');
+  let minutes = date.getMinutes().toString().padStart(2, '0');
+  let seconds = date.getSeconds().toString().padStart(2, '0');
+
+  return `${year} 年 ${month} 月 ${day} 天 ${hours} 小时 ${minutes} 分钟 ${seconds} 秒 `;
 };
 
 /**
@@ -144,5 +160,43 @@ export const monthDayDiff = (startTime: any, endTime: any) => {
     }
     day = end.getDate() + (monthLength - start.getDate());
   }
-  return `${year}年${month}月`;
+  return ` ${year} 年 ${month} 月 ${day} 天 `;
+};
+
+/**
+ * @description: 时间差 - 秒
+ * @param {any} startTime
+ * @param {any} endTime
+ * @return {*}
+ */
+export const secondDayDiff = (startTime: any, endTime: any, isCn: any) => {
+  var startDate = new Date(startTime);
+  var endDate = new Date(endTime);
+
+  // 计算时间差（单位：毫秒）
+  var timeDiff = Math.abs(endDate.getTime() - startDate.getTime());
+
+  // 计算年份差
+  var years = Math.floor(timeDiff / (1000 * 60 * 60 * 24 * 365));
+  timeDiff -= years * (1000 * 60 * 60 * 24 * 365);
+
+  // 计算月份差
+  var months = Math.floor(timeDiff / (1000 * 60 * 60 * 24 * 30));
+  timeDiff -= months * (1000 * 60 * 60 * 24 * 30);
+
+  // 计算天数差
+  var days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+  timeDiff -= days * (1000 * 60 * 60 * 24);
+
+  // 计算小时差
+  var hours = Math.floor(timeDiff / (1000 * 60 * 60));
+  timeDiff -= hours * (1000 * 60 * 60);
+
+  // 计算分钟差
+  var minutes = Math.floor(timeDiff / (1000 * 60));
+  timeDiff -= minutes * (1000 * 60);
+
+  // 计算秒数差
+  var seconds = Math.floor(timeDiff / 1000);
+  return ` ${years} 年 ${months} 月 ${days} 天 ${hours} 小时 ${minutes} 分钟 ${seconds} 秒`;
 };

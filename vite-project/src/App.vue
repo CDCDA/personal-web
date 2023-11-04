@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app-theme" data-theme="theme-dark">
     <!-- :style="background" -->
     <!-- <video
       src="./assets/images/background.jpg"
@@ -8,7 +8,7 @@
       loop
       muted
     ></video> -->
-    <div class="particles"></div>
+    <!-- <div class="particles" uid></div> -->
     <Particles class="particles" id="tsparticles" :options="options" />
     <router-view />
   </div>
@@ -16,7 +16,6 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
-
 const router = useRouter();
 
 const options = {
@@ -98,15 +97,28 @@ const options = {
 };
 
 onMounted(() => {
-  router.push({ path: '/Home' });
+  let themeKey = window.localStorage.getItem('themeKey');
+  let backUrl = window.localStorage.getItem('backUrl');
+  if (!themeKey) window.localStorage.setItem('themeKey', 'theme-dark');
+  if (!backUrl)
+    window.localStorage.setItem(
+      'backUrl',
+      'left/cover fixed no-repeat url(../../../assets/images/bk-3.jpg)'
+    );
+  let back = document.getElementById('tsparticles') as any;
+  (document.getElementById('app-theme') as any).setAttribute('data-theme', themeKey);
+  back.style.background = 'left/cover fixed no-repeat url(' + backUrl + ')';
+  if (window.localStorage.getItem('token')) {
+    router.push({ path: '/home' });
+  } else router.push({ path: '/login' });
 });
 </script>
 
 <style lang="scss">
+#app-theme,
 #app {
-  height: 100%;
+  @include full();
   background: transparent;
-  width: 100%;
 }
 body,
 html {
@@ -114,23 +126,15 @@ html {
   margin: 0px;
   padding: 0px;
   overflow: hidden;
-}
-.bgBackground {
-  width: 100%;
-  height: 100%;
+  // font-family: FangDaKai;
 }
 .particles {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
+  @include full();
   z-index: -1;
   object-fit: cover;
   background: left / cover fixed no-repeat url('@/assets/images/bk-3.jpg');
-  //mix-blend-mode: screen;
-}
-.bt-login {
-  background-color: transparent;
 }
 </style>

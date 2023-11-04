@@ -1,10 +1,14 @@
 /*
+ * @Description:
+ */
+/*
  * @Description:权限控制
  */
 import useUserStore from '@/store/modules/user';
 
 export const permission = {
   inserted(el: any, bindling: any) {
+    alert('SS');
     const userStore = useUserStore();
     //bindling.value为指令的绑定值
     let perVal = bindling.value;

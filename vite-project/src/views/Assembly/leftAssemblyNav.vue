@@ -1,5 +1,5 @@
 <!--
- * @Description: 
+ * @Description:  
 -->
 <!--
  * @Description: 
@@ -10,7 +10,7 @@
     class="el-menu-vertical-demo"
     @open="handleOpen"
     @close="handleClose"
-    background-color="rgba(29, 32, 33, 0.6)"
+    background="rgba(29, 32, 33, 0.6)"
     text-color="#fff"
     active-text-color="#ffd04b"
     router
@@ -28,42 +28,42 @@ const router = useRouter();
 const data = ref([
   {
     AssemblyID: '1',
-    path: 'AntvG6',
+    path: 'antvG6',
     label: 'antvg6流程图'
   },
   {
     AssemblyID: '2',
-    path: 'Cascader',
+    path: 'cascader',
     label: '层级选择器'
   },
   {
     AssemblyID: '3',
-    path: 'MonacoEditor',
+    path: 'monacoEditor',
     label: 'monaco编辑器'
   },
   {
     AssemblyID: '4',
-    path: 'SelectTree',
+    path: 'selectTree',
     label: '下拉树选择框'
   },
   {
     AssemblyID: '5',
-    path: 'DatePicker',
+    path: 'datePicker',
     label: '日期选择器'
   },
   {
     AssemblyID: '6',
-    path: 'VForm',
+    path: 'vForm',
     label: '表单设计器'
   },
   {
     AssemblyID: '7',
-    path: 'Rubiks',
+    path: 'rubiks',
     label: '魔方'
   },
   {
     AssemblyID: '100',
-    path: 'TestComponennts',
+    path: 'testComponents',
     label: '测试'
   }
 ] as any);
@@ -76,7 +76,7 @@ function clickMenu(item: any) {
   });
 }
 </script>
-<style lang="less" scoped>
+<style lang="scss" scoped>
 .el-menu-vertical-demo {
   border-radius: 10px;
 }

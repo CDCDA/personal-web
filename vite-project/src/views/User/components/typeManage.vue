@@ -164,7 +164,7 @@ onMounted(() => {
   getTypeTree(userStore.userId);
 });
 </script>
-<style lang="less">
+<style lang="scss">
 .type-manage {
   width: 100%;
   height: 100%;

@@ -14,7 +14,7 @@ import { useRouter } from 'vue-router';
 
 const router = useRouter();
 </script>
-<style lang="less">
+<style lang="scss">
 .profile-main {
   height: 100%;
 }
@@ -28,7 +28,7 @@ const router = useRouter();
   .profile-carousel-item {
     height: calc(100%);
     background: left / cover fixed no-repeat url('@/assets/images/background.jpg');
-    box-shadow: 0 2px 12px 0 #000000;
+    box-shadow: get('box-shadow');
     // backdrop-filter: blur(20px);
     opacity: 0.9;
     width: 80%;

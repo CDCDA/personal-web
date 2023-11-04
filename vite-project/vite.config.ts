@@ -2,7 +2,7 @@
  * @Description:打包配置
  * @Author: cyd 1205489124@qq.com
  * @Date: 2023-06-26 16:41:56
- * @LastEditTime: 2023-08-09 13:56:23
+ * @LastEditTime: 2023-10-24 13:49:39
  */
 import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
@@ -32,6 +32,13 @@ export default defineConfig({
     //   resolvers: [ElementPlusResolver()]
     // })
   ],
+  css: {
+    preprocessorOptions: {
+      scss: {
+        additionalData: '@import "./src/assets/theme/theme.scss";' // 加载全局样式，使用scss特性
+      }
+    }
+  },
   resolve: {
     alias: {
       // 这里就是需要配置resolve里的别名
@@ -56,7 +63,7 @@ export default defineConfig({
     }
   },
   server: {
-    port: 8085,
+    port: 8086,
     host: '0.0.0.0',
     headers: {
       'Access-Control-Allow-Origin': '*'
@@ -65,8 +72,15 @@ export default defineConfig({
       // https://cn.vitejs.dev/config/#server-proxy
       '/dev-api': {
         target: 'http://localhost:8080',
+        // target: 'http://111.229.144.36:5008',
         changeOrigin: true,
         rewrite: p => p.replace(/^\/dev-api/, '')
+      },
+      '/img': {
+        // target: 'http://localhost:8080',
+        target: 'http://111.229.144.36:8008',
+        changeOrigin: true,
+        rewrite: p => p.replace(/^\/img/, '')
       }
     }
   }

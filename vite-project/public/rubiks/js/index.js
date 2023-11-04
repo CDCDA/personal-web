@@ -95,7 +95,7 @@ class World extends Animation {
     super(true);
 
     this.game = game;
-
+    console.log('ssas', game)
     this.container = this.game.dom.game;
     if (!this.container) return
     this.scene = new THREE.Scene();

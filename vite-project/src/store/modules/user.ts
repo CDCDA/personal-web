@@ -1,6 +1,7 @@
 /*
  * @Description:登录用户数据
  */
+
 import { defineStore } from 'pinia';
 import { computed, reactive, ref } from 'vue';
 
@@ -10,14 +11,14 @@ interface T {
 
 const useUserStore = defineStore('user', () => {
   const props = reactive<T>({} as T);
-  const username = ref('');
+  const userName = ref('');
   const userId = ref('1');
   const token = ref('');
   const permission = ref(['add', 'delete']);
-  const isToken = computed(() => `${username.value}`);
+  const isToken = computed(() => `${userName.value}`);
   return {
     isToken,
-    username,
+    userName,
     token,
     props,
     permission,

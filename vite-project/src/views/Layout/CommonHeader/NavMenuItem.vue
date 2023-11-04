@@ -1,8 +1,5 @@
 <!--
- * @Description: 子菜单
- * @Author: cyd 1205489124@qq.com
- * @Date: 2023-06-27 16:51:55
- * @LastEditTime: 2023-07-24 13:44:38
+ * @Description:  子菜单
 -->
 <template>
   <el-menu-item
@@ -11,33 +8,54 @@
     @click="clickMenu(item)"
     class="nav-menu-item"
   >
-    <el-icon>
+    <!-- <el-icon>
       <component :is="item.icon" />
-    </el-icon>
+    </el-icon> -->
     <span class="first-menu-name" slot="title">{{ item.label }}</span>
   </el-menu-item>
   <el-sub-menu :index="item.index" :class="[item.className]" v-else>
     <template #title>
-      <el-icon>
+      <!-- <el-icon>
         <component :is="item.icon" />
-      </el-icon>
+      </el-icon> -->
       <span>{{ item.label }}</span>
     </template>
-    <nav-menu-item v-for="(child, i) in item.children" :item="child" :key="i" />
+    <nav-menu-item @open="open" v-for="(child, i) in item.children" :item="child" :key="i" />
   </el-sub-menu>
 </template>
 <script setup lang="ts">
-import { onMounted, reactive, ref } from 'vue';
+import { ElMessageBox } from 'element-plus';
+import { reactive, ref } from 'vue';
 import { useRouter } from 'vue-router';
-
+import useUserStore from '@/store/modules/user';
+const userStore = useUserStore();
+const emit = defineEmits(['open']);
 const itemData = reactive({});
 const props = defineProps({
   item: null
 });
 const router = useRouter();
 
+function open() {
+  emit('open');
+}
 function clickMenu(item: any) {
-  router.push({ name: item.name });
+  if (item.name === 'skinPeeler') {
+    emit('open');
+  } else if (item.name === 'logOut') {
+    ElMessageBox.confirm('确定注销并退出系统吗？', '提示', {
+      confirmButtonText: '确定',
+      cancelButtonText: '取消',
+      type: 'warning'
+    })
+      .then(() => {
+        userStore.userId = '';
+        userStore.userName = '';
+        window.localStorage.setItem('token', '');
+        router.push({ name: 'login' });
+      })
+      .catch(() => {});
+  } else router.push({ name: item.name });
 }
 </script>
 <style>
@@ -45,19 +63,20 @@ function clickMenu(item: any) {
   --borderColor: #888888;
 }
 </style>
-<style lang="less" scoped>
+<style lang="scss" scoped>
+@include theme() {
+  .setting-menu {
+    i {
+      color: get('font-color');
+    }
+    ::v-deep .el-sub-menu__icon-arrow {
+      color: transparent;
+    }
+  }
+}
 .nav-menu-item {
-  // display: inline;
-  // position: relative;
-  // margin: 10px 5px 10px 5px;
-  // border: 1px solid #fff;
-  // cursor: pointer;
-  // width: auto;
-  // border-radius: 3px;
-  // background-color: rgb(11 12 12 / 70%);
-
   li:hover {
-    background: transparent !important;
+    background-color: transparent !important;
     z-index: 1;
     display: flex;
     align-items: center;

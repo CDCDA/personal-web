@@ -1,11 +1,11 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
 
 const routes: Array<RouteRecordRaw> = [
-  // {
-  //     path: '/',
-  //     name: 'login',
-  //     component: () => import('@/views/LogIn/LogIn.vue'),
-  // },
+  {
+    path: '/login',
+    name: 'login',
+    component: () => import('@/views/login/login.vue')
+  },
   // {
   //   path: '/preView',
   //   name: 'preView',
@@ -14,112 +14,189 @@ const routes: Array<RouteRecordRaw> = [
   {
     // path: '/Main',
     path: '/',
-    name: 'Main',
+    name: 'main',
     component: () => import('@/views/main.vue'),
     children: [
       {
-        path: '/Home',
-        name: 'Home',
-        component: () => import('@/views/Home/Home.vue')
+        path: '/home',
+        name: 'home',
+        component: () => import('@/views/home/index.vue')
       },
       {
-        path: '/Statistics',
-        name: 'Statistics',
-        component: () => import('@/views/Statistics/index.vue')
+        path: '/draggle',
+        name: 'draggle',
+        component: () => import('@/views/draggle/draggle.vue')
       },
       {
-        path: '/User',
-        name: 'User',
-        component: () => import('@/views/User/index.vue'),
+        path: '/statistics',
+        name: 'statistics',
+        component: () => import('@/views/statistics/index.vue')
+      },
+      {
+        path: '/user',
+        name: 'user',
+        component: () => import('@/views/user/index.vue'),
         children: [
           {
-            path: '/PersonalPage',
-            name: 'PersonalPage',
-            component: () => import('@/views/User/components/personalPage.vue')
+            path: '/personalPage',
+            name: 'personalPage',
+            component: () => import('@/views/user/components/personalPage.vue')
           },
           {
-            path: '/BlogMagage',
-            name: 'BlogMagage',
-            component: () => import('@/views/User/components/blogMagage.vue')
+            path: '/blogMagage',
+            name: 'blogMagage',
+            component: () => import('@/views/user/components/blogMagage.vue')
           },
           {
-            path: '/TypeMagage',
-            name: 'TypeMagage',
-            component: () => import('@/views/User/components/typeManage.vue')
+            path: '/typeMagage',
+            name: 'typeMagage',
+            component: () => import('@/views/user/components/typeManage.vue')
           }
         ]
       },
       {
-        path: '/Profile',
-        name: 'Profile',
-        component: () => import('@/views/Profile/index.vue')
+        path: '/profile',
+        name: 'profile',
+        component: () => import('@/views/profile/index.vue')
       },
       {
-        path: '/Assembly',
-        name: 'Assembly',
-        component: () => import('@/views/Assembly/index.vue'),
+        path: '/assembly',
+        name: 'assembly',
+        component: () => import('@/views/assembly/index.vue'),
         children: [
           // {
           //   path: '/AntvG6',
           //   name: 'AntvG6',
-          //   component: () => import('@/views/Assembly/AntvG6/FlowChart.vue')
+          //   component: () => import('@/views/Assembly/AntvG6/flowChart.vue')
           // },
           {
-            path: '/Cascader',
-            name: 'Cascader',
-            component: () => import('@/views/Assembly/Cascader/Cascader.vue')
+            path: '/cascader',
+            name: 'cascader',
+            component: () => import('@/views/assembly/cascader/cascader.vue')
           },
           // {
           //   path: '/DatePicker',
           //   name: 'DatePicker',
-          //   component: () => import('@/views/Assembly/DatePicker/DatePicker.vue')
+          //   component: () => import('@/views/assembly/datePicker/datePicker.vue')
           // },
           // {
           //   path: '/MonacoEditor',
           //   name: 'MonacoEditor',
-          //   component: () => import('@/views/Assembly/MonacoEditor/MonacoEditor.vue')
+          //   component: () => import('@/views/assembly/monacoEditor/monacoEditor.vue')
           // },
           // {
           //   path: '/SelectTree',
           //   name: 'SelectTree',
-          //   component: () => import('@/views/Assembly/SelectTree/SelectTree.vue')
-          // },
-          // {
-          //   path: '/TestComponennts',
-          //   name: 'TestComponennts',
-          //   component: () => import('@/views/Assembly/TestComponennts/Test2.vue')
+          //   component: () => import('@/views/assembly/selectTree/selectTree.vue')
           // },
           {
-            path: '/VForm',
-            name: 'VForm',
-            component: () => import('@/views/Assembly/VForm/index.vue')
+            path: '/testComponents',
+            name: 'testComponents',
+            component: () => import('@/views/assembly/testComponents/test2.vue')
           },
           {
-            path: '/Rubiks',
-            name: 'Rubiks',
-            component: () => import('@/views/Assembly/Rubiks/index.vue')
+            path: '/vForm',
+            name: 'vForm',
+            component: () => import('@/views/assembly/vForm/index.vue')
+          },
+          {
+            path: '/rubiks',
+            name: 'rubiks',
+            component: () => import('@/views/assembly/rubiks/index.vue')
           }
           // {
           //   path: '/Other',
           //   name: 'Other',
-          //   component: () => import('@/views/Assembly/Other/xz(yq)spb.vue')
+          //   component: () => import('@/views/assembly/Other/xz(yq)spb.vue')
           // }
         ]
       },
       {
-        path: '/Blog',
-        name: 'Blog',
-        component: () => import('@/views/Blog/Blog.vue')
+        path: '/blog',
+        name: 'blog',
+        component: () => import('@/views/blog/blog.vue')
       },
       {
-        path: '/BlogEditor',
-        name: 'BlogEditor',
-        component: () => import('@/views/Blog/BlogEditor/index.vue')
+        path: '/blogEditor',
+        name: 'blogEditor',
+        component: () => import('@/views/blog/blogEditor/index.vue')
       },
       {
-        path: '/BlogDisplay',
-        name: 'BlogDisplay',
-        component: () => import('@/views/Blog/BlogDisplay.vue')
+        path: '/blogDisplay',
+        name: 'blogDisplay',
+        component: () => import('@/views/blog/blogDisplay.vue')
+      },
+      {
+        path: '/blogType',
+        name: 'blogType',
+        component: () => import('@/views/blog/blogType.vue')
+      },
+      {
+        path: '/blogTag',
+        name: 'blogTag',
+        component: () => import('@/views/blog/blogTag.vue')
+      },
+      {
+        path: '/album',
+        name: 'album',
+        component: () => import('@/views/user/album.vue')
+      },
+      {
+        path: '/casualEssay',
+        name: 'casualEssay',
+        component: () => import('@/views/user/casualEssay.vue')
+      },
+      {
+        path: '/equipment',
+        name: 'equipment',
+        component: () => import('@/views/user/equipment.vue')
+      },
+      {
+        path: '/music',
+        name: 'music',
+        component: () => import('@/views/user/music.vue')
+      },
+      {
+        path: '/slice',
+        name: 'slice',
+        component: () => import('@/views/assembly/slice/index.vue'),
+        children: [
+          {
+            path: '/rotatingRubik',
+            name: 'rotatingRubik',
+            component: () => import('@/views/assembly/slice/rotatingRubik/index.vue')
+          }
+        ]
+      },
+      {
+        path: '/testField',
+        name: 'testField',
+        component: () => import('@/views/assembly/testField/index.vue'),
+        children: [
+          {
+            path: '/vForm',
+            name: 'vForm',
+            component: () => import('@/views/assembly/testField/vForm/index.vue')
+          }
+        ]
+      },
+      {
+        path: '/personalProfile',
+        name: 'personalProfile',
+        meta: { remark: '个人信息' },
+        component: () => import('@/views/introduction/personalProfile/index.vue')
+      },
+      {
+        path: '/technologyStack',
+        name: 'technologyStack',
+        meta: { remark: '技术栈' },
+        component: () => import('@/views/introduction/technologyStack/index.vue')
+      },
+      {
+        path: '/projectExperience',
+        name: 'projectExperience',
+        meta: { remark: '项目经历' },
+        component: () => import('@/views/introduction/projectExperience/index.vue')
       }
     ]
   }

@@ -1,0 +1,92 @@
+/*
+ * @Description:  皮肤主题
+ */
+
+//棕黄渐变色主题
+$light: (
+  background: linear-gradient(to right, rgb(236 233 230 / 90%), rgb(255 255 255 / 90%)),
+  background-no-tp: linear-gradient(to right, rgb(236 233 230 / 100%), rgb(255 255 255 / 100%)),
+  bk-pri: white,
+  re-bk-pri: black,
+  // background: white,
+  bk: linear-gradient(to right, #358bff, #15c6ff),
+  font-color: #363636,
+  re-font-color: white,
+  box-shadow: 0 1px 2px 0 #000000,
+  audio-pro-bar: #aca8a8,
+  top-button-color: rgb(255 255 255 / 80%),
+  placeholder: 'rgb(87, 87, 87)'
+);
+
+//白色主题
+$white: (
+  background: white,
+  background-no-tp: white,
+  // background: white,
+  bk: linear-gradient(to right, #358bff, #15c6ff),
+  font-color: #363636,
+  re-font-color: #363636,
+  box-shadow: 0 2px 8px 0 #000000,
+  audio-pro-bar: #aca8a8,
+  top-button-color: rgb(255 255 255 / 80%),
+  placeholder: 'rgb(87, 87, 87)'
+);
+
+//深色主题
+$dark: (
+  background: linear-gradient(to right, rgb(65 67 69 / 70%), rgb(35 37 38 / 70%)),
+  background-no-tp: linear-gradient(to right, rgb(65 67 69 / 100%), rgb(35 37 38 / 100%)),
+  bk-pri: black,
+  re-bk-pri: white,
+  bk: linear-gradient(to right, #358bff, #15c6ff),
+  font-color: white,
+  re-font-color: #363636,
+  box-shadow: 0 2px 8px 0 #000000,
+  audio-pro-bar: #aca8a8,
+  top-button-color: white,
+  placeholder: ''
+);
+
+@mixin flex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin flex-column {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+$themes: (
+  theme-light: $light,
+  theme-dark: $dark
+);
+
+$current-theme: $dark;
+@mixin theme() {
+  @each $key, $val in $themes {
+    $current-theme: $val !global;
+    [data-theme='#{$key}'] {
+      @content;
+    }
+  }
+}
+
+@mixin full() {
+  height: 100%;
+  width: 100%;
+}
+
+@function get($key) {
+  @return map-get($current-theme, $key);
+}
+
+#app {
+  @include theme() {
+    @import '../styles/element-ui.scss';
+    @import '../styles/common.scss';
+  }
+}

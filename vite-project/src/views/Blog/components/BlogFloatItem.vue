@@ -76,30 +76,32 @@
 </script>
 
 <style lang="scss" scoped>
-.button-box {
-  width: 100px;
-  position: fixed;
-  bottom: 80px;
-  right: 50px;
-  padding-left: 10px;
-  padding-right: 10px;
-  cursor: pointer;
-  opacity: 0.7;
-  z-index: 888;
-}
-.bt-edit-blog {
-  width: 100px;
-  height: 30px;
-  line-height: 30px;
-  border-radius: 5px;
-  background-size: cover;
-  color: #fff;
-  margin-bottom: 20px;
-  background-color: rgba(80, 81, 82, 0.6);
-  box-shadow: 0 2px 12px 0 #000000;
-}
-.button-box:hover {
-  color: white;
-  opacity: 1;
+@include theme() {
+  .button-box {
+    width: 100px;
+    position: fixed;
+    bottom: 80px;
+    right: 50px;
+    padding-left: 10px;
+    padding-right: 10px;
+    cursor: pointer;
+    opacity: 0.7;
+    z-index: 888;
+  }
+  .bt-edit-blog {
+    width: 100px;
+    height: 30px;
+    line-height: 30px;
+    border-radius: 5px;
+    background-size: cover;
+    color: get('font-color');
+    margin-bottom: 20px;
+    background: rgba(80, 81, 82, 0.6);
+    box-shadow: get('box-shadow');
+  }
+  .button-box:hover {
+    color: get('font-color');
+    opacity: 1;
+  }
 }
 </style>

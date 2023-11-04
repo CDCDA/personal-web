@@ -1,0 +1,29 @@
+/*
+ * @Description: app外的element-ui样式
+ */
+
+//菜单下拉框
+.el-menu--horizontal .el-menu-item:not(.is-disabled):hover,
+.el-menu--horizontal > .el-sub-menu .el-sub-menu__title:hover,
+.el-menu--horizontal > .el-menu-item.is-active {
+  background-color: transparent;
+}
+
+.el-menu--horizontal .el-menu .el-menu-item {
+  background-color: transparent;
+}
+
+.el-popper.is-light {
+  background-color: transparent;
+}
+
+.el-menu--horizontal.el-menu,
+.el-menu {
+  border: none;
+  background-color: transparent;
+}
+
+.el-popper.is-pure.is-light {
+  background: transparent;
+  backdrop-filter: blur(20px);
+}

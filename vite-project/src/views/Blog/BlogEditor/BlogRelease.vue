@@ -1,8 +1,5 @@
 <!--
  * @Description: 博客发布弹窗
- * @Author: cyd 1205489124@qq.com
- * @Date: 2023-07-06 18:52:53
- * @LastEditTime: 2023-08-05 13:44:55
 -->
 <template>
   <el-dialog class="blog-release" v-model="dialogVisible" title="发布" width="700px">
@@ -43,30 +40,6 @@
         </el-tree-select>
       </el-form-item>
       <el-form-item label="添加封面">
-        <!-- <el-upload
-          action="http://localhost:8080/pw/blog/uploadImg"
-          list-type="picture-card"
-          :auto-upload="true"
-        >
-          <el-icon><Plus /></el-icon>
-
-          <template #file="{ file }">
-            <div>
-              <img class="el-upload-list__item-thumbnail" :src="file.url" alt="" />
-              <span class="el-upload-list__item-actions">
-                <span class="el-upload-list__item-preview" @click="handlePictureCardPreview(file)">
-                  <el-icon><zoom-in /></el-icon>
-                </span>
-                <span class="el-upload-list__item-delete" @click="handleDownload(file)">
-                  <el-icon><Download /></el-icon>
-                </span>
-                <span class="el-upload-list__item-delete" @click="handleRemove(file)">
-                  <el-icon><Delete /></el-icon>
-                </span>
-              </span>
-            </div>
-          </template>
-        </el-upload> -->
         <el-upload
           class="avatar-uploader"
           action="/dev-api/pw/blog/uploadImg"
@@ -74,7 +47,7 @@
           :on-success="handleAvatarSuccess"
           :before-upload="beforeAvatarUpload"
         >
-          <img v-if="imageUrl" :src="imageUrl" class="avatar" />
+          <el-image v-if="imageUrl" :src="imageUrl" class="avatar" />
           <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
         </el-upload>
       </el-form-item>
@@ -190,7 +163,7 @@ const handleDownload = (file: UploadFile) => {
 };
 
 const handleAvatarSuccess: UploadProps['onSuccess'] = (response: any) => {
-  imageUrl.value = new URL(response.data, import.meta.url).href;
+  imageUrl.value = response.data;
 };
 
 const beforeAvatarUpload: UploadProps['beforeUpload'] = rawFile => {
@@ -213,23 +186,21 @@ defineExpose({
 });
 </script>
 <style lang="scss">
-.blog-settings {
-  width: calc(100% - 20px);
-  text-align: left;
-  margin-top: 5px;
-  // margin-bottom: 20px;
-  border-radius: 3px;
-  padding: 10px;
-  // background-color: transparent;
-  // box-shadow: 0 2px 12px 0 #000000;
-  color: #fff;
-  // text-align: center;
-  border: 1px solid white;
+@include theme() {
+  .blog-settings {
+    width: calc(100% - 20px);
+    text-align: left;
+    margin-top: 5px;
+    border-radius: 3px;
+    padding: 10px;
+    color: get('font-color');
+    border: 1px solid get('font-color');
+  }
 }
 
 .el-upload {
-  border: 1px dashed white;
-  background-color: transparent;
+  border: 1px dashed get('font-color');
+  background: transparent;
   height: 100px;
   width: 100px;
 }
