@@ -9,11 +9,11 @@
     <div class="count-list">
       <div class="count-item" v-for="item in countList">
         <div class="count-up">
-          <span class="count-month">{{ item.month }}</span>
+          <span class="count-month">{{ item.month }}月</span>
           <span class="count-year">{{ item.year }}</span>
         </div>
         <div class="count-down">
-          <span class="count-count">{{ item.count }}</span>
+          <span class="count-count">{{ item.total }}</span>
           <span class="count-unit">篇</span>
         </div>
       </div>
@@ -23,7 +23,7 @@
       <div class="blog-count">
         <span
           ><el-icon><Memo /></el-icon>文章数：</span
-        ><span>{{ '14' }}</span>
+        ><span>{{ total }}</span>
       </div>
       <div class="station-count">
         <span
@@ -36,43 +36,40 @@
 
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
-import { monthDayDiff } from '@/utils/date';
-// import { listcountTree } from '@/api/count';
+import { countBlogByDateRange, countBlog } from '@/api/blog.ts';
+import { getMonthStartDay, getMonthEndDay, getPreMonthDate } from '@/utils/date.ts';
 import useUserStore from '@/store/modules/user';
+const total = ref(0 as any);
 const userStore = useUserStore();
-const countList = ref([
-  {
-    month: '11月',
-    year: '2023',
-    count: 1
-  },
-  {
-    month: '10月',
-    year: '2023',
-    count: 4
-  },
-  {
-    month: '9月',
-    year: '2023',
-    count: 2
-  },
-  {
-    month: '8月',
-    year: '2023',
-    count: 4
-  }
-]);
+const countList = ref([] as any);
 
-async function getcountTree(userId: any) {
-  userId;
-  // const { code, msg, data } = (await listcountTree({ userId })) as any;
-  // if (code === 200 && data) {
-  //   // countList.value = data;
-  // }
+async function getBlogCount() {
+  const { code, msg, data } = (await countBlog({ userId: userStore.userId })) as any;
+  if (code === 200 && data) {
+    total.value = data;
+  }
+}
+
+async function getBlogDateRangeCount() {
+  const { code, msg, data } = (await countBlogByDateRange({
+    userId: userStore.userId
+  })) as any;
+  if (code === 200 && data) {
+    data.forEach((e: any, i: any) => {
+      if (i < 4) {
+        let times = e.createTime.split('-');
+        let year = times[0];
+        let month = times[1];
+        month[0] == '0' ? (month = month.substring(1)) : '';
+        countList.value.push({ year, month, total: e.total });
+      }
+    });
+  }
 }
 
 onMounted(() => {
-  getcountTree(userStore.userId);
+  getBlogCount();
+  getBlogDateRangeCount();
 });
 </script>
 <style lang="scss" scoped>

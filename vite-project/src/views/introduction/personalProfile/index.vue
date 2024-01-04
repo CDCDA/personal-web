@@ -10,7 +10,7 @@
       <span>是一名全栈开发工程师</span>
     </div>
     <div class="ps-timeline c-right animated">
-      <TimeLine></TimeLine>
+      <GoalTimeLine></GoalTimeLine>
     </div>
     <div class="ps-info">
       <div class="ps-info-left c-left animated">
@@ -35,7 +35,7 @@
 <script setup lang="ts">
 import PersonalInfo from './components/personalInfo.vue';
 import TechnologyStackCard from './components/technologyStackCard.vue';
-import TimeLine from '@/components/timeLine/index.vue';
+import GoalTimeLine from './components/goalTimeLine.vue';
 </script>
 <style lang="scss" scoped>
 @include theme() {

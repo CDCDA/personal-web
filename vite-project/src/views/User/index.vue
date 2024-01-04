@@ -18,7 +18,7 @@
       </el-menu>
     </div>
     <div class="user-right bounceInLeft animated">
-      <router-view></router-view>
+      <KeepAlive> <router-view /></KeepAlive>
     </div>
   </div>
 </template>
@@ -36,12 +36,12 @@ const data = ref([
   },
   {
     id: '2',
-    path: 'blogMagage',
+    path: 'blogManage',
     label: '博客管理'
   },
   {
     id: '3',
-    path: 'typeMagage',
+    path: 'typeManage',
     label: '分类管理'
   }
   // {

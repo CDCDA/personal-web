@@ -12,7 +12,7 @@
         <span class="slice-item-name">{{ item.label }}</span>
         <span class="slice-item-instoction">{{ item.introduction }}</span>
         <div class="instoction-cover">
-          简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介
+          {{ item.introduction }}
         </div>
       </div>
     </div>
@@ -32,7 +32,13 @@ const sliceList = ref([
     label: '低代码',
     routerName: 'vForm',
     introduction: '低代码表单平台',
-    url: require('@/assets/images/bk-1.jpg')
+    url: '/img/bk-1.jpg'
+  },
+  {
+    label: '自由拖动',
+    routerName: 'draggle',
+    introduction: '一个自由拖拽组件的页面',
+    url: '/img/bk-1.jpg'
   }
 ] as any);
 
@@ -114,9 +120,10 @@ function close() {
         .instoction-cover {
           position: absolute;
           bottom: -150px;
-          width: 100%;
+          width: calc(100% - 20px);
           height: 150px;
           // color: white;
+          padding: 10px;
           background: get('background-no-tp');
           display: flex;
           align-items: center;

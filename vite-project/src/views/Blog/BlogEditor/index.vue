@@ -2,7 +2,11 @@
   <div class="mavon-editor-container page-main">
     <div class="blog-editor-header">
       <el-button @click="blogSave" class="bt-save">保存</el-button>
-      <el-input placeholder="请输入标题" v-model="blogData.blogTitle"></el-input>
+      <el-input
+        class="blog-title-editor"
+        placeholder="请输入标题"
+        v-model="blogData.blogTitle"
+      ></el-input>
       <el-button @click="openRelease" class="bt-release">发布</el-button>
     </div>
     <v-md-editor v-model="blogData.content"></v-md-editor>
@@ -51,7 +55,6 @@ watch(
   () => router,
   val => {
     const { blogId } = val.currentRoute.value.query;
-    console.log(blogId);
     if (blogId) {
       getBlogInfo(blogId);
     }
@@ -70,21 +73,25 @@ onMounted(() => {
     display: flex;
     flex-direction: column;
     padding: 5px;
-    height: calc(100% - 10px);
+    min-height: 86vh !important;
     overflow: auto;
     overflow-x: hidden;
     .v-md-editor__toc-nav-title {
       color: get('font-color');
     }
     .v-md-editor--fullscreen {
-      background: transparent;
+      // background: get('background');
       box-shadow: get('box-shadow');
       backdrop-filter: blur(20px);
+      border-radius: 0px !important;
     }
     .v-md-editor {
-      height: calc(100% - 40px);
+      height: calc(86vh - 55px);
+      border-radius: 5px;
+      overflow: hidden;
+      box-shadow: get('box-shadow');
       .v-md-pre-wrapper {
-        background: transparent;
+        // background: get('background');
         box-shadow: get('box-shadow');
         code {
           color: get('font-color');
@@ -109,10 +116,12 @@ onMounted(() => {
         color: get('font-color');
       }
       border: 1px solid white;
-      background: transparent;
+      background: get('background');
       .v-md-editor__toolbar {
-        border-bottom: 1px solid white;
+        // border-bottom: 1px solid white;
         border-radius: 4px 4px 0px 0px;
+        background: get('background-no-tp');
+        // box-shadow: get('box-shadow');
         .v-md-editor__toolbar-item {
           color: get('font-color');
         }
@@ -126,36 +135,34 @@ onMounted(() => {
       .v-md-editor__main {
         border-left: 1px solid white;
         .CodeMirror {
-          background: transparent;
+          background: get('background');
         }
         .CodeMirror-gutters {
-          background: transparent;
-          // border: 1px solid white;
+          background: get('background-no-tp');
+          border: 1px solid #d1d1d1;
         }
         .CodeMirror-activeline-background.CodeMirror-linebackground {
-          background: transparent;
+          background: get('background');
         }
       }
       .v-md-editor__left-area {
         border: none;
       }
     }
-    .el-button {
-      background: transparent;
-      color: get('font-color');
-    }
+
     .ml-1 {
       width: 100px;
     }
-    .el-input__wrapper {
-      background: transparent;
+    .blog-title-editor {
+      .el-input__inner {
+        // background: get('background');
+        border: none;
+        color: get('font-color');
+        text-align: center;
+        font-size: 22px;
+      }
     }
-    .el-input__inner {
-      background: transparent;
-      border: none;
-      color: get('font-color');
-      text-align: center;
-    }
+
     .content-input-wrapper,
     .content-input,
     .auto-textarea-input,
@@ -172,14 +179,22 @@ onMounted(() => {
     }
     .blog-editor-header {
       display: flex;
-      margin-bottom: 5px;
+      margin-bottom: 10px;
       .bt-save {
-        margin-right: 5px;
+        margin-right: 10px;
         border: 1px solid get('font-color');
+        width: 140px;
+        height: 45px;
+        font-size: 18px;
+        border-radius: 5px;
       }
       .bt-release {
-        margin-left: 5px;
+        margin-left: 10px;
         border: 1px solid get('font-color');
+        width: 140px;
+        height: 45px;
+        font-size: 18px;
+        border-radius: 5px;
       }
     }
   }

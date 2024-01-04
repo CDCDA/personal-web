@@ -9,7 +9,7 @@
         <el-image class="stack-item" :src="item.downStack.url"></el-image>
       </div>
     </div>
-    <div class="stack-tag-list" v-if="props.isHoverShow">
+    <div class="stack-tag-list">
       <div class="stack-tag" v-for="item in techStackList">
         <el-image :src="item.url"></el-image><span class="tag-text">{{ item.label }}</span>
       </div>
@@ -41,7 +41,9 @@ const props = defineProps({
   .technology-stack-card {
     height: 300px;
     position: relative;
+
     .stack-rowup {
+      backface-visibility: hidden;
       @include flex;
       flex-wrap: nowrap;
       animation: row-up 10s linear infinite;
@@ -64,15 +66,16 @@ const props = defineProps({
     }
     .stack-tag-list {
       position: absolute;
-      bottom: -25px;
-      left: -1000px;
+      bottom: 0px;
+      transform: rotateY(180deg);
+      backface-visibility: hidden;
       @include flex;
       flex-wrap: wrap;
       justify-content: start;
       width: 100%;
-      height: calc(100% + 40px);
+      height: 100%;
       z-index: 1;
-      background: get('bk');
+      // background: get('bk');
       .stack-tag {
         border: 1px solid #d1d1d1;
         border-radius: 20px;
@@ -90,30 +93,33 @@ const props = defineProps({
       }
     }
   }
-  @keyframes stack-tag-in {
+  @keyframes flip {
     0% {
+      transform: rotateY(0deg);
+      animation-timing-function: ease-out;
     }
     100% {
-      left: 0px;
+      transform: rotateY(180deg);
+      animation-timing-function: ease-in;
     }
   }
-  @keyframes stack-tag-out {
+  @keyframes re-flip {
     0% {
-      left: 0px;
+      transform: rotateY(180deg);
+      animation-timing-function: ease-in;
     }
     100% {
-      left: -1000px;
+      transform: rotateY(0deg);
+      animation-timing-function: ease-out;
     }
   }
   .technology-stack-card:hover {
-    .stack-tag-list {
-      animation: stack-tag-in 0.3s forwards linear;
-    }
+    animation: flip 0.3s forwards linear;
+    transform-style: preserve-3d;
   }
   .technology-stack-card:not(:hover) {
-    .stack-tag-list {
-      animation: stack-tag-out 0.3s forwards linear;
-    }
+    animation: re-flip 0.3s forwards linear;
+    transform-style: preserve-3d;
   }
 }
 </style>

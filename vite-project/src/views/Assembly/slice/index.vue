@@ -3,22 +3,19 @@
 -->
 <template>
   <div class="page-main slice-main">
-    <div class="slice-header animated bounceInLeft">
+    <!-- <div class="slice-header animated bounceInLeft">
       <el-icon><Orange /></el-icon>{{ '比较简单的小东西' }}<el-icon><Right /></el-icon>
-    </div>
+    </div> -->
+    <div class="slice-header" style="width: 100%; height: 30px">一些小组件</div>
     <div class="slice-center">
-      <div
-        class="slice-item bounceInUp"
-        :class="getAnimate(i)"
-        v-for="(item, i) in sliceList"
-        @click="toSlice(item)"
-      >
+      <div class="slice-item" v-for="(item, i) in sliceList" @click="toSlice(item)">
         <img class="slice-item-cover" :src="item.url" />
         <span class="slice-item-name">{{ item.label }}</span>
-        <span class="slice-item-instoction">{{ item.introduction }}</span>
-        <div class="instoction-cover">
+        <span class="slice-item-divider"></span>
+        <span class="slice-item-instoction no-wrap">{{ item.introduction }}</span>
+        <!-- <div class="instoction-cover">
           {{ item.introduction }}
-        </div>
+        </div> -->
       </div>
     </div>
   </div>
@@ -37,42 +34,14 @@ const sliceList = ref([
     label: '魔方',
     routerName: 'rubiks',
     introduction: '普通3x3动态魔方',
-    url: require('@/assets/images/bk-1.jpg'),
+    url: '/img/bk-1.jpg',
     path: '/slice'
   },
   {
     label: '图片旋转魔方',
     routerName: 'rotatingRubik',
     introduction: '可旋转展示6面图片的魔方',
-    url: require('@/assets/images/bk-1.jpg')
-  },
-  {
-    label: '魔方',
-    routerName: 'rubiks',
-    introduction: '普通3x3动态魔方',
-    url: require('@/assets/images/bk-1.jpg'),
-    path: '/slice'
-  },
-  {
-    label: '魔方',
-    routerName: 'rubiks',
-    introduction: '普通3x3动态魔方',
-    url: require('@/assets/images/bk-1.jpg'),
-    path: '/slice'
-  },
-  {
-    label: '魔方',
-    routerName: 'rubiks',
-    introduction: '普通3x3动态魔方',
-    url: require('@/assets/images/bk-1.jpg'),
-    path: '/slice'
-  },
-  {
-    label: '魔方',
-    routerName: 'rubiks',
-    introduction: '普通3x3动态魔方',
-    url: require('@/assets/images/bk-1.jpg'),
-    path: '/slice'
+    url: '/img/bk-1.jpg'
   }
 ] as any);
 
@@ -105,50 +74,54 @@ function getAnimate(i: any) {
   return 'animated';
 }
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+}
 @include theme() {
   .slice-main {
     @include flex-column;
+    background: get('background');
+    border-radius: 15px;
     justify-content: start;
+    padding: 30px;
+    width: calc(86% - 60px) !important;
     .slice-header {
       height: 60px;
-      width: calc(100% - 60px);
-      color: get('font-color');
-      border-radius: 15px;
-      background: get('background');
-      box-shadow: get('box-shadow');
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0px 30px;
+      width: calc(100% - 120px);
+      text-align: left;
       font-size: 22px;
       font-weight: bold;
-      margin-bottom: 20px;
-      .el-icon {
-        font-size: 25px;
-        color: get('foont-color');
-        cursor: pointer;
-      }
+      padding: 12px 30px;
     }
     .slice-center {
       display: flex;
       flex-wrap: wrap;
-      justify-content: space-between;
+      justify-content: start;
       align-items: center;
       width: 100%;
+      padding: 10px 20px;
       .slice-item {
-        margin-bottom: 20px;
+        animation: fade-in 0.5s linear forwards;
+        margin: 10px 10px;
         cursor: pointer;
-        width: calc(20% - 15px);
-        height: 210px;
-        border-radius: 20px;
+        width: calc(32% - 20px);
+        aspect-ratio: 5/3.2;
+        border-radius: 8px;
+        overflow: hidden;
         position: relative;
         opacity: 0.9;
         box-shadow: get('box-shadow');
         background: get('background');
         position: relative;
         color: get('font-color');
-        margin-bottom: 20px;
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -156,8 +129,7 @@ function getAnimate(i: any) {
         overflow: hidden;
         .slice-item-cover {
           width: 100%;
-          height: calc(100% - 50px);
-          border-radius: 20px 20px 0px 0px;
+          height: calc(100%);
           object-fit: cover;
           object-position: 70%;
           background-repeat: no-repeat;
@@ -165,39 +137,64 @@ function getAnimate(i: any) {
         }
         .slice-item-name {
           font-weight: bold;
+          position: absolute;
+          color: white;
+          top: 15%;
+          left: 25px;
+          font-size: 20px;
+        }
+        .slice-item-divider {
+          width: 0%;
+          left: 25px;
+          position: absolute;
+          top: 30%;
+          height: 2px;
+          background: white;
         }
         .slice-item-instoction {
-          opacity: 0.9;
+          color: white;
+          position: absolute;
+          top: 35%;
+          left: 25px;
+          transform: translate3d(300%, 0, 0);
         }
 
-        .instoction-cover {
-          position: absolute;
-          bottom: -150px;
-          width: 100%;
-          height: 150px;
-          // color: white;
-          background: get('background-no-tp');
-          display: flex;
-          align-items: center;
-          // background: #425aef;
-        }
+        // .instoction-cover {
+        //   position: absolute;
+        //   right: -150px;
+        //   width: 100%;
+        //   display: flex;
+        //   align-items: center;
+        //   justify-content: center;
+        // }
       }
       .slice-item:hover {
-        transform: scale(1.03);
-        @keyframes cover-in {
+        transform: scale(1.02);
+        @keyframes instoction-in {
           0% {
-            bottom: -150px;
+            transform: translate3d(300%, 0, 0);
           }
           100% {
-            bottom: 0px;
+            transform: translate3d(0%, 0, 0);
+          }
+        }
+        @keyframes divider-in {
+          0% {
+            width: 0%;
+          }
+          100% {
+            width: calc(100% - 50px);
           }
         }
         .slice-item-cover {
-          transform: scale(1.5);
-          filter: brightness(30%);
+          transform: scale(1.1);
+          filter: brightness(60%);
         }
-        .instoction-cover {
-          animation: cover-in 0.3s forwards linear;
+        .slice-item-instoction {
+          animation: instoction-in 0.3s forwards linear;
+        }
+        .slice-item-divider {
+          animation: divider-in 0.3s forwards linear;
         }
       }
     }

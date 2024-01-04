@@ -2,7 +2,7 @@
  * @Description: 博客发布弹窗
 -->
 <template>
-  <el-dialog class="blog-release" v-model="dialogVisible" title="发布" width="700px">
+  <el-dialog class="blog-release" v-model="dialogVisible" title="发布" width="700px" :modal="false">
     <el-form class="blog-release-settings" :model="blogData" label-width="120px">
       <el-form-item label="博客标签">
         <el-tag
@@ -13,7 +13,7 @@
           :disable-transitions="false"
           @close="tagDel(tag)"
         >
-          {{ tag }}
+          {{ tag.tagName }}
         </el-tag>
         <el-input
           v-if="inputVisible"
@@ -75,7 +75,7 @@ import { ref, nextTick, onMounted } from 'vue';
 import { saveBlog } from '@/api/blog';
 import type { UploadProps } from 'element-plus';
 import { ElMessage } from 'element-plus';
-import { listTypeTree } from '@/api/type';
+import { listType } from '@/api/type';
 import type { UploadFile } from 'element-plus';
 const dialogVisible = ref(false);
 const props = defineProps({
@@ -104,7 +104,7 @@ function open() {
 function addTag() {
   const { tags } = props.blogData;
   if (inputValue.value) {
-    tags.push(inputValue.value);
+    tags.push({ tagName: inputValue.value });
   }
   inputVisible.value = false;
   inputValue.value = '';
@@ -141,7 +141,7 @@ async function getTypeTree() {
   const params = {
     userId: props.blogData.userId
   };
-  const { code, msg, data } = (await listTypeTree(params)) as any;
+  const { code, msg, data } = (await listType(params)) as any;
   if (code === 200) {
     typeList.value = data;
   } else {

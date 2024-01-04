@@ -4,16 +4,21 @@
 <template>
   <div class="home-container">
     <div class="home-top">
-      <span class="main-top-title">CCCC的小破站</span>
+      <span class="main-top-title anim-typewriter">CCCC的小破站</span>
       <span class="main-top-vice-title">逛逛吧</span>
-      <el-image class="CycleUpDown" :src="require('@/assets/svg/down.svg')" @click="toMainPage" />
-      <!-- <el-icon  @click="toMainPage"><DArrowRight class="down-icon" /></el-icon> -->
+      <svg-icon iconName="down-black" class="CycleUpDown" @click="toMainPage"></svg-icon>
     </div>
     <div class="home-main">
       <div class="main-header">
         <el-icon><ChromeFilled /></el-icon>
         <div class="main-header-text-list">
-          <div class="main-header-text" v-for="item in headerList">{{ item.text }}</div>
+          <div
+            class="main-header-text"
+            @click="router.push({ name: item.routerName })"
+            v-for="item in headerList"
+          >
+            {{ item.text }}
+          </div>
         </div>
         <el-icon><Right /></el-icon>
       </div>
@@ -30,26 +35,25 @@
               ></TechnologyStackCard>
               <div class="recommend-left-top-cover">
                 <div>随便逛逛</div>
-                <el-image :src="require('@/assets/svg/right.svg')"></el-image>
+                <svg-icon iconName="right"></svg-icon>
               </div>
             </div>
             <div class="recommend-left-bottom">
               <div class="bottom-item">
-                <span>必读精选</span><img src="@/assets/svg/book.svg" />
+                <span>必读精选</span><svg-icon iconName="book"></svg-icon>
               </div>
-              <div class="bottom-item"><span>热门文章</span><img src="@/assets/svg/hot.svg" /></div>
               <div class="bottom-item">
-                <span>生活随笔</span><img src="@/assets/svg/edit.svg" />
+                <span>热门文章</span><svg-icon iconName="hot"></svg-icon>
+              </div>
+              <div class="bottom-item">
+                <span>生活随笔</span><svg-icon iconName="edit"></svg-icon>
               </div>
             </div>
           </div>
           <div class="recommend-right">
-            <div class="right-item" v-for="item in recommends">
+            <div class="right-item" v-for="item in tRecommends" @click="toDetail(item)">
               <div class="icon-rec">荐</div>
-              <el-image
-                class="item-image"
-                :src="require('@/assets/images/fiture-room.jpg')"
-              ></el-image>
+              <c-image class="item-image" :src="item.coverUrl"></c-image>
               <div class="item-title">
                 <el-text truncated>
                   {{ item.blogTitle }}
@@ -61,38 +65,64 @@
         <div class="display-page">
           <div class="display-left">
             <div class="display-header">
-              <div class="header-item" v-for="item in typeList">{{ item.typeName }}</div>
+              <div
+                class="header-item"
+                :class="item.isActive ? 'is-active' : ''"
+                v-for="item in typeList"
+                @click="isActive(item)"
+              >
+                {{ item.typeName }}
+              </div>
               <div class="header-more" style="float: right">更多</div>
             </div>
             <div class="display-list">
-              <div class="list-item" v-for="item in recommends">
-                <el-image
-                  class="list-item-img"
-                  :src="require('@/assets/images/fiture-room.jpg')"
-                ></el-image>
+              <div class="list-item" v-for="item in recommends" @click="toDetail(item)">
+                <div class="list-item-img">
+                  <el-image :src="item.coverUrl || '/img/default.jpg'" lazy>
+                    <template #placeholder>
+                      <div
+                        class="image-slot"
+                        v-cLoading="'rotate'"
+                        style="width: 100%; height: 100%"
+                      ></div> </template
+                    ><template #error>
+                      <div class="image-error-slot">
+                        <svg-icon iconName="imgFailed"></svg-icon>
+                      </div> </template
+                  ></el-image>
+                </div>
+
                 <div class="list-item-footer">
                   <span class="list-item-title">{{ item.blogTitle }}</span>
                   <div class="list-item-tag">
-                    <span class="item-tag">#前端</span>
-                    <span class="item-tag">#笔记</span>
-                    <span class="item-time">{{ item.createTime }}</span>
+                    <div class="item-tag-list">
+                      <template v-for="(tag, i) in item.tags">
+                        <span class="item-tag" v-if="i <= 4">
+                          <span class="item-tag-pretend">#</span>
+                          <span class="item-tag-text">{{ tag.tagName }}</span>
+                        </span>
+                      </template>
+                    </div>
+                    <span class="item-time">{{ formateToDay(item.createTime) }}</span>
                   </div>
                 </div>
               </div>
             </div>
             <Pagination
-              :page="pageData.page"
-              :page-size="pageData.pageSize"
+              v-model:page="queryParams.pageNum"
+              v-model:page-size="queryParams.pageSize"
               :total="total"
               :on-page-change="getBlogList"
               :showSizes="true"
-              :pageSizeList="pageData.pageSizeList"
+              :pageSizeList="[10, 20, 30]"
               :on-page-size-change="getBlogList"
               class="pagi page-content"
-            ></Pagination>
+            />
           </div>
           <div class="display-right">
             <BlogUserCard />
+            <WeatherCard />
+            <VisitorCard />
             <BlogTypeCard></BlogTypeCard>
             <BlogTagCard></BlogTagCard>
             <BlogCountCard></BlogCountCard>
@@ -103,10 +133,10 @@
   </div>
 </template>
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import { listBlog } from '@/api/blog';
 import { ElMessage } from 'element-plus';
-import { listTypeTree } from '@/api/type';
+import { listType } from '@/api/type';
 import useUserStore from '@/store/modules/user';
 import { useRouter } from 'vue-router';
 import { formateDate } from '@/utils/date.ts';
@@ -116,43 +146,61 @@ import BlogTypeCard from '@/views/blog/components/blogTypeCard.vue';
 import BlogTagCard from '@/views/blog/components/blogTagCard.vue';
 import BlogCountCard from '@/views/blog/components/blogCountCard.vue';
 import TechnologyStackCard from '../introduction/personalProfile/components/technologyStackCard.vue';
+import useThemeStore from '@/store/modules/theme.ts';
+import VisitorCard from './components/visitorCard.vue';
+import WeatherCard from './components/weatherCard.vue';
+const themeStore = useThemeStore();
 const recommends = ref([] as any);
+const tRecommends = ref([]) as any;
 const userStore = useUserStore();
+const theme = ref('' as any);
+
+watch(
+  () => themeStore.theme,
+  newValue => {
+    theme.value = newValue;
+  },
+  {
+    deep: true,
+    immediate: true
+  }
+);
+
 const headerList = ref([
   {
     text: '加了个滚动技术栈',
-    path: ''
+    routerName: 'main'
   },
   {
     text: '相册已完成',
-    path: ''
+    routerName: 'album'
   },
   {
     text: '修整了一下首页',
-    path: ''
+    routerName: 'main'
   },
   {
     text: '放假放假放假',
-    path: ''
+    routerName: 'essay'
   }
 ] as any);
 const router = useRouter() as any;
 const typeList = ref([] as any);
-const pageData = ref({
-  pageTotal: 0,
-  page: 1,
+
+const queryParams = ref({
+  pageNum: 1,
   pageSize: 10,
-  pageSizeList: [10, 20, 30]
+  userId: null
 } as any);
+
 const total = ref(100 as any);
 async function getBlogList() {
-  const params = {
-    pageNum: 1,
-    pageSize: 6
-  };
-  const { code, msg, data } = (await listBlog(params)) as any;
+  const { code, msg, data } = (await listBlog(queryParams.value)) as any;
   if (code === 200) {
     recommends.value = data.list;
+    tRecommends.value = JSON.parse(JSON.stringify(data.list));
+    tRecommends.value.length = 6;
+    total.value = data.total;
   } else {
     ElMessage.error('博客数据获取失败', msg);
   }
@@ -175,7 +223,7 @@ async function getTypeTree() {
   const params = {
     userId: userStore.userId
   };
-  const { code, msg, data } = (await listTypeTree(params)) as any;
+  const { code, msg, data } = (await listType(params)) as any;
   if (code === 200) {
     typeList.value = data;
   } else {
@@ -190,11 +238,57 @@ function headerRoll(header: any) {
   header.style.transform = `translate3d(0px, ${displacement.value}px, 0px)`;
 }
 
+function formateToDay(date: any) {
+  return date?.substring(0, 10);
+}
+
+function isActive(item: any) {
+  typeList.value.forEach((e: any) => {
+    e.isActive = false;
+  });
+  item.isActive = true;
+  queryParams.value.userId = item.typeId;
+  getBlogList();
+}
+
+// 博客详情
+function toDetail(item: any) {
+  router.push({ name: 'blogDisplay', query: { blogId: item.blogId } });
+}
+
+/**
+ * @description: 设置首页字体颜色
+ * @return {*}
+ */
+function setFontColor() {
+  let options = JSON.parse(localStorage.getItem('aspectOptions') as any) as any;
+  if (!options) return;
+  const { mhFontColor } = options;
+  let header = document.querySelector('.common-header') as any;
+  let homeTop = document.querySelector('.home-top') as any;
+  let CycleUpDown = document.querySelector('.CycleUpDown') as any;
+  if (header) {
+    header.style.color = mhFontColor;
+    let icons = header.querySelectorAll('.theme-icon');
+    Object.keys(icons).forEach((e: any) => {
+      icons[e].style.fill = mhFontColor;
+    });
+  }
+  if (homeTop) homeTop.style.color = mhFontColor;
+  if (CycleUpDown) {
+    let themeIcon = CycleUpDown.querySelector('.theme-icon') as any;
+    if (themeIcon) {
+      themeIcon.style.fill = mhFontColor;
+    }
+  }
+  localStorage.setItem('aspectOptions', JSON.stringify(options));
+}
+
 onMounted(() => {
   getBlogList();
   getTypeTree();
   let header = document.querySelector('.main-header-text-list');
-
+  setFontColor();
   if (header) {
     setInterval(() => {
       headerRoll(header);
@@ -203,6 +297,34 @@ onMounted(() => {
 });
 </script>
 <style lang="scss" scoped>
+.main-top-title {
+  border-right: 2px solid rgba(255, 255, 255, 0.75);
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+/* Animation */
+.anim-typewriter {
+  animation: typewriter 4s steps(30) 1s 1 normal both,
+    blinkTextCursor 500ms steps(8) infinite normal;
+}
+@keyframes typewriter {
+  from {
+    width: 0;
+  }
+  to {
+    width: 24em;
+  }
+}
+@keyframes blinkTextCursor {
+  from {
+    border-right-color: rgba(255, 255, 255, 0.75);
+  }
+  to {
+    border-right-color: transparent;
+  }
+}
 @keyframes slide-in {
   0% {
     width: 33%;
@@ -211,7 +333,7 @@ onMounted(() => {
     width: 50%;
   }
 }
-@keyframes retate-img {
+@keyframes rotate-img {
   0% {
     opacity: 0.2;
     transform: rotate(15deg);
@@ -232,7 +354,7 @@ onMounted(() => {
     width: 33%;
   }
 }
-@keyframes re-retate-img {
+@keyframes re-rotate-img {
   0% {
     opacity: 1;
     right: 5%;
@@ -248,6 +370,7 @@ onMounted(() => {
 @include theme() {
   .home-container {
     @include flex-column;
+    color: get('font-color');
     .home-top {
       width: 100%;
       min-height: 100vh;
@@ -255,14 +378,12 @@ onMounted(() => {
       position: relative;
     }
     .main-top-title {
-      color: get('font-color');
       font-weight: bold;
       font-size: 40px;
     }
     .main-top-vice-title {
       margin-top: 10px;
       margin-bottom: 100px;
-      color: get('font-color');
       font-size: 25px;
     }
     .main-top-back {
@@ -275,7 +396,7 @@ onMounted(() => {
     }
     .CycleUpDown {
       font-size: 40px;
-      height: 80px;
+      height: 60px;
       color: get('font-color');
       bottom: 40px;
       cursor: pointer;
@@ -285,7 +406,7 @@ onMounted(() => {
       width: calc(100% - 12%);
       @include flex-column;
       .main-header {
-        height: 60px;
+        height: 7vh;
         width: calc(100% - 60px);
         color: get('font-color');
         border-radius: 15px;
@@ -306,6 +427,7 @@ onMounted(() => {
           .main-header-text {
             height: 30px;
             margin: 10px;
+            cursor: pointer;
           }
         }
         .el-icon {
@@ -321,17 +443,18 @@ onMounted(() => {
         .recommend {
           @include flex;
           width: 100%;
-          height: 380px;
+          height: 50vh;
           .recommend-left {
             width: calc(50% - 5px);
             margin-right: 10px;
             @include flex-column;
             justify-content: space-between;
+            cursor: pointer;
             .recommend-left-top {
               background: get('background');
               border-radius: 15px;
               width: 100%;
-              height: 280px;
+              height: 36vh;
               box-shadow: get('box-shadow');
               overflow: hidden;
               position: relative;
@@ -343,31 +466,32 @@ onMounted(() => {
                 font-weight: bold;
               }
               .recommd-left-stack {
-                transform: rotate(-45deg);
+                transform: rotate(-35deg);
                 position: absolute;
+                animation: none;
               }
               .recommend-left-top-cover {
                 opacity: 0;
-                z-index: 999;
+                z-index: 1;
                 width: 100%;
                 position: absolute;
                 height: calc(100%);
                 background: get('bk');
                 font-size: 85px;
                 font-weight: bold;
-                color: get('re-font-color');
+                color: white;
                 @include flex-column;
                 align-items: flex-start;
                 padding-left: 50px;
-                .el-image {
+                transition: cubic-bezier(0.71, 0.15, 0.16, 1.15) 0.6s;
+                .svg-icon-wrap {
                   width: 120px;
+                  height: 120px;
                 }
               }
               &:hover {
                 .recommend-left-top-cover {
                   opacity: 1;
-
-                  transition: cubic-bezier(0.71, 0.15, 0.16, 1.15) 0.6s;
                 }
               }
             }
@@ -377,9 +501,10 @@ onMounted(() => {
               align-items: center;
               margin-top: 5px;
               width: 100%;
-
+              height: calc(14vh - 10px);
               .bottom-item {
-                height: 90px;
+                height: 100%;
+                cursor: pointer;
                 box-shadow: get('box-shadow');
                 width: calc(33% - 5px);
                 background: get('background');
@@ -393,7 +518,7 @@ onMounted(() => {
                   font-size: 20px;
                   padding-left: 25px;
                 }
-                img {
+                .svg-icon-wrap {
                   opacity: 0.2;
                   position: absolute;
                   right: 0%;
@@ -403,12 +528,16 @@ onMounted(() => {
                   text-align: center;
                   filter: blur(2px);
                   transform: rotate(15deg);
+                  .theme-icon {
+                    color: white !important;
+                    fill: white !important;
+                  }
                 }
               }
               .bottom-item:not(:hover) {
                 animation: re-slide-in 0.3s forwards linear;
                 img {
-                  animation: re-retate-img 0.3s forwards linear;
+                  animation: re-rotate-img 0.3s forwards linear;
                 }
               }
               .bottom-item:hover {
@@ -416,8 +545,8 @@ onMounted(() => {
                   width: 50%;
                 }
                 animation: slide-in 0.3s forwards linear;
-                img {
-                  animation: retate-img 0.3s forwards linear;
+                .svg-icon-wrap {
+                  animation: rotate-img 0.3s forwards linear;
                 }
                 width: 25%;
               }
@@ -439,6 +568,7 @@ onMounted(() => {
             width: calc(50% - 5px);
             margin-left: 10px;
             display: flex;
+            color: get('font-color');
             justify-content: space-between;
             flex-wrap: wrap;
             @keyframes in {
@@ -473,6 +603,7 @@ onMounted(() => {
               background: get('background');
               box-shadow: get('box-shadow');
               position: relative;
+              cursor: pointer;
               overflow: hidden;
               @include flex-column;
               border-radius: 15px;
@@ -487,9 +618,11 @@ onMounted(() => {
                 padding: 0px 10px;
                 width: calc(100% - 20px);
                 margin: 0 auto;
+
                 .el-text {
                   font-size: 18px;
                   font-weight: bold;
+                  color: get('font-color');
                 }
               }
             }
@@ -519,7 +652,7 @@ onMounted(() => {
             .display-header {
               @include flex;
               justify-content: start;
-              height: 60px;
+              height: 8vh;
               background: get('background');
               box-shadow: get('box-shadow');
               border-radius: 15px;
@@ -528,8 +661,9 @@ onMounted(() => {
               .header-item {
                 font-size: 18px;
                 font-weight: bold;
-                padding: 5px 15px;
+                padding: 5px 15px 7px 15px;
                 cursor: pointer;
+                margin-right: 10px;
               }
               .header-more {
                 position: absolute;
@@ -543,6 +677,7 @@ onMounted(() => {
               .header-item.is-active {
                 background: linear-gradient(to right, #56ccf2, #2f80ed);
                 // box-shadow: get('box-shadow');
+                color: white;
                 border-radius: 15px;
               }
             }
@@ -560,12 +695,12 @@ onMounted(() => {
                 --i: -1;
                 mask-position: 0 0;
                 transform: perspective(1800px) rotate3d(1, -1, 0, calc(var(--i, 1) * 8deg));
-                mask: linear-gradient(135deg, #000c 40%, #000, #000c 60%) 100% 100%/240% 240%;
+                // mask: linear-gradient(135deg, #000c 40%, #000, #000c 60%) 100% 100%/240% 240%;
                 transition: 0.4s;
               }
               .list-item {
                 width: calc(50% - 10px);
-                height: 400px;
+                aspect-ratio: 3/2;
                 margin-bottom: 20px;
                 background: get('background');
                 box-shadow: get('box-shadow');
@@ -575,11 +710,18 @@ onMounted(() => {
                 .list-item-img {
                   border-radius: 15px 15px 0px 0px;
                   width: 100%;
-                  height: calc(100% - 100px);
+                  // height: calc(100% - 100px);
+                  aspect-ratio: 7/4;
+                  margin: 5px;
+                  width: calc(100% - 10px);
+                  border-radius: 10px;
+                  .el-image {
+                    width: 100%;
+                    height: 100%;
+                  }
                 }
                 .list-item-img {
                   position: relative;
-
                   /* 盒子阴影 */
                   box-shadow: 0px 5px 45px rgba(0, 0, 0, 0.1);
                   /* 背景模糊 */
@@ -602,12 +744,69 @@ onMounted(() => {
                   /* 动画过渡 */
                   transition: all 0.3s;
                 }
-                .list-item-img:hover::before {
-                  /* 元素沿X轴45横切，沿X轴左移150px */
-                  transform: skewX(45deg) translateX(-650px);
+                .list-item-img:hover {
+                  &::before {
+                    z-index: 1;
+                    /* 元素沿X轴45横切，沿X轴左移150px */
+                    transform: skewX(45deg) translateX(-650px);
+                  }
+                  .el-image {
+                    aspect-ratio: 5/3;
+                    transform: scale(1.1);
+                    transition: all 0.2s;
+                  }
                 }
-                .list-item-fooer {
+                .list-item-img:not(:hover) {
+                  &::before {
+                    /* 元素沿X轴45横切，沿X轴左移150px */
+                    transform: skewX(0deg) translateX(0px);
+                  }
+                  .el-image {
+                    transform: scale(1);
+                    transition: all 0.2s;
+                  }
+                }
+                .list-item-footer {
+                  width: calc(100% - 40px);
                   height: 100px;
+                  display: flex;
+                  justify-content: space-evenly;
+                  flex-direction: column;
+                  padding: 0px 20px;
+                  align-items: start;
+                  .list-item-title {
+                    font-size: 20px;
+                    font-weight: bold;
+                  }
+                  .list-item-tag {
+                    width: 100%;
+                    @include flex;
+                    justify-content: space-between;
+                    .item-tag-list {
+                      @include flex;
+                      justify-content: start;
+                      overflow: hidden;
+                      height: 30px;
+                      width: 80%;
+                      text-align: left;
+                      display: -webkit-box;
+                      overflow: hidden;
+                      text-overflow: ellipsis;
+                      -webkit-line-clamp: 1;
+                      -webkit-box-orient: vertical;
+                      .item-tag {
+                        margin-right: 15px;
+                        font-size: 20px;
+                        display: inline-block;
+                      }
+                      .item-tag-pretend {
+                        opacity: 0.5;
+                        font-weight: bold;
+                      }
+                    }
+                    .item-time {
+                    }
+                  }
                 }
               }
             }

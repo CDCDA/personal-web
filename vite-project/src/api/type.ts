@@ -1,14 +1,12 @@
 /*
- * @Description:
- * @Author: cyd 1205489124@qq.com
- * @Date: 2023-07-08 14:26:59
- * @LastEditTime: 2023-07-11 19:33:59
+ * @Description: 博客分类
  */
 import request from '@/utils/request';
+
 // 分页
-export const listTypeTree = (params: any) =>
+export const listType = (params: any) =>
   request({
-    url: '/pw/blogType/typeTree',
+    url: '/pw/blogType/list',
     method: 'get',
     params
   });
@@ -22,10 +20,11 @@ export const countBlogType = (params: any) =>
   });
 
 // 删除博客分类
-export const delBlogType = (id: string) =>
+export const delBlogType = (ids: string[]) =>
   request({
-    url: '/pw/blogType/' + id,
-    method: 'delete'
+    url: '/pw/blogType/deleteByIds',
+    method: 'post',
+    data: ids
   });
 
 // 保存或修改博客分类
@@ -34,4 +33,12 @@ export const saveBlogType = (data: any) =>
     url: '/pw/blogType/save',
     method: 'post',
     data
+  });
+
+// 博客分类列表（带统计）
+export const listTotalType = (params: any) =>
+  request({
+    url: '/pw/blogType/totalList',
+    method: 'get',
+    params
   });

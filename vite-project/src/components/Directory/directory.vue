@@ -23,6 +23,7 @@
 </template>
 
 <script lang="ts" setup>
+import { connected } from 'process';
 import { onMounted, reactive, ref } from 'vue';
 
 const titles = ref(null as any);
@@ -39,8 +40,10 @@ const props = defineProps({
 function scrollEvent() {
   if (articleElement.value)
     progress.value =
-      (articleElement.value.scrollTop /
-        (articleElement.value.scrollHeight - articleElement.value.clientHeight)) *
+      (
+        (articleElement.value.scrollTop /
+          (articleElement.value.scrollHeight - articleElement.value.clientHeight)) as any
+      ).toFixed(2) *
         100 +
       '%';
   let visibleTitles = [];
@@ -153,6 +156,7 @@ function getTitles() {
 }
 // 滚动到指定的位置
 function scrollToView(scrollTop: any) {
+  articleElement.value = document.querySelector('.el-main');
   articleElement.value.scrollTo({ top: scrollTop, behavior: 'smooth' });
 }
 // 设置子节点的可见性

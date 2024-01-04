@@ -27,7 +27,7 @@ const router = useRouter();
   }
   .profile-carousel-item {
     height: calc(100%);
-    background: left / cover fixed no-repeat url('@/assets/images/background.jpg');
+    background: left / cover fixed no-repeat url('/img/background.jpg');
     box-shadow: get('box-shadow');
     // backdrop-filter: blur(20px);
     opacity: 0.9;

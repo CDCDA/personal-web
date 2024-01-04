@@ -4,6 +4,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/login',
     name: 'login',
+    meta: { remark: '登录', isHidden: true },
     component: () => import('@/views/login/login.vue')
   },
   // {
@@ -15,146 +16,179 @@ const routes: Array<RouteRecordRaw> = [
     // path: '/Main',
     path: '/',
     name: 'main',
+    meta: { remark: '', isHidden: true },
     component: () => import('@/views/main.vue'),
     children: [
       {
         path: '/home',
         name: 'home',
+        meta: { remark: '首页' },
         component: () => import('@/views/home/index.vue')
       },
       {
-        path: '/draggle',
-        name: 'draggle',
-        component: () => import('@/views/draggle/draggle.vue')
-      },
-      {
-        path: '/statistics',
-        name: 'statistics',
-        component: () => import('@/views/statistics/index.vue')
-      },
-      {
-        path: '/user',
-        name: 'user',
-        component: () => import('@/views/user/index.vue'),
+        path: '/manage',
+        name: 'manage',
+        meta: { remark: '管理页', isHidden: true },
+        component: () => import('@/views/manage/index.vue'),
         children: [
           {
-            path: '/personalPage',
-            name: 'personalPage',
-            component: () => import('@/views/user/components/personalPage.vue')
+            path: '/personalInfo',
+            name: 'personalInfo',
+            meta: { remark: '个人信息', isHidden: true },
+            component: () => import('@/views/manage/personalInfo/index.vue')
           },
           {
-            path: '/blogMagage',
-            name: 'blogMagage',
-            component: () => import('@/views/user/components/blogMagage.vue')
+            path: '/blogManage',
+            name: 'blogManage',
+            meta: { remark: '博客管理', isHidden: true },
+            component: () => import('@/views/manage/blogManage/index.vue')
           },
           {
-            path: '/typeMagage',
-            name: 'typeMagage',
-            component: () => import('@/views/user/components/typeManage.vue')
+            path: '/typeManage',
+            name: 'typeManage',
+            meta: { remark: '分类管理', isHidden: true },
+            component: () => import('@/views/manage/typeManage/index.vue')
+          },
+          {
+            path: '/tagManage',
+            name: 'tagManage',
+            meta: { remark: '标签管理', isHidden: true },
+            component: () => import('@/views/manage/tagManage/index.vue')
+          },
+          {
+            path: '/essayManage',
+            name: 'essayManage',
+            meta: { remark: '随笔管理', isHidden: true },
+            component: () => import('@/views/manage/essayManage/index.vue')
+          },
+          {
+            path: '/albumManage',
+            name: 'albumManage',
+            meta: { remark: '相册管理', isHidden: true },
+            component: () => import('@/views/manage/albumManage/index.vue')
+          },
+          {
+            path: '/gameManage',
+            name: 'gameManage',
+            meta: { remark: '游戏管理', isHidden: true },
+            component: () => import('@/views/manage/gameManage/index.vue')
+          },
+          {
+            path: '/dramaManage',
+            name: 'dramaManage',
+            meta: { remark: '影视管理', isHidden: true },
+            component: () => import('@/views/manage/dramaManage/index.vue')
+          },
+          {
+            path: '/gourmetManage',
+            name: 'gourmetManage',
+            meta: { remark: '美食管理', isHidden: true },
+            component: () => import('@/views/manage/gourmetManage/index.vue')
+          },
+          {
+            path: '/musicManage',
+            name: 'musicManage',
+            meta: { remark: '音乐管理', isHidden: true },
+            component: () => import('@/views/manage/musicManage/index.vue')
+          },
+          {
+            path: '/logManage',
+            name: 'logManage',
+            meta: { remark: '更新日志管理', isHidden: true },
+            component: () => import('@/views/manage/logManage/index.vue')
           }
         ]
       },
       {
         path: '/profile',
         name: 'profile',
+        meta: { remark: '', isHidden: true },
         component: () => import('@/views/profile/index.vue')
       },
-      {
-        path: '/assembly',
-        name: 'assembly',
-        component: () => import('@/views/assembly/index.vue'),
-        children: [
-          // {
-          //   path: '/AntvG6',
-          //   name: 'AntvG6',
-          //   component: () => import('@/views/Assembly/AntvG6/flowChart.vue')
-          // },
-          {
-            path: '/cascader',
-            name: 'cascader',
-            component: () => import('@/views/assembly/cascader/cascader.vue')
-          },
-          // {
-          //   path: '/DatePicker',
-          //   name: 'DatePicker',
-          //   component: () => import('@/views/assembly/datePicker/datePicker.vue')
-          // },
-          // {
-          //   path: '/MonacoEditor',
-          //   name: 'MonacoEditor',
-          //   component: () => import('@/views/assembly/monacoEditor/monacoEditor.vue')
-          // },
-          // {
-          //   path: '/SelectTree',
-          //   name: 'SelectTree',
-          //   component: () => import('@/views/assembly/selectTree/selectTree.vue')
-          // },
-          {
-            path: '/testComponents',
-            name: 'testComponents',
-            component: () => import('@/views/assembly/testComponents/test2.vue')
-          },
-          {
-            path: '/vForm',
-            name: 'vForm',
-            component: () => import('@/views/assembly/vForm/index.vue')
-          },
-          {
-            path: '/rubiks',
-            name: 'rubiks',
-            component: () => import('@/views/assembly/rubiks/index.vue')
-          }
-          // {
-          //   path: '/Other',
-          //   name: 'Other',
-          //   component: () => import('@/views/assembly/Other/xz(yq)spb.vue')
-          // }
-        ]
-      },
-      {
-        path: '/blog',
-        name: 'blog',
-        component: () => import('@/views/blog/blog.vue')
-      },
+
       {
         path: '/blogEditor',
         name: 'blogEditor',
+        meta: { remark: '博客编辑' },
         component: () => import('@/views/blog/blogEditor/index.vue')
       },
       {
         path: '/blogDisplay',
         name: 'blogDisplay',
+        meta: { remark: '博客展示' },
         component: () => import('@/views/blog/blogDisplay.vue')
+      },
+      {
+        path: '/blogEditor',
+        name: 'blogEditor',
+        meta: { remark: '博客编辑' },
+        component: () => import('@/views/blog/blogEditor/index.vue')
       },
       {
         path: '/blogType',
         name: 'blogType',
-        component: () => import('@/views/blog/blogType.vue')
+        meta: { remark: '博客分类' },
+        component: () => import('@/views/blog/blogType/index.vue')
+      },
+      {
+        path: '/blogTypePage',
+        name: 'blogTypePage',
+        meta: { remark: '博客分类详情' },
+        component: () => import('@/views/blog/blogType/blogTypePage.vue')
       },
       {
         path: '/blogTag',
         name: 'blogTag',
-        component: () => import('@/views/blog/blogTag.vue')
+        meta: { remark: '博客标签' },
+        component: () => import('@/views/blog/blogTag/index.vue')
+      },
+      {
+        path: '/blogTagPage',
+        name: 'blogTagPage',
+        meta: { remark: '博客标签详情' },
+        component: () => import('@/views/blog/blogTag/blogTagPage.vue')
+      },
+      {
+        path: '/statistics',
+        name: 'statistics',
+        meta: { remark: '博客统计' },
+        component: () => import('@/views/blog/statistics/index.vue')
       },
       {
         path: '/album',
         name: 'album',
-        component: () => import('@/views/user/album.vue')
+        meta: { remark: '相册' },
+        component: () => import('@/views/user/album/index.vue')
       },
       {
-        path: '/casualEssay',
-        name: 'casualEssay',
-        component: () => import('@/views/user/casualEssay.vue')
+        path: '/albumPage',
+        name: 'albumPage',
+        meta: { remark: '相册详情' },
+        component: () => import('@/views/user/album/albumPage.vue')
+      },
+      {
+        path: '/essay',
+        name: 'essay',
+        meta: { remark: '随笔' },
+        component: () => import('@/views/user/essay/index.vue')
+      },
+      {
+        path: '/essayEditor',
+        name: 'essayEditor',
+        meta: { remark: '随笔编辑' },
+        component: () => import('@/views/user/essay/essayEditor.vue')
       },
       {
         path: '/equipment',
         name: 'equipment',
-        component: () => import('@/views/user/equipment.vue')
+        meta: { remark: '装备' },
+        component: () => import('@/views/user/equipment/index.vue')
       },
       {
         path: '/music',
         name: 'music',
-        component: () => import('@/views/user/music.vue')
+        meta: { remark: '音乐' },
+        component: () => import('@/views/user/music/index.vue')
       },
       {
         path: '/slice',
@@ -164,6 +198,7 @@ const routes: Array<RouteRecordRaw> = [
           {
             path: '/rotatingRubik',
             name: 'rotatingRubik',
+            meta: { remark: '旋转魔方' },
             component: () => import('@/views/assembly/slice/rotatingRubik/index.vue')
           }
         ]
@@ -171,12 +206,20 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: '/testField',
         name: 'testField',
+        meta: { remark: '试验田' },
         component: () => import('@/views/assembly/testField/index.vue'),
         children: [
           {
             path: '/vForm',
             name: 'vForm',
+            meta: { remark: '低代码表单' },
             component: () => import('@/views/assembly/testField/vForm/index.vue')
+          },
+          {
+            path: '/draggle',
+            name: 'draggle',
+            meta: { remark: '自由拖拽' },
+            component: () => import('@/views/assembly/testField/draggle/index.vue')
           }
         ]
       },
@@ -186,61 +229,62 @@ const routes: Array<RouteRecordRaw> = [
         meta: { remark: '个人信息' },
         component: () => import('@/views/introduction/personalProfile/index.vue')
       },
+      // {
+      //   path: '/projectExperience',
+      //   name: 'projectExperience',
+      //   meta: { remark: '项目经历' },
+      //   component: () => import('@/views/introduction/projectExperience/index.vue')
+      // },
       {
-        path: '/technologyStack',
-        name: 'technologyStack',
-        meta: { remark: '技术栈' },
-        component: () => import('@/views/introduction/technologyStack/index.vue')
+        path: '/fitness',
+        name: 'fitness',
+        meta: { remark: '运动' },
+        component: () => import('@/views/others/fitness/index.vue')
       },
       {
-        path: '/projectExperience',
-        name: 'projectExperience',
-        meta: { remark: '项目经历' },
-        component: () => import('@/views/introduction/projectExperience/index.vue')
+        path: '/game',
+        name: 'game',
+        meta: { remark: '游戏' },
+        component: () => import('@/views/others/game/index.vue')
+      },
+      {
+        path: '/drama',
+        name: 'drama',
+        meta: { remark: '影视' },
+        component: () => import('@/views/others/drama/index.vue')
+      },
+      {
+        path: '/gourmet',
+        name: 'gourmet',
+        meta: { remark: '美食' },
+        component: () => import('@/views/others/gourmet/index.vue')
+      },
+      {
+        path: '/website',
+        name: 'website',
+        meta: { remark: '本站' },
+        component: () => import('@/views/associate/website/index.vue')
+      },
+      {
+        path: '/updateLog',
+        name: 'updateLog',
+        meta: { remark: '更新日志' },
+        component: () => import('@/views/associate/updateLog/index.vue')
+      },
+
+      {
+        path: '*',
+        name: '404',
+        meta: { remark: '', isHidden: true },
+        component: () => import('@/views/error/index.vue')
       }
     ]
   }
 ];
 
-// const path =
-//   process.env.NODE_ENV === "development" ? "/app-vue/" : "/lowcode/app-vue/";
-
-// console.log("PATH", path);
-
 const router = createRouter({
   history: createWebHistory('/'),
   routes
 });
-
-// router.beforeEach((to, from, next) => {
-//   /**
-//    * @todo 后续需要使用 window.history.pushState方法对路由方法进行深度改造
-//    *
-//    * 判断是否为微前端的 '发布表单' 生成的复用页面
-//    * 数据会在点击菜单切换时将id写入sessionStorage，然后从这获取
-//    */
-//   // const hit = /\/viewTemplate/;
-//   // if ((!Object.keys(to.query).length) && hit.test(to.path)) {
-//   //   const id: any = sessionStorage.getItem('id');
-//   //   next({ path: to.path, query: JSON.parse(id) });
-//   //   return;
-//   // }
-//   next();
-// });
-
-// export default router;
-
-// import Vue from 'vue'
-// import VueRouter from 'vue-router'
-// Vue.use(VueRouter)
-
-// const originalPush = VueRouter.prototype.push
-// VueRouter.prototype.push = function push (location) {
-//     return originalPush.call(this, location).catch(err => err)
-// }
-// const router = createRouter({
-//     mode: 'history',
-//     routes
-// })
 
 export default router;

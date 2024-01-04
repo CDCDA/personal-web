@@ -49,7 +49,7 @@
 
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
-import { listTypeTree, delBlogType, saveBlogType } from '@/api/type';
+import { listType, delBlogType, saveBlogType } from '@/api/type';
 import useUserStore from '@/store/modules/user';
 import type Node from 'element-plus/es/components/tree/src/model/node';
 import { ElMessage, ElMessageBox } from 'element-plus';
@@ -71,7 +71,7 @@ let currentNodeData = {} as any;
 const dialogVisible = ref(false);
 
 async function getTypeTree(userId: any) {
-  const { code, msg, data } = (await listTypeTree({ userId })) as any;
+  const { code, msg, data } = (await listType({ userId })) as any;
   if (code === 200 && data) {
     typeTree.value = data;
   }

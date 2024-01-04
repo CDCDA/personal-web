@@ -7,19 +7,19 @@
       <el-button icon="Menu" circle class="float-button"></el-button>
       <template #dropdown>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item @click.native="routerTo('BlogEditor')">
+          <el-dropdown-item @click.native="routerTo('blogEditor')">
             <span>发布博客</span>
           </el-dropdown-item>
           <el-dropdown-item
-            @click.native="routerTo('BlogEditor')"
+            @click.native="routerTo('blogEditor')"
             :disabled="disabled ? true : false"
           >
             <span>编辑博客</span>
           </el-dropdown-item>
-          <el-dropdown-item @click.native="routerTo('BlogEditor')">
+          <el-dropdown-item @click.native="routerTo('blogEditor')">
             <span>我的博客</span>
           </el-dropdown-item>
-          <el-dropdown-item @click.native="routerTo('BlogEditor')">
+          <el-dropdown-item @click.native="routerTo('blogEditor')">
             <span>修改记录</span>
           </el-dropdown-item>
         </el-dropdown-menu>

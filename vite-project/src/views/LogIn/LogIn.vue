@@ -63,6 +63,7 @@ async function register() {}
     display: flex;
     align-items: center;
     justify-content: center;
+    cursor: pointer;
   }
   .box {
     width: 500px;
@@ -153,6 +154,7 @@ async function register() {}
     font-size: 14px;
     border-radius: 5px;
     transition: 0.2s;
+    cursor: pointer;
   }
 
   .box .btn-box > div > button:nth-of-type(1) {

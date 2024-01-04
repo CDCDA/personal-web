@@ -40,6 +40,11 @@ const linkList = ref([
     label: 'AI百晓生',
     url: 'https://ai.hxkj.vip/',
     iconUrl: require('@/assets/svg/linkSvg/ai.ico')
+  },
+  {
+    label: '据意查句',
+    url: 'https://wantquotes.net/',
+    iconUrl: 'https://wantquotes.net/favicon.ico'
   }
 ]);
 function clickLink(item: any) {
@@ -57,7 +62,7 @@ function clickLink(item: any) {
     .header-name-icon {
       margin-right: 10px;
       cursor: pointer;
-      color: get('font-color');
+      color: inherit;
       padding: 6px;
     }
     .header-name-icon:hover {
@@ -78,6 +83,7 @@ function clickLink(item: any) {
       border-radius: 15px;
       overflow: hidden;
       width: 320px;
+      left: -30px;
       box-shadow: get('box-shadow');
       .link-title {
         font-size: 14px;

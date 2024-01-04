@@ -12,13 +12,13 @@
         <common-footer></common-footer>
       </el-main>
     </el-container>
-    <float-button></float-button>
+    <!-- <float-button></float-button> -->
   </el-container>
 </template>
 <script setup lang="ts">
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import CommonHeader from '@/views/layout/commonHeader/commonHeader.vue';
+import CommonHeader from '@/views/layout/commonHeader/index.vue';
 import CommonFooter from '@/views/layout/commonFooter/index.vue';
 import { onMounted } from 'vue';
 import floatButton from '@/components/floatButton.vue';

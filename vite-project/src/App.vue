@@ -1,21 +1,27 @@
 <template>
-  <div id="app-theme" data-theme="theme-dark">
-    <!-- :style="background" -->
-    <!-- <video
-      src="./assets/images/background.jpg"
+  <div id="app-theme" data-theme="theme-dark" v-cLoading="loading">
+    <video id="tsparticles" autoplay loop muted v-if="backType == 'video'"></video>
+    <div
+      id="tsparticles"
       class="particles"
-      autoplay
-      loop
-      muted
-    ></video> -->
-    <!-- <div class="particles" uid></div> -->
-    <Particles class="particles" id="tsparticles" :options="options" />
-    <router-view />
+      v-if="backType != 'video' && !themeStore.aspectOptions?.isParticles"
+    ></div>
+    <Particles
+      class="particles"
+      id="tsparticles"
+      :options="options"
+      v-if="backType != 'video' && themeStore.aspectOptions?.isParticles"
+    />
+    <KeepAlive> <router-view /></KeepAlive>
   </div>
 </template>
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 import { useRouter } from 'vue-router';
+import useThemeStore from '@/store/modules/theme.ts';
+
+var themeStore = useThemeStore();
+const loading = ref('gear' as any);
 const router = useRouter();
 
 const options = {
@@ -95,22 +101,95 @@ const options = {
   },
   detectRetina: true
 };
+const realOptions = ref(JSON.parse(JSON.stringify(options)) as any);
+const backType = ref('img' as any);
 
-onMounted(() => {
+watch(
+  () => themeStore.backType,
+  newValue => {
+    backType.value = newValue;
+  },
+  {
+    deep: true,
+    immediate: true
+  }
+);
+
+watch(
+  () => themeStore.aspectOptions.isParticles,
+  val => {
+    if (val) {
+      realOptions.value = JSON.parse(JSON.stringify(options));
+    } else {
+      realOptions.value = null;
+    }
+    init();
+  },
+  {
+    deep: true
+  }
+);
+
+function init() {
+  setTimeout(() => {
+    // loading.value = false;
+    //   (document.getElementById('app-theme') as any).style.animation =
+    //     'blur-to-clear 2.5s cubic-bezier(0.6, 0.25, 0.25, 1) 0s 1 backwards,scale 2.2s cubic-bezier(0.6, 0.1, 0.25, 1) 0.5s 1 backwards';
+  }, 1000);
   let themeKey = window.localStorage.getItem('themeKey');
   let backUrl = window.localStorage.getItem('backUrl');
-  if (!themeKey) window.localStorage.setItem('themeKey', 'theme-dark');
-  if (!backUrl)
-    window.localStorage.setItem(
-      'backUrl',
-      'left/cover fixed no-repeat url(../../../assets/images/bk-3.jpg)'
-    );
-  let back = document.getElementById('tsparticles') as any;
-  (document.getElementById('app-theme') as any).setAttribute('data-theme', themeKey);
-  back.style.background = 'left/cover fixed no-repeat url(' + backUrl + ')';
-  if (window.localStorage.getItem('token')) {
-    router.push({ path: '/home' });
-  } else router.push({ path: '/login' });
+  let options = window.localStorage.getItem('aspectOptions') as any;
+  setTimeout(() => {
+    let back = document.getElementById('tsparticles') as any;
+    (document.getElementById('app-theme') as any).setAttribute('data-theme', themeKey);
+
+    if (backType.value == 'img')
+      back.style.background = 'left/cover fixed no-repeat url(' + backUrl + ')';
+    if (backType.value == 'color') back.style.background = backUrl;
+    if (backType.value == 'video') back.src = backUrl;
+    // back.style.background = 'left/cover fixed no-repeat url(' + backUrl + ')';
+    themeStore.theme = window.localStorage.getItem('themeKey') as any;
+    themeStore.backType = window.localStorage.getItem('backType') as any;
+
+    if (window.localStorage.getItem('token')) {
+      router.push({ path: '/home' });
+    } else router.push({ path: '/login' });
+  }, 0);
+  if (options) {
+    options = JSON.parse(options);
+    let appTheme = document.querySelector('#app-theme') as any;
+    appTheme.style.color = options.fontColor;
+    appTheme.style.fontFamily = options.fontFamily;
+    let header = document.querySelector('.common-header') as any;
+    let homeTop = document.querySelector('.home-top') as any;
+    let CycleUpDown = document.querySelector('.CycleUpDown') as any;
+    if (header) {
+      // header.style.color = options.mhFontColor;
+      // let icons = header.querySelectorAll('.theme-icon');
+      // Object.keys(icons).forEach((e: any) => {
+      //   icons[e].style.fill = options.mhFontColor;
+      // });
+    }
+    if (homeTop) homeTop.style.color = options.mhFontColor;
+    if (CycleUpDown) {
+      let themeIcon = CycleUpDown.querySelector('.theme-icon') as any;
+      if (themeIcon) {
+        themeIcon.style.fill = options.mhFontColor;
+      }
+    }
+  }
+  backType.value = window.localStorage.getItem('backType');
+  if (!themeKey) {
+    window.localStorage.setItem('themeKey', 'theme-light');
+  }
+  if (!backUrl) window.localStorage.setItem('backUrl', 'white');
+  if (!backType.value) {
+    window.localStorage.setItem('backType', 'img');
+  }
+}
+
+onMounted(() => {
+  init();
 });
 </script>
 
@@ -118,7 +197,8 @@ onMounted(() => {
 #app-theme,
 #app {
   @include full();
-  background: transparent;
+  // font-family: DaoLiTi;
+  background: url('/img/失落方舟.jpg');
 }
 body,
 html {
@@ -128,13 +208,36 @@ html {
   overflow: hidden;
   // font-family: FangDaKai;
 }
+body {
+  --dy: 1;
+  --dx: 1;
+  --dz: 0;
+}
+@keyframes blur-to-clear {
+  0% {
+    -webkit-filter: blur(50px);
+    transform: scale(1.2);
+    filter: blur(50px);
+  }
+  100% {
+    -webkit-filter: blur(0);
+    transform: scale(1);
+    filter: blur(0);
+  }
+}
+#tsparticles {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  position: absolute;
+  z-index: 0;
+  background: left / cover fixed no-repeat url('/img/bk-3.jpg');
+}
 .particles {
   position: fixed;
   top: 0;
   left: 0;
   @include full();
   z-index: -1;
-  object-fit: cover;
-  background: left / cover fixed no-repeat url('@/assets/images/bk-3.jpg');
 }
 </style>

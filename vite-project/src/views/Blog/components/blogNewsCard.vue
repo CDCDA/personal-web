@@ -25,14 +25,14 @@ import { formateDate } from '@/utils/date.ts';
 import { ref } from 'vue';
 const newsList = ref([
   {
-    // url: require('@/assets/images/app-background1.webp'),
-    date: formateDate('YY-MM-dd hh:mm', new Date()),
+    // url: require('/img/app-background1.webp'),
+    date: formateDate(new Date(), 'YY-MM-dd hh:mm'),
     type: '前端',
     url: '/img/2cf465cf-6114-4319-ac33-67bbec0983e2.jpeg'
   },
   {
-    // url: require('@/assets/images/app-background1.webp'),
-    date: formateDate('YY-MM-dd hh:mm', new Date()),
+    // url: require('/img/app-background1.webp'),
+    date: formateDate(new Date(), 'YY-MM-dd hh:mm'),
     type: '前端',
     url: '/img/2cf465cf-6114-4319-ac33-67bbec0983e2.jpeg'
   }

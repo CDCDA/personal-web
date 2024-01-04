@@ -169,9 +169,11 @@ export default {
     },
     // 选择size
     onSize(e) {
-      this.onPageSizeChange(e);
-      //const page = Math.ceil(this.total / e);
+      this.$emit('update:pageSize', e);
       this.onPageChange(1);
+      // this.onPageSizeChange(e);
+      // //const page = Math.ceil(this.total / e);
+      // this.onPageChange(1);
     },
     onPage(e) {
       let target = e.target;
@@ -184,11 +186,12 @@ export default {
 
       const page = +target.getAttribute('data-page');
       const jumper = target.getAttribute('data-jumper');
-      console.log('page', page, 'jumper', jumper);
       if (jumper) {
-        // this.showJumper(+jumper, target)
+        // this.showJumper(+jumper, target);
+        this.$emit('update:page', page);
         this.onPageChange(page);
       } else {
+        this.$emit('update:page', this.calcNextPage(page));
         this.onPageChange(this.calcNextPage(page));
       }
     },
@@ -206,7 +209,6 @@ export default {
       }
     },
     onJump(e) {
-      console.log(e.target.value);
       const val = +e.target.value;
       if (val && val > 0 && val <= this.pages) {
         this.onPageChange(val);
@@ -232,6 +234,9 @@ export default {
     line-height: 40px;
     display: flex;
     text-align: center;
+    .pn:active {
+      transform: translateY(2px);
+    }
 
     & > .pager {
       display: flex;
@@ -249,7 +254,7 @@ export default {
       line-height: 45px;
       margin-left: 15px;
       text-align: center;
-      background: get('background-no-tp');
+      background: get('re-font-color');
       border-radius: 2px;
       font-family: PingFangSC-Regular;
       font-size: 18px;
@@ -326,7 +331,7 @@ export default {
       }
       &.disabled {
         cursor: not-allowed;
-        background: get('background-no-tp');
+        background: get('re-font-color');
         color: get('font-color') !important;
       }
     }

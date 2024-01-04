@@ -1,7 +1,4 @@
 /*
- * @Description:
- */
-/*
  * @Description:入口文件
  */
 import { createApp } from 'vue';
@@ -10,6 +7,7 @@ import App from './App.vue';
 import Particles from 'particles.vue3';
 import ElementPlus from 'element-plus';
 import 'element-plus/dist/index.css';
+import image from './components/image/image.vue';
 // import '@/assets/theme/public.scss';
 import '@/assets/styles/animate.scss';
 import '@/assets/styles/element-ui-out-app.scss';
@@ -55,9 +53,14 @@ import VMdPreview from '@kangc/v-md-editor/lib/preview';
 import '@kangc/v-md-editor/lib/style/preview.css';
 import '@kangc/v-md-editor/lib/theme/style/github.css';
 
+import SvgIcon from './components/icon-component.vue';
+import 'virtual:svg-icons-register';
+
 /* vForm 表单构建器 */
 import VForm3 from '@/../lib/vform/designer.umd.js';
 import '../lib/vform/designer.style.css';
+
+import './components/loading/index.js';
 
 VMdPreview.use(githubTheme, {
   Hljs: hljs
@@ -69,13 +72,21 @@ VMdEditor.use(githubTheme, {
 });
 VMdEditor.use(createLineNumbertPlugin());
 VMdPreview.use(createLineNumbertPlugin());
+
+import loadingDirective from '@/components/loading/index.ts';
+
 const app = createApp(App);
 
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
   app.component(key, component);
 }
+
+app.component('svg-icon', SvgIcon);
+app.component('c-image', image);
+app.provide('$theme', 'theme-light');
 app.use(VMdEditor);
 app.use(directives);
+app.directive('cLoading', loadingDirective);
 app.use(VForm3);
 app.use(pinia);
 app.use(ElementPlus, { zIndex: 3000 });

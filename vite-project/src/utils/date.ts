@@ -1,7 +1,7 @@
 /*
  * @Author: chenyd
  * @Date: 2023-01-12 14:03:57
- * @LastEditTime: 2023-11-03 16:45:39
+ * @LastEditTime: 2023-11-28 15:17:37
  * @Description:日期处理方法合集
  */
 
@@ -10,7 +10,10 @@
  * @return {string}  yy-mm-dd
  * @Description: 日期转 年-月-日 string
  */
-export const formateDate = (type: String, date: Date) => {
+export const formateDate = (date: Date, type?: String) => {
+  if (!type) {
+    type = 'YY-MM-dd:hh-mm-ss';
+  }
   let year = date.getFullYear().toString();
   let month = (date.getMonth() + 1).toString().padStart(2, '0');
   let day = date.getDate().toString().padStart(2, '0');
@@ -20,7 +23,7 @@ export const formateDate = (type: String, date: Date) => {
 
   return `${type.includes('YY') ? year : ''}${type.includes('MM') ? '-' + month : ''}${
     type.includes('dd') ? '-' + day : ''
-  }${type.includes('hh') ? '-' + hours : ''}${type.includes('mm') ? '-' + minutes : ''}${
+  }${type.includes('hh') ? ':' + hours : ''}${type.includes('mm') ? '-' + minutes : ''}${
     type.includes('ss') ? '-' + seconds : ''
   }`;
 };
@@ -83,8 +86,8 @@ export const getMonthStartDay = (date: Date) => {
  * @return {string}  yy-mm-dd
  * @Description: 获取月份最后一天
  */
-export const getMonthEndDay = () => {
-  var y = new Date().getFullYear(); //获取年份
+export const getMonthEndDay = (date: Date) => {
+  var y = date.getFullYear(); //获取年份
   var m = (new Date().getMonth() + 1) as any; //获取月份
   var d = new Date(y, m, 0).getDate() as any; //获取当月最后一日
   m = m < 10 ? '0' + m : m; //月份补 0
@@ -100,7 +103,7 @@ export const getMonthEndDay = () => {
 export const getYearStartDay = (date: Date) => {
   var tYear = date.getFullYear();
   var startTime = new Date(tYear, 0, 1); //当前年第一天
-  return formateDate('YY-MM-dd-hh-mm-ss', startTime);
+  return formateDate(startTime, 'YY-MM-dd:hh-mm-ss');
 };
 
 /**
@@ -111,7 +114,7 @@ export const getYearStartDay = (date: Date) => {
 export const getYearEndDay = (date: Date) => {
   var tYear = date.getFullYear();
   var endTime = new Date(tYear, 11, 31); //当前年最后一天
-  return formateDate('YY-MM-dd-hh-mm-ss', endTime);
+  return formateDate(endTime, 'YY-MM-dd:hh-mm-ss');
 };
 
 /**
@@ -125,7 +128,7 @@ export const getPreMonthDate = (date: Date, preNum: number) => {
   // 日期必须设置为1-28号内，
   // 当月日期比上月日期的最大还要大时，就会直接进入下一个月的Date
   cdate.setMonth(cdate.getMonth() - preNum, 1);
-  return formateDate('YY-MM-dd-hh-mm-ss', cdate);
+  return formateDate(cdate, 'YY-MM-dd:hh-mm-ss');
 };
 
 /**

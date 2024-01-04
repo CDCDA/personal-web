@@ -8,6 +8,7 @@
     :fullscreen="isFull"
     width="88%"
     top="60px"
+    :modal="false"
   >
     <template #header="{ close, titleId, titleClass }">
       <div class="c-dialog-header">
@@ -15,7 +16,7 @@
         <el-icon class="full-screen" @click="handleFull()"><FullScreen /></el-icon>
       </div>
     </template>
-    <router-view></router-view>
+    <KeepAlive> <router-view /></KeepAlive>
   </el-dialog>
 </template>
 <script setup lang="ts">

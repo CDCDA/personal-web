@@ -296,7 +296,7 @@ body {
   opacity: 0.7;
   border: 1px solid white;
   transition: all 0.3s;
-  background: center / cover fixed no-repeat url('@/assets/images/lol.jpg');
+  background: center / cover fixed no-repeat url('/img/lol.jpg');
 }
 /*前*/
 .t1 {

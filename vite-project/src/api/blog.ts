@@ -2,7 +2,7 @@
  * @Description: 博客接口
  * @Author: cyd 1205489124@qq.com
  * @Date: 2023-07-07 16:59:41
- * @LastEditTime: 2023-07-28 10:07:25
+ * @LastEditTime: 2023-11-08 16:11:58
  */
 import request from '@/utils/request';
 // 分页
@@ -29,7 +29,7 @@ export const getBlogById = (id: any) =>
   });
 
 // 博客统计
-export const countBlogById = (params: any) =>
+export const countBlog = (params: any) =>
   request({
     url: '/pw/blog/count',
     method: 'get',
@@ -51,10 +51,10 @@ export const deleteBlogs = (ids: any) =>
     data: ids
   });
 
-// 按月份统计
-export const countBlogByMonth = (params: any) =>
+// 按时间范围统计
+export const countBlogByDateRange = (params: any) =>
   request({
-    url: '/pw/blog/countBlogByMonth',
+    url: '/pw/blog/countBlogByDateRange',
     method: 'get',
     params
   });

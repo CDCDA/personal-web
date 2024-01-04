@@ -5,9 +5,9 @@
   <div class="common-footer">
     <div class="footer-top"></div>
     <div class="footer-main">
-      <div class="footer-col" v-for="item in itemList">
+      <div class="footer-col" v-for="item in menuData">
         <span>{{ item.label }}</span>
-        <div class="footer-row" v-for="child in item.childList">
+        <div class="footer-row" v-for="child in item.children" @click="routerTo(child)">
           {{ child.label }}
         </div>
       </div>
@@ -28,49 +28,14 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue';
 import { secondDayDiff, monthDayDiff } from '@/utils/date';
+import { menuData } from '../menuData.ts';
+import { useRouter, onBeforeRouteUpdate } from 'vue-router';
+const router = useRouter();
 const beginDate = new Date('2023-9-1');
 const time = ref('' as any);
 const timeDifference = ref('' as any);
 const meteorDifference = ref('' as any);
 const weenkendDifference = ref('' as any);
-
-const itemList = ref([
-  {
-    value: '1',
-    label: '博客',
-    childList: [
-      { value: '1-1', label: '分类' },
-      { value: '1-2', label: '标签' },
-      { value: '1-3', label: '统计' }
-    ]
-  },
-  {
-    value: '1',
-    label: '简介',
-    childList: [
-      { value: '1-1', label: '个人信息' },
-      { value: '1-2', label: '项目经历' }
-    ]
-  },
-  {
-    value: '1',
-    label: '我的',
-    childList: [
-      { value: '1-1', label: '随笔' },
-      { value: '1-2', label: '相册' },
-      { value: '1-3', label: '装备' },
-      { value: '1-3', label: '音乐' }
-    ]
-  },
-  {
-    value: '1',
-    label: '组件',
-    childList: [
-      { value: '1-1', label: '切片' },
-      { value: '1-2', label: '试验田' }
-    ]
-  }
-] as any);
 
 // 计算下一次英仙座流星雨的时间
 function calculateNextPerseidMeteorShower() {
@@ -87,6 +52,10 @@ function calculateNextPerseidMeteorShower() {
     return nextShowerStartDate;
   }
   return showerStartDate;
+}
+
+function routerTo(item: any) {
+  router.push({ name: item.name });
 }
 
 onMounted(() => {
@@ -166,6 +135,7 @@ onMounted(() => {
       margin: 15px 0px;
       font-weight: 400;
       font-size: 15px;
+      cursor: pointer;
       color: #363636;
     }
   }

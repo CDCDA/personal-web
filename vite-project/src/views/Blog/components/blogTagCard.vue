@@ -8,8 +8,8 @@
     </div>
     <div class="tag-list">
       <div class="tag-item" :style="{ color: generateRandomColor() }" v-for="item in tagList">
-        <span>{{ item }}</span>
-        <sub>{{ '12' }}</sub>
+        <span>{{ item.tagName }}</span>
+        <sub>{{ item.total }}</sub>
       </div>
     </div>
   </div>
@@ -80,7 +80,7 @@ onMounted(() => {
         sub {
           top: 0px;
           position: absolute;
-          right: 5px;
+          right: 15px;
           font-size: 14px;
           opacity: 0.6;
         }

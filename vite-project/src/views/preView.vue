@@ -1,7 +1,4 @@
 <!--
- * @Description:  
--->
-<!--
  * @Description: 首页前置页面
 -->
 <template>
