@@ -172,7 +172,7 @@ export const monthDayDiff = (startTime: any, endTime: any) => {
  * @param {any} endTime
  * @return {*}
  */
-export const secondDayDiff = (startTime: any, endTime: any, isCn: any) => {
+export const secondDayDiff = (startTime: any, endTime: any) => {
   var startDate = new Date(startTime);
   var endDate = new Date(endTime);
 

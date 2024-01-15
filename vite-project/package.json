@@ -12,6 +12,8 @@
   "dependencies": {
     "@element-plus/icons-vue": "^2.1.0",
     "@kangc/v-md-editor": "^2.3.15",
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "@vitejs/plugin-legacy": "^5.2.0",
     "axios": "^1.2.1",
     "bright-comment": "^1.5.7",
     "core-js": "^3.8.3",
@@ -26,6 +28,7 @@
     "monaco-editor": "^0.28.1",
     "particles.vue3": "^1.22.0",
     "pinia": "^2.1.4",
+    "require.js": "^1.0.0",
     "sass": "^1.63.6",
     "three": "^0.126.1",
     "vue-grid-layout": "^3.0.0-beta1",
@@ -55,7 +58,7 @@
     "unplugin-auto-import": "^0.16.4",
     "unplugin-vue-components": "^0.25.1",
     "vite": "^4.4.8",
-    "vite-plugin-require-transform": "^1.0.17",
+    "vite-plugin-require-transform": "^1.0.21",
     "vite-plugin-svg-icons": "^2.0.1",
     "vue-tsc": "^1.4.2"
   }

@@ -6,12 +6,12 @@
     <!-- <i class="cover-top"></i>
     <i class="cover-center"></i>
     <i class="cover-bottom"></i> -->
-    <div class="menu-count-wrap" @click="isShowMenu = true">
+    <!-- <div class="menu-count-wrap" @click="isShowMenu = true">
       <span class="menu-count-title">菜单<svg-icon iconName="down-black"></svg-icon></span>
       <div class="menu-count">
         <span>{{ menuList.length }}</span>
       </div>
-    </div>
+    </div> -->
     <ul class="sidebar-main">
       <li
         class="sidebar-main-item"
@@ -40,6 +40,10 @@ function menuClick(item: any) {
 
 onMounted(() => {
   menuList.value = (router.options.routes[1] as any).children[1].children;
+  if (menuList.value.length > 0) {
+    activeMenu.value = menuList.value[0];
+    router.push({ name: activeMenu.value.name });
+  }
 });
 </script>
 <style lang="scss" scoped>
@@ -57,14 +61,14 @@ onMounted(() => {
     box-shadow: get('box-shadow');
     .menu-count {
       span {
-        background: get('bk');
+        background: get('border-color');
         box-shadow: get('box-shadow');
       }
     }
   }
   .sidebar-main-item:hover,
   .sidebar-main-item.is-active {
-    background: get('bk');
+    background: get('border-color');
     color: white;
     transform: scale(1.04);
     box-shadow: 0px 1px 2px 0px #757171;
@@ -151,7 +155,7 @@ onMounted(() => {
 .sidebar-main {
   width: 100%;
   height: 100%;
-  z-index: -1;
+  z-index: 1;
   position: relative;
   margin: 0;
   padding: 0;
@@ -190,20 +194,20 @@ onMounted(() => {
 }
 .sidebar.is-show {
   .cover-top {
-    animation: toLeftTop 1s linear forwards;
+    // animation: toLeftTop 1s linear forwards;
   }
   .cover-bottom {
-    animation: toRightBottom 1s linear forwards;
+    // animation: toRightBottom 1s linear forwards;
   }
   .cover-center {
-    animation: expansion 1s linear forwards;
+    // animation: expansion 1s linear forwards;
   }
   .menu-count-wrap {
-    animation: titleOut 0.5s linear forwards;
+    // animation: titleOut 0.5s linear forwards;
   }
   .sidebar-main {
     z-index: 1;
-    animation: sidebarIn 1.5s linear forwards;
+    // animation: sidebarIn 1.5s linear forwards;
   }
 }
 .sidebar-main-item {

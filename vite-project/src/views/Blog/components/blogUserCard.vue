@@ -113,7 +113,9 @@ onMounted(() => {
     .introduction {
       height: 155px;
       width: 100%;
-      display: block;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
   }
 }

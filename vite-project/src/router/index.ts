@@ -92,6 +92,12 @@ const routes: Array<RouteRecordRaw> = [
             component: () => import('@/views/manage/musicManage/index.vue')
           },
           {
+            path: '/wallpaperManage',
+            name: 'wallpaperManage',
+            meta: { remark: '壁纸管理', isHidden: true },
+            component: () => import('@/views/manage/wallpaperManage/index.vue')
+          },
+          {
             path: '/logManage',
             name: 'logManage',
             meta: { remark: '更新日志管理', isHidden: true },
@@ -251,7 +257,7 @@ const routes: Array<RouteRecordRaw> = [
         path: '/drama',
         name: 'drama',
         meta: { remark: '影视' },
-        component: () => import('@/views/others/drama/index.vue')
+        component: () => import('@/views/others/dramaSeries/index.vue')
       },
       {
         path: '/gourmet',

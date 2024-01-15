@@ -61,7 +61,7 @@ function routerTo(item: any) {
 onMounted(() => {
   meteorDifference.value = monthDayDiff(new Date(), calculateNextPerseidMeteorShower());
   setInterval(() => {
-    timeDifference.value = secondDayDiff(beginDate, new Date(), false);
+    timeDifference.value = secondDayDiff(beginDate, new Date());
   }, 1000);
 });
 </script>

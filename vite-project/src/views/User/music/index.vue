@@ -9,8 +9,22 @@
       </div>
       <div class="music-search" v-if="isSearch">
         <el-input v-model="searchText"></el-input>
+        <div class="song-list" style="height: calc(100% - 40px)">
+          <div
+            class="song"
+            v-for="(song, i) in searchSongs"
+            :class="song.id == selectSong.id ? 'is-selected' : ''"
+            @click="songClick(song)"
+          >
+            <span class="song-name">
+              <span class="song-index">{{ i + 1 }}</span
+              >{{ song.name }}</span
+            >
+            <span class="song-singer">{{ song.author }}</span>
+          </div>
+        </div>
       </div>
-      <div class="song-list" style="height: 100%" v-else>
+      <div class="song-list" style="height: calc(100% - 40px)" v-else>
         <div
           class="song"
           v-for="(song, i) in songs"
@@ -48,7 +62,7 @@ import { formateDate } from '@/utils/date.ts';
 import musicPlayer from '@/views/assembly/testField/draggle/components/audioPlayer.vue';
 import { listSong, getSongById } from '@/api/music.ts';
 import { ElMessage } from 'element-plus';
-
+const searchSongs = ref([] as any);
 const router = useRouter();
 const isSearch = ref(false as any);
 const searchText = ref('' as any);
@@ -86,11 +100,11 @@ async function getSongData(id: any) {
 
 function changeSearch() {
   isSearch.value = !isSearch.value;
-  if (isSearch.value) {
-    songs.value = [];
-  } else {
-    songs.value = JSON.parse(JSON.stringify(songList.value));
-  }
+  // if (isSearch.value) {
+  //   songs.value = [];
+  // } else {
+  //   songs.value = JSON.parse(JSON.stringify(songList.value));
+  // }
 }
 
 function getNextSong() {
@@ -164,7 +178,7 @@ onMounted(() => {
   }
   .song:hover,
   .song.is-selected {
-    height: 40px;
+    // height: 40px;
     transform: scale(1.01);
     // font-size: 20px;
     margin: 5px 0px;

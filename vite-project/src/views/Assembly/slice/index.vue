@@ -3,13 +3,15 @@
 -->
 <template>
   <div class="page-main slice-main">
-    <!-- <div class="slice-header animated bounceInLeft">
-      <el-icon><Orange /></el-icon>{{ '比较简单的小东西' }}<el-icon><Right /></el-icon>
-    </div> -->
-    <div class="slice-header" style="width: 100%; height: 30px">一些小组件</div>
+    <div class="slice-header" style="width: 100%; height: 30px; display: flex">
+      <svg-icon
+        iconName="grinding"
+        style="width: 30px; height: 30px; margin-right: 15px"
+      />一些小组件
+    </div>
     <div class="slice-center">
       <div class="slice-item" v-for="(item, i) in sliceList" @click="toSlice(item)">
-        <img class="slice-item-cover" :src="item.url" />
+        <c-image class="slice-item-cover" :src="item.url" />
         <span class="slice-item-name">{{ item.label }}</span>
         <span class="slice-item-divider"></span>
         <span class="slice-item-instoction no-wrap">{{ item.introduction }}</span>
@@ -41,7 +43,7 @@ const sliceList = ref([
     label: '图片旋转魔方',
     routerName: 'rotatingRubik',
     introduction: '可旋转展示6面图片的魔方',
-    url: '/img/bk-1.jpg'
+    url: '/img/rotate rubik.jpg'
   }
 ] as any);
 
@@ -100,6 +102,7 @@ function getAnimate(i: any) {
       font-size: 22px;
       font-weight: bold;
       padding: 12px 30px;
+      margin-left: 25px;
     }
     .slice-center {
       display: flex;

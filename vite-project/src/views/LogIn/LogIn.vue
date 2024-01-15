@@ -41,7 +41,9 @@ async function logIn() {
     })) as any;
     if (code == 200) {
       const token = jwtDecode(Cookies.get('token')) as any;
+
       userStore.token = Cookies.get('token');
+      console.log('DDD', Cookies.get('token'));
       userStore.userId = token.user_id;
       userStore.userName = token.username;
       window.localStorage.setItem('token', Cookies.get('token'));

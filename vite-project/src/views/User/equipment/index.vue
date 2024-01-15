@@ -6,7 +6,7 @@
     <div class="equipment-header animated bounceInDown">
       <!-- <div class="equipment-header-img" :src="require('/img/bk-1.jpg')"></div> -->
       <video
-        src="/img/video_1800042575.mp4"
+        :src="'/img/video_1800042575.mp4'"
         class="equipment-header-video"
         autoplay
         loop

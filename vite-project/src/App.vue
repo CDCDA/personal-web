@@ -1,3 +1,4 @@
+<!-- @contextmenu.prevent.native="openMenu($event)" -->
 <template>
   <div id="app-theme" data-theme="theme-dark" v-cLoading="loading">
     <video id="tsparticles" autoplay loop muted v-if="backType == 'video'"></video>
@@ -13,17 +14,21 @@
       v-if="backType != 'video' && themeStore.aspectOptions?.isParticles"
     />
     <KeepAlive> <router-view /></KeepAlive>
+    <rightClickMenu :visible="visible" :left="left" :top="top" />
   </div>
 </template>
 <script setup lang="ts">
 import { ref, onMounted, watch } from 'vue';
+import rightClickMenu from '@/components/rightClickMenu/index.vue';
 import { useRouter } from 'vue-router';
 import useThemeStore from '@/store/modules/theme.ts';
 
 var themeStore = useThemeStore();
 const loading = ref('gear' as any);
 const router = useRouter();
-
+const visible = ref(false);
+const top = ref(0);
+const left = ref(0);
 const options = {
   background: {
     color: {
@@ -105,6 +110,22 @@ const realOptions = ref(JSON.parse(JSON.stringify(options)) as any);
 const backType = ref('img' as any);
 
 watch(
+  () => visible.value,
+  newValue => {
+    if (newValue) {
+      //菜单显示的时候
+      // document.body.addEventListener，document.body.removeEventListener它们都接受3个参数
+      // ("事件名" , "事件处理函数" , "布尔值");
+      // 在body上添加事件处理程序
+      document.body.addEventListener('click', closeMenu);
+    } else {
+      //菜单隐藏的时候
+      // 移除body上添加的事件处理程序
+      document.body.removeEventListener('click', closeMenu);
+    }
+  }
+);
+watch(
   () => themeStore.backType,
   newValue => {
     backType.value = newValue;
@@ -129,6 +150,19 @@ watch(
     deep: true
   }
 );
+
+//右击
+function openMenu(e: any) {
+  var x = e.pageX; //这个应该是相对于整个浏览器页面的x坐标，左上角为坐标原点（0,0）
+  var y = e.pageY; //这个应该是相对于整个浏览器页面的y坐标，左上角为坐标原点（0,0）
+  top.value = y;
+  left.value = x;
+  visible.value = true; //显示菜单
+}
+//关闭菜单
+function closeMenu() {
+  visible.value = false; //关闭菜单
+}
 
 function init() {
   setTimeout(() => {

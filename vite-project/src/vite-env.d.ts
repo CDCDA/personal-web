@@ -13,6 +13,7 @@ declare module 'codemirror/lib/codemirror.js';
 declare module 'vue-grid-layout';
 declare module 'js-cookie';
 declare module '@/utils/techStackData.js';
+declare module 'require';
 declare module '@kangc/v-md-editor/lib/plugins/line-number/index';
 
 declare module '*.vue' {

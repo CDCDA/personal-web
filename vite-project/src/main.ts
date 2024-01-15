@@ -13,7 +13,6 @@ import '@/assets/styles/animate.scss';
 import '@/assets/styles/element-ui-out-app.scss';
 // import '@/assets/styles/bounce.scss';
 import VueGridLayout from 'vue-grid-layout';
-
 import router from './router';
 import * as ElementPlusIconsVue from '@element-plus/icons-vue';
 import directives from '@/directives/index';
@@ -28,7 +27,7 @@ import pinia from './store';
 import hljs from 'highlight.js';
 
 // codemirror 编辑器的相关资源
-import Codemirror from 'codemirror';
+const Codemirror = require('codemirror');
 // mode
 import 'codemirror/mode/markdown/markdown';
 import 'codemirror/mode/javascript/javascript';

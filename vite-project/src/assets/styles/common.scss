@@ -167,10 +167,15 @@
 
 /* 管理 -- 结束 */
 .manage {
+  .el-dialog__header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
   .manage-main {
     height: 100%;
     width: calc(100% - 40px);
-    padding: 25px 20px;
+    padding: 15px 20px;
     position: relative;
     display: flex;
     flex-direction: column;
@@ -182,7 +187,7 @@
   .c-pagination {
     width: calc(100% - 40px) !important;
     position: absolute;
-    bottom: 55px;
+    bottom: 39px;
   }
   .c-divider {
     margin: 0px 0px 15px 0px !important;
@@ -218,7 +223,7 @@
       height: calc(100% - 140px);
     }
     100% {
-      height: calc(100% - 270px);
+      height: calc(100% - 255px);
     }
   }
   @keyframes table-hidden {
@@ -279,4 +284,4 @@
     transform: translateY(1px);
   }
 }
-/* 管理 -- 开始 */
+/* 管理 -- 结束 */

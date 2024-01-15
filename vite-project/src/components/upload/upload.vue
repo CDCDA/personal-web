@@ -84,18 +84,20 @@ function handleSucess(response: any) {
 // );
 </script>
 <style lang="scss" scoped>
-.avatar-uploader {
-  border: 1px dashed get('border-color');
-  background: transparent;
-  height: 100px;
-  width: 100px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 4px;
-  :deep(.el-upload) {
+@include theme() {
+  .avatar-uploader {
+    border: 1px dashed get('border-color');
+    background: transparent;
     height: 100px;
     width: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 4px;
+    :deep(.el-upload) {
+      height: 100px;
+      width: 100px;
+    }
   }
 }
 </style>

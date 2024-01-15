@@ -48,11 +48,14 @@ defineExpose({
 <style lang="scss">
 @include theme() {
   .router-view-dialog {
-    .el-dialog__body {
+    :deep(.el-dialog__body) {
       padding: 0px !important;
       width: 100% !important;
       height: 100% !important;
-      margin-top: 55px;
+      // margin-top: 55px;
+    }
+    .el-dialog__header {
+      display: block !important;
     }
     .c-dialog-title {
       position: absolute;

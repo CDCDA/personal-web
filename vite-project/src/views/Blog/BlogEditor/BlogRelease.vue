@@ -3,30 +3,36 @@
 -->
 <template>
   <el-dialog class="blog-release" v-model="dialogVisible" title="发布" width="700px" :modal="false">
-    <el-form class="blog-release-settings" :model="blogData" label-width="120px">
+    <el-form class="blog-release-settings" :model="blogData" label-width="80px">
       <el-form-item label="博客标签">
         <el-tag
           v-for="tag in blogData.tags"
           :key="tag"
-          class="mx-1"
+          class="tag-item"
           closable
           :disable-transitions="false"
           @close="tagDel(tag)"
         >
           {{ tag.tagName }}
         </el-tag>
+
         <el-input
           v-if="inputVisible"
           ref="InputRef"
           v-model="inputValue"
-          class="ml-1 w-20"
+          class="ml-1 w-20 button-new-tag"
           size="small"
           @keyup.enter="addTag"
           @blur="addTag"
         />
         <el-button v-else class="button-new-tag ml-1" size="small" @click="showInput">
-          + New Tag
+          + Tag
         </el-button>
+        <el-icon
+          @click="tagVisible = true"
+          style="font-size: 20px; margin-left: 10px; cursor: pointer"
+          ><Grid
+        /></el-icon>
       </el-form-item>
       <el-form-item label="博客分类">
         <el-tree-select
@@ -40,7 +46,7 @@
         </el-tree-select>
       </el-form-item>
       <el-form-item label="添加封面">
-        <el-upload
+        <!-- <el-upload
           class="avatar-uploader"
           action="/dev-api/pw/blog/uploadImg"
           :show-file-list="false"
@@ -49,7 +55,8 @@
         >
           <el-image v-if="imageUrl" :src="imageUrl" class="avatar" />
           <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
-        </el-upload>
+        </el-upload> -->
+        <upload v-model="props.blogData.coverUrl"></upload>
       </el-form-item>
       <el-form-item label="博客摘要">
         <el-input
@@ -65,18 +72,45 @@
         <el-button @click="dialogVisible = false">取消</el-button>
         <!-- <el-button @click="dialogVisible = false">保存为草稿 </el-button>
         <el-button @click="dialogVisible = false">定时发布 </el-button> -->
-        <el-button @click="blogRelease">发布 </el-button>
+        <el-button @click="submit">发布 </el-button>
       </span>
     </template>
+    <el-dialog
+      class="tag-dialog"
+      v-model="tagVisible"
+      title="标签选择"
+      width="500px"
+      :modal="false"
+    >
+      <el-tag
+        v-for="tag in tagList"
+        :key="tag"
+        class="tag-item"
+        :class="tag.isActive ? 'is-active' : ''"
+        :disable-transitions="false"
+        style="margin-bottom: 10px; cursor: pointer"
+        @click="chooseTag(tag)"
+      >
+        {{ tag.tagName }} </el-tag
+      ><template #footer>
+        <span class="dialog-footer">
+          <el-button @click="tagVisible = false">取消</el-button>
+          <el-button @click="setTags()">确定</el-button>
+        </span>
+      </template>
+    </el-dialog>
   </el-dialog>
 </template>
 <script setup lang="ts">
 import { ref, nextTick, onMounted } from 'vue';
 import { saveBlog } from '@/api/blog';
+import upload from '@/components/upload/upload.vue';
 import type { UploadProps } from 'element-plus';
 import { ElMessage } from 'element-plus';
 import { listType } from '@/api/type';
+import { listTag } from '@/api/tag';
 import type { UploadFile } from 'element-plus';
+const tagVisible = ref(false);
 const dialogVisible = ref(false);
 const props = defineProps({
   blogData: null
@@ -92,7 +126,7 @@ const inputVisible = ref(false);
 const InputRef = ref() as any;
 const typeList = ref([]);
 const imageUrl = ref(null as any);
-
+const tagList = ref([] as any);
 function close() {
   dialogVisible.value = false;
 }
@@ -113,7 +147,7 @@ function addTag() {
 //删除标签
 function tagDel(tag: string) {
   const { tags } = props.blogData;
-  tags.splice(tag.indexOf(tag), 1);
+  tags.splice(tags.indexOf(tag), 1);
 }
 
 function showInput() {
@@ -123,7 +157,7 @@ function showInput() {
   });
 }
 
-async function blogRelease() {
+async function submit() {
   const { code, msg } = (await saveBlog(props.blogData)) as any;
   if (code === 200) {
     ElMessage.success('发布成功');
@@ -134,7 +168,8 @@ async function blogRelease() {
 }
 
 function typeChange(val: any) {
-  console.log(val);
+  val;
+  // console.log(val);
 }
 
 async function getTypeTree() {
@@ -143,9 +178,18 @@ async function getTypeTree() {
   };
   const { code, msg, data } = (await listType(params)) as any;
   if (code === 200) {
-    typeList.value = data;
+    typeList.value = data.list;
   } else {
     ElMessage.error('分类数据获取失败', msg);
+  }
+}
+
+async function getTagList() {
+  const { code, msg, data } = (await listTag({})) as any;
+  if (code === 200) {
+    tagList.value = data.list;
+  } else {
+    ElMessage.error('标签数据获取失败', msg);
   }
 }
 
@@ -177,8 +221,24 @@ const beforeAvatarUpload: UploadProps['beforeUpload'] = rawFile => {
   return true;
 };
 
+function chooseTag(tag: any) {
+  console.log('tag', tag);
+  tag.isActive = !tag.isActive;
+}
+
+function setTags() {
+  props.blogData.tags = [];
+  tagList.value.forEach((tag: any) => {
+    if (tag.isActive) {
+      props.blogData.tags.push(tag);
+    }
+  });
+  tagVisible.value = false;
+}
+
 onMounted(() => {
   getTypeTree();
+  getTagList();
 });
 defineExpose({
   close,
@@ -196,10 +256,23 @@ defineExpose({
     color: get('font-color');
     border: 1px solid get('font-color');
   }
+
+  .tag-item.is-active {
+    background: get('bk') !important;
+    border: 1px solid transparent !important;
+    span {
+      color: get('re-font-color') !important;
+    }
+  }
+  .el-tag__close:hover {
+    path {
+      fill: get('re-font-color');
+    }
+  }
 }
 
 .el-upload {
-  border: 1px dashed get('font-color');
+  // border: 1px dashed get('font-color');
   background: transparent;
   height: 100px;
   width: 100px;
@@ -207,5 +280,11 @@ defineExpose({
 .el-upload-list__item.is-ready {
   height: 100px;
   width: 100px;
+}
+.button-new-tag {
+  width: 60px !important;
+}
+.tag-item {
+  cursor: pointer;
 }
 </style>

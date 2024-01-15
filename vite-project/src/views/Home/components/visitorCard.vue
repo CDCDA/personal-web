@@ -4,7 +4,10 @@
 <template>
   <div class="visitor-card c-card" id="card">
     <div class="card-header">
-      <el-icon><PriceTag /></el-icon><span class="tag-name">welcome</span>
+      <svg-icon iconName="welcome" style="width: 20px; height: 20px; margin-right: 8px" /><span
+        class="tag-name"
+        >welcome</span
+      >
     </div>
     <div class="visitor-location">
       欢迎来自

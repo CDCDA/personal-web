@@ -44,9 +44,9 @@
               class="back-image"
               v-if="item.type == 'img'"
               style="height: 90px"
-              :src="item.background"
+              :src="item.url"
               :preview-teleported="true"
-              :preview-src-list="[item.background]"
+              :preview-src-list="[item.url]"
               :fit="fits"
             >
               <template #placeholder>
@@ -62,9 +62,9 @@
               v-if="item.type == 'color'"
               class="back-image"
               style="height: 90px"
-              :style="{ background: item.background }"
+              :style="{ background: item.url }"
             />
-            <span class="back-label">{{ item.label }}</span>
+            <span class="back-label">{{ item.name }}</span>
           </div>
         </div></el-tab-pane
       >
@@ -75,16 +75,17 @@
             :class="['back-item', item.active ? 'back-item-active' : '']"
             @click="changeBack(item)"
           >
-            <video
+            <!-- <video
               v-if="item.type == 'video'"
               class="back-image"
               style="height: 90px"
               cover
-              :poster="item.url"
+              :poster="item.coverUrl"
             >
-              <source :src="item.background" type="video/mp4" />
-            </video>
-            <span class="back-label">{{ item.label }}</span>
+              <source :src="item.url" type="video/mp4" />
+            </video> -->
+            <c-image class="back-image" style="height: 90px" :src="item.coverUrl"></c-image>
+            <span class="back-label">{{ item.name }}</span>
           </div>
         </div></el-tab-pane
       >
@@ -122,6 +123,7 @@
 <script setup lang="ts">
 import { reactive, ref, onMounted } from 'vue';
 import useThemeStore from '@/store/modules/theme.ts';
+import { listWallpaper } from '@/api/wallpaper.ts';
 const emit = defineEmits(['closeThemeDialog']);
 const themeStore = useThemeStore();
 const dialogVisible = ref(true);
@@ -176,293 +178,12 @@ const themes = reactive([
   }
 ]);
 //背景图
-const backs = reactive([
-  {
-    label: '未来世界',
-    background: '/img/bk-1.jpg',
-    url: '/img/bk-1.jpg',
-    type: 'img',
-    active: true
-  },
-  {
-    label: '太空飞船',
-    background: '/img/bk-2.jpg',
-    url: '/img/bk-2.jpg',
-    type: 'img',
-    active: false
-  },
-  {
-    label: '赛博城市',
-    background: '/img/cyberpunk-city.jpg',
-    url: '/img/cyberpunk-city.jpg',
-    type: 'img',
-    active: false
-  },
-  {
-    label: '星河瀑布',
-    background: '/img/bk-3.jpg',
-    url: '/img/bk-3.jpg',
-    type: 'img',
-    active: false
-  },
-  {
-    label: '失落方舟',
-    background: '/img/失落方舟.jpg',
-    url: '/img/失落方舟.jpg',
-    type: 'img',
-    active: false
-  },
-  {
-    label: '未来赛博房间',
-    background: '/img/futuristic-sci-fi-room.jpg',
-    url: '/img/futuristic-sci-fi-room.jpg',
-    type: 'img',
-    active: false
-  },
-  {
-    label: 'lol',
-    background: '/img/lol.jpg',
-    url: '/img/lol.jpg',
-    type: 'img',
-    active: false
-  },
-  {
-    label: '龙与少女',
-    background: '/img/dragon-maiden.jpg',
-    url: '/img/dragon-maiden.jpg',
-    type: 'img',
-    active: false
-  },
-  {
-    label: '高达',
-    background: '/img/gundam.jpg',
-    url: '/img/gundam.jpg',
-    type: 'img',
-    active: false
-  },
-  {
-    label: '水墨太湖',
-    background: '/img/Ink-painting-taihu.jpg',
-    url: '/img/Ink-painting-taihu.jpg',
-    type: 'img',
-    active: false
-  },
-  {
-    label: '和服女孩',
-    background: '/img/kimono-girl.jpg',
-    url: '/img/kimono-girl.jpg',
-    type: 'img',
-    active: false
-  },
-  {
-    label: '休憩的巫女',
-    background: '/img/resting-hexenbiest.jpg',
-    url: '/img/resting-hexenbiest.jpg',
-    type: 'img',
-    active: false
-  },
-  {
-    label: '奥特曼',
-    background: '/img/ultraman.jpg',
-    url: '/img/ultraman.jpg',
-    type: 'img',
-    active: false
-  },
-  {
-    label: '无边光景',
-    background: '/img/boundless-scene.jpg',
-    url: '/img/boundless-scene.jpg',
-    type: 'img',
-    active: false
-  },
-  {
-    label: '龙座',
-    background: '/img/dragon-seat.jpg',
-    url: '/img/dragon-seat.jpg',
-    type: 'img',
-    active: false
-  },
-  {
-    label: '枫林湖畔',
-    background: '/img/fenglin-lake.jpg',
-    url: '/img/fenglin-lake.jpg',
-    type: 'img',
-    active: false
-  },
-  {
-    label: '鹅国小酒馆',
-    background: '/img/goose-country-tavern.jpg',
-    url: '/img/goose-country-tavern.jpg',
-    type: 'img',
-    active: false
-  },
-  {
-    label: '度假猫',
-    background: '/img/holiday-cat.jpg',
-    url: '/img/holiday-cat.jpg',
-    type: 'img',
-    active: false
-  },
-  {
-    label: '林间小屋',
-    background: '/img/hut.jpg',
-    url: '/img/hut.jpg',
-    type: 'img',
-    active: false
-  },
-  {
-    label: '皮卡丘',
-    background: '/img/pikachu.jpg',
-    url: '/img/pikachu.jpg',
-    type: 'img',
-    active: false
-  },
-  {
-    label: '雨中车站',
-    background: '/img/station-in-the-rain.jpg',
-    url: '/img/station-in-the-rain.jpg',
-    type: 'img',
-    active: false
-  },
-  {
-    label: '默认图',
-    background: '/img/default.jpg',
-    url: '/img/default.jpg',
-    type: 'img',
-    active: false
-  },
-  {
-    label: '失落方舟 mp4',
-    background: '/img/失落方舟.mp4',
-    url: '/img/失落方舟.jpg',
-    type: 'video',
-    active: false
-  },
-  {
-    label: 'Kiana mp4',
-    background: '/img/Kiana.mp4',
-    url: '/img/Kiana.jpg',
-    type: 'video',
-    active: false
-  },
-  {
-    label: '御三家',
-    background: '/img/御三家.mp4',
-    url: '/img/御三家.jpg',
-    type: 'video',
-    active: false
-  },
-  {
-    label: '寒冰 mp4',
-    background: '/img/寒冰.mp4',
-    url: '/img/寒冰.jpg',
-    type: 'video',
-    active: false
-  },
-  {
-    label: '凛桎鸣渊 mp4',
-    background: '/img/凛桎鸣渊.mp4',
-    url: '/img/凛桎鸣渊.jpg',
-    type: 'video',
-    active: false
-  },
-  {
-    label: '玛奇玛 mp4',
-    background: '/img/makima.mp4',
-    url: '/img/makima.jpg',
-    type: 'video',
-    active: false
-  },
-  {
-    label: '神里-白服 mp4',
-    background: '/img/神里-白服.mp4',
-    url: '/img/神里-白服.jpg',
-    type: 'video',
-    active: false
-  },
-  {
-    label: '桜庭統 mp4',
-    background: '/img/桜庭統.mp4',
-    url: '/img/桜庭統.jpg',
-    type: 'video',
-    active: false
-  },
-  {
-    label: '无奇典当 mp4',
-    background: '/img/无奇典当.mp4',
-    url: '/img/无奇典当.jpg',
-    type: 'video',
-    active: false
-  },
-  {
-    label: '睡颜影 mp4',
-    background: '/img/睡颜影.mp4',
-    url: '/img/睡颜影.jpg',
-    type: 'video',
-    active: false
-  },
-  {
-    label: '年 mp4',
-    background: '/img/年.mp4',
-    url: '/img/年.jpg',
-    type: 'video',
-    active: false
-  },
-  {
-    label: '太空猫 mp4',
-    background: '/img/太空猫.mp4',
-    url: '/img/太空猫.jpg',
-    type: 'video',
-    active: false
-  },
-  {
-    label: '夏日 mp4',
-    background: '/img/夏日.mp4',
-    url: '/img/夏日.jpg',
-    type: 'video',
-    active: false
-  },
-  {
-    label: '晓梦浮生 mp4',
-    background: '/img/晓梦浮生.mp4',
-    url: '/img/晓梦浮生.jpg',
-    type: 'video',
-    active: false
-  },
-  {
-    label: '夜华如昼 mp4',
-    background: '/img/夜华如昼.mp4',
-    url: '/img/夜华如昼.jpg',
-    type: 'video',
-    active: false
-  },
-  {
-    label: '遗迹 mp4',
-    background: '/img/遗迹.mp4',
-    url: '/img/遗迹.jpg',
-    type: 'video',
-    active: false
-  },
-  {
-    label: '月下 mp4',
-    background: '/img/月下.mp4',
-    url: '/img/月下.jpg',
-    type: 'video',
-    active: false
-  },
-  {
-    label: '纯色-灰白',
-    background: '#f7f9fe',
-    type: 'color',
-    url: '#f7f9fe',
-    active: false
-  }
-]);
+const backs = reactive([] as any);
 //字体
 const fontFamilys = [
   {
     value: 'DaoLiTi',
-    label: '刀隶体'
+    name: '刀隶体'
   },
   {
     value: 'FangDaKai',
@@ -529,7 +250,7 @@ function setTheme() {
 function setBack() {
   let backUrl = activeBack.url as any;
   if (activeBack.type == 'video') {
-    localStorage.setItem('backUrl', activeBack.background);
+    localStorage.setItem('backUrl', activeBack.url);
   } else {
     localStorage.setItem('backUrl', backUrl);
   }
@@ -544,7 +265,8 @@ function setBack() {
       back.style.background = backUrl;
       break;
     case 'video':
-      back.src = activeBack.background;
+      console.log(activeBack.url);
+      back.src = activeBack.url;
       break;
     default:
       break;
@@ -678,8 +400,16 @@ function init() {
   });
 }
 
+async function getBackList() {
+  const { code, msg, data } = (await listWallpaper({})) as any;
+  if (code == 200) {
+    Object.assign(backs, data.list);
+    init();
+  }
+}
+
 onMounted(() => {
-  init();
+  getBackList();
 });
 defineExpose({
   close,
@@ -728,6 +458,7 @@ defineExpose({
       flex-wrap: wrap;
       .theme-item,
       .back-item {
+        cursor: pointer;
         // height: 120px;
         aspect-ratio: 3/2;
         width: calc(20% - 16px);

@@ -9,7 +9,9 @@ import vue from '@vitejs/plugin-vue';
 import commonjs from '@rollup/plugin-commonjs';
 import requireTransform from 'vite-plugin-require-transform';
 import path from 'path';
+// import legacy from '@vitejs/plugin-legacy';
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons';
+
 import AutoImport from 'unplugin-auto-import/vite';
 import Components from 'unplugin-vue-components/vite';
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers';
@@ -18,18 +20,21 @@ const resolve = dir => path.resolve(__dirname, dir);
 // https://vitejs.dev/config/
 export default defineConfig({
   // root: resolve('./'), //  入口index.html，注意入口js应该与index.html 同一目录下（只能写到目录，不能写到具体文件）
-  // base: './',
+  base: './',
   // publicDir: resolve('static'), //静态资源文件夹
   plugins: [
     commonjs() as any,
+    // legacy({
+    //   targets: ['defaults', 'not IE 11']
+    // }),
     vue(),
     createSvgIconsPlugin({
       iconDirs: [path.resolve(process.cwd(), 'src/assets/svg')],
       symbolId: '[name]'
     }),
     requireTransform({
-      fileRegex: /.js$|.vue$/
-    })
+      fileRegex: /.js$|.vue$|.png$|.ts$|.jpg$/
+    }) //配置require
   ],
   css: {
     preprocessorOptions: {

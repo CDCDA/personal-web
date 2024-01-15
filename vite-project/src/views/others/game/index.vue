@@ -24,7 +24,7 @@
           :class="getAnimateTime()"
           v-for="item in singlePlayerGames"
         >
-          <img :src="item.coverUrl" />
+          <c-image :src="item.coverUrl" />
           <div class="single-game-info">
             <h3>{{ item.name }}</h3>
             <span class="no-wrap">{{ item.intro }}</span>
@@ -38,7 +38,7 @@
       </div>
       <div class="single-game-list">
         <div class="single-game-item" v-for="item in MobileGames">
-          <img :src="item.coverUrl" />
+          <c-image :src="item.coverUrl" />
           <div class="single-game-info">
             <h3>{{ item.name }}</h3>
             <span class="no-wrap">{{ item.intro }}</span>
@@ -270,7 +270,7 @@ onMounted(() => {});
       @include flex-column;
       justify-content: start;
       overflow: hidden;
-      img {
+      .el-image {
         width: calc(100% - 6px);
         border-radius: 8px;
         aspect-ratio: 5/3;

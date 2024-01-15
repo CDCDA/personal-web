@@ -17,20 +17,20 @@
 
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
-import { listType } from '@/api/type';
+import { listTotalType } from '@/api/type';
 import useUserStore from '@/store/modules/user';
 const userStore = useUserStore();
 const typeList = ref([] as any);
 
-async function getTypeTree(userId: any) {
-  const { code, msg, data } = (await listType({ userId })) as any;
+async function getTypeTree() {
+  const { code, msg, data } = (await listTotalType({})) as any;
   if (code === 200 && data) {
-    typeList.value = data;
+    typeList.value = data.list;
   }
 }
 
 onMounted(() => {
-  getTypeTree(userStore.userId);
+  getTypeTree();
 });
 </script>
 <style lang="scss" scoped>

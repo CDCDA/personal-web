@@ -43,6 +43,21 @@
             <span>{{ i }}</span>
           </li>
         </template>
+        <div v-if="showSizes" class="page-size">
+          <div class="page-select" @click="showPageList = !showPageList">
+            {{ pageSize }}条/页
+            <div v-if="showPageList" class="select-box">
+              <div
+                v-for="(item, index) in pageSizeList"
+                :key="index"
+                class="seleclt-opotion"
+                @click.stop="onSize(item)"
+              >
+                {{ item }}
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
       <li
@@ -57,23 +72,6 @@
         <span class="arrow"></span>
       </li>
     </ul>
-    <!-- <div v-if="showSizes" class="page-size">
-      每页显示数量
-      <div class="page-select" @mouseenter="showPageList = true" @mouseleave="showPageList = false">
-        {{ pageSize }}
-        <div v-if="showPageList" class="select-box">
-          <div
-            v-for="(item, index) in pageSizeList"
-            :key="index"
-            class="seleclt-opotion"
-            @click.stop="onSize(item)"
-          >
-            {{ item }}
-          </div>
-        </div>
-      </div>
-      共{{ total }}条
-    </div> -->
   </div>
 </template>
 
@@ -171,6 +169,7 @@ export default {
     onSize(e) {
       this.$emit('update:pageSize', e);
       this.onPageChange(1);
+      this.showPageList = false;
       // this.onPageSizeChange(e);
       // //const page = Math.ceil(this.total / e);
       // this.onPageChange(1);
@@ -244,10 +243,11 @@ export default {
       justify-content: space-between;
       white-space: nowrap;
       align-items: center;
-      padding: 10px;
+      padding: 0px;
       margin: 0px;
     }
     .pn {
+      border: 1px solid get('border-color');
       float: left;
       list-style: none;
       cursor: pointer;
@@ -272,11 +272,13 @@ export default {
       }
       &:hover:not(.disabled) {
         background: get('bk');
+        border: 1px solid transparent;
         color: #fff;
       }
       &.active.active {
         background: get('bk');
         border-color: get('bk');
+        border: 1px solid transparent;
         color: #fff;
       }
       & > .dots {
@@ -328,6 +330,7 @@ export default {
       &.prev {
         color: #fff !important;
         background: get('bk');
+        border: 1px solid transparent;
       }
       &.disabled {
         cursor: not-allowed;
@@ -371,22 +374,28 @@ export default {
       }
     }
     .page-size {
-      margin-left: 30px;
       display: flex;
       align-items: center;
+      width: auto;
+      height: 45px;
+      padding: 10px;
+      margin: 0px;
       .page-select {
-        height: 40px;
-        background: #f6f7fc;
+        border: 1px solid get('border-color');
+        white-space: nowrap;
+        height: 100%;
+        background: get('background');
         min-width: 55px;
-        padding: 0 8px;
+        padding: 0 8px 0px 12px;
         margin: 0 8px;
-        border: none;
         outline: none;
         display: flex;
         align-items: center;
         justify-content: center;
         position: relative;
         cursor: pointer;
+        width: auto;
+        border-radius: 8px;
         &::after {
           content: '';
           width: 0px;
@@ -402,8 +411,13 @@ export default {
           position: absolute;
           left: 0;
           width: 100%;
-          top: 40px;
+          bottom: 50px;
           border: 1px solid #eee;
+          background: get('background-no-tp');
+          border-radius: 8px;
+          border: 1px solid get('border-color');
+          z-index: 11;
+          overflow: hidden;
           .seleclt-opotion {
             padding: 0 10px;
             &:hover {

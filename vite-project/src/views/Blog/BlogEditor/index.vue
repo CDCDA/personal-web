@@ -2,15 +2,11 @@
   <div class="mavon-editor-container page-main">
     <div class="blog-editor-header">
       <el-button @click="blogSave" class="bt-save">保存</el-button>
-      <el-input
-        class="blog-title-editor"
-        placeholder="请输入标题"
-        v-model="blogData.blogTitle"
-      ></el-input>
+      <el-input class="blog-title-editor" placeholder="请输入标题" v-model="blogData.blogTitle" />
       <el-button @click="openRelease" class="bt-release">发布</el-button>
     </div>
-    <v-md-editor v-model="blogData.content"></v-md-editor>
-    <BlogRelease :blog-data="blogData" ref="blogRelease"></BlogRelease>
+    <v-md-editor v-model="blogData.content" />
+    <BlogRelease :blog-data="blogData" ref="blogRelease" />
   </div>
 </template>
 
@@ -86,7 +82,7 @@ onMounted(() => {
       border-radius: 0px !important;
     }
     .v-md-editor {
-      height: calc(86vh - 55px);
+      height: calc(86vh - 35px);
       border-radius: 5px;
       overflow: hidden;
       box-shadow: get('box-shadow');
@@ -155,11 +151,8 @@ onMounted(() => {
     }
     .blog-title-editor {
       .el-input__inner {
-        // background: get('background');
-        border: none;
-        color: get('font-color');
         text-align: center;
-        font-size: 22px;
+        font-size: 16px;
       }
     }
 
@@ -182,19 +175,15 @@ onMounted(() => {
       margin-bottom: 10px;
       .bt-save {
         margin-right: 10px;
-        border: 1px solid get('font-color');
-        width: 140px;
-        height: 45px;
-        font-size: 18px;
-        border-radius: 5px;
+        width: 100px;
+        height: 35px;
+        font-size: 16px;
       }
       .bt-release {
         margin-left: 10px;
-        border: 1px solid get('font-color');
-        width: 140px;
-        height: 45px;
-        font-size: 18px;
-        border-radius: 5px;
+        width: 100px;
+        height: 35px;
+        font-size: 16px;
       }
     }
   }

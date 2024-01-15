@@ -4,8 +4,11 @@
 <template>
   <div class="home-container">
     <div class="home-top">
-      <span class="main-top-title anim-typewriter">CCCC的小破站</span>
-      <span class="main-top-vice-title">逛逛吧</span>
+      <!-- <span class="main-top-title anim-typewriter">{{ slogan }}</span> -->
+      <div class="main-top-title">
+        <div data-text></div>
+      </div>
+      <!-- <span class="main-top-vice-title">逛逛吧</span> -->
       <svg-icon iconName="down-black" class="CycleUpDown" @click="toMainPage"></svg-icon>
     </div>
     <div class="home-main">
@@ -33,20 +36,26 @@
                 class="recommd-left-stack"
                 :isHoverShow="false"
               ></TechnologyStackCard>
-              <div class="recommend-left-top-cover">
+              <div class="recommend-left-top-cover" @click="toRange()">
                 <div>随便逛逛</div>
                 <svg-icon iconName="right"></svg-icon>
               </div>
             </div>
             <div class="recommend-left-bottom">
-              <div class="bottom-item">
-                <span>必读精选</span><svg-icon iconName="book"></svg-icon>
+              <div
+                class="bottom-item"
+                @click="router.push({ name: 'blogTypePage', query: { typeId: '1' } })"
+              >
+                <span>前端小记</span><svg-icon iconName="book" />
               </div>
-              <div class="bottom-item">
-                <span>热门文章</span><svg-icon iconName="hot"></svg-icon>
+              <div
+                class="bottom-item"
+                @click="router.push({ name: 'blogTypePage', query: { typeId: '2' } })"
+              >
+                <span>后端总结</span><svg-icon iconName="hot" />
               </div>
-              <div class="bottom-item">
-                <span>生活随笔</span><svg-icon iconName="edit"></svg-icon>
+              <div class="bottom-item" @click="router.push({ name: 'essay' })">
+                <span>生活随笔</span><svg-icon iconName="edit" />
               </div>
             </div>
           </div>
@@ -65,15 +74,18 @@
         <div class="display-page">
           <div class="display-left">
             <div class="display-header">
-              <div
-                class="header-item"
-                :class="item.isActive ? 'is-active' : ''"
-                v-for="item in typeList"
-                @click="isActive(item)"
-              >
-                {{ item.typeName }}
+              <div class="type-list">
+                <div
+                  class="type-item"
+                  :class="item.isActive ? 'is-active' : ''"
+                  v-for="item in typeList"
+                  @click="setQuery(item)"
+                >
+                  <!-- <span class="type-item-prefix" v-if="item.typeId">#</span> -->
+                  <span class="type-item-content">{{ item.typeName }}</span>
+                  <!-- <span class="type-item-count">{{ item.total }}</span> -->
+                </div>
               </div>
-              <div class="header-more" style="float: right">更多</div>
             </div>
             <div class="display-list">
               <div class="list-item" v-for="item in recommends" @click="toDetail(item)">
@@ -133,10 +145,11 @@
   </div>
 </template>
 <script setup lang="ts">
+import rightClickMenu from '@/components/rightClickMenu/index.vue';
 import { onMounted, ref, watch } from 'vue';
 import { listBlog } from '@/api/blog';
 import { ElMessage } from 'element-plus';
-import { listType } from '@/api/type';
+import { listTotalType } from '@/api/type';
 import useUserStore from '@/store/modules/user';
 import { useRouter } from 'vue-router';
 import { formateDate } from '@/utils/date.ts';
@@ -165,6 +178,17 @@ watch(
     immediate: true
   }
 );
+
+const slogans = ref([
+  'CCCC的小破站',
+  '来逛逛吧',
+  '生活不只有眼前的苟且',
+  '还有远方的苟且',
+  '几年很快的',
+  '风一吹就没了'
+] as any);
+
+const slogan = ref('' as String);
 
 const headerList = ref([
   {
@@ -199,7 +223,7 @@ async function getBlogList() {
   if (code === 200) {
     recommends.value = data.list;
     tRecommends.value = JSON.parse(JSON.stringify(data.list));
-    tRecommends.value.length = 6;
+    tRecommends.value.length > 6 ? (tRecommends.value.length = 6) : '';
     total.value = data.total;
   } else {
     ElMessage.error('博客数据获取失败', msg);
@@ -219,13 +243,24 @@ function toMainPage() {
  * @description: 获取分类树
  * @return {*}
  */
+
 async function getTypeTree() {
-  const params = {
-    userId: userStore.userId
-  };
-  const { code, msg, data } = (await listType(params)) as any;
+  const { code, msg, data } = (await listTotalType(queryParams.value)) as any;
   if (code === 200) {
-    typeList.value = data;
+    typeList.value = data.list;
+    let total = 0;
+    typeList.value.forEach((e: any) => {
+      total += e.total;
+    });
+    typeList.value.unshift({
+      typeName: '全部',
+      isActive: false,
+      total
+    });
+    queryParams.value.typeId = router.currentRoute.value.query.typeId;
+    typeList.value.forEach((e: any) => {
+      if (e.typeId === queryParams.value.typeId) e.isActive = true;
+    });
   } else {
     ElMessage.error('分类数据获取失败', msg);
   }
@@ -284,6 +319,67 @@ function setFontColor() {
   localStorage.setItem('aspectOptions', JSON.stringify(options));
 }
 
+function setTyping() {
+  let wrapper = null as any;
+  const sleep = (ms: any) => new Promise(resolve => setTimeout(resolve, ms));
+  async function writingAll(container: any) {
+    wrapper = document.querySelector('[' + container + ']');
+    // const stringsContainer = document.getElementsByClassName(stringTarget);
+
+    while (wrapper) {
+      for (let i = 0; i < slogans.value.length; i++) {
+        const string = slogans.value[i];
+        await write(string);
+        await sleep(2000);
+        await erase();
+        await sleep(1000);
+      }
+    }
+  }
+
+  async function write(text: any) {
+    let index = 0;
+    while (index < text.length) {
+      const timeout = 100;
+      await sleep(timeout);
+      index++;
+      wrapper.innerHTML = text.substring(0, index);
+    }
+  }
+
+  async function erase() {
+    while (wrapper.textContent.length) {
+      const timeout = 100;
+      await sleep(timeout);
+      wrapper.textContent = wrapper.textContent.substring(0, wrapper.textContent.length - 2);
+    }
+  }
+  writingAll('data-text');
+}
+
+const routes = router.getRoutes().filter((e: any) => {
+  return e.meta.isHidden !== true && e.meta.remark;
+}) as any;
+
+function toRange() {
+  router.push({
+    name: 'blogDisplay',
+    query: { blogId: recommends.value[Math.ceil(Math.random() * recommends.value.length)].blogId }
+  });
+}
+
+function setQuery(item: any) {
+  if (item) {
+    typeList.value.forEach((type: any) => {
+      type.isActive = false;
+    });
+    item.isActive = true;
+  }
+  queryParams.value.pageNum = 1;
+  queryParams.value.typeId = item.typeId;
+  getBlogList();
+}
+
 onMounted(() => {
   getBlogList();
   getTypeTree();
@@ -294,37 +390,10 @@ onMounted(() => {
       headerRoll(header);
     }, 5000);
   }
+  setTyping();
 });
 </script>
 <style lang="scss" scoped>
-.main-top-title {
-  border-right: 2px solid rgba(255, 255, 255, 0.75);
-  text-align: center;
-  white-space: nowrap;
-  overflow: hidden;
-}
-
-/* Animation */
-.anim-typewriter {
-  animation: typewriter 4s steps(30) 1s 1 normal both,
-    blinkTextCursor 500ms steps(8) infinite normal;
-}
-@keyframes typewriter {
-  from {
-    width: 0;
-  }
-  to {
-    width: 24em;
-  }
-}
-@keyframes blinkTextCursor {
-  from {
-    border-right-color: rgba(255, 255, 255, 0.75);
-  }
-  to {
-    border-right-color: transparent;
-  }
-}
 @keyframes slide-in {
   0% {
     width: 33%;
@@ -820,6 +889,101 @@ onMounted(() => {
         }
       }
     }
+  }
+  .type-list {
+    @include flex;
+    justify-content: start;
+    flex-wrap: wrap;
+    width: 100%;
+    .type-item {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      padding: 6px 12px;
+      margin: 3px;
+      border-radius: 10px;
+      color: #363636;
+      font-size: 18px;
+      transition: all 0.3s ease-in-out;
+      // border: 2px solid get('border-color');
+      .type-item-prefix {
+        opacity: 0.8;
+        font-weight: bold;
+      }
+      .type-item-content {
+        margin-left: 4px;
+        font-weight: bold;
+      }
+      .type-item-count {
+        background: #f7f7f9;
+        padding: 0px 5px;
+        border-radius: 8px;
+        text-align: center;
+        min-width: 21px;
+        display: inline-block;
+        margin-left: 6px;
+      }
+    }
+    .type-item:active {
+      transform: translateY(5px);
+    }
+    .type-item:hover,
+    .type-item.is-active {
+      background: get('border-color');
+      color: white;
+
+      // box-shadow: get('box-shadow');
+
+      .type-item-count {
+        color: get('font-color');
+      }
+    }
+  }
+}
+</style>
+<style>
+.main-top-title .item {
+  visibility: hidden;
+  display: none;
+}
+.main-top-title h2 {
+  font-size: 50px;
+  margin: 0;
+  height: 50px;
+  color: white;
+  text-align: left;
+}
+.main-top-title > div {
+  min-height: 20px;
+  height: 50px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  display: flex;
+  align-items: flex-end;
+  font-weight: bold;
+}
+.main-top-title > div:after {
+  content: '';
+  width: 2.5rem;
+  height: 4px;
+  display: block;
+  background: white;
+  color: orange;
+  margin-bottom: 4px;
+  margin-left: 2px;
+  animation-duration: 350ms;
+  animation-name: fade;
+  animation-direction: alternate;
+  animation-iteration-count: infinite;
+}
+
+@keyframes fade {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
   }
 }
 </style>

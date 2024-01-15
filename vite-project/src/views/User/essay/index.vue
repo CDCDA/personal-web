@@ -4,7 +4,13 @@
 <template>
   <div class="page-main essay-main">
     <div class="essay-header animated bounceInDown">
-      <video src="/img/video_2000212665.mp4" class="essay-header-video" autoplay loop muted></video>
+      <video
+        :src="'/img/video_2000212665.mp4'"
+        class="essay-header-video"
+        autoplay
+        loop
+        muted
+      ></video>
       <span class="essay-header-center"
         >喝一壶清茶，写几行小篆，<br />看一剪流云，梦一回江南。愿与草木，随遇而安</span
       >
@@ -43,25 +49,25 @@
               class="img-list-item"
               :preview-src-list="item.images"
               v-for="img in item.images"
-              :initial-index="4"
               :preview-teleported="true"
               :src="img"
               fit="cover"
               lazy
             >
               <template #placeholder>
-                <div
-                  class="image-slot"
-                  v-cLoading="imgLoading"
-                  style="width: 100%; height: 100%"
-                ></div>
+                <div class="image-slot" v-cLoading="imgLoading" style="width: 100%; height: 100%" />
+              </template>
+              <template #error>
+                <div class="image-error-slot">
+                  <svg-icon iconName="imgFailed" />
+                </div>
               </template>
             </el-image>
           </div>
           <div class="c-dotted-line"></div>
           <span class="essay-item-date"
             ><el-icon><Clock /></el-icon
-            >{{ formateDate(new Date(item.createTime), 'YY-mm-dd') }}</span
+            >{{ formateDate(new Date(item.createTime), 'YY-MM-dd') }}</span
           >
         </div>
       </grid-item>
@@ -125,7 +131,8 @@ function getAnimate(i: any) {
 watch(
   () => essayList.value,
   val => {
-    console.log(val);
+    val;
+    // console.log(val);
   },
   {
     deep: true

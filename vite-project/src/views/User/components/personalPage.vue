@@ -13,7 +13,7 @@
         <div>{{ userInfo.nickName }}</div>
         <div>{{ userInfo.account }}</div>
         <div style="margin-top: 5px; font-size: 13px">
-          入站时间：{{ formateDate('YY-MM', new Date(userInfo.createTime)) }}
+          入站时间：{{ formateDate(new Date(userInfo.createTime), 'YY-MM') }}
         </div>
       </div>
     </div>

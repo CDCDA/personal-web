@@ -94,7 +94,7 @@ onMounted(() => {
 <style lang="scss" scoped>
 @include theme() {
   .finder__inner {
-    border: 2px solid #49b1f5;
+    border: 2px solid get('border-color');
   }
 }
 .el-dialog__body {

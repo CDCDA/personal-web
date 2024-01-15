@@ -4,7 +4,7 @@
 <template>
   <div class="update-log page-main">
     <div class="update-log-top fade-in">
-      <img :src="'/img/quiet-forest.jpg'" />
+      <c-image :src="'/img/quiet-forest.jpg'" />
     </div>
     <div class="update-log-preface">
       <h2>前言</h2>

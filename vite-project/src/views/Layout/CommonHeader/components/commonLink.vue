@@ -93,6 +93,7 @@ function clickLink(item: any) {
         text-align: left;
         padding-left: 27px;
         font-weight: normal;
+        color: get('font-color');
       }
       .link-list {
         @include flex;
@@ -120,6 +121,7 @@ function clickLink(item: any) {
           }
           .link-text {
             font-size: 15px;
+            color: get('font-color');
           }
           &:hover {
             background: get('bk');

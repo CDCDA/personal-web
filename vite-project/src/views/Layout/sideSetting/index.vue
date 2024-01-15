@@ -28,7 +28,7 @@
     v-if="isThemeDialogShow"
     ref="themeDialog"
   ></theme-dialog>
-  <AddLog v-if="isAddLogShow" @close="closeLog"></AddLog>
+  <AddLog v-if="isAddLogShow" @close="closeLog" :form="{}"></AddLog>
 </template>
 <script setup lang="ts">
 import { ref } from 'vue';

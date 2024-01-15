@@ -48,6 +48,12 @@
 .el-input__inner::placeholder {
   color: get('placeholder');
 }
+.el-textarea__inner {
+  color: get('font-color');
+  box-shadow: none;
+  border: 1px solid get('border-color');
+}
+
 /* 输入框 -- 结束 */
 
 /* 弹窗 -- 开始 */
@@ -55,16 +61,16 @@
   overflow: hidden;
 }
 .el-dialog {
-  background: get('background');
+  background: get('background-no-tp');
   border-radius: 12px;
   box-shadow: get('box-shadow');
   backdrop-filter: blur(20px);
   overflow: hidden;
   .el-dialog__header {
     height: 53px;
-    // display: flex;
-    // align-items: center;
-    // justify-content: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     // margin-bottom: 1px;
   }
   .el-dialog__title {
