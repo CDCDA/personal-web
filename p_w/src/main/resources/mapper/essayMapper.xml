@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pw.mapper.EssayMapper">
+    <resultMap type="com.pw.vo.EssayVO" id="essayMap">
+        <id property="id" column="id"/>
+        <result property="content" column="content"/>
+        <result property="userId" column="user_id"/>
+        <collection property="images" javaType="list" ofType="String" select="getImagesByEssayId"
+                    column="{essayId = id}">
+            <result column="url"/>
+        </collection>
+    </resultMap>
+
+    <!--按id查询图片集合-->
+    <select id="getImagesByEssayId" resultType="String">
+        select i.url
+        from `essay` e
+                 join `image_relation` i ON e.id = i.essay_id
+            and e.id = ${essayId}
+    </select>
+
+    <!--按id查询随笔-->
+    <select id="getEssayById" resultMap="essayMap">
+        select
+        e.id,
+        e.content,
+        e.user_id,
+        e.create_time
+        from `essay` e
+        <where>
+            <if test="essayId != null and essayId!=''">
+                and e.id = "${essayId}"
+            </if>
+        </where>
+    </select>
+
+    <!--随笔列表查询-->
+    <select id="listEssay" resultMap="essayMap">
+        select
+        e.id,
+        e.content,
+        e.user_id,
+        e.create_time
+        from `essay` e
+        <where>
+            <if test="userId != null and userId!=''">
+                and
+                e.user_id = "${userId}"
+            </if>
+            <if test="startTime != null and startTime!='' and endTime != null and endTime!=''">
+                and
+                e.create_time between startTime and endTime
+            </if>
+        </where>
+        order by create_time desc
+        <if test="pageNum != null and pageNum!='' and pageSize != null and pageSize!=''">
+            LIMIT ${(pageNum-1)*pageSize},${pageSize}
+        </if>
+    </select>
+
+    <!--随笔统计-->
+    <select id="count" resultType="integer">
+        select count(*)
+        from `essay` e
+        <where>
+            <if test="userId != null and userId!=''">
+                and
+                e.user_id = "${userId}"
+            </if>
+            <if test="startTime != null and startTime!='' and endTime != null and endTime!=''">
+                and
+                e.create_time between startTime and endTime
+            </if>
+        </where>
+        order by create_time desc
+        <if test="pageNum != null and pageNum!='' and pageSize != null and pageSize!=''">
+            LIMIT ${(pageNum-1)*pageSize},${pageSize}
+        </if>
+    </select>
+
+
+
+
+</mapper>
+
