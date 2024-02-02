@@ -1,10 +1,8 @@
 package com.pw.controller;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.pw.common.controller.BaseController;
 import com.pw.common.controller.convertController;
-import com.pw.common.entity.BaseContext;
 import com.pw.common.token.UserLoginToken;
 import com.pw.common.utils.Result;
 import com.pw.common.utils.SnowFlake;
@@ -13,21 +11,19 @@ import com.pw.service.UserService;
 import com.pw.service.impl.TokenService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
-import java.util.Objects;
 
 import static com.pw.common.utils.ResultUtil.*;
 import static com.pw.common.utils.convertWrapper.convertEqWrap;
 import static com.pw.common.utils.convertWrapper.convertWrap;
 import static com.pw.common.utils.pageUtil.setPage;
-import static com.pw.common.utils.uuid.IdUtils.seqUUID;
 
 @Component
 @RestController
@@ -51,8 +47,8 @@ public class UserController extends BaseController implements convertController 
     @UserLoginToken(required = true)
     @PostMapping("/save")
     @ApiOperation(value = "新增或修改用户", notes = "", httpMethod = "POST")
-    public Result save(User user) {
-        if (Objects.isNull(user.getUserId())) {
+    public Result save(@RequestBody User user) {
+        if (ObjectUtils.isNotEmpty(user.getUserId())) {
             return resultExit(userService.updateById(user));
         }
         user.setUserId(new SnowFlake(1,0).nextId());

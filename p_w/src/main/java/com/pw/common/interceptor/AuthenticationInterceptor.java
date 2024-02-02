@@ -1,15 +1,16 @@
 package com.pw.common.interceptor;
 
 import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.JWTVerifier;
 import com.pw.common.entity.BaseContext;
+import com.pw.common.exception.CustomException;
 import com.pw.common.token.PassToken;
 import com.pw.common.token.UserLoginToken;
 import com.pw.domain.User;
 import com.pw.service.UserService;
-import com.auth0.jwt.algorithms.Algorithm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -58,7 +59,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
                 try {
                     userId = JWT.decode(token).getAudience().get(0);
                 } catch (JWTDecodeException j) {
-                    throw new RuntimeException("401");
+                    throw new CustomException("无token,请重新登录", 401);
                 }
                 System.out.println(userId);
                 User user = userService.getById(userId);

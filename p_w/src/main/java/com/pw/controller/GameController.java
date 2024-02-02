@@ -1,6 +1,8 @@
 package com.pw.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.metadata.OrderItem;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pw.common.controller.BaseController;
 import com.pw.common.controller.convertController;
 import com.pw.common.token.UserLoginToken;
@@ -31,7 +33,9 @@ public class GameController extends BaseController implements convertController 
     @GetMapping("/list")
     @ApiOperation(value = "查询游戏列表", notes = "", httpMethod = "GET")
     public Result list(Game game) {
-        IPage<Game> result = gameService.page(setPage(game), convertWrap(game));
+        Page page =setPage(game);
+        page.addOrder(OrderItem.desc("create_time"));
+        IPage<Game> result = gameService.page(page, convertWrap(game));
         return resultIPage(result);
     }
 

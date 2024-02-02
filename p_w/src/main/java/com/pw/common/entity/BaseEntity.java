@@ -37,7 +37,7 @@ public class BaseEntity implements Serializable {
     @ApiModelProperty(value = "更新时间")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date updateTime;
+    private Date updateTime ;
 
     @TableField(exist = false)
     @ApiModelProperty(value = "备注")

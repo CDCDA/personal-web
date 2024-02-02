@@ -6,11 +6,11 @@ import com.pw.common.controller.convertController;
 import com.pw.common.token.UserLoginToken;
 import com.pw.common.utils.Result;
 import com.pw.common.utils.SnowFlake;
+import com.pw.common.utils.TokenUtil;
 import com.pw.domain.Blog;
 import com.pw.domain.BlogTag;
 import com.pw.domain.BlogTagRealation;
 import com.pw.dto.BlogPageDTO;
-import com.pw.dto.NodeRedDTO;
 import com.pw.service.BlogService;
 import com.pw.service.BlogTagRelationSerivce;
 import com.pw.service.BlogTagService;
@@ -98,16 +98,15 @@ public class BlogController extends BaseController implements convertController 
             }
         }
         blog.setBlogId(new SnowFlake(1, 0).nextId());
+        blog.setUserId(TokenUtil.getTokenUserId());
         blogService.save(blog);
         if (blog.getTags().size() > 0) {
             List<String> tagIds = new ArrayList<>();
             for (BlogTag blogTag : blog.getTags()) {
-                if (!isEmpty(blogTag.getTagId())){
-                    String a =blogTag.getTagId().toString();
+                if (!isEmpty(blogTag.getTagId())) {
+                    String a = blogTag.getTagId().toString();
                     tagIds.add(a);
-                }
-
-                else
+                } else
                     tagIds.add(blogTagController.save(blogTag));
 
             }
@@ -151,7 +150,7 @@ public class BlogController extends BaseController implements convertController 
         //生成文件名
         fileName = UUID.randomUUID() + suffix;
         //保存图片的路径
-        String dirPath = "D://";
+        String dirPath = "/www/wwwroot/files";
         File dirFile = new File(dirPath);
         //判断文件如果不存在则创建
         if (!dirFile.exists()) {
@@ -163,31 +162,6 @@ public class BlogController extends BaseController implements convertController 
         //保存文件
         file.transferTo(new File(filePath));
         //把图片路径返回给前端
-        return resultData("/img/" + fileName);
-    }
-
-    @PostMapping("/upload")
-    @ApiOperation(value = "上传文件并保存", notes = "测试上传")
-    public Result upload(NodeRedDTO payload) throws IOException {
-        //获取文件名(包含后缀)
-        MultipartFile file = payload.getKEY();
-        String fileName = file.getOriginalFilename();
-        //获取文件后缀
-        String suffix = fileName.substring(fileName.lastIndexOf("."));
-        //生成文件名
-        fileName = UUID.randomUUID() + suffix;
-        //保存图片的路径
-        String dirPath = "D:/";
-        File dirFile = new File(dirPath);
-        //判断文件如果不存在则创建
-        if (!dirFile.exists()) {
-            //创建文件夹
-            dirFile.mkdirs();
-        }
-        //得到文件的完整路径
-        String filePath = dirPath + "/" + fileName;
-        //保存文件
-        file.transferTo(new File(filePath));
-        return null;
+        return resultData("http://111.229.144.36:8008/" + fileName);
     }
 }

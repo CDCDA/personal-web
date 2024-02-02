@@ -7,6 +7,7 @@ package com.pw.common.handler;
  **/
 
 import com.pw.common.entity.HttpStatus;
+import com.pw.common.exception.CustomException;
 import com.pw.common.exception.ServiceException;
 import com.pw.common.utils.Result;
 import lombok.extern.slf4j.Slf4j;
@@ -91,10 +92,21 @@ public class GlobalExceptionHandler {
     /**
      * 自定义验证异常
      */
+    @ExceptionHandler(CustomException.class)
+    public Result handleCustomException(CustomException e) {
+        log.error(e.getMessage(), e);
+        String message = e.getMessage();
+        return Result.error(e.getCode(), message);
+    }
+
+
+    /**
+     * 自定义验证异常
+     */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public Object handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
         log.error(e.getMessage(), e);
         String message = e.getBindingResult().getFieldError().getDefaultMessage();
-        return Result.error(HttpStatus.ERROR,message);
+        return Result.error(HttpStatus.ERROR, message);
     }
 }

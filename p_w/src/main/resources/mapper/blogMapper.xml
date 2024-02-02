@@ -33,9 +33,11 @@
         b.update_time,
         b.blog_abstract,
         b.is_original,
+        bt.type_name,
         u.nick_name as author
         from `blog` b
         left join `user` u on u.user_id = b.user_id
+        left join `blog_type` bt on b.type_id = bt.type_id
         <where>
             <if test="blogTitle != null and blogTitle!=''">
                 and b.blog_title like "%${blogTitle}%"
