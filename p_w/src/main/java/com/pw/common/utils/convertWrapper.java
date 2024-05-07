@@ -24,13 +24,14 @@ public class convertWrapper {
             if (value != null && !key.equals("pageNum") && !key.equals("pageSize") && !value.equals(""))
                 wrapper.like(camelUnder(key), value);
         });
+        wrapper.orderByDesc("create_time");
         return wrapper;
     }
 
     public static <T> QueryWrapper<T> mapToEqWrap(Map<String, Object> map) {
         QueryWrapper<T> wrapper = new QueryWrapper<>();
         map.forEach((key, value) -> {
-            if (value != null && !key.equals("pageNum") && !key.equals("pageSize") && !value.equals("")){
+            if (value != null && !key.equals("pageNum") && !key.equals("pageSize") && !value.equals("")) {
                 wrapper.eq(camelUnder(key), value);
             }
 

@@ -4,17 +4,11 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.pw.common.controller.BaseController;
 import com.pw.common.controller.convertController;
+import com.pw.common.token.UserLoginToken;
 import com.pw.common.utils.Result;
-import com.pw.common.utils.SnowFlake;
-import com.pw.domain.BlogTag;
 import com.pw.domain.BlogType;
 import com.pw.domain.UpdateLog;
-import com.pw.mapper.BlogTagRelationMapper;
-import com.pw.service.BlogService;
-import com.pw.service.BlogTagRelationSerivce;
-import com.pw.service.BlogTagService;
 import com.pw.service.UpdateLogService;
-import com.pw.vo.BlogTagVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 import static com.pw.common.utils.ResultUtil.*;
-import static com.pw.common.utils.convertWrapper.convertWrap;
 import static com.pw.common.utils.pageUtil.setPage;
 import static org.apache.commons.lang3.ObjectUtils.isEmpty;
 
@@ -38,6 +31,13 @@ import static org.apache.commons.lang3.ObjectUtils.isEmpty;
 public class UpdateLogController extends BaseController implements convertController {
     @Autowired
     private UpdateLogService updateLogService;
+
+    @GetMapping("/count")
+    @ApiOperation(value = "查询更新日志数量", notes = "", httpMethod = "GET")
+    public Result count(UpdateLog updateLog) {
+        QueryWrapper<UpdateLog> wrapper = new QueryWrapper<>();
+        return Result.ok().data(updateLogService.count(wrapper));
+    }
 
     @GetMapping("/list")
     @ApiOperation(value = "查询更新日志列表", notes = "", httpMethod = "GET")
@@ -55,6 +55,7 @@ public class UpdateLogController extends BaseController implements convertContro
     }
 
     @PostMapping("/save")
+    @UserLoginToken
     @ApiOperation(value = "保存或修改更新日志", notes = "", httpMethod = "POST")
     public Result save(@RequestBody UpdateLog updateLog) {
         if (!isEmpty(updateLog.getId())) {
@@ -66,12 +67,14 @@ public class UpdateLogController extends BaseController implements convertContro
     }
 
     @PostMapping("/delete")
+    @UserLoginToken
     @ApiOperation(value = "删除更新日志", notes = "", httpMethod = "POST")
     public Result delete(String id) {
         return resultExit(updateLogService.removeById(id));
     }
 
     @PostMapping("/deleteByIds")
+    @UserLoginToken
     @ApiOperation(value = "批量删除更新日志", notes = "", httpMethod = "POST")
     public Result deleteByIds(@RequestBody List<String> ids) {
         return resultExit(updateLogService.removeByIds(ids));

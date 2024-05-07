@@ -2,6 +2,7 @@ package com.pw.common.mybatisPlus;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import com.pw.common.entity.BaseContext;
+import com.pw.common.utils.TokenUtil;
 import com.pw.common.utils.emptyJugeUtil;
 import org.apache.ibatis.reflection.MetaObject;
 import org.springframework.stereotype.Component;
@@ -20,7 +21,8 @@ public class MybatisHandler implements MetaObjectHandler {
     public void insertFill(MetaObject metaObject) {
         //属性名
         this.setFieldValByName("createTime", new Date(), metaObject);
-        String userId = BaseContext.getLoginUser();
+        System.out.println("公共字段自动填充[insert]...");
+        String userId = String.valueOf(TokenUtil.getTokenUserId());
         if (!emptyJugeUtil.isEmpty(userId)) {
             this.setFieldValByName("createBy", userId, metaObject);
         }
@@ -31,11 +33,8 @@ public class MybatisHandler implements MetaObjectHandler {
         //属性名
         this.setFieldValByName("updateTime", new Date(), metaObject);
         System.out.println("公共字段自动填充[update]...");
-        System.out.println(metaObject.toString());
-        long id = Thread.currentThread().getId();
-        System.out.println("线程id为：{}" + isEmpty(BaseContext.getLoginUser()));
         if (!isEmpty(BaseContext.getLoginUser())) {
-            this.setFieldValByName("updateBy", BaseContext.getLoginUser(), metaObject);
+            this.setFieldValByName("updateBy", String.valueOf(TokenUtil.getTokenUserId()), metaObject);
         }
     }
 }

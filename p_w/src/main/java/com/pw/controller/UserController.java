@@ -36,7 +36,7 @@ public class UserController extends BaseController implements convertController 
     @Autowired
     private TokenService tokenService;
 
-//    @UserLoginToken
+    //    @UserLoginToken
     @GetMapping("/list")
     @ApiOperation(value = "用户列表分页查询", notes = "", httpMethod = "GET")
     public Result list(User user) {
@@ -51,7 +51,7 @@ public class UserController extends BaseController implements convertController 
         if (ObjectUtils.isNotEmpty(user.getUserId())) {
             return resultExit(userService.updateById(user));
         }
-        user.setUserId(new SnowFlake(1,0).nextId());
+        user.setUserId(new SnowFlake(1, 0).nextId());
         return resultExit(userService.save(user));
     }
 
@@ -89,5 +89,22 @@ public class UserController extends BaseController implements convertController 
             return Result.ok().data("token", token);
         }
         return resultExit(result);
+    }
+
+    @GetMapping("/tokenVerify")
+    @UserLoginToken
+    @ApiOperation(value = "token验证", notes = "", httpMethod = "GET")
+    public Result tokenVerify(User user, HttpServletResponse response) {
+        return Result.ok();
+    }
+
+    @GetMapping("/touristLogIn")
+    @ApiOperation(value = "游客登录", notes = "", httpMethod = "GET")
+    public Result touristLogIn(HttpServletResponse response) {
+        String token = tokenService.getTouristToken();
+        Cookie cookie = new Cookie("token", token);
+        cookie.setPath("/");
+        response.addCookie(cookie);
+        return Result.ok().data("token", token);
     }
 }

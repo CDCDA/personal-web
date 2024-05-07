@@ -17,6 +17,8 @@ import com.pw.service.BlogTagService;
 import com.pw.vo.BlogVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -53,12 +55,14 @@ public class BlogController extends BaseController implements convertController 
     @GetMapping("/list")
     @ApiOperation(value = "查询博客列表", notes = "", httpMethod = "GET")
     public Result list(BlogPageDTO blog) {
+        blog.setUserId(TokenUtil.getTokenUserId());
         return resultList(blogService.list(blog), blogService.count(blog));
     }
 
     @GetMapping("/count")
     @ApiOperation(value = "查询博客列表计数", notes = "", httpMethod = "GET")
     public Result count(BlogPageDTO blog) {
+        blog.setUserId(TokenUtil.getTokenUserId());
         return Result.ok().data(blogService.count(blog));
     }
 
@@ -73,46 +77,48 @@ public class BlogController extends BaseController implements convertController 
     @PostMapping("/save")
     @ApiOperation(value = "保存或修改博客", notes = "", httpMethod = "POST")
     public Result save(@RequestBody Blog blog) {
-        if (!isEmpty(blog.getBlogId())) {
+        if (ObjectUtils.isNotEmpty(blog.getBlogId())) {
             blogService.updateById(blog);
             if (blog.getTags().size() > 0) {
-                List<String> tagIds = new ArrayList<>();
-                for (BlogTag blogTag : blog.getTags()) {
-                    if (!isEmpty(blogTag.getTagId()))
-                        tagIds.add(blogTagController.save(blogTag));
-                }
+//                List<String> tagIds = new ArrayList<>();
+//                for (BlogTag blogTag : blog.getTags()) {
+//                    if (!isEmpty(blogTag.getTagId()))
+//                        tagIds.add(blogTagController.save(blogTag));
+//                }
                 QueryWrapper<BlogTagRealation> wrapper = new QueryWrapper<>();
                 wrapper.eq("blog_id", blog.getBlogId());
                 blogTagRelationSerivce.remove(wrapper);
-                if (blog.getTags().size() > 0) {
-                    List<String> ids = null;
-                    for (BlogTag blogTag : blog.getTags()) {
-                        if (!isEmpty(blogTag.getTagId()))
-                            ids.add(blogTag.getTagId().toString());
-                        else
-                            ids.add(blogTagController.save(blogTag));
+                List<String> ids = new ArrayList<>();
+                for (BlogTag blogTag : blog.getTags()) {
+                    if (!isEmpty(blogTag.getTagId()))
+                        ids.add(blogTag.getTagId().toString());
+                    else {
+                        String id = blogTagController.save(blogTag);
+                        ids.add(id);
                     }
-                    return resultExit(blogTagRelationSerivce.insertTags(ids, blog.getBlogId()));
                 }
-                return Result.ok();
+                blogTagRelationSerivce.insertTags(ids, blog.getBlogId());
+                return Result.ok().data(blog.getBlogId().toString());
             }
-        }
-        blog.setBlogId(new SnowFlake(1, 0).nextId());
-        blog.setUserId(TokenUtil.getTokenUserId());
-        blogService.save(blog);
-        if (blog.getTags().size() > 0) {
-            List<String> tagIds = new ArrayList<>();
-            for (BlogTag blogTag : blog.getTags()) {
-                if (!isEmpty(blogTag.getTagId())) {
-                    String a = blogTag.getTagId().toString();
-                    tagIds.add(a);
-                } else
-                    tagIds.add(blogTagController.save(blogTag));
+        } else {
+            blog.setBlogId(new SnowFlake(1, 0).nextId());
+            blog.setUserId(TokenUtil.getTokenUserId());
+            blogService.save(blog);
+            if (blog.getTags().size() > 0) {
+                List<String> tagIds = new ArrayList<>();
+                for (BlogTag blogTag : blog.getTags()) {
+                    if (!isEmpty(blogTag.getTagId())) {
+                        String a = blogTag.getTagId().toString();
+                        tagIds.add(a);
+                    } else
+                        tagIds.add(blogTagController.save(blogTag));
 
+                }
+                blogTagRelationSerivce.insertTags(tagIds, blog.getBlogId());
+                return Result.ok().data(blog.getBlogId().toString());
             }
-            return resultExit(blogTagRelationSerivce.insertTags(tagIds, blog.getBlogId()));
         }
-        return Result.ok();
+        return Result.ok().data(blog.getBlogId().toString());
     }
 
     @DeleteMapping("/{id}")
@@ -131,6 +137,9 @@ public class BlogController extends BaseController implements convertController 
     @ApiOperation(value = "按时间范围查询博客列表计数", notes = "", httpMethod = "GET")
     public Result countBlogByDateRange(String userId, String startTime, String endTime) throws ParseException {
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        if (StringUtils.isEmpty((userId))) {
+            userId = String.valueOf(TokenUtil.getTokenUserId());
+        }
         return resultData(blogService.countBlogByDateRange(userId, startTime, endTime));
     }
 

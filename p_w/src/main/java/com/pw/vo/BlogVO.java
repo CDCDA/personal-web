@@ -1,11 +1,8 @@
 package com.pw.vo;
 
-import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.pw.common.entity.BaseEntity;
-import com.pw.domain.BlogTag;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -42,6 +39,9 @@ public class BlogVO {
 
     @ApiModelProperty(value = "用户id")
     private String userId;
+
+    @ApiModelProperty(value = "分类id")
+    private String typeId;
 
     @ApiModelProperty(value = "分类")
     private String typeName;

@@ -17,12 +17,21 @@ public class TokenService {
 
     public String getToken(User user) {
         Date start = new Date();
-        long currentTime = System.currentTimeMillis() +4 * 60* 60 * 1000;//4小时有效时间
+        long currentTime = System.currentTimeMillis() + 3 * 60 * 60 * 1000;//3小时有效时间
         Date end = new Date(currentTime);
         String token = "";
-
         token = JWT.create().withAudience(String.valueOf(user.getUserId())).withIssuedAt(start).withExpiresAt(end)
                 .sign(Algorithm.HMAC256(user.getPassword()));
+        return token;
+    }
+
+    public String getTouristToken() {
+        Date start = new Date();
+        long currentTime = System.currentTimeMillis() + 4 * 60 * 60 * 1000;//4小时有效时间
+        Date end = new Date(currentTime);
+        String token = "";
+        token = JWT.create().withAudience(String.valueOf("2")).withIssuedAt(start).withExpiresAt(end)
+                .sign(Algorithm.HMAC256("123456"));
         return token;
     }
 }

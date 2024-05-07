@@ -1,14 +1,11 @@
 package com.pw.controller;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.pw.common.controller.BaseController;
 import com.pw.common.controller.convertController;
 import com.pw.common.token.UserLoginToken;
 import com.pw.common.utils.Result;
 import com.pw.common.utils.SnowFlake;
-import com.pw.domain.Blog;
 import com.pw.domain.BlogTag;
-import com.pw.dto.BlogTagDTO;
 import com.pw.mapper.BlogTagRelationMapper;
 import com.pw.service.BlogService;
 import com.pw.service.BlogTagRelationSerivce;
@@ -17,19 +14,12 @@ import com.pw.vo.BlogTagVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.ObjectUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static com.pw.common.utils.ResultUtil.*;
-import static com.pw.common.utils.convertWrapper.convertWrap;
-import static com.pw.common.utils.pageUtil.setPage;
-import static com.pw.common.utils.uuid.IdUtils.seqUUID;
 import static org.apache.commons.lang3.ObjectUtils.isEmpty;
 
 /***
@@ -86,14 +76,15 @@ public class BlogTagController extends BaseController implements convertControll
         if (ObjectUtils.isNotEmpty(blogTag.getTagId())) {
             blogTagService.updateById(blogTag);
             return blogTag.getTagId().toString();
+        } else {
+            String tagId = blogTagRelationSerivce.isTagExit(blogTag.getTagName());
+            if (isEmpty(tagId)) {
+                blogTag.setTagId(new SnowFlake(1, 0).nextId());
+                blogTagService.save(blogTag);
+                return blogTag.getTagId().toString();
+            } else
+                return tagId;
         }
-        String tagId = blogTagRelationSerivce.isTagExit(blogTag.getTagName());
-        if (isEmpty(tagId)) {
-            blogTag.setTagId(new SnowFlake(1, 0).nextId());
-            blogTagService.save(blogTag);
-            return blogTag.getTagId().toString();
-        } else
-            return tagId;
     }
 
     @PostMapping("/delete")

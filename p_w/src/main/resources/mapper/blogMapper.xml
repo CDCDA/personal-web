@@ -108,11 +108,13 @@
         b.mk_content,
         b.user_id,
         b.cover_url,
+        b.blog_abstract,
+        bt.type_id,
         bt.type_name,
         u.nick_name as author
         from `blog` b
-        join `blog_type` bt ON b.type_id = bt.type_id
-        join `user` u on b.user_id = u.user_id
+        left join `blog_type` bt ON b.type_id = bt.type_id
+        left join `user` u on b.user_id = u.user_id
         <where>
             <if test="blogId != null and blogId!=''">
                 and b.blog_id = "${blogId}"

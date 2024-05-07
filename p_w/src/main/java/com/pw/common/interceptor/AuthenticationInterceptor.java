@@ -52,26 +52,29 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
             if (userLoginToken.required()) {
                 // 执行认证
                 if (token == null) {
-                    throw new RuntimeException("无token，请重新登录");
+                    throw new CustomException("无token,请重新登录", 401);
                 }
                 // 获取 token 中的 user id
                 String userId;
                 try {
                     userId = JWT.decode(token).getAudience().get(0);
+                    if (userId.equals("2")) {
+                        throw new CustomException("没有权限，请更换登录账户", 403);
+                    }
                 } catch (JWTDecodeException j) {
                     throw new CustomException("无token,请重新登录", 401);
                 }
                 System.out.println(userId);
                 User user = userService.getById(userId);
                 if (user == null) {
-                    throw new RuntimeException("用户不存在，请重新登录");
+                    throw new CustomException("用户不存在，请重新登录", 401);
                 }
                 // 验证 token
                 JWTVerifier jwtVerifier = JWT.require(Algorithm.HMAC256(user.getPassword())).build();
                 try {
                     jwtVerifier.verify(token);
                 } catch (JWTVerificationException e) {
-                    throw new RuntimeException("401");
+                    throw new CustomException("token已失效,请重新登录", 401);
                 }
                 BaseContext.setLoginUser(userId);
                 return true;

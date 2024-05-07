@@ -1,33 +1,24 @@
 package com.pw.controller;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.pw.common.controller.BaseController;
 import com.pw.common.controller.convertController;
 import com.pw.common.entity.BaseContext;
-import com.pw.common.utils.ArraysToTreeUtil;
 import com.pw.common.utils.Result;
-import com.pw.common.utils.SnowFlake;
+import com.pw.common.utils.TokenUtil;
 import com.pw.common.utils.emptyJugeUtil;
-import com.pw.domain.Blog;
-import com.pw.domain.BlogTagRealation;
 import com.pw.domain.BlogType;
-import com.pw.domain.User;
-import com.pw.dto.BlogPageDTO;
 import com.pw.mapper.BlogTypeMapper;
 import com.pw.service.BlogService;
-import com.pw.service.BlogTagRelationSerivce;
 import com.pw.service.BlogTagService;
 import com.pw.service.BlogTypeService;
-import com.pw.vo.BlogTypeVO;
-import com.pw.vo.BlogVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -69,6 +60,9 @@ public class BlogTypeController extends BaseController implements convertControl
     @ApiOperation(value = "查询分类数", notes = "", httpMethod = "GET")
     public Result count(String userId) {
         QueryWrapper<BlogType> wrapper = new QueryWrapper<>();
+        if (StringUtils.isEmpty((userId))) {
+            userId = String.valueOf(TokenUtil.getTokenUserId());
+        }
         wrapper.eq("user_id", userId);
         return resultData(blogTypeService.count(wrapper));
     }

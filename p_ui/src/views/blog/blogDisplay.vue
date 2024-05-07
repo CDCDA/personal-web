@@ -1,0 +1,171 @@
+<!--
+ * @Description: 博客展示页
+-->
+<template>
+  <wave :blogData="blogData"></wave>
+  <div class="blog-display-main page-main">
+    <div class="blog-diaplay">
+      <div class="blog-display-left">
+        <md-preview :editorId="'preview-only'" :modelValue="blogData.content" />
+        <!-- <el-divider></el-divider> -->
+        <div class="blog-display-footer">
+          <div v-for="(item, index) in footerData" :key="index">
+            <el-tooltip class="item" effect="dark" :content="item.content" placement="top">
+              <img :src="item.imageUrl" :class="item.className" @click="footerClick()" />
+            </el-tooltip>
+            <span>{{ item.count }}</span>
+          </div>
+        </div>
+        <!-- <el-divider></el-divider>
+
+        <div class="blog-display-comment"></div> -->
+
+        <!-- <comment></comment> -->
+
+        <!-- <el-backtop target=".blog-display-left"></el-backtop> -->
+      </div>
+
+      <div class="blog-display-right">
+        <div class="affix">
+          <MdCatalog :editorId="'preview-only'" :scrollElement="scrollElement" />
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { ref, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
+import wave from './components/wave/index.vue';
+import { getBlogById } from '@/api/blog';
+import { MdPreview, MdCatalog } from 'md-editor-v3';
+import 'md-editor-v3/lib/preview.css';
+const router = useRouter();
+const footerData = ref({} as any);
+const blogData = ref({ coverUrl: '', tags: [], content: '' } as any);
+const loading = ref('gear' as any);
+const scrollElement = document.querySelector('.el-main');
+function footerClick() {}
+
+async function getBlog(id: any) {
+  loading.value = true;
+  const { code, msg, data } = (await getBlogById(id)) as any;
+  if (code === 200) {
+    blogData.value = data;
+  }
+  loading.value = false;
+}
+
+onMounted(() => {
+  const { blogId } = router.currentRoute.value.query;
+  getBlog(blogId);
+});
+</script>
+<style lang="scss">
+@keyframes blur-to-clear {
+  0% {
+    -webkit-filter: blur(50px);
+    filter: blur(50px);
+  }
+  100% {
+    -webkit-filter: blur(0);
+    filter: blur(0);
+  }
+}
+
+@keyframes display-in {
+  0% {
+    transform: scale(1.03) translateY(50px);
+  }
+  100% {
+    transform: scale(1) translateY(0px);
+  }
+}
+
+@include theme() {
+  .md-editor-catalog {
+    background: get('background');
+    box-shadow: get('box-shadow');
+    border-radius: 8px;
+    min-height: 300px;
+    padding: 10px;
+    text-align: left;
+  }
+  .blog-diaplay {
+    width: 100%;
+    display: flex;
+    overflow: visible;
+  }
+  .md-editor-previewOnly {
+    color: get('font-color');
+  }
+  .md-editor-preview {
+    text-align: left;
+  }
+  .blog-display-main {
+    @include flex;
+
+    overflow: visible;
+    align-items: start;
+    margin: 30px 7% 0px 7% !important;
+    min-height: 0px;
+    animation: display-in 2s linear forwards;
+    .blog-display-left {
+      overflow: hidden;
+      width: calc(100% - 320px);
+      border-radius: 12px;
+      background: get('background');
+      box-shadow: get('box-shadow');
+      min-height: 300px;
+    }
+    .blog-display-right {
+      width: 298px;
+      margin-left: 20px;
+      min-height: 310px;
+      position: sticky;
+      top: 80px;
+      border-radius: 12px;
+      .affix {
+        position: sticky;
+        max-height: 90vh;
+        min-height: 300px;
+        overflow: auto;
+        top: 60px;
+        border-radius: 12px;
+        & ::-webkit-scrollbar {
+          visibility: hidden !important;
+        }
+      }
+      // .directory {
+      //   border-radius: 12px;
+      //   background: get('background-no-tp');
+      //   box-shadow: get('box-shadow');
+      //   margin: 0px;
+      // }
+    }
+    .blog-user-component,
+    .directory {
+      // background: get('background');
+      box-shadow: get('box-shadow');
+      border-radius: 5px;
+      margin-top: 5px;
+      margin-bottom: 15px;
+    }
+    .el-backtop {
+      right: 19% !important;
+      bottom: 80px !important;
+      border: 1px solid #dcdfe6;
+      background: transparent;
+      i {
+        color: #dcdfe6;
+      }
+    }
+  }
+}
+</style>
+<style lang="scss">
+.page-main {
+  overflow: auto;
+}
+</style>

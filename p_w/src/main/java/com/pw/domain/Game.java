@@ -45,6 +45,9 @@ public class Game extends BaseEntity implements Serializable {
     @ApiModelProperty(value = "游戏官网")
     private String url;
 
+    @ApiModelProperty(value = "评分")
+    private Float rate;
+
     @JsonSerialize(using = ToStringSerializer.class)
     @ApiModelProperty(value = "用户id")
     private Long user_id;

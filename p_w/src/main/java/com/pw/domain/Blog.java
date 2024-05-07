@@ -3,6 +3,8 @@ package com.pw.domain;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.pw.common.entity.BaseEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -25,6 +27,7 @@ import java.util.List;
 @ApiModel(value = "博客")
 public class Blog extends BaseEntity {
     @TableId
+    @JsonSerialize(using = ToStringSerializer.class)
     @ApiModelProperty("博客id")
     private Long blogId;
 

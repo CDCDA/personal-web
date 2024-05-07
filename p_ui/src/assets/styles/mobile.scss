@@ -1,0 +1,39 @@
+@media screen and (max-width: 1100px) {
+  /* 顶栏 -- 开始 */
+  .header-bar {
+    display: none !important;
+  }
+  .common-header {
+    padding: 0px 15px 0px 5px !important;
+    width: calc(100vw - 20px) !important;
+  }
+
+  .recommend-left-bottom,
+  .recommend-right {
+    display: none !important;
+  }
+  .recommend-left {
+    width: 100% !important;
+    margin-right: 0px !important;
+    .recommend-left-bottom {
+      width: 100%;
+    }
+  }
+  .home-main {
+    width: calc(100vw - 30px) !important;
+    .display-header,
+    .display-right {
+      display: none !important;
+    }
+    .display-left,
+    .list-item {
+      width: 100% !important;
+    }
+    .recommend {
+      height: auto !important;
+    }
+    .display-page {
+      margin-top: 0px !important;
+    }
+  }
+}
