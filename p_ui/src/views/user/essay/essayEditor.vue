@@ -123,6 +123,8 @@ onMounted(() => {
     width: calc(86% - 60px) !important;
     min-height: calc(100% - 150px) !important;
     position: relative;
+    display: flex;
+    justify-content: center;
   }
 }
 .essay-form {
@@ -131,6 +133,13 @@ onMounted(() => {
 }
 :deep(.el-form-item .el-form-item__label) {
   font-size: 18px;
+}
+:deep(.el-textarea__inner) {
+  background-image: url('@/assets/png/pikachu-sit.png') !important;
+  background-repeat: no-repeat !important;
+  object-fit: cover !important;
+  background-size: 12% auto !important;
+  background-position: 99% -13% !important;
 }
 .essay-editor-footer {
   position: absolute;

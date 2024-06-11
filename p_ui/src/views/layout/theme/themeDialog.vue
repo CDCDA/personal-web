@@ -7,8 +7,9 @@
     v-model="dialogVisible"
     title="换肤"
     style="height: 75%"
-    width="65%"
+    width="60%"
     :modal="false"
+    align-center
     @close="emit('closeThemeDialog')"
   >
     <el-tabs v-model="activeName" class="skin-tabs" v-loading.fullscreen.lock="loading">

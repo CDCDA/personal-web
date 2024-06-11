@@ -5,7 +5,7 @@
   <el-dialog
     class="router-view-dialog bounceInLeft animated"
     v-model="dialogVisible"
-    :fullscreen="isFull"
+    :fullscreen="true"
     width="88%"
     top="60px"
     :modal="false"
@@ -13,7 +13,9 @@
     <template #header="{ close, titleId, titleClass }">
       <div class="c-dialog-header">
         <div class="c-dialog-title">{{ props.title }}</div>
-        <el-icon class="full-screen" @click="handleFull()"><FullScreen /></el-icon>
+        <el-icon class="full-screen" @click="handleFull()" style="margin-right: 18px"
+          ><FullScreen
+        /></el-icon>
       </div>
     </template>
     <KeepAlive> <router-view /></KeepAlive>
@@ -45,42 +47,3 @@ defineExpose({
   open
 });
 </script>
-<style lang="scss">
-@include theme() {
-  .router-view-dialog {
-    :deep(.el-dialog__body) {
-      padding: 0px !important;
-      width: 100% !important;
-      height: 100% !important;
-      // margin-top: 55px;
-    }
-    .el-dialog__header {
-      display: block !important;
-    }
-    .c-dialog-title {
-      position: absolute;
-      width: 100%;
-      top: 13px;
-      font-size: 20px;
-      font-weight: bold;
-    }
-    .full-screen {
-      font-size: 22px;
-      float: right;
-      top: 9px;
-      right: 32px;
-      padding: 7px;
-    }
-    .full-screen:hover {
-      color: get('re-font-color');
-      background: get('bk');
-      border-radius: 20px;
-    }
-    height: 85%;
-  }
-  .is-fullscreen.router-view-dialog {
-    height: 100%;
-    border-radius: 0px !important;
-  }
-}
-</style>

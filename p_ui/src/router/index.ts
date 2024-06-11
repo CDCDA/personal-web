@@ -22,7 +22,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: '/home',
         name: 'home',
-        meta: { remark: '首页' },
+        meta: { remark: '首页', preload: true },
         component: () => import('@/views/home/index.vue')
       },
       {
@@ -233,6 +233,18 @@ const routes: Array<RouteRecordRaw> = [
             name: 'draggle',
             meta: { remark: '自由拖拽' },
             component: () => import('@/views/assembly/testField/draggle/index.vue')
+          },
+          {
+            path: '/ganttChart',
+            name: 'ganttChart',
+            meta: { remark: '甘特图' },
+            component: () => import('@/views/assembly/testField/dhxGanttChart/index.vue')
+          },
+          {
+            path: '/canvas',
+            name: 'canvas',
+            meta: { remark: '甘特图' },
+            component: () => import('@/components/sakura/index.vue')
           }
         ]
       },

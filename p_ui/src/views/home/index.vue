@@ -9,7 +9,7 @@
       </div>
       <svg-icon iconName="down-black" class="CycleUpDown" @click="toMainPage"></svg-icon>
     </div>
-    <div class="home-main">
+    <div class="home-main" v-if="homeMainShow">
       <div class="main-header">
         <el-icon><ChromeFilled /></el-icon>
         <div class="main-header-text-list">
@@ -131,7 +131,7 @@
           </div>
           <div class="display-right">
             <BlogUserCard />
-            <WeatherCard />
+            <!-- <WeatherCard /> -->
             <VisitorCard />
             <BlogTypeCard></BlogTypeCard>
             <BlogTagCard></BlogTagCard>
@@ -149,7 +149,6 @@ import { ElMessage } from 'element-plus';
 import { listTotalType } from '@/api/type';
 import useUserStore from '@/store/modules/user';
 import { useRouter } from 'vue-router';
-import { formateDate } from '@/utils/date.ts';
 import Pagination from '@/components/pagination/index.vue';
 import BlogUserCard from '@/views/blog/components/blogUserCard.vue';
 import BlogTypeCard from '@/views/blog/components/blogTypeCard.vue';
@@ -158,7 +157,7 @@ import BlogCountCard from '@/views/blog/components/blogCountCard.vue';
 import TechnologyStackCard from '../introduction/personalProfile/components/technologyStackCard.vue';
 import useThemeStore from '@/store/modules/theme.ts';
 import VisitorCard from './components/visitorCard.vue';
-import WeatherCard from './components/weatherCard.vue';
+const homeMainShow = ref(false);
 const themeStore = useThemeStore();
 const recommends = ref([] as any);
 const tRecommends = ref([]) as any;
@@ -385,6 +384,9 @@ onMounted(() => {
   //   (document.getElementById('app-theme') as any).style.animation =
   //     'blur-to-clear 2.5s cubic-bezier(0.6, 0.25, 0.25, 1) 0s 1 backwards,scale 2.2s cubic-bezier(0.6, 0.1, 0.25, 1) 0.5s 1 backwards';
   // }, 500);
+  setTimeout(() => {
+    homeMainShow.value = true;
+  }, 1500);
   getBlogList();
   getTypeTree();
   let header = document.querySelector('.main-header-text-list');

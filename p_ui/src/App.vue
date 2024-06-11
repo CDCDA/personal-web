@@ -1,5 +1,6 @@
 <template>
   <div id="app-theme" data-theme="theme-dark">
+    {{ a }}
     <video id="tsparticles" autoplay loop muted v-if="backType == 'video'" />
     <div id="tsparticles" class="particles" v-else />
     <Particles
@@ -18,6 +19,7 @@ import { useRouter } from 'vue-router';
 import useThemeStore from '@/store/modules/theme.ts';
 import useUserStore from './store/modules/user';
 
+const a = ref(import.meta.env.VUE_APP_TITLE);
 const userStore = useUserStore();
 var themeStore = useThemeStore();
 const loading = ref('gear' as any);
@@ -227,6 +229,9 @@ onMounted(() => {
   @include full();
   // font-family: DaoLiTi;
 }
+#app-theme {
+  animation: blur-to-clear 2s forwards ease-in-out;
+}
 body,
 html {
   height: 100%;
@@ -241,14 +246,9 @@ body {
 }
 @keyframes blur-to-clear {
   0% {
-    -webkit-filter: blur(50px);
-    transform: scale(1.3);
-    filter: blur(50px);
-  }
-  50% {
-    -webkit-filter: blur(30px);
-    transform: scale(1.1);
-    filter: blur(30px);
+    -webkit-filter: blur(40px);
+    transform: scale(1.4);
+    filter: blur(40px);
   }
   100% {
     -webkit-filter: blur(0);
@@ -263,7 +263,6 @@ body {
   position: absolute;
   z-index: 0;
   background: transparent;
-  animation: blur-to-clear 1.5s forwards linear;
 }
 .particles {
   position: fixed;

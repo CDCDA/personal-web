@@ -6,6 +6,14 @@
     <div class="header-name">
       <common-link></common-link>
       <a class="title" href="/home" title="返回主页"><span>记录</span></a>
+      <v-mini-weather class="weather">
+        <template #default="{ weather, icon }">
+          <!--插入图标-->
+          <v-mini-weather-icon :icon="icon"></v-mini-weather-icon>
+          <!--DIY内容-->
+          <span>{{ weather.cityname }}/{{ weather.weather }}/{{ weather.temp }}</span>
+        </template>
+      </v-mini-weather>
     </div>
     <div class="header-bar">
       <div class="header-bar-menu">
@@ -82,6 +90,7 @@
 import { ElMessageBox } from 'element-plus';
 import { reactive, ref, onMounted, watch } from 'vue';
 import { listBlog } from '@/api/blog';
+import { vMiniWeather, vMiniWeatherIcon } from 'vue3-mini-weather';
 import { useRouter, onBeforeRouteUpdate } from 'vue-router';
 import useUserStore from '@/store/modules/user';
 import SideSetting from '@/views/layout/sideSetting/index.vue';
@@ -416,7 +425,7 @@ onMounted(() => {
   .common-header {
     z-index: 999;
     position: absolute;
-    animation: blur-to-clear 1.5s forwards linear;
+    //animation: blur-to-clear 1.5s forwards linear;
     top: 0px;
     width: calc(100vw - 80px);
     padding: 0px 40px;
@@ -543,12 +552,13 @@ onMounted(() => {
       }
     }
     .header-name {
-      width: 236px;
+      width: 320px;
       font-weight: bold;
       font-size: 25px;
       display: flex;
       justify-content: start;
       align-items: center;
+      height: 100%;
       .header-name-icon {
         margin-right: 10px;
         cursor: pointer;
@@ -567,6 +577,7 @@ onMounted(() => {
         text-decoration: none;
         color: inherit;
         position: relative;
+        height: 100%;
         &:before {
           content: ' ';
           background: url(../../../assets/svg/main-white.svg) no-repeat;
@@ -576,7 +587,7 @@ onMounted(() => {
           display: inline-block;
           position: absolute;
           z-index: 1;
-          left: calc(50% - 8px);
+          left: calc(50% - 16px);
           top: 12px;
           opacity: 0;
         }
@@ -589,10 +600,24 @@ onMounted(() => {
           border-radius: 10px;
           display: inline-block;
           position: absolute;
-          left: -3px;
+          left: -20%;
           top: 11px;
           padding: 0px 10px;
           box-shadow: get('box-shadow');
+        }
+      }
+      .weather {
+        font-size: 20px;
+        height: 100%;
+        font-size: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-left: 14px;
+        .v-mini-weather-icon {
+          display: flex;
+          align-items: center;
+          height: 42px;
         }
       }
       .title:hover {

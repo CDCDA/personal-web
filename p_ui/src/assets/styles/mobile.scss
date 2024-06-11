@@ -7,7 +7,11 @@
     padding: 0px 15px 0px 5px !important;
     width: calc(100vw - 20px) !important;
   }
-
+  .header-name {
+    .weather {
+      display: none !important;
+    }
+  }
   .recommend-left-bottom,
   .recommend-right {
     display: none !important;

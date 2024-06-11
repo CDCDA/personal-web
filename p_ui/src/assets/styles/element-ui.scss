@@ -71,7 +71,7 @@
   backdrop-filter: blur(20px);
   overflow: hidden;
   .el-dialog__header {
-    height: 53px;
+    height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -89,7 +89,7 @@
   }
   .el-icon.el-dialog__close {
     color: get('font-color');
-    font-size: 26px;
+    font-size: 20px;
     padding: 5px;
   }
   .el-icon.el-dialog__close:hover {
@@ -99,6 +99,9 @@
   }
   .el-dialog__headerbtn {
     top: -1px;
+    height: 40px;
+    width: 40px;
+    margin-right: 5px;
   }
   color: get('font-color');
   .el-dialog__footer {

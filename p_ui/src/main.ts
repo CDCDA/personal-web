@@ -16,7 +16,7 @@ import router from './router';
 import * as ElementPlusIconsVue from '@element-plus/icons-vue';
 import directives from '@/directives/index';
 import pinia from './store';
-
+import VueLazyComponent from '@xunlei/vue-lazy-component';
 import SvgIcon from './components/icon-component.vue';
 import 'virtual:svg-icons-register';
 
@@ -40,5 +40,6 @@ app.use(ElementPlus, { zIndex: 3000 });
 app.use(Particles);
 app.use(router);
 app.use(VueGridLayout);
+app.use(VueLazyComponent);
 // app.use(MdEditor);
 app.mount('#app');

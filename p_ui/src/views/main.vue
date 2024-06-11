@@ -3,6 +3,7 @@
 -->
 <template>
   <el-container class="container-outside vacuumization">
+    <sakura style="position: absolute" :new-options="options" />
     <el-container class="container-inside">
       <el-header class="el-header">
         <common-header></common-header>
@@ -21,14 +22,22 @@ import useUserStore from '@/store/modules/user';
 import { useRouter } from 'vue-router';
 import CommonHeader from '@/views/layout/commonHeader/index.vue';
 import CommonFooter from '@/views/layout/commonFooter/index.vue';
+import sakura from '@/components/sakura/index.vue';
 import { onMounted } from 'vue';
 import { verifyToken } from '@/api/user.ts';
 const userStore = useUserStore();
+const options = ref({
+  staticx: false,
+  stop: null,
+  num: 15,
+  show: true,
+  zIndex: -1
+} as any);
 const router = useRouter();
-
 onMounted(() => {
   if (window.localStorage.getItem('token') && userStore.userId != '2') verifyToken({});
   router.push({ name: 'home' });
+  // router.push({ name: 'ganttChart' });
 });
 </script>
 

@@ -5,24 +5,19 @@
   <div class="page-main statistic-main">
     <div class="total">
       <div class="total-col">
-        <div>文章数</div>
-        <div>{{ blogNum }}</div>
+        <el-statistic title="文章数" :value="blogNumValue" />
       </div>
       <div class="total-col">
-        <div>相册数</div>
-        <div>{{ albumNum }}</div>
+        <el-statistic title="相册数" :value="albumNumValue" />
       </div>
       <div class="total-col">
-        <div>分类数</div>
-        <div>{{ typeNum }}</div>
+        <el-statistic title="分类数" :value="typeNumValue" />
       </div>
       <div class="total-col">
-        <div>随笔数</div>
-        <div>{{ essayNum }}</div>
+        <el-statistic title="随笔数" :value="essayNumValue" />
       </div>
       <div class="total-col">
-        <div>网站更新数</div>
-        <div>{{ updateLogNum }}</div>
+        <el-statistic title="网站更新数" :value="updateLogNumValue" />
       </div>
     </div>
     <div class="chart">
@@ -50,13 +45,19 @@ import { countEssay } from '@/api/essay.ts';
 import { countMusic } from '@/api/music.ts';
 import { countType } from '@/api/type.ts';
 import { countUpdateLog } from '@/api/updateLog.ts';
-
+import { useTransition } from '@vueuse/core';
 const blogNum = ref(0 as any);
+const blogNumValue = useTransition(blogNum);
 const albumNum = ref(0 as any);
+const albumNumValue = useTransition(albumNum);
 const essayNum = ref(0 as any);
+const essayNumValue = useTransition(essayNum);
 const musicNum = ref(0 as any);
+const musicNumValue = useTransition(musicNum);
 const typeNum = ref(0 as any);
+const typeNumValue = useTransition(typeNum);
 const updateLogNum = ref(0 as any);
+const updateLogNumValue = useTransition(updateLogNum);
 
 async function blogCount() {
   const { code, data } = (await countBlog({})) as any;
@@ -128,7 +129,7 @@ onMounted(() => {
   }
 }
 .total {
-  width: calc(60%);
+  width: calc(50%);
   height: 150px;
   margin-top: 80px;
   border-radius: 15px;
@@ -137,12 +138,12 @@ onMounted(() => {
   align-items: center;
   padding: 0px 5%;
   .total-col {
-    div:nth-child(1) {
+    :deep(.el-statistic__head) {
       font-weight: bold;
       font-size: 20px;
       margin-bottom: 30px;
     }
-    div:nth-child(2) {
+    :deep(.el-statistic__content) {
       font-weight: bold;
       font-size: 18px;
     }
@@ -150,7 +151,7 @@ onMounted(() => {
 }
 .chart {
   height: 200px;
-  width: 80%;
+  width: 70%;
   margin: 30px;
 }
 </style>

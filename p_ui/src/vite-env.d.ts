@@ -7,7 +7,10 @@ declare module 'vue-draggable-resizable';
 declare module 'vue-grid-layout';
 declare module 'js-cookie';
 declare module '@/utils/techStackData.js';
-// declare module 'require';
+declare module 'vue-mini-weather';
+declare module 'vuepress-plugin-sakura';
+declare module '@xunlei/vue-lazy-component';
+
 // declare module 'vite-plugin-require-transform';
 declare module 'md-editor-v3';
 

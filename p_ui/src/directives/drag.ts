@@ -72,7 +72,7 @@ export const drag = {
         dragDom.style.cssText += `;left:${left + styL}px;top:${top + styT}px;`;
       };
 
-      document.onmouseup = function (e: any) {
+      document.onmouseup = function () {
         document.onmousemove = null;
         document.onmouseup = null;
       };

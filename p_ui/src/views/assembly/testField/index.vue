@@ -36,14 +36,26 @@ const testFieldList = ref([
     label: '低代码',
     routerName: 'vForm',
     introduction: '低代码表单平台',
-    url: 'http://111.229.144.36:8008/lowcode.jpg'
+    url: 'http://111.229.144.36:8008/低代码.png'
   },
   {
-    label: '自由拖动',
+    label: '自由拖拽',
     routerName: 'draggle',
     introduction: '一个自由拖拽组件的页面',
-    url: 'http://111.229.144.36:8008/draggle.jpg'
+    url: 'http://111.229.144.36:8008/自由拖拽.png'
+  },
+  {
+    label: '甘特图',
+    routerName: 'ganttChart',
+    introduction: '复杂甘特图',
+    url: 'http://111.229.144.36:8008/甘特图.png'
   }
+  // {
+  //   label: 'canvas研究',
+  //   routerName: 'canvas',
+  //   introduction: 'canvas研究',
+  //   url: 'http://111.229.144.36:8008/canvas.png'
+  // }
 ] as any);
 
 function totestField(item: any) {
@@ -75,132 +87,3 @@ function getAnimate(i: any) {
   return 'animated';
 }
 </script>
-<style lang="scss" scoped>
-@keyframes fade-in {
-  0% {
-    opacity: 0;
-    transform: translateY(50px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0px);
-  }
-}
-
-@include theme() {
-  .testField-main {
-    @include flex-column;
-    background: get('background');
-    border-radius: 15px;
-    justify-content: start;
-    padding: 30px;
-    width: calc(86% - 60px) !important;
-    .testField-header {
-      height: 60px;
-      width: calc(100% - 120px);
-      text-align: left;
-      font-size: 22px;
-      font-weight: bold;
-      padding: 12px 30px;
-      margin-left: 25px;
-    }
-    .testField-center {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: start;
-      align-items: center;
-      width: 100%;
-      padding: 10px 20px;
-      .testField-item {
-        animation: fade-in 0.5s linear forwards;
-        margin: 10px 10px;
-        cursor: pointer;
-        width: calc(32% - 20px);
-        aspect-ratio: 5/3.2;
-        border-radius: 8px;
-        overflow: hidden;
-        position: relative;
-        opacity: 0.9;
-        box-shadow: get('box-shadow');
-        background: get('background');
-        position: relative;
-        color: get('font-color');
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        flex-direction: column;
-        overflow: hidden;
-        .testField-item-cover {
-          width: 100%;
-          height: calc(100%);
-          object-fit: cover;
-          object-position: 70%;
-          background-repeat: no-repeat;
-          transition: transform 0.3s ease;
-        }
-        .testField-item-name {
-          font-weight: bold;
-          position: absolute;
-          color: white;
-          top: 15%;
-          left: 25px;
-          font-size: 20px;
-        }
-        .testField-item-divider {
-          width: 0%;
-          left: 25px;
-          position: absolute;
-          top: 30%;
-          height: 2px;
-          background: white;
-        }
-        .testField-item-instoction {
-          color: white;
-          position: absolute;
-          top: 35%;
-          left: 25px;
-          transform: translate3d(300%, 0, 0);
-        }
-
-        // .instoction-cover {
-        //   position: absolute;
-        //   right: -150px;
-        //   width: 100%;
-        //   display: flex;
-        //   align-items: center;
-        //   justify-content: center;
-        // }
-      }
-      .testField-item:hover {
-        transform: scale(1.02);
-        @keyframes instoction-in {
-          0% {
-            transform: translate3d(300%, 0, 0);
-          }
-          100% {
-            transform: translate3d(0%, 0, 0);
-          }
-        }
-        @keyframes divider-in {
-          0% {
-            width: 0%;
-          }
-          100% {
-            width: calc(100% - 50px);
-          }
-        }
-        .testField-item-cover {
-          transform: scale(1.1);
-          filter: brightness(60%);
-        }
-        .testField-item-instoction {
-          animation: instoction-in 0.3s forwards linear;
-        }
-        .testField-item-divider {
-          animation: divider-in 0.3s forwards linear;
-        }
-      }
-    }
-  }
-}
-</style>

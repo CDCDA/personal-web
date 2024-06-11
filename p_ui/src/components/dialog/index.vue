@@ -2,8 +2,7 @@
  * @Description: 自定义弹窗
 -->
 <template>
-  <el-dialog class="blog-release" v-model="dialogVisible" title="发布" width="700px" :modal="false">
-   
+  <el-dialog class="c-dialog" v-model="dialogVisible" title="发布" width="700px" :modal="false">
   </el-dialog>
 </template>
 <script setup lang="ts">
@@ -162,31 +161,6 @@ defineExpose({
 });
 </script>
 <style lang="scss">
-@include theme() {
-  .blog-settings {
-    width: calc(100% - 20px);
-    text-align: left;
-    margin-top: 5px;
-    border-radius: 3px;
-    padding: 10px;
-    color: get('font-color');
-    border: 1px solid get('font-color');
-  }
-
-  .tag-item.is-active {
-    background: get('bk') !important;
-    border: 1px solid transparent !important;
-    span {
-      color: get('re-font-color') !important;
-    }
-  }
-  .el-tag__close:hover {
-    path {
-      fill: get('re-font-color');
-    }
-  }
-}
-
 .el-upload {
   // border: 1px dashed get('font-color');
   background: transparent;

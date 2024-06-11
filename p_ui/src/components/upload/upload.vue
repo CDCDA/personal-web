@@ -1,7 +1,7 @@
 <template>
   <el-upload
     v-if="!Array.isArray(props.modelValue)"
-    class="avatar-uploader"
+    class="c-uploader"
     :action="uploadAction"
     :show-file-list="false"
     :on-success="handleAvatarSuccess"
@@ -9,7 +9,7 @@
     crossorigin="anonymous"
   >
     <el-image v-if="props.modelValue" :src="props.modelValue" class="avatar" />
-    <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
+    <el-icon v-else class="c-uploader-icon"><Plus /></el-icon>
   </el-upload>
   <el-upload
     v-else
@@ -90,21 +90,3 @@ function handleSucess(response: any) {
 //   }
 // );
 </script>
-<style lang="scss" scoped>
-@include theme() {
-  .avatar-uploader {
-    border: 1px dashed get('border-color');
-    background: transparent;
-    height: 100px;
-    width: 100px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 4px;
-    :deep(.el-upload) {
-      height: 100px;
-      width: 100px;
-    }
-  }
-}
-</style>
