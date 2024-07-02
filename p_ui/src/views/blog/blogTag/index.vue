@@ -158,7 +158,6 @@ onMounted(() => {
   }
 
   .card-label {
-    font-family: 'helvetica neue', helvetica, arial, sans-serif;
     font-size: 24px;
     font-weight: bold;
     letter-spacing: -0.025em;

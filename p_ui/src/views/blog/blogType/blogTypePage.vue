@@ -28,7 +28,7 @@
             </div>
           </div>
           <div class="blog-time">
-            <el-icon><Calendar /></el-icon>{{ formateDate(new Date(item.createTime), 'YY-MM-dd') }}
+            <el-icon><Calendar /></el-icon>{{ formatDate(new Date(item.createTime), 'YY-MM-dd') }}
           </div>
         </div>
         <span class="blog-sort-item-index">{{ i + 1 }}</span>
@@ -59,7 +59,7 @@ import { listBlog } from '@/api/blog';
 import { ElMessage } from 'element-plus';
 import useUserStore from '@/store/modules/user';
 import Pagination from '@/components/pagination/index.vue';
-import { formateDate } from '@/utils/date.ts';
+import { formatDate } from '@/utils/date.ts';
 import { useRouter } from 'vue-router';
 const router = useRouter();
 const userStore = useUserStore();
@@ -86,7 +86,6 @@ async function getTypeList() {
       isActive: false,
       total
     });
-    queryParams.value.typeId = router.currentRoute.value.query.typeId;
     typeList.value.forEach((e: any) => {
       if (e.typeId === queryParams.value.typeId) e.isActive = true;
     });
@@ -127,8 +126,8 @@ function toDetail(item: any) {
 }
 
 onMounted(() => {
+  queryParams.value.typeId = (router as any).currentRoute._value.query.typeId;
   getTypeList();
-  queryParams.value.typeId = router.currentRoute.value.query.typeId;
   getBlogList();
 });
 </script>

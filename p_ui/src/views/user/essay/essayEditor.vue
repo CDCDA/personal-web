@@ -3,7 +3,13 @@
 -->
 <template>
   <div class="page-main essay-editor">
-    <el-form :model="essayData" label-width="85px" class="essay-form" label-position="left">
+    <el-form
+      :model="essayData"
+      label-width="85px"
+      class="essay-form"
+      label-position="left"
+      @submit.native.prevent
+    >
       <el-form-item label="随笔内容">
         <el-input
           v-model="essayData.content"
@@ -20,6 +26,39 @@
           <img w-full :src="dialogImageUrl" alt="Preview Image" />
         </el-dialog>
       </el-form-item>
+      <el-form-item label="常用标签">
+        <el-tag v-for="tag in commonUseTags" class="tag-item" @click.native="addTag(tag)">
+          {{ tag }}
+        </el-tag>
+      </el-form-item>
+      <el-form-item label="博客标签">
+        <el-tag
+          v-for="tag in essayData.tags"
+          :key="tag"
+          class="tag-item"
+          closable
+          :disable-transitions="false"
+          @close="tagDel(tag)"
+        >
+          {{ tag.tagName }}
+        </el-tag>
+
+        <el-input
+          v-if="inputVisible"
+          ref="InputRef"
+          v-model="inputValue"
+          class="ml-1 w-20 button-new-tag"
+          size="small"
+          @keyup.enter="addTag"
+          @blur="addTag"
+        />
+        <el-button v-else class="button-new-tag ml-1" size="small" @click="showInput">
+          + Tag
+        </el-button>
+      </el-form-item>
+      <el-form-item label="发布时间">
+        <el-date-picker v-model="essayData.createTime"></el-date-picker>
+      </el-form-item>
     </el-form>
 
     <div class="essay-editor-footer">
@@ -30,53 +69,83 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, nextTick } from 'vue';
 import { useRouter } from 'vue-router';
-import { listEssay, saveEssay, getEssayById } from '@/api/essay.ts';
+import { saveEssay, getEssayById } from '@/api/essay.ts';
 import useUserStore from '@/store/modules/user';
-import { Plus } from '@element-plus/icons-vue';
-import { ElMessage, ElNotification, type UploadProps, type UploadUserFile } from 'element-plus';
+import { ElNotification } from 'element-plus';
 import upload from '@/components/upload/upload.vue';
+import { formatDate } from '@/utils/date.ts';
 const router = useRouter();
 const userStore = useUserStore();
+const commonUseTags = ref(['游戏', '吐槽', '分享', '生活', '音乐', '电影']);
 const essayData = ref({
   name: '',
   content: '',
-  imageRelations: []
+  imageRelations: [],
+  tags: [],
+  createTime: new Date()
 } as any);
-
+const inputValue = ref('');
+const inputVisible = ref(false);
 const dialogImageUrl = ref('');
 const dialogVisible = ref(false);
+const InputRef = ref() as any;
+function showInput() {
+  inputVisible.value = true;
+  nextTick(() => {
+    InputRef.value!.input!.focus();
+  });
+}
 
-const handleRemove: UploadProps['onRemove'] = (uploadFile, uploadFiles) => {
-  uploadFile;
-  uploadFiles;
-};
+function resetEssay() {
+  essayData.value = {
+    name: '',
+    content: '',
+    imageRelations: [],
+    tags: [],
+    createTime: new Date()
+  };
+}
 
-const handlePictureCardPreview: UploadProps['onPreview'] = uploadFile => {
-  dialogImageUrl.value = uploadFile.url!;
-  dialogVisible.value = true;
-};
-
-function handleSucess(response: any) {
-  let imageRelations = essayData.value.imageRelations;
-  imageRelations.pop();
-  if (response.code == 200) {
-    imageRelations.push({
-      name: response.data.replace('http://111.229.144.36:8008/', ''),
-      url: response.data
-    });
-  } else {
-    ElMessage.error('图片上传失败');
+//添加标签
+function addTag(tag: String) {
+  const { tags } = essayData.value;
+  let tagName = tag || inputValue.value;
+  if (tagName) {
+    let tempTag = tags.filter((x: any) => x.tagName == tagName);
+    console.log(tags, tempTag);
+    if (tempTag.length == 0) {
+      tags.push({ tagName });
+    } else {
+      ElNotification.warning({
+        message: '已经选过了 ╮(╯▽╰)╭',
+        offset: 100
+      });
+    }
   }
+  inputVisible.value = false;
+  inputValue.value = '';
+}
+//删除标签
+function tagDel(tag: string) {
+  const { tags } = essayData.value;
+  tags.splice(tags.indexOf(tag), 1);
 }
 
 async function submit() {
-  const { code, msg, data } = (await saveEssay(essayData.value)) as any;
+  let form = JSON.parse(JSON.stringify(essayData.value));
+  form.createTime = formatDate(new Date(form.createTime));
+  form.tags = JSON.stringify(essayData.value.tags);
+  if (!form.content) {
+    ElNotification.warning('别发个空随笔');
+  }
+  const { code, msg, data } = (await saveEssay(form)) as any;
   if (code == 200) {
+    resetEssay();
     ElNotification.success({
-      title: 'Success',
-      message: '随笔发布成功\n点击前往随笔',
+      title: '随笔发布成功',
+      message: '点击前往随笔',
       offset: 100,
       onClick: () => {
         router.push('essay');
@@ -88,22 +157,27 @@ async function submit() {
 async function getEssayData(id: any) {
   const { code, msg, data } = (await getEssayById({ essayId: id })) as any;
   if (code == 200) {
-    essayData.value = data;
+    Object.assign(essayData.value, data);
     essayData.value.imageRelations = [];
     data.images.forEach((img: any) => {
       let spArr = img.split('/');
       essayData.value.imageRelations.push({ name: spArr[spArr.length - 1], url: img });
     });
+    if (data.tags) essayData.value.tags = JSON.parse(data.tags);
   }
 }
 
 //保存随笔到本地
 function save() {
   window.localStorage.setItem('essayData', JSON.stringify(essayData.value));
-  ElMessage.success('保存成功');
+  ElNotification.success({
+    title: '保存成功',
+    offset: 100
+  });
 }
 
 onMounted(() => {
+  essayData.value.createTime = new Date();
   const { id } = router.currentRoute.value.query;
   let tempEssayData = window.localStorage.getItem('essayData');
   if (id) {
@@ -120,7 +194,7 @@ onMounted(() => {
     box-shadow: get('box-shadow');
     border-radius: 15px;
     padding: 30px;
-    width: calc(86% - 60px) !important;
+    width: calc(90% - 60px) !important;
     min-height: calc(100% - 150px) !important;
     position: relative;
     display: flex;
@@ -145,5 +219,11 @@ onMounted(() => {
   position: absolute;
   bottom: 20px;
   width: calc(100% - 40px);
+}
+.button-new-tag {
+  width: 60px !important;
+}
+.tag-item {
+  cursor: pointer;
 }
 </style>

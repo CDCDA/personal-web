@@ -23,7 +23,7 @@ const routes: Array<RouteRecordRaw> = [
         path: '/home',
         name: 'home',
         meta: { remark: '首页', preload: true },
-        component: () => import('@/views/home/index.vue')
+        component: () => import(/* webpackChunkName: "about" */ '@/views/home/index.vue')
       },
       {
         path: '/manage',
@@ -203,16 +203,40 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import('@/views/assembly/slice/index.vue'),
         children: [
           {
+            path: '/rubiks',
+            name: 'rubiks',
+            meta: { remark: '旋转魔方' },
+            component: () => import('@/views/assembly/slice/rubiks/index.vue')
+          },
+          {
             path: '/rotatingRubik',
             name: 'rotatingRubik',
             meta: { remark: '旋转魔方' },
             component: () => import('@/views/assembly/slice/rotatingRubik/index.vue')
           },
           {
+            path: '/3dMenu',
+            name: '3dMenu',
+            meta: { remark: '3d菜单' },
+            component: () => import('@/views/assembly/slice/3dMenu/index.vue')
+          },
+          {
+            path: '/cardFlip',
+            name: 'cardFlip',
+            meta: { remark: '卡片翻转' },
+            component: () => import('@/views/assembly/slice/cardFlip/index.vue')
+          },
+          {
             path: '/lightButton',
             name: 'lightButton',
             meta: { remark: '闪光边框按钮' },
             component: () => import('@/views/assembly/slice/lightButton/index.vue')
+          },
+          {
+            path: '/rollText',
+            name: 'rollText',
+            meta: { remark: '文字滚动' },
+            component: () => import('@/views/assembly/slice/rollText/index.vue')
           }
         ]
       },
@@ -243,7 +267,7 @@ const routes: Array<RouteRecordRaw> = [
           {
             path: '/canvas',
             name: 'canvas',
-            meta: { remark: '甘特图' },
+            meta: { remark: 'canvas动画' },
             component: () => import('@/components/sakura/index.vue')
           }
         ]
@@ -296,7 +320,11 @@ const routes: Array<RouteRecordRaw> = [
         meta: { remark: '更新日志' },
         component: () => import('@/views/associate/updateLog/index.vue')
       },
-
+      {
+        path: '/refresh',
+        name: 'refresh',
+        component: () => import('@/components/blankTemplate.vue')
+      },
       {
         path: '*',
         name: '404',

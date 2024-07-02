@@ -26,7 +26,13 @@
       </div>
 
       <div class="blog-display-right">
-        <div class="affix">
+        <BlogUserCard />
+
+        <VisitorCard />
+        <div class="affix c-card">
+          <div class="card-header">
+            <el-icon><Memo /></el-icon><span class="tag-name">文章目录</span>
+          </div>
           <MdCatalog :editorId="'preview-only'" :scrollElement="scrollElement" />
         </div>
       </div>
@@ -41,6 +47,8 @@ import wave from './components/wave/index.vue';
 import { getBlogById } from '@/api/blog';
 import { MdPreview, MdCatalog } from 'md-editor-v3';
 import 'md-editor-v3/lib/preview.css';
+import BlogUserCard from '@/views/blog/components/blogUserCard.vue';
+import VisitorCard from '@/views/home/components/visitorCard.vue';
 const router = useRouter();
 const footerData = ref({} as any);
 const blogData = ref({ coverUrl: '', tags: [], content: '' } as any);
@@ -76,21 +84,58 @@ onMounted(() => {
 
 @keyframes display-in {
   0% {
-    transform: scale(1.03) translateY(50px);
+    transform: scale(1.03) translateY(30px);
   }
   100% {
     transform: scale(1) translateY(0px);
   }
 }
 
+@keyframes enLarge {
+  0% {
+    font-size: 16px;
+  }
+  100% {
+    font-weight: bold;
+    font-size: 20px;
+  }
+}
+
+@keyframes shrink {
+  0% {
+    font-weight: bold;
+    font-size: 20px;
+  }
+  100% {
+    transform: scale(1) translateX(0px);
+  }
+}
 @include theme() {
   .md-editor-catalog {
-    background: get('background');
-    box-shadow: get('box-shadow');
+    background: transparent;
+    // box-shadow: get('box-shadow');
     border-radius: 8px;
     min-height: 300px;
-    padding: 10px;
+    // padding: 10px;
     text-align: left;
+  }
+  .md-editor-catalog > .md-editor-catalog-link {
+    padding: 10px 8px;
+    font-size: 16px;
+  }
+  .md-editor-catalog {
+    span {
+      transition: ease-in-out 0.3s;
+      font-size: 16px;
+      font-weight: normal;
+    }
+  }
+  .md-editor-catalog-active {
+    span {
+      font-size: 18px;
+      font-weight: bold;
+      transition: ease-in-out 0.3s;
+    }
   }
   .blog-diaplay {
     width: 100%;
@@ -99,18 +144,34 @@ onMounted(() => {
   }
   .md-editor-previewOnly {
     color: get('font-color');
+    min-height: 100%;
+  }
+  .blog-display-left:hover {
+    box-shadow: 0px 1px 15px 0px rgb(231, 231, 184) !important;
   }
   .md-editor-preview {
     text-align: left;
   }
   .blog-display-main {
     @include flex;
-
+    .card-header {
+      @include flex;
+      width: 100%;
+      justify-content: start;
+      font-size: 19px;
+      font-weight: bold;
+      .el-icon {
+        margin: 8px;
+        font-size: 22px;
+      }
+      span {
+        margin-bottom: 2px;
+      }
+    }
     overflow: visible;
     align-items: start;
     margin: 30px 7% 0px 7% !important;
     min-height: 0px;
-    animation: display-in 2s linear forwards;
     .blog-display-left {
       overflow: hidden;
       width: calc(100% - 320px);
@@ -127,6 +188,7 @@ onMounted(() => {
       top: 80px;
       border-radius: 12px;
       .affix {
+        background: get('background');
         position: sticky;
         max-height: 90vh;
         min-height: 300px;
@@ -146,8 +208,8 @@ onMounted(() => {
     }
     .blog-user-component,
     .directory {
-      // background: get('background');
-      box-shadow: get('box-shadow');
+      background: get('background');
+      // box-shadow: get('box-shadow');
       border-radius: 5px;
       margin-top: 5px;
       margin-bottom: 15px;
@@ -166,6 +228,6 @@ onMounted(() => {
 </style>
 <style lang="scss">
 .page-main {
-  overflow: auto;
+  // overflow: auto;
 }
 </style>

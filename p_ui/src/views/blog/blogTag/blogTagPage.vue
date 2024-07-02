@@ -15,6 +15,7 @@
         <span class="tag-item-count">{{ item.total }}</span>
       </div>
     </div>
+    <div class="c-divider" style="margin: 20px 9px"></div>
     <div class="blog-list" v-cloading="loading">
       <div class="blog-item" v-for="(item, i) in blogList" @click="toDetail(item)">
         <c-image class="blog-item-left-img" :src="item.coverUrl" />
@@ -52,10 +53,8 @@ import { listTag } from '@/api/tag';
 import { listBlog } from '@/api/blog';
 import { ElMessage } from 'element-plus';
 import useUserStore from '@/store/modules/user';
-import BlogUserCard from '@/views/blog/components/blogUserCard.vue';
 import Pagination from '@/components/pagination/index.vue';
 import { useRouter } from 'vue-router';
-import BlogTagCard from '@/views/blog/components/blogTagCard.vue';
 const router = useRouter();
 const userStore = useUserStore();
 const loading = ref(false as any);
@@ -73,14 +72,9 @@ async function getTagList() {
   const { code, msg, data } = (await listTag({})) as any;
   if (code === 200 && data) {
     tagList.value = data.list;
-    let total = 0;
+
     tagList.value.forEach((e: any) => {
-      total += e.total;
-    });
-    tagList.value.unshift({
-      tagName: '全部',
-      isActive: false,
-      total
+      if (e.tagId === queryParams.value.tagId) e.isActive = true;
     });
   }
 }
@@ -102,10 +96,16 @@ async function getBlogList() {
   const { code, msg, data } = (await listBlog(queryParams.value)) as any;
   if (code === 200) {
     blogList.value = data.list;
+
     blogList.value.forEach((e: any) => {
       e.tags.length > 5 ? (e.tags.length = 5) : '';
     });
     total.value = data.total;
+    tagList.value.unshift({
+      tagName: '全部',
+      isActive: false,
+      total: total.value
+    });
     loading.value = false;
   } else {
     ElMessage.error('博客数据获取失败', msg);
@@ -118,7 +118,7 @@ function toDetail(item: any) {
 }
 
 onMounted(() => {
-  queryParams.value.tagId = router.currentRoute.value.query.tagId;
+  queryParams.value.tagId = (router as any).currentRoute._value.query.tagId;
   getTagList();
   getBlogList();
 });

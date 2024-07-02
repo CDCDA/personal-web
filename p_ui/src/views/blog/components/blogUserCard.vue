@@ -3,24 +3,27 @@
 -->
 <template>
   <div class="blog-user-card c-card">
-    <div class="user-header">熬夜成仙吧</div>
-    <div class="user-avatar">
-      <el-avatar :src="userInfo.avatar"></el-avatar>
-      <div class="introduction">我是一名全栈开发工程师</div>
-    </div>
-    <div class="user-footer">
-      <div class="footer-leftSide">
-        <div class="user-name">{{ userInfo.nickName }}</div>
-        <el-tooltip :content="userInfo.introduction">
-          <div class="user-motto no-wrap">{{ userInfo.introduction }}</div>
-        </el-tooltip>
+    <div class="filter-bg">
+      <div class="user-header">熬夜成仙吧</div>
+      <div class="user-avatar">
+        <el-avatar :src="userInfo.avatar"></el-avatar>
+        <div class="introduction">我是一名全栈开发工程师</div>
       </div>
-      <div class="footer-rightSide">
-        <svg-icon iconName="weixin" class="footer-icon weixin" @click="toQrCode"></svg-icon>
-        <svg-icon iconName="github" class="footer-icon github"></svg-icon>
+      <div class="user-footer">
+        <div class="footer-leftSide">
+          <div class="user-name">{{ userInfo.nickName }}</div>
+          <el-tooltip :content="userInfo.introduction">
+            <div class="user-motto no-wrap">{{ userInfo.introduction }}</div>
+          </el-tooltip>
+        </div>
+        <div class="footer-rightSide">
+          <svg-icon iconName="weixin" class="footer-icon weixin" @click="toQrCode"></svg-icon>
+          <svg-icon iconName="github" class="footer-icon github"></svg-icon>
+        </div>
       </div>
     </div>
   </div>
+
   <el-dialog class="weixin-qrcode" v-model="dialogVisible" width="300" :modal="false">
     <c-image :src="weixinQrcodeUrl"></c-image>
   </el-dialog>
@@ -30,8 +33,6 @@
 import { ref, onMounted } from 'vue';
 import useUserStore from '@/store/modules/user';
 import { getUserById } from '@/api/user';
-import { countByUserId } from '@/api/tag';
-import { countBlogType } from '@/api/type';
 
 const userStore = useUserStore();
 const userInfo = ref({} as any);
@@ -61,30 +62,63 @@ onMounted(() => {
 </script>
 <style lang="scss" scoped>
 @include theme() {
-  .blog-user-card {
+  .filter-bg {
+    width: calc(100% - 40px);
+    height: 100%;
+    background: transparent;
+    backdrop-filter: blur(5px);
+    padding: 20px;
     @include flex-column;
+  }
+  .blog-user-card {
+    transition: cubic-bezier(0.075, 0.82, 0.165, 1) 0.4s;
+    overflow: hidden;
+    padding: 0px !important;
+    width: 300px !important;
+    background: url('http://111.229.144.36:8008/Ruins.jpg') center 28% / cover no-repeat !important;
+
+    color: get('re-font-color') !important;
     .user-header {
       height: 24px;
-      width: auto;
+      width: fit-content;
       padding: 2px 20px;
       border-radius: 15px;
       font-size: 15px;
-      @include flex;
       margin: 25px 0px;
-      color: white;
+      color: get('re-font-color');
       cursor: pointer;
-      background: get('bk');
+      @include flex;
+      background: rgba(255, 255, 255, 0.2);
     }
     .user-header:hover {
-      transform: scale(1.02);
+      transform: scale(1.05);
+      color: get('font-color');
+      background: white;
+      transition: ease-in-out 0.3s;
+    }
+    .introduction {
+      position: absolute;
+      opacity: 0;
+      width: 150px;
+      height: 150px;
+      top: 0px;
+      left: 0px;
+      @include flex;
     }
     .user-avatar {
-      height: 155px;
+      height: 150px;
       margin: 10px 0px 0px 0px;
-      width: 100%;
+      width: 150px;
+      position: relative;
       .el-avatar {
         width: 130px;
         height: 130px;
+        position: absolute;
+        bottom: 15px;
+        left: calc(50% - 65px);
+        animation: huxi_light 4s infinite;
+        border: solid 5px get('re-font-color');
+        transition: cubic-bezier(0.075, 0.82, 0.165, 1) 0.4s;
       }
     }
     .user-footer {
@@ -93,7 +127,7 @@ onMounted(() => {
       display: flex;
       justify-content: space-around;
       align-items: center;
-      color: get('font-color');
+
       margin: 20px 0px;
       .footer-leftSide {
         @include flex-column;
@@ -124,14 +158,17 @@ onMounted(() => {
   }
   .blog-user-card:hover {
     .el-avatar {
-      display: none;
+      height: 0px;
+      width: 0px;
+      left: calc(50%);
+      bottom: 15px;
+
+      animation: none;
+      border: none;
     }
     .introduction {
-      height: 155px;
-      width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      opacity: 1;
+      transition: cubic-bezier(0.075, 0.82, 0.165, 1) 0.4s;
     }
   }
 }

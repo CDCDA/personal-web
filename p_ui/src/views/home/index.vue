@@ -9,65 +9,18 @@
       </div>
       <svg-icon iconName="down-black" class="CycleUpDown" @click="toMainPage"></svg-icon>
     </div>
-    <div class="home-main" v-if="homeMainShow">
+    <div class="home-main">
       <div class="main-header">
         <el-icon><ChromeFilled /></el-icon>
         <div class="main-header-text-list">
-          <div
-            class="main-header-text"
-            @click="router.push({ name: item.routerName })"
-            v-for="item in headerList"
-          >
-            {{ item.text }}
-          </div>
+          <rollText :list="headerList" />
         </div>
         <el-icon><Right /></el-icon>
       </div>
       <div class="main-container">
         <div class="recommend">
-          <div class="recommend-left">
-            <div class="recommend-left-top">
-              <div class="recommd-left-title">
-                <span>我的技术栈</span>
-              </div>
-              <TechnologyStackCard
-                class="recommd-left-stack"
-                :isHoverShow="false"
-              ></TechnologyStackCard>
-              <div class="recommend-left-top-cover" @click="toRange()">
-                <div>随便逛逛</div>
-                <svg-icon iconName="right"></svg-icon>
-              </div>
-            </div>
-            <div class="recommend-left-bottom">
-              <div
-                class="bottom-item"
-                @click="router.push({ name: 'blogTypePage', query: { typeId: '1' } })"
-              >
-                <span>前端小记</span><svg-icon iconName="book" />
-              </div>
-              <div
-                class="bottom-item"
-                @click="router.push({ name: 'blogTypePage', query: { typeId: '2' } })"
-              >
-                <span>后端总结</span><svg-icon iconName="hot" />
-              </div>
-              <div class="bottom-item" @click="router.push({ name: 'essay' })">
-                <span>生活随笔</span><svg-icon iconName="edit" />
-              </div>
-            </div>
-          </div>
-          <div class="recommend-right">
-            <div class="right-item" v-for="item in tRecommends" @click="toDetail(item)">
-              <div class="icon-rec">荐</div>
-              <c-image class="item-image" :src="item.coverUrl"></c-image>
-              <div class="item-title">
-                <el-text truncated>
-                  {{ item.blogTitle }}
-                </el-text>
-              </div>
-            </div>
-          </div>
+          <RecommendLeft />
+          <RecommendRight />
         </div>
         <div class="display-page">
           <div class="display-left">
@@ -86,7 +39,7 @@
               </div>
             </div>
             <div class="display-list">
-              <div class="list-item" v-for="item in recommends" @click="toDetail(item)">
+              <div @click="toDetail(item)" class="list-item" v-for="item in recommends">
                 <div class="list-item-img">
                   <el-image :src="item.coverUrl" lazy>
                     <template #placeholder>
@@ -94,12 +47,14 @@
                         class="image-slot"
                         v-cLoading="'rotate'"
                         style="width: 100%; height: 100%"
-                      ></div> </template
-                    ><template #error>
+                      />
+                    </template>
+                    <template #error>
                       <div class="image-error-slot">
                         <svg-icon iconName="imgFailed"></svg-icon>
-                      </div> </template
-                  ></el-image>
+                      </div>
+                    </template>
+                  </el-image>
                 </div>
 
                 <div class="list-item-footer">
@@ -130,12 +85,12 @@
             />
           </div>
           <div class="display-right">
-            <BlogUserCard />
-            <!-- <WeatherCard /> -->
-            <VisitorCard />
-            <BlogTypeCard></BlogTypeCard>
-            <BlogTagCard></BlogTagCard>
-            <BlogCountCard></BlogCountCard>
+            <visible-lazy :component="BlogUserCard" />
+            <visible-lazy :component="WeatherCard" />
+            <visible-lazy :component="VisitorCard" />
+            <visible-lazy :component="BlogTypeCard" />
+            <visible-lazy :component="BlogTagCard" />
+            <visible-lazy :component="BlogCountCard" />
           </div>
         </div>
       </div>
@@ -143,24 +98,32 @@
   </div>
 </template>
 <script setup lang="ts">
-import { onMounted, ref, watch } from 'vue';
+import { onMounted, defineAsyncComponent, ref, watch } from 'vue';
 import { listBlog } from '@/api/blog';
 import { ElMessage } from 'element-plus';
 import { listTotalType } from '@/api/type';
 import useUserStore from '@/store/modules/user';
 import { useRouter } from 'vue-router';
+import { listUpdateLog } from '@/api/updateLog.ts';
 import Pagination from '@/components/pagination/index.vue';
-import BlogUserCard from '@/views/blog/components/blogUserCard.vue';
-import BlogTypeCard from '@/views/blog/components/blogTypeCard.vue';
-import BlogTagCard from '@/views/blog/components/blogTagCard.vue';
-import BlogCountCard from '@/views/blog/components/blogCountCard.vue';
-import TechnologyStackCard from '../introduction/personalProfile/components/technologyStackCard.vue';
+const BlogUserCard = defineAsyncComponent(() => import('@/views/blog/components/blogUserCard.vue'));
+const WeatherCard = defineAsyncComponent(() => import('./components/weatherCard.vue'));
+const BlogTypeCard = defineAsyncComponent(() => import('@/views/blog/components/blogTypeCard.vue'));
+const BlogTagCard = defineAsyncComponent(() => import('@/views/blog/components/blogTagCard.vue'));
+const BlogCountCard = defineAsyncComponent(
+  () => import('@/views/blog/components/blogCountCard.vue')
+);
+const VisitorCard = defineAsyncComponent(() => import('./components/visitorCard.vue'));
+// const RecommendLeft = defineAsyncComponent(() => import('./components/recommendLeft.vue'));
+// const RecommendRight = defineAsyncComponent(() => import('./components/recommendRight.vue'));
+import RecommendRight from './components/recommendRight.vue';
+import RecommendLeft from './components/recommendLeft.vue';
 import useThemeStore from '@/store/modules/theme.ts';
-import VisitorCard from './components/visitorCard.vue';
-const homeMainShow = ref(false);
+
+import rollText from '@/components/rollText/index.vue';
 const themeStore = useThemeStore();
 const recommends = ref([] as any);
-const tRecommends = ref([]) as any;
+
 const userStore = useUserStore();
 const theme = ref('' as any);
 const loading = ref('rotate' as any);
@@ -219,11 +182,19 @@ async function getBlogList() {
   const { code, msg, data } = (await listBlog(queryParams.value)) as any;
   if (code === 200) {
     recommends.value = data.list;
-    tRecommends.value = JSON.parse(JSON.stringify(data.list));
-    tRecommends.value.length > 6 ? (tRecommends.value.length = 6) : '';
     total.value = data.total;
   } else {
     ElMessage.error('博客数据获取失败', msg);
+  }
+}
+
+async function getHeaderList() {
+  const { code, data } = (await listUpdateLog({ operation: '', pageNum: 1, pageSize: 999 })) as any;
+  if (code == 200) {
+    headerList.value = data.list;
+    headerList.value.forEach((x: any) => {
+      x.text = x.operation;
+    });
   }
 }
 
@@ -262,11 +233,11 @@ async function getTypeTree() {
     ElMessage.error('分类数据获取失败', msg);
   }
 }
-let displacement = ref(72 as any);
+let displacement = ref(0 as any);
 
 function headerRoll(header: any) {
   displacement.value -= 49;
-  if (displacement.value == -75) displacement.value = 72;
+  if (displacement.value == -75) displacement.value = 0;
   header.style.transform = `translate3d(0px, ${displacement.value}px, 0px)`;
 }
 
@@ -358,13 +329,6 @@ const routes = router.getRoutes().filter((e: any) => {
   return e.meta.isHidden !== true && e.meta.remark;
 }) as any;
 
-function toRange() {
-  router.push({
-    name: 'blogDisplay',
-    query: { blogId: recommends.value[Math.ceil(Math.random() * recommends.value.length)].blogId }
-  });
-}
-
 function setQuery(item: any) {
   if (item) {
     typeList.value.forEach((type: any) => {
@@ -378,70 +342,15 @@ function setQuery(item: any) {
 }
 
 onMounted(() => {
-  // 渐出
+  getHeaderList();
 
-  // setTimeout(() => {
-  //   (document.getElementById('app-theme') as any).style.animation =
-  //     'blur-to-clear 2.5s cubic-bezier(0.6, 0.25, 0.25, 1) 0s 1 backwards,scale 2.2s cubic-bezier(0.6, 0.1, 0.25, 1) 0.5s 1 backwards';
-  // }, 500);
-  setTimeout(() => {
-    homeMainShow.value = true;
-  }, 1500);
   getBlogList();
   getTypeTree();
-  let header = document.querySelector('.main-header-text-list');
   setFontColor();
-  if (header) {
-    setInterval(() => {
-      headerRoll(header);
-    }, 5000);
-  }
   setTyping();
 });
 </script>
 <style lang="scss" scoped>
-@keyframes slide-in {
-  0% {
-    width: 33%;
-  }
-  100% {
-    width: 50%;
-  }
-}
-@keyframes rotate-img {
-  0% {
-    opacity: 0.2;
-    transform: rotate(15deg);
-  }
-  100% {
-    opacity: 1;
-    right: 5%;
-    top: -5%;
-    filter: blur(0px);
-    transform: rotate(0deg);
-  }
-}
-@keyframes re-slide-in {
-  0% {
-    width: 50%;
-  }
-  100% {
-    width: 33%;
-  }
-}
-@keyframes re-rotate-img {
-  0% {
-    opacity: 1;
-    right: 5%;
-    top: -5%;
-    filter: blur(0px);
-    transform: rotate(0deg);
-  }
-  100% {
-    opacity: 0.2;
-    transform: rotate(15deg);
-  }
-}
 @include theme() {
   .home-container {
     @include flex-column;
@@ -478,7 +387,7 @@ onMounted(() => {
       position: absolute;
     }
     .home-main {
-      width: calc(88vw);
+      width: calc(90vw);
       max-width: 1500px;
       @include flex-column;
       .main-header {
@@ -499,7 +408,7 @@ onMounted(() => {
           @include flex-column;
           height: 100%;
           transition-duration: 300ms;
-          transform: translate3d(0px, 72px, 0px);
+          transform: translate3d(0px, 0px, 0px);
           .main-header-text {
             height: 30px;
             margin: 10px;
@@ -520,203 +429,6 @@ onMounted(() => {
           @include flex;
           width: 100%;
           height: 50vh;
-          .recommend-left {
-            width: calc(50% - 5px);
-            margin-right: 10px;
-            @include flex-column;
-            justify-content: space-between;
-            cursor: pointer;
-            .recommend-left-top {
-              background: get('background');
-              border-radius: 15px;
-              width: 100%;
-              height: 36vh;
-              box-shadow: get('box-shadow');
-              overflow: hidden;
-              position: relative;
-              .recommd-left-title {
-                position: absolute;
-                top: 28px;
-                left: 46px;
-                font-size: 44px;
-                font-weight: bold;
-              }
-              .recommd-left-stack {
-                transform: rotate(-35deg);
-                position: absolute;
-                animation: none;
-              }
-              .recommend-left-top-cover {
-                opacity: 0;
-                z-index: 1;
-                width: 100%;
-                position: absolute;
-                height: calc(100%);
-                background: get('bk');
-                font-size: 85px;
-                font-weight: bold;
-                color: white;
-                @include flex-column;
-                align-items: flex-start;
-                padding-left: 50px;
-                transition: cubic-bezier(0.71, 0.15, 0.16, 1.15) 0.6s;
-                .svg-icon-wrap {
-                  width: 120px;
-                  height: 120px;
-                }
-              }
-              &:hover {
-                .recommend-left-top-cover {
-                  opacity: 1;
-                }
-              }
-            }
-            .recommend-left-bottom {
-              display: flex;
-              justify-content: space-between;
-              align-items: center;
-              margin-top: 5px;
-              width: 100%;
-              height: calc(14vh - 10px);
-              .bottom-item {
-                height: 100%;
-                cursor: pointer;
-                box-shadow: get('box-shadow');
-                width: calc(33% - 5px);
-                background: get('background');
-                border-radius: 15px;
-                @include flex;
-                position: relative;
-                justify-content: start;
-                span {
-                  color: white;
-                  font-weight: bold;
-                  font-size: 20px;
-                  padding-left: 25px;
-                }
-                .svg-icon-wrap {
-                  opacity: 0.2;
-                  position: absolute;
-                  right: 0%;
-                  top: 20%;
-                  transition: 0.3s;
-                  width: 90px;
-                  text-align: center;
-                  filter: blur(2px);
-                  transform: rotate(15deg);
-                  .theme-icon {
-                    color: white !important;
-                    fill: white !important;
-                  }
-                }
-              }
-              .bottom-item:not(:hover) {
-                animation: re-slide-in 0.3s forwards linear;
-                img {
-                  animation: re-rotate-img 0.3s forwards linear;
-                }
-              }
-              .bottom-item:hover {
-                & {
-                  width: 50%;
-                }
-                animation: slide-in 0.3s forwards linear;
-                .svg-icon-wrap {
-                  animation: rotate-img 0.3s forwards linear;
-                }
-                width: 25%;
-              }
-
-              .bottom-item:nth-child(1) {
-                background: get('bk');
-                margin-right: 10px;
-              }
-              .bottom-item:nth-child(2) {
-                margin-right: 10px;
-                background: linear-gradient(to right, #ff6655, #ffbf37);
-              }
-              .bottom-item:nth-child(3) {
-                background: linear-gradient(to right, #18e7ae, #1eebeb);
-              }
-            }
-          }
-          .recommend-right {
-            width: calc(50% - 5px);
-            margin-left: 10px;
-            display: flex;
-            color: get('font-color');
-            justify-content: space-between;
-            flex-wrap: wrap;
-            @keyframes in {
-              0% {
-                left: -35px;
-              }
-              100% {
-                left: 0px;
-              }
-            }
-            .icon-rec {
-              position: absolute;
-              z-index: 1;
-              top: 0;
-              color: white;
-              left: -35px;
-              width: 35px;
-              height: 35px;
-              background: linear-gradient(to right, #1488cc, #2b32b2);
-              border-radius: 15px 0px;
-              @include flex;
-            }
-            .right-item:hover {
-              transform: scale(1.02);
-              .icon-rec {
-                animation: in 0.1s forwards linear;
-              }
-            }
-            .right-item {
-              height: calc(50% - 5px);
-              width: calc(33.33% - 7px);
-              background: get('background');
-              box-shadow: get('box-shadow');
-              position: relative;
-              cursor: pointer;
-              overflow: hidden;
-              @include flex-column;
-              border-radius: 15px;
-              .item-image {
-                height: calc(100% - 50px);
-                width: 100%;
-                border-radius: 15px 15px 0px 0px;
-              }
-              .item-title {
-                @include flex;
-                height: 50px;
-                padding: 0px 10px;
-                width: calc(100% - 20px);
-                margin: 0 auto;
-
-                .el-text {
-                  font-size: 18px;
-                  font-weight: bold;
-                  color: get('font-color');
-                }
-              }
-            }
-            .right-item:nth-child(1),
-            .right-item:nth-child(2),
-            .right-item:nth-child(3) {
-              margin-bottom: 5px;
-            }
-            .right-item:nth-child(4),
-            .right-item:nth-child(5),
-            .right-item:nth-child(6) {
-              margin-top: 5px;
-            }
-          }
-          .recommend-left,
-          .recommend-right {
-            height: 100%;
-          }
         }
         .display-page {
           width: 100%;
@@ -843,12 +555,12 @@ onMounted(() => {
                   }
                 }
                 .list-item-footer {
-                  width: calc(100% - 40px);
+                  width: calc(100% - 30px);
                   height: 100px;
                   display: flex;
                   justify-content: space-evenly;
                   flex-direction: column;
-                  padding: 0px 20px;
+                  padding: 0px 15px;
                   align-items: start;
                   .list-item-title {
                     font-size: 20px;
@@ -863,7 +575,7 @@ onMounted(() => {
                       justify-content: start;
                       overflow: hidden;
                       height: 30px;
-                      width: 80%;
+                      width: calc(100% - 105px);
                       text-align: left;
                       display: -webkit-box;
                       overflow: hidden;
@@ -881,6 +593,7 @@ onMounted(() => {
                       }
                     }
                     .item-time {
+                      width: 105px;
                     }
                   }
                 }

@@ -16,12 +16,14 @@ $light: (
   box-shadow: 0px 1px 2px 0px #000000,
   audio-pro-bar: #aca8a8,
   top-button-color: rgb(255 255 255 / 80%),
-  placeholder: rgb(87, 87, 87)
+  placeholder: rgb(87, 87, 87),
+  scrollbar-track-color: '',
+  scrollbar-thumb-color: hsla(0, 0%, 100%, 0.4)
 );
 
 //白色主题
 $white: (
-  background: rgb(255 255 255 / 95%),
+  background: rgb(255 255 255 / 98%),
   background-no-tp: rgb(255 255 255 / 100%),
   bk-pri: white,
   re-bk-pri: black,
@@ -32,15 +34,17 @@ $white: (
   font-color: #363636,
   border-color: rgb(180 180 180),
   re-font-color: white,
-  box-shadow: 0px 1px 3px 0px #000000,
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.6),
   audio-pro-bar: #aca8a8,
   top-button-color: rgb(255 255 255 / 80%),
-  placeholder: rgb(225, 225, 225)
+  placeholder: #b5b8c0,
+  scrollbar-track-color: '',
+  scrollbar-thumb-color: hsla(0, 0%, 100%, 0.4)
 );
 
 //深色主题
 $dark: (
-  background: linear-gradient(to right, rgba(55, 57, 58, 0.95), rgb(35 37 38 / 95%)),
+  background: rgba(55, 57, 58, 0.95),
   background-no-tp: linear-gradient(to right, rgb(65 67 69 / 100%), rgb(35 37 38 / 100%)),
   bk-pri: black,
   re-bk-pri: white,
@@ -52,7 +56,9 @@ $dark: (
   box-shadow: 0 2px 8px 0 #000000,
   audio-pro-bar: #aca8a8,
   top-button-color: white,
-  placeholder: rgb(180, 177, 177)
+  placeholder: rgb(180, 177, 177),
+  scrollbar-track-color: '',
+  scrollbar-thumb-color: hsla(0, 0%, 100%, 0.4)
 );
 
 //青色主题
@@ -102,6 +108,15 @@ $current-theme: $dark;
   }
 }
 
+@mixin getValue() {
+  @each $key, $val in $themes {
+    $current-theme: $val !global;
+    [data-theme='#{$key}'] {
+      @content;
+    }
+  }
+}
+
 @mixin full() {
   height: 100%;
   width: 100%;
@@ -111,9 +126,10 @@ $current-theme: $dark;
   @return map-get($current-theme, $key);
 }
 
-#app {
-  @include theme() {
-    @import '../styles/element-ui.scss';
-    @import '../styles/common.scss';
-  }
+@mixin background() {
+  background: get('background');
+}
+
+@mixin background-no-tp() {
+  background: get('background-no-tp');
 }

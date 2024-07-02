@@ -64,7 +64,11 @@
         <template #default="scope">
           <c-image v-if="scope.row.type == 'img'" :src="scope.row.url" />
           <c-image v-if="scope.row.type == 'video'" :src="scope.row.coverUrl" />
-          <c-image v-if="scope.row.type == 'color'" :background="scope.row.url" />
+          <div
+            class="el-image c-image"
+            v-if="scope.row.type == 'color'"
+            :style="{ background: scope.row.url }"
+          />
         </template>
       </el-table-column>
       <el-table-column label="壁纸名称" align="center" prop="name" show-overflow-tooltip />

@@ -205,14 +205,13 @@ function closeThemeDialog() {
   @include flex-column;
   width: 50px;
   position: absolute;
-  right: 1.7%;
+  right: 1.4%;
   bottom: 32%;
   z-index: 1;
   .setting-item {
     height: 35px;
     width: 35px;
     margin-bottom: 10px;
-
     cursor: pointer;
     transition: all 0.5s linear;
   }

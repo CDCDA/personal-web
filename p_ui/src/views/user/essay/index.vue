@@ -43,8 +43,17 @@
         :key="item.i"
       >
         <div class="essay-item c-left" :class="`essay-${item.i}`">
+          <div class="essay-item-user">
+            <c-image class="essay-item-user-avatar" :src="userData.avatar"></c-image>
+            <div class="essay-item-info">
+              <span class="essay-item-user-nickName">{{ userData.nickName }}</span>
+              <span class="essay-item-date">
+                {{ sformatDate(new Date(item.createTime)) }}
+              </span>
+            </div>
+          </div>
           <span class="essay-item-content">{{ item.content }}</span>
-          <div class="img-list">
+          <div class="img-list" v-if="item.images && item.images.length > 0">
             <el-image
               class="img-list-item"
               :preview-src-list="item.images"
@@ -65,42 +74,22 @@
             </el-image>
           </div>
           <div class="c-dotted-line"></div>
-          <span class="essay-item-date"
-            ><el-icon><Clock /></el-icon
-            >{{ formateDate(new Date(item.createTime), 'YY-MM-dd') }}</span
-          >
+          <div class="essay-item-tag-list">
+            <span class="essay-item-tag" v-for="tag in item.tags">{{ `# ${tag.tagName}` }}</span>
+          </div>
         </div>
       </grid-item>
     </grid-layout>
-    <!-- <div class="essay-item c-left" v-for="(item, i) in essayList">
-        <span class="essay-item-content">{{ item.content }}</span>
-        <div class="img-list">
-          <el-image
-            class="img-list-item"
-            :preview-src-list="item.images"
-            v-for="img in item.images"
-            :initial-index="4"
-            :preview-teleported="true"
-            :src="img"
-            fit="cover"
-          />
-        </div>
-        <div class="c-dotted-line"></div>
-        <span class="essay-item-date"
-          ><el-icon><Clock /></el-icon
-          >{{ formateDate(new Date(item.createTime), 'YY-mm-dd') }}</span
-        >
-      </div> -->
-    <!-- </div> -->
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted, watch } from 'vue';
 import { useRouter } from 'vue-router';
+import { getUserById } from '@/api/user.ts';
 import { listEssay } from '@/api/essay.ts';
 import useUserStore from '@/store/modules/user';
-import { formateDate } from '@/utils/date.ts';
+import { sformatDate } from '@/utils/date.ts';
 const imgLoading = ref('rotate' as any);
 const router = useRouter();
 const userStore = useUserStore();
@@ -128,17 +117,6 @@ function getAnimate(i: any) {
   return 'animated';
 }
 
-// watch(
-//   () => essayList.value,
-//   val => {
-//     val;
-//     // console.log(val);
-//   },
-//   {
-//     deep: true
-//   }
-// );
-
 /**
  * @description: 获取随笔
  * @return {*}
@@ -160,7 +138,8 @@ async function getEssayList() {
             i: data.list[index].id,
             images: data.list[index].images,
             createTime: data.list[index].createTime,
-            content: data.list[index].content
+            content: data.list[index].content,
+            tags: data.list[index].tags ? JSON.parse(data.list[index].tags) : []
           });
         index++;
       }
@@ -190,16 +169,26 @@ async function getEssayList() {
   }
 }
 
+const userData = ref({} as any);
+
+async function getUserData() {
+  const { code, data } = (await getUserById(userStore.userId)) as any;
+  if (code == 200) {
+    userData.value = data;
+  }
+}
+
 onMounted(() => {
+  getUserData();
   getEssayList();
 });
 </script>
 <style lang="scss">
 @include theme() {
   .essay-main {
-    overflow-x: hidden;
     @include flex-column;
     justify-content: start;
+    overflow: initial;
     .essay-header {
       height: 45vh;
       width: 100%;
@@ -249,26 +238,47 @@ onMounted(() => {
       }
     }
     .essay-center {
-      // display: flex;
-      // flex-wrap: wrap;
-      // justify-content: space-between;
-      // align-items: flex-start;
       width: calc(100% + 30px);
       min-height: 100vh;
-
       display: table;
-      // animation: fade-in 0.4s linear forwards;
-      // transition: all linear;
       .essay-item {
-        transition: all 0.2s linear;
-        // width: calc(33% - 40px);
+        transition: all 0.2s ease-in-out;
         border-radius: 10px;
         position: relative;
-        padding: 20px 15px 10px 15px;
+        padding: 15px 15px 10px 15px;
         text-align: left;
         box-shadow: get('box-shadow');
-        background: get('background');
+        background: get('background-no-tp');
         color: get('font-color');
+        .essay-item-user {
+          display: flex;
+          margin-bottom: 12px;
+          .essay-item-user-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 8px;
+          }
+          .essay-item-info {
+            width: calc(100% - 50px);
+            padding: 3px 10px;
+            @include flex-column;
+            justify-content: space-between;
+            .essay-item-user-nickName,
+            .essay-item-date {
+              text-align: left;
+              width: 100%;
+            }
+            .essay-item-user-nickName {
+              font-size: 20px;
+              font-weight: 400;
+              color: #6dbdc3;
+            }
+            .essay-item-date {
+              font-size: 13px;
+              color: #969394;
+            }
+          }
+        }
         .essay-item-content {
           white-space: pre-wrap;
         }
@@ -288,21 +298,16 @@ onMounted(() => {
             border-radius: 5px;
           }
         }
-
-        .essay-item-date {
-          height: 28px;
-          display: block;
-          line-height: 28px;
-          border-radius: 28px;
-          border: 1px solid #d1d1d1;
-          padding: 0px 15px;
-          background: #9999992b;
-          width: fit-content;
-          text-align: center;
-          font-size: 17px;
-          @include flex;
-          .el-icon {
-            margin-right: 5px;
+        .essay-item-tag-list {
+          display: flex;
+          flex-wrap: nowrap;
+          .essay-item-tag {
+            margin-right: 10px;
+            font-size: 14px;
+            padding: 2px 5px;
+            color: #999;
+            background: #f2f2f2;
+            border-radius: 4px;
           }
         }
       }

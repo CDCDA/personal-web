@@ -7,7 +7,7 @@
       <el-icon><FolderOpened /></el-icon><span class="type-nmae">分类</span>
     </div>
     <div class="type-list">
-      <div class="type-item" v-for="item in typeList">
+      <div class="type-item" v-for="item in typeList" @click="toBlogType(item)">
         <span class="type-item-prepend">#</span>{{ item.typeName
         }}<span class="type-item-suffix">{{ item.total }}</span>
       </div>
@@ -19,8 +19,13 @@
 import { onMounted, ref } from 'vue';
 import { listTotalType } from '@/api/type';
 import useUserStore from '@/store/modules/user';
+import { useRouter } from 'vue-router';
 const userStore = useUserStore();
 const typeList = ref([] as any);
+const router = useRouter();
+function toBlogType(item: any) {
+  router.push({ name: 'blogTypePage', query: { typeId: item.typeId } });
+}
 
 async function getTypeTree() {
   const { code, msg, data } = (await listTotalType({})) as any;
@@ -53,7 +58,7 @@ onMounted(() => {
       justify-content: start;
       flex-wrap: wrap;
       .type-item {
-        padding: 8px 15px;
+        padding: 7px 12px;
         border-radius: 8px;
         color: get('font-color');
         border: 1px solid #b9b8b8;
@@ -70,7 +75,7 @@ onMounted(() => {
         opacity: 0.8;
         background: #d1d1d1;
         border-radius: 5px;
-        padding: 0px 7px;
+        padding: 4px 5px;
       }
       .type-item:hover {
         background: get('bk');

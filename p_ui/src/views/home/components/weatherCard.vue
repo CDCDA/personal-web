@@ -3,64 +3,106 @@
 -->
 <template>
   <div class="weather-card c-card">
-    <v-mini-weather>
-      <template #default="{ weather, icon }">
-        <!--插入图标-->
-        <v-mini-weather-icon :icon="icon"></v-mini-weather-icon>
-        <!--DIY内容-->
-        <span>{{ weather.cityname }}/{{ weather.weather }}/{{ weather.temp }}</span>
-      </template>
-    </v-mini-weather>
+    <div class="background">
+      <div class="container">
+        <svg id="back">
+          <radialGradient id="SVGID_1_" cx="0" cy="0" r="320.8304" gradientUnits="userSpaceOnUse">
+            <stop offset="0" style="stop-color: #ffde17; stop-opacity: 0.7" />
+            <stop offset="1" style="stop-color: #fff200; stop-opacity: 0" />
+          </radialGradient>
+          <path
+            id="sunburst"
+            style="fill: url(#SVGID_1_)"
+            d="M0,319.7c-18.6,0-37.3-1.6-55.5-4.8L-7.8,41.4c5.1,0.9,10.6,0.9,15.7,0L56,314.8C37.6,318,18.8,319.7,0,319.7z
+	 M-160.8,276.6c-32.5-18.8-61.3-42.9-85.5-71.6L-34,26.2c3.4,4.1,7.4,7.4,12,10.1L-160.8,276.6z M161.3,276.4L22.1,36.2
+	c4.5-2.6,8.6-6,12-10.1l212.6,178.5C222.5,233.4,193.8,257.6,161.3,276.4z M-302.5,108.3C-315.4,73-321.9,36-322-1.8l277.6-0.5
+	c0,5.3,0.9,10.4,2.7,15.2L-302.5,108.3z M302.6,107.8L41.8,12.8c1.7-4.7,2.6-9.7,2.6-14.9c0-0.3,0-0.6,0-1H322l0-1.3l0,1.9
+	C322,35.4,315.5,72.5,302.6,107.8z M-41.8-17.5l-261-94.5c12.8-35.4,31.6-68,55.8-96.9L-34.1-30.8C-37.5-26.8-40.1-22.3-41.8-17.5z
+	 M41.7-17.7c-1.8-4.8-4.4-9.3-7.8-13.3l212-179.2c24.3,28.8,43.3,61.3,56.3,96.6L41.7-17.7z M-22.2-40.8l-139.6-240
+	c32.7-19,68.1-32,105.2-38.6L-8-46.1C-13-45.2-17.8-43.4-22.2-40.8z M22-40.9c-4.4-2.6-9.2-4.3-14.2-5.1l47.1-273.6
+	c37.2,6.4,72.7,19.2,105.4,38L22-40.9z"
+          />
+        </svg>
+        <nav>
+          <ul style="position: absolute; visibility: hidden">
+            <li>
+              <a id="button-snow" class="active"><i class="wi wi-snow"></i></a>
+            </li>
+            <li>
+              <a id="button-wind"><i class="wi wi-strong-wind"></i></a>
+            </li>
+            <li>
+              <a id="button-rain"><i class="wi wi-rain"></i></a>
+            </li>
+            <li>
+              <a id="button-thunder"><i class="wi wi-lightning"></i></a>
+            </li>
+            <li>
+              <a id="button-sun"><i class="wi wi-day-sunny"></i></a>
+            </li>
+          </ul>
+        </nav>
+        <div id="card" class="weather">
+          <svg id="inner">
+            <defs>
+              <path
+                id="leaf"
+                d="M41.9,56.3l0.1-2.5c0,0,4.6-1.2,5.6-2.2c1-1,3.6-13,12-15.6c9.7-3.1,19.9-2,26.1-2.1c2.7,0-10,23.9-20.5,25 c-7.5,0.8-17.2-5.1-17.2-5.1L41.9,56.3z"
+              />
+            </defs>
+            <circle id="sun" style="fill: #f7ed47" cx="0" cy="0" r="50" />
+            <g id="layer3"></g>
+            <g id="cloud3" class="cloud"></g>
+            <g id="layer2"></g>
+            <g id="cloud2" class="cloud"></g>
+            <g id="layer1"></g>
+            <g id="cloud1" class="cloud"></g>
+          </svg>
+          <div class="details">
+            <div class="temp" style="font-size: 40px">{{ weatherData.temp }}<span>℃</span></div>
+            <div class="right">
+              <div id="date">{{ weatherData.date }}</div>
+              <div id="summary">{{ weatherData.weather }}</div>
+            </div>
+          </div>
+        </div>
+        <svg id="outer"></svg>
+      </div>
+    </div>
   </div>
 </template>
 <script setup lang="ts">
-import { onMounted } from 'vue';
-import { vMiniWeather, vMiniWeatherIcon } from 'vue3-mini-weather';
+import { onMounted, ref } from 'vue';
+import { cityCodeList } from './cityCode.ts';
+const weatherData = ref({} as any);
 onMounted(() => {
-  // const windowData = window as any;
-  // windowData.WIDGET = {
-  //   CONFIG: {
-  //     layout: '2',
-  //     width: 230,
-  //     height: 270,
-  //     background: '1',
-  //     dataColor: 'FFFFFF',
-  //     city: '101230103',
-  //     key: '923e3789e7c74e07bef0edd9481149e2'
-  //   }
-  // };
-  // var script = document.createElement('script');
-  // script.type = 'text/javascript';
-  // script.src = 'https://widget.qweather.net/standard/static/js/he-standard-common.js?v=2.0';
-  // document.getElementsByTagName('head')[0].appendChild(script);
+  const script = document.createElement('script');
+  script.src = '/weatherCard/script.js';
+  script.type = 'text/javascript';
+  document.body.appendChild(script);
+  setTimeout(() => {
+    let weather = (localStorage as any).getItem('weather');
+    if (weather) {
+      weatherData.value = JSON.parse(weather);
+      if (weatherData.value.weather == '晴') {
+        document.getElementById('button-sun')?.click();
+      } else if (weatherData.value.weather == '雨') {
+        document.getElementById('button-rain')?.click();
+      } else if (weatherData.value.weather == '阴') {
+        document.getElementById('button-wind')?.click();
+      } else if (weatherData.value.weather == '雪') {
+        document.getElementById('button-snow')?.click();
+      } else if (weatherData.value.weather == '雷') {
+        document.getElementById('button-thunder')?.click();
+      }
+    }
+  }, 2000);
 });
 </script>
-<style lang="scss">
-@include theme() {
-  .weather-card {
-    border-radius: 15px;
-    margin-bottom: 20px;
-    padding: 0px !important;
-    width: 300px !important;
-  }
-  #he-plugin-standard {
-    background: transparent !important;
-    width: 100% !important;
-    height: 300px !important;
-    border-radius: 15px !important;
-    padding: 10px 15px;
-    span,
-    a {
-      color: get('font-color') !important;
-      font-size: 16px !important;
-    }
-    .wv-lt-col-5 {
-      display: none;
-    }
-    .wv-lt-location {
-      font-size: 18px;
-      font-weight: bold;
-    }
-  }
+<style lang="scss" scoped>
+@import url('/weatherCard/style.css');
+.c-card {
+  width: 300px !important;
+  padding: 0px !important;
 }
 </style>

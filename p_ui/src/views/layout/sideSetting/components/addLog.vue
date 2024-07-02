@@ -2,7 +2,7 @@
  * @Description: 新增更新日志弹窗
 -->
 <template>
-  <el-dialog
+  <c-dialog
     class="log"
     v-model="dialogVisible"
     :title="title"
@@ -28,11 +28,11 @@
     </el-form>
     <template #footer>
       <span class="dialog-footer">
-        <el-button @click="emit('close')">取消</el-button>
-        <el-button @click="submit()">确定</el-button>
+        <el-button size="mini" @click="emit('close')">取消</el-button>
+        <el-button size="mini" @click="submit()">确定</el-button>
       </span>
     </template>
-  </el-dialog>
+  </c-dialog>
 </template>
 <script setup lang="ts">
 import { ref, nextTick, onMounted, watch } from 'vue';
@@ -62,7 +62,7 @@ function close() {
 watch(
   () => props.form,
   val => {
-    form.value = val;
+    Object.assign(form.value, val);
   },
   {
     deep: true,
@@ -83,6 +83,11 @@ async function submit() {
     emit('close');
   }
 }
+
+onMounted(() => {
+  form.value.operateTime = null;
+  form.value.operateTime = new Date();
+});
 </script>
 
 <style lang="scss">

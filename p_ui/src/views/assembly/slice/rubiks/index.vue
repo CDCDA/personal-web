@@ -3,8 +3,8 @@
 -->
 <template>
   <div class="ui">
-    <div class="ui__background" style="background: rgb(209, 213, 219)"></div>
-    <div class="ui__game" style="height: 600px; width: 600px"></div>
+    <div class="ui__background"></div>
+    <div class="ui__game" style="height: calc(100% - 20px); bottom: 0px; top: initial"></div>
     <div class="ui__texts">
       <h1 class="text text--title" style="opacity: 1">
         <span
@@ -182,7 +182,10 @@ onMounted(async () => {
 <style lang="scss">
 .ui__background::after,
 .ui__background {
-  background: transparent !important;
+  background: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .assembly-body {
   height: 100%;
@@ -202,7 +205,6 @@ onMounted(async () => {
     padding: 0;
     outline: none;
     font-size: inherit;
-    font-family: inherit;
     font-weight: inherit;
     font-style: inherit;
     text-transform: uppercase;

@@ -11,7 +11,6 @@ import path from 'path';
 import viteCompression from 'vite-plugin-compression';
 import legacy from '@vitejs/plugin-legacy';
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons';
-
 // https://vitejs.dev/config/
 export default defineConfig({
   base: './',

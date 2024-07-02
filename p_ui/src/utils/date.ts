@@ -10,9 +10,10 @@
  * @return {string}  yy-mm-dd
  * @Description: 日期转 年-月-日 string
  */
-export const formateDate = (date: Date, type?: String) => {
+export const formatDate = (date: Date, type?: String) => {
+  console.log(typeof date);
   if (!type) {
-    type = 'YY-MM-dd:hh-mm-ss';
+    type = 'YY-MM-dd hh-mm-ss';
   }
   let year = date.getFullYear().toString();
   let month = (date.getMonth() + 1).toString().padStart(2, '0');
@@ -23,8 +24,8 @@ export const formateDate = (date: Date, type?: String) => {
 
   return `${type.includes('YY') ? year : ''}${type.includes('MM') ? '-' + month : ''}${
     type.includes('dd') ? '-' + day : ''
-  }${type.includes('hh') ? ':' + hours : ''}${type.includes('mm') ? '-' + minutes : ''}${
-    type.includes('ss') ? '-' + seconds : ''
+  }${type.includes('hh') ? ' ' + hours : ''}${type.includes('mm') ? ':' + minutes : ''}${
+    type.includes('ss') ? ':' + seconds : ''
   }`;
 };
 
@@ -33,15 +34,15 @@ export const formateDate = (date: Date, type?: String) => {
  * @return {string}  yy-mm-dd
  * @Description: 日期转 年-月-日 string
  */
-export const sFormateDate = (date: Date) => {
+export const sformatDate = (date: Date) => {
   let year = date.getFullYear().toString();
-  let month = (date.getMonth() + 1).toString().padStart(2, '0');
-  let day = date.getDate().toString().padStart(2, '0');
+  let month = (date.getMonth() + 1).toString();
+  let day = date.getDate().toString();
   let hours = date.getHours().toString().padStart(2, '0');
   let minutes = date.getMinutes().toString().padStart(2, '0');
   let seconds = date.getSeconds().toString().padStart(2, '0');
 
-  return `${year} 年 ${month} 月 ${day} 天 ${hours} 小时 ${minutes} 分钟 ${seconds} 秒 `;
+  return `${year} 年 ${month} 月 ${day} 日 ${hours} : ${minutes} : ${seconds}`;
 };
 
 /**
@@ -103,7 +104,7 @@ export const getMonthEndDay = (date: Date) => {
 export const getYearStartDay = (date: Date) => {
   var tYear = date.getFullYear();
   var startTime = new Date(tYear, 0, 1); //当前年第一天
-  return formateDate(startTime, 'YY-MM-dd:hh-mm-ss');
+  return formatDate(startTime, 'YY-MM-dd:hh-mm-ss');
 };
 
 /**
@@ -114,7 +115,7 @@ export const getYearStartDay = (date: Date) => {
 export const getYearEndDay = (date: Date) => {
   var tYear = date.getFullYear();
   var endTime = new Date(tYear, 11, 31); //当前年最后一天
-  return formateDate(endTime, 'YY-MM-dd:hh-mm-ss');
+  return formatDate(endTime, 'YY-MM-dd:hh-mm-ss');
 };
 
 /**
@@ -128,7 +129,7 @@ export const getPreMonthDate = (date: Date, preNum: number) => {
   // 日期必须设置为1-28号内，
   // 当月日期比上月日期的最大还要大时，就会直接进入下一个月的Date
   cdate.setMonth(cdate.getMonth() - preNum, 1);
-  return formateDate(cdate, 'YY-MM-dd:hh-mm-ss');
+  return formatDate(cdate, 'YY-MM-dd:hh-mm-ss');
 };
 
 /**

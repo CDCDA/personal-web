@@ -22,8 +22,8 @@
   >
     <el-icon><Plus /></el-icon>
   </el-upload>
-  <el-dialog v-model="dialogVisible">
-    <img w-full :src="dialogImageUrl" alt="Preview Image" />
+  <el-dialog v-model="dialogVisible" style="width: 100%; height: 100%; position: absolute">
+    <c-image :src="dialogImageUrl" />
   </el-dialog>
 </template>
 <script setup lang="ts">
@@ -34,7 +34,7 @@ import { ElMessage } from 'element-plus';
 const uploadAction = ` ${
   process.env.NODE_ENV === 'development' ? '/dev-api' : '/prod-api'
 }/pw/blog/uploadImg`;
-const dialogImageUrl = ref('');
+const dialogImageUrl = ref('' as any);
 const dialogVisible = ref(false);
 const emit = defineEmits(['update:modelValue']);
 const props = defineProps({
@@ -48,13 +48,13 @@ const handleAvatarSuccess: UploadProps['onSuccess'] = (response: any) => {
 };
 
 const beforeAvatarUpload: UploadProps['beforeUpload'] = rawFile => {
-  if (rawFile.type !== 'image/jpeg') {
-    ElMessage.error('Avatar picture must be JPG format!');
-    return false;
-  } else if (rawFile.size / 1024 / 1024 > 2) {
-    ElMessage.error('Avatar picture size can not exceed 2MB!');
-    return false;
-  }
+  // if (rawFile.type !== 'image/jpeg') {
+  //   ElMessage.error('Avatar picture must be JPG format!');
+  //   return false;
+  // } else if (rawFile.size / 1024 / 1024 > 2) {
+  //   ElMessage.error('Avatar picture size can not exceed 2MB!');
+  //   return false;
+  // }
   return true;
 };
 const handleRemove: UploadProps['onRemove'] = (uploadFile, uploadFiles) => {
@@ -63,7 +63,8 @@ const handleRemove: UploadProps['onRemove'] = (uploadFile, uploadFiles) => {
 };
 
 const handlePictureCardPreview: UploadProps['onPreview'] = uploadFile => {
-  dialogImageUrl.value = uploadFile.url!;
+  console.log('QQQ', uploadFile);
+  dialogImageUrl.value = uploadFile.url;
   dialogVisible.value = true;
 };
 
@@ -90,3 +91,21 @@ function handleSucess(response: any) {
 //   }
 // );
 </script>
+<style lang="scss" scoped>
+@include theme() {
+  .c-uploader {
+    border: 1px solid get('border-color');
+    background: transparent;
+    width: 146px;
+    height: 145px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 4px;
+    :deep(.el-upload) {
+      height: 100%;
+      width: 100%;
+    }
+  }
+}
+</style>

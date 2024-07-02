@@ -4,7 +4,10 @@
 <template>
   <div class="update-log page-main">
     <div class="update-log-top fade-in">
-      <c-image :src="'http://111.229.144.36:8008/quiet-forest.jpg'" />
+      <c-image
+        :src="'http://111.229.144.36:8008/quiet-forest.jpg'"
+        style="width: 100%; height: 100%"
+      />
     </div>
     <div class="update-log-preface">
       <h2>前言</h2>
@@ -106,8 +109,6 @@ onMounted(() => {
   }
   .page-main.update-log {
     @include flex-column;
-    // width: calc(70%) !important;
-    // margin: 60px 15% 0px 15% !important;
     font: normal 16px/1.5 'Titillium Web', sans-serif;
     background: get('background');
     color: #3c3f64;

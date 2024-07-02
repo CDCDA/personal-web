@@ -78,7 +78,7 @@ export default {
         stop: null,
         num: 10,
         show: true,
-        zIndex: -1
+        zIndex: 999
       }
     };
   },
@@ -194,5 +194,6 @@ export default {
   position: fixed;
   top: 0;
   left: 0;
+  z-index: 1;
 }
 </style>

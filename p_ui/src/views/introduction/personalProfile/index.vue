@@ -20,7 +20,7 @@
       </div>
       <div class="ps-info-right">
         <div class="ps-info-map c-right animated">
-          <el-image class="map-img"></el-image>
+          <c-image class="map-img" :src="'http://111.229.144.36:8008/location.png'" />
           <div class="map-tip">现居 福州</div>
         </div>
         <div class="ps-info-life c-right animated">
@@ -28,6 +28,25 @@
           <div class="life-profession">福州大学<span>计算机科学与技术专业</span></div>
           <div class="life-education">目前<span>在职。。。</span></div>
         </div>
+      </div>
+    </div>
+    <div class="ps-info" style="height: 250px">
+      <div class="ps-character">
+        <div class="character-title">性格</div>
+        <p class="character-name">执政官</p>
+        <p class="character-abbreviation">ESFJ-A</p>
+        <p class="character-comment">感觉不太准，但又有很多人喜欢玩这个</p>
+        <p class="character-associate">
+          感兴趣的可以去玩玩
+          <a href="https://www.16personalities.com/ch/%E4%BA%BA%E6%A0%BC%E6%B5%8B%E8%AF%95"
+            >性格测试</a
+          >
+        </p>
+      </div>
+      <div class="ps-strong-point">
+        <div class="point-title">爱好</div>
+        <p class="point-name">游戏</p>
+        <p class="point-name">健身</p>
       </div>
     </div>
   </div>
@@ -51,7 +70,7 @@ const welcomeSrc = new URL('@/assets/svg/welcome.svg', import.meta.url).href;
       background: get('background');
       box-shadow: get('box-shadow');
       margin: 20px;
-      border-radius: 20px;
+      border-radius: 12px;
       font-weight: bold;
 
       span:nth-child(1) {
@@ -78,7 +97,7 @@ const welcomeSrc = new URL('@/assets/svg/welcome.svg', import.meta.url).href;
       width: 100%;
       height: 450px;
       box-shadow: get('box-shadow');
-      border-radius: 20px;
+      border-radius: 12px;
       overflow: hidden;
       margin-bottom: 20px;
       display: flex;
@@ -88,13 +107,14 @@ const welcomeSrc = new URL('@/assets/svg/welcome.svg', import.meta.url).href;
     .ps-info {
       width: 100%;
       height: 450px;
+      margin-bottom: 20px;
       @include flex;
       .ps-info-left {
         width: 50%;
         height: calc(100% - 40px);
         background: get('background');
         box-shadow: get('box-shadow');
-        border-radius: 20px;
+        border-radius: 12px;
         margin-right: 20px;
         overflow: hidden;
         padding: 20px 0px;
@@ -123,7 +143,7 @@ const welcomeSrc = new URL('@/assets/svg/welcome.svg', import.meta.url).href;
           width: 100%;
           background: get('background');
           box-shadow: get('box-shadow');
-          border-radius: 20px;
+          border-radius: 12px;
           margin-bottom: 20px;
           position: relative;
           overflow: hidden;
@@ -186,7 +206,7 @@ const welcomeSrc = new URL('@/assets/svg/welcome.svg', import.meta.url).href;
           justify-content: space-evenly;
           background: get('background');
           box-shadow: get('box-shadow');
-          border-radius: 20px;
+          border-radius: 12px;
           .life-college,
           .life-profession,
           .life-education {
@@ -200,6 +220,62 @@ const welcomeSrc = new URL('@/assets/svg/welcome.svg', import.meta.url).href;
             }
           }
         }
+      }
+    }
+    .ps-character {
+      width: calc(60% - 40px);
+      height: calc(100% - 40px);
+      background: get('background');
+      box-shadow: get('box-shadow');
+      border-radius: 12px;
+      margin-right: 20px;
+      overflow: hidden;
+      padding: 20px 20px;
+      position: relative;
+      background-image: url('@/assets/png/fire.png');
+      background-repeat: no-repeat;
+      object-fit: cover;
+      background-size: 22% auto;
+      background-position: 96% 46%;
+      p,
+      div {
+        text-align: left;
+      }
+      p {
+        margin: 10px 0px;
+      }
+      // <p class="character-name">执政官</p>
+      //   <p class="character-abbreviation">ESFJ-A</p>
+      //   <p class="character-comment">感觉不太准，但又有很多人喜欢玩这个</p>
+      //   <p class="character-associate">
+      .character-name,
+      .character-abbreviation {
+        font-size: 35px;
+        font-weight: bold;
+      }
+      .character-comment {
+        position: absolute;
+        bottom: 40px;
+      }
+      .character-associate {
+        position: absolute;
+        bottom: 10px;
+      }
+    }
+    .ps-strong-point {
+      width: calc(40% - 60px);
+      height: calc(100% - 40px);
+      background: get('background');
+      box-shadow: get('box-shadow');
+      border-radius: 12px;
+      overflow: hidden;
+      padding: 20px 20px;
+      p,
+      div {
+        text-align: left;
+      }
+      p {
+        font-size: 25px;
       }
     }
   }

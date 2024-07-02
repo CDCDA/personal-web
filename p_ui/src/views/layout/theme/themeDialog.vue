@@ -2,75 +2,76 @@
  * @Description: 换肤 
 -->
 <template>
-  <el-dialog
-    class="skin-change"
-    v-model="dialogVisible"
-    title="换肤"
-    style="height: 75%"
-    width="60%"
-    :modal="false"
-    align-center
-    @close="emit('closeThemeDialog')"
-  >
-    <el-tabs v-model="activeName" class="skin-tabs" v-loading.fullscreen.lock="loading">
-      <el-tab-pane label="主题" name="theme">
-        <div class="theme-main">
-          <div
-            v-for="item in themes"
-            :class="['theme-item', item.active ? 'theme-item-active' : '']"
-            @click="changeTheme(item)"
-          >
+  <div v-cDrag="true">
+    <el-dialog
+      class="skin-change"
+      v-model="dialogVisible"
+      title="换肤"
+      style="height: 75%"
+      width="60%"
+      :modal="false"
+      align-center
+      @close="emit('closeThemeDialog')"
+    >
+      <el-tabs v-model="activeName" class="skin-tabs" v-loading.fullscreen.lock="loading">
+        <el-tab-pane label="主题" name="theme">
+          <div class="theme-main">
             <div
-              class="theme-back"
-              :style="{ background: item.background, height: 'calc(100% - 20px)' }"
-            ></div>
-            <span class="theme-label">{{ item.label }}</span>
-          </div>
-        </div></el-tab-pane
-      >
-      <el-tab-pane label="静态壁纸" name="static">
-        <div class="back-main" v-loading="false">
-          <div
-            v-for="item in backs.filter((e:any)=> e.type !== 'video')"
-            :class="['back-item', item.active ? 'back-item-active' : '']"
-            @click="changeBack(item)"
-          >
-            <el-image
-              class="back-image"
-              v-if="item.type == 'img'"
-              style="height: 90px"
-              :src="item.url"
-              :preview-teleported="true"
-              :preview-src-list="[item.url]"
-              :fit="fits"
+              v-for="item in themes"
+              :class="['theme-item', item.active ? 'theme-item-active' : '']"
+              @click="changeTheme(item)"
             >
-              <template #placeholder>
-                <div class="image-slot" v-cLoading="'rotate'" style="width: 100%; height: 100%" />
-              </template>
-              <template #error>
-                <div class="image-error-slot">
-                  <svg-icon iconName="imgFailed" />
-                </div>
-              </template>
-            </el-image>
+              <div
+                class="theme-back"
+                :style="{ background: item.background, height: 'calc(100% - 20px)' }"
+              ></div>
+              <span class="theme-label">{{ item.label }}</span>
+            </div>
+          </div></el-tab-pane
+        >
+        <el-tab-pane label="静态壁纸" name="static">
+          <div class="back-main" v-loading="false">
             <div
-              v-if="item.type == 'color'"
-              class="back-image"
-              style="height: 90px"
-              :style="{ background: item.url }"
-            />
-            <span class="back-label">{{ item.name }}</span>
-          </div>
-        </div></el-tab-pane
-      >
-      <el-tab-pane label="动态壁纸" name="dynamic">
-        <div class="back-main" v-loading="false">
-          <div
-            v-for="item in backs.filter((e:any)=> e.type == 'video')"
-            :class="['back-item', item.active ? 'back-item-active' : '']"
-            @click="changeBack(item)"
-          >
-            <!-- <video
+              v-for="item in backs.filter((e:any)=> e.type !== 'video')"
+              :class="['back-item', item.active ? 'back-item-active' : '']"
+              @click="changeBack(item)"
+            >
+              <el-image
+                class="back-image"
+                v-if="item.type == 'img'"
+                style="height: 90px"
+                :src="item.url"
+                :preview-teleported="true"
+                :preview-src-list="[item.url]"
+                :fit="fits"
+              >
+                <template #placeholder>
+                  <div class="image-slot" v-cLoading="'rotate'" style="width: 100%; height: 100%" />
+                </template>
+                <template #error>
+                  <div class="image-error-slot">
+                    <svg-icon iconName="imgFailed" />
+                  </div>
+                </template>
+              </el-image>
+              <div
+                v-if="item.type == 'color'"
+                class="back-image"
+                style="height: 90px"
+                :style="{ background: item.url }"
+              />
+              <span class="back-label">{{ item.name }}</span>
+            </div>
+          </div></el-tab-pane
+        >
+        <el-tab-pane label="动态壁纸" name="dynamic">
+          <div class="back-main" v-loading="false">
+            <div
+              v-for="item in backs.filter((e:any)=> e.type == 'video')"
+              :class="['back-item', item.active ? 'back-item-active' : '']"
+              @click="changeBack(item)"
+            >
+              <!-- <video
               v-if="item.type == 'video'"
               class="back-image"
               style="height: 90px"
@@ -79,40 +80,44 @@
             >
               <source :src="item.url" type="video/mp4" />
             </video> -->
-            <c-image class="back-image" style="height: 90px" :src="item.coverUrl"></c-image>
-            <span class="back-label">{{ item.name }}</span>
+              <c-image class="back-image" style="height: 90px" :src="item.coverUrl"></c-image>
+              <span class="back-label">{{ item.name }}</span>
+            </div>
+          </div></el-tab-pane
+        >
+        <el-tab-pane label="其他" name="other">
+          <div class="other-main">
+            <el-form
+              :model="options"
+              class="other-form"
+              label-width="200"
+              style="width: 400px"
+              label-position="left"
+            >
+              <el-form-item label="粒子效果(仅静态壁纸)" prop="isParticles">
+                <el-switch v-model="options.isParticles" @change="setParticles()"></el-switch>
+              </el-form-item>
+              <el-form-item label="樱花特效" prop="isSakura">
+                <el-switch v-model="options.isSakura" @change="setIsSakura()"></el-switch>
+              </el-form-item>
+              <el-form-item label="首页及导航字体颜色" prop="mhFontColor">
+                <el-color-picker v-model="options.mhFontColor" @change="setFontColor()" />
+              </el-form-item>
+              <el-form-item label="字体" prop="fontFamily">
+                <el-select v-model="options.fontFamily" @change="setFontFamily()">
+                  <el-option
+                    v-for="item in fontFamilys"
+                    :value="item.value"
+                    :label="item.label"
+                  ></el-option>
+                </el-select>
+              </el-form-item>
+            </el-form>
           </div>
-        </div></el-tab-pane
-      >
-      <el-tab-pane label="其他" name="other">
-        <div class="other-main">
-          <el-form
-            :model="options"
-            class="other-form"
-            label-width="200"
-            style="width: 400px"
-            label-position="left"
-          >
-            <el-form-item label="粒子效果(仅静态壁纸)" prop="isParticles">
-              <el-switch v-model="options.isParticles" @change="setParticles()"></el-switch>
-            </el-form-item>
-            <el-form-item label="首页及导航字体颜色" prop="mhFontColor">
-              <el-color-picker v-model="options.mhFontColor" @change="setFontColor()" />
-            </el-form-item>
-            <el-form-item label="字体" prop="fontFamily">
-              <el-select v-model="options.fontFamily" @change="setFontFamily()">
-                <el-option
-                  v-for="item in fontFamilys"
-                  :value="item.value"
-                  :label="item.label"
-                ></el-option>
-              </el-select>
-            </el-form-item>
-          </el-form>
-        </div>
-      </el-tab-pane>
-    </el-tabs>
-  </el-dialog>
+        </el-tab-pane>
+      </el-tabs>
+    </el-dialog>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -142,6 +147,7 @@ var activeTheme = {
 const options = reactive({
   //是否开启粒子特效
   isParticles: true,
+  isSakura: true,
   fontColor: '',
   mhFontColor: '',
   fontFamily: ''
@@ -185,6 +191,9 @@ const fontFamilys = [
     value: 'FangDaKai',
     label: '东方大楷'
   },
+  { value: 'DingDing', label: '钉钉进步体' },
+  { value: 'Uranus', label: '天王星像素' },
+  { value: 'Shark', label: '优设鲨鱼菲特健康体' },
   { value: "'Press Start 2P', cursive", label: 'Press Start 2P' },
   {
     value: 'SimSun',
@@ -276,13 +285,17 @@ function setFontFamily() {
   themeStore.aspectOptions = options;
   const { fontFamily, fontColor, mhFontColor } = options;
   let appTheme = document.querySelector('#app-theme') as any;
-  let weather = document.querySelector('#he-plugin-standard') as any;
   appTheme.style.fontFamily = fontFamily;
-  weather.style.fontFamily = fontFamily;
+  console.log('SS', options);
   localStorage.setItem('aspectOptions', JSON.stringify(options));
 }
 
 function setParticles() {
+  themeStore.aspectOptions = options;
+  localStorage.setItem('aspectOptions', JSON.stringify(options));
+}
+
+function setIsSakura() {
   themeStore.aspectOptions = options;
   localStorage.setItem('aspectOptions', JSON.stringify(options));
 }
@@ -417,7 +430,6 @@ defineExpose({
     .el-dialog__body {
       overflow: hidden !important;
     }
-    background: get('background') !important;
     .el-tabs__content {
       height: calc(100% - 55px);
       overflow: auto;

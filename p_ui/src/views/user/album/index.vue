@@ -23,9 +23,8 @@
           </template>
         </el-image>
         <span class="album-item-name">{{ item.name }}</span>
-        <span class="album-item-date">{{
-          formateDate(new Date(item.createTime), 'YY-mm-dd')
-        }}</span>
+        <span class="album-item-count">{{ item.images.length }}</span>
+        <span class="album-item-date">{{ formatDate(new Date(item.createTime), 'YY-mm-dd') }}</span>
         <span class="album-item-instoction">{{ item.intro }}</span>
       </div>
     </div>
@@ -37,7 +36,7 @@ import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { listAlbum } from '@/api/album.ts';
 import useUserStore from '@/store/modules/user';
-import { formateDate } from '@/utils/date.ts';
+import { formatDate } from '@/utils/date.ts';
 const router = useRouter();
 const userStore = useUserStore();
 const albumList = ref([] as any);
@@ -75,19 +74,6 @@ onMounted(() => {
 </script>
 <style lang="scss">
 @include theme() {
-  // <div class="page-main album-main">
-  //   <div class="album-header">
-  //     <el-image class="album-header-img"></el-image>
-  //   </div>
-  //   <div class="album-center">
-  //     <div class="album-item" v-for="item in albumList">
-  //       <el-image class="album-item-cover"></el-image>
-  //       <span class="album-item-name">{{ item.albumName }}</span>
-  //       <span class="album-ite-date">{{ item.createTime }}</span>
-  //       <span class="album-item-instoction">{{ item.introduction }}</span>
-  //     </div>
-  //   </div>
-  // </div>
   .album-main {
     @include flex-column;
     justify-content: start;
@@ -129,14 +115,14 @@ onMounted(() => {
       display: flex;
       position: relative;
       flex-wrap: wrap;
-      justify-content: space-between;
+      justify-content: start;
       align-items: center;
-      width: 100%;
+      width: calc(100% + 20px);
       .album-item {
         width: calc(25% - 20px);
         height: 450px;
         border-radius: 20px;
-        margin: 10px 0px;
+        margin: 10px;
         opacity: 0.9;
         cursor: pointer;
         box-shadow: get('box-shadow');
@@ -153,23 +139,30 @@ onMounted(() => {
         }
         .album-item-name {
           position: absolute;
-          left: 19px;
-          top: 10px;
-          opacity: 0.8;
-          font-size: 25px;
+          left: 24px;
+          top: 20px;
+          font-size: 30px;
+          font-weight: bold;
+        }
+        .album-item-count {
+          bottom: 20px;
+          position: absolute;
+          left: 25px;
+          /* top: 10px; */
+          font-size: 30px;
         }
         .album-item-date {
           position: absolute;
-          bottom: 14px;
-          right: 37px;
-          opacity: 0.7;
+          bottom: 27px;
+          right: 25px;
+          opacity: 0.8;
         }
         .album-item-instoction {
           position: absolute;
           font-weight: bold;
-          font-size: 52px;
-          left: 19px;
-          top: 45px;
+          font-size: 20px;
+          left: 25px;
+          top: 77px;
           opacity: 0.9;
         }
       }
@@ -181,7 +174,7 @@ onMounted(() => {
     }
     .album-item:hover {
       filter: blur(0px);
-      transform: scale(1.05);
+      transform: scale(1.03);
       transition: all 200ms linear;
     }
     .album-center:not(:hover) {

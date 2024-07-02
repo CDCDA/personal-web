@@ -1,6 +1,10 @@
 <template>
   <div id="app-theme" data-theme="theme-dark">
-    {{ a }}
+    <sakura
+      style="position: absolute"
+      :new-options="sakuraOptions"
+      v-if="themeStore.aspectOptions.isSakura"
+    />
     <video id="tsparticles" autoplay loop muted v-if="backType == 'video'" />
     <div id="tsparticles" class="particles" v-else />
     <Particles
@@ -14,12 +18,18 @@
 </template>
 <script setup lang="ts">
 import { ref, onMounted, watch } from 'vue';
+import sakura from '@/components/sakura/index.vue';
 import rightClickMenu from '@/components/rightClickMenu/index.vue';
 import { useRouter } from 'vue-router';
 import useThemeStore from '@/store/modules/theme.ts';
 import useUserStore from './store/modules/user';
-
-const a = ref(import.meta.env.VUE_APP_TITLE);
+const sakuraOptions = ref({
+  staticx: false,
+  stop: null,
+  num: 15,
+  show: true,
+  zIndex: -1
+} as any);
 const userStore = useUserStore();
 var themeStore = useThemeStore();
 const loading = ref('gear' as any);
@@ -196,7 +206,14 @@ function init() {
       options = JSON.parse(options);
       let appTheme = document.querySelector('#app-theme') as any;
       appTheme.style.color = options.fontColor;
-      appTheme.style.fontFamily = options.fontFamily;
+      if (!options.fontFamily) {
+        options.fontFamily = 'Microsoft YaHei';
+        window.localStorage.setItem('aspectOptions', JSON.stringify(options));
+        appTheme.style.fontFamily = options.fontFamily;
+      } else {
+        appTheme.style.fontFamily = options.fontFamily;
+      }
+
       let header = document.querySelector('.common-header') as any;
       let homeTop = document.querySelector('.home-top') as any;
       let CycleUpDown = document.querySelector('.CycleUpDown') as any;
@@ -229,12 +246,14 @@ onMounted(() => {
   @include full();
   // font-family: DaoLiTi;
 }
+
 #app-theme {
   animation: blur-to-clear 2s forwards ease-in-out;
 }
 body,
 html {
   height: 100%;
+  width: 100% !important;
   margin: 0px;
   padding: 0px;
   overflow: hidden;
@@ -264,11 +283,31 @@ body {
   z-index: 0;
   background: transparent;
 }
+#tsparticles::after {
+  content: '';
+  background: linear-gradient(
+    90deg,
+    rgba(247, 149, 51, 0.1),
+    rgba(243, 112, 85, 0.1) 15%,
+    rgba(239, 78, 123, 0.1) 30%,
+    rgba(161, 102, 171, 0.1) 44%,
+    rgba(80, 115, 184, 0.1) 58%,
+    rgba(16, 152, 173, 0.1) 72%,
+    rgba(7, 179, 155, 0.1) 86%,
+    rgba(109, 186, 130, 0.1)
+  ) !important;
+}
 .particles {
   position: fixed;
   top: 0;
   left: 0;
   @include full();
   z-index: -1;
+}
+#app {
+  @include getValue() {
+    @import '@/assets/styles/element-ui.scss';
+    @import '@/assets/styles/common.scss';
+  }
 }
 </style>

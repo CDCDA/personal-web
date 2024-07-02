@@ -96,13 +96,11 @@ onMounted(() => {
     border: 2px solid get('border-color');
   }
 }
-.el-dialog__body {
-  @include flex-column;
-}
 
 .finder {
   border-radius: 15px;
   width: 100%;
+  height: 100%;
 }
 
 .finder__outer {
@@ -114,7 +112,7 @@ onMounted(() => {
 }
 .finder-list {
   width: 100%;
-  height: 230px;
+  height: calc(100% - 75px);
   margin-top: 10px;
   overflow: auto;
   display: flex;
@@ -232,6 +230,13 @@ onMounted(() => {
   }
   100% {
     transform: rotateZ(405deg);
+  }
+}
+</style>
+<style lang="scss">
+.search-dialog {
+  .el-dialog__body {
+    height: calc(100% - 60px) !important;
   }
 }
 </style>

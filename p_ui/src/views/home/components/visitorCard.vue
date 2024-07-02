@@ -21,6 +21,7 @@
     <div class="visitor-ip">
       您的ip地址为<span>{{ ` ${visitorInfo.ip} ` }}</span>
     </div>
+    <div class="visitor-greeting">{{ getGreeting() }}</div>
     <div class="visitor-salutation">{{ getSalutation() }}</div>
   </div>
 </template>
@@ -102,12 +103,36 @@ function getSalutation() {
   const currentHour = now.getHours();
   if (currentHour <= 6) {
     return '现在是~夜猫子时间！';
+  } else if (currentHour > 6 && currentHour <= 7) {
+    return '早起的虫子被鸟吃';
+  } else if (currentHour > 7 && currentHour <= 9) {
+    return '睡醒的第一件事就是重睡';
+  } else if (currentHour > 9 && currentHour <= 12) {
+    return '现在是超棒的晨间时间，如果你不在工作的话';
+  } else if (currentHour > 12 && currentHour <= 15) {
+    return '我先睡了';
+  } else if (currentHour > 15 && currentHour <= 16) {
+    return '三点几了 饮茶先啦';
+  } else if (currentHour > 15 && currentHour <= 18) {
+    return '上班的等下班，上课等的下课';
+  } else if (currentHour > 18 && currentHour <= 19) {
+    return '该吃饭了伙计';
+  } else if (currentHour > 19 && currentHour <= 23) {
+    return '希望别熬夜，如果熬，建议通宵';
+  }
+}
+
+function getGreeting() {
+  const now = new Date();
+  const currentHour = now.getHours();
+  if (currentHour <= 6) {
+    return '晚上好';
   } else if (currentHour > 6 && currentHour <= 12) {
-    return '早上好 早起的虫子被鸟吃';
+    return '早上好';
   } else if (currentHour > 12 && currentHour <= 18) {
-    return '下午好 饮茶先啦';
-  } else {
-    return '晚上好 希望别熬夜，如果熬，建议通宵';
+    return '下午好';
+  } else if (currentHour > 18 && currentHour <= 23) {
+    return '晚上好';
   }
 }
 
@@ -134,8 +159,6 @@ onMounted(() => {
     padding: 20px 20px !important;
     width: calc(100% - 40px) !important;
     font-size: 18px;
-    font-family: DaoLiTi;
-
     .card-header {
       @include flex;
       width: 100%;
@@ -162,6 +185,9 @@ onMounted(() => {
     }
     .visitor-ip span {
       color: #49b1f5;
+    }
+    .visitor-greeting {
+      color: #e38100;
     }
   }
 }

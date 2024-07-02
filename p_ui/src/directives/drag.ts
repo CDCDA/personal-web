@@ -1,82 +1,41 @@
+import { Directive } from 'vue';
 // 拖拽的指令
-export const drag = {
-  beforeMount(el: any, binding: any) {
-    console.log('WWW', binding.value);
-    // 自定义属性，判断是否可拖拽
-    if (!binding.value) return;
-    const dialogHeaderEl = el.querySelector('.el-dialog__header');
-    const dragDom = el.querySelector('.el-dialog__content');
-    console.log('QQQQQQQ', dialogHeaderEl);
-    dialogHeaderEl.style.cssText += ';cursor:move;';
-    // dragDom.style.cssText += ';bottom:0px;'
-
-    // 获取原有属性 ie dom元素.currentStyle 火狐谷歌 window.getComputedStyle(dom元素, null);
-    const sty = (function () {
-      if ((document.body as any).currentStyle) {
-        // 在ie下兼容写法
-        return (dom: any, attr: any) => dom.currentStyle[attr];
-      }
-      return (dom: any, attr: any) => getComputedStyle(dom, null)[attr];
-    })();
-
-    dialogHeaderEl.onmousedown = (e: any) => {
-      // 鼠标按下，计算当前元素距离可视区的距离
-      const disX = e.clientX - dialogHeaderEl.offsetLeft;
-      const disY = e.clientY - dialogHeaderEl.offsetTop;
-      const screenWidth = document.body.clientWidth; // body当前宽度
-      const screenHeight = document.documentElement.clientHeight; // 可见区域高度(应为body高度，可某些环境下无法获取)
-
-      const dragDomWidth = dragDom.offsetWidth; // 对话框宽度
-      const dragDomheight = dragDom.offsetHeight; // 对话框高度
-
-      const minDragDomLeft = dragDom.offsetLeft;
-      const maxDragDomLeft = screenWidth - dragDom.offsetLeft - dragDomWidth;
-
-      const minDragDomTop = dragDom.offsetTop;
-      const maxDragDomTop = screenHeight - dragDom.offsetTop - dragDomheight;
-
-      // 获取到的值带px 正则匹配替换
-      let styL = sty(dragDom, 'left');
-      // 为兼容ie
-      if (styL === 'auto') styL = '0px';
-      let styT = sty(dragDom, 'top');
-
-      // console.log(styL)
-      // 注意在ie中 第一次获取到的值为组件自带50% 移动之后赋值为px
-      if (styL.includes('%')) {
-        styL = +document.body.clientWidth * (+styL.replace(/%/g, '') / 100);
-        styT = +document.body.clientHeight * (+styT.replace(/%/g, '') / 100);
-      } else {
-        styL = +styL.replace(/px/g, '');
-        styT = +styT.replace(/px/g, '');
-      }
-
-      document.onmousemove = function (e) {
-        // 通过事件委托，计算移动的距离
-        let left = e.clientX - disX;
-        let top = e.clientY - disY;
-        // 边界处理
-        if (-left > minDragDomLeft) {
-          left = -minDragDomLeft;
-        } else if (left > maxDragDomLeft) {
-          left = maxDragDomLeft;
+export const cDrag: Directive = {
+  mounted(el: any, binding: any) {
+    setTimeout(() => {
+      const dialogHeaderEl = el.querySelector('.el-dialog__header');
+      const dragDom = binding.value && binding.value.dragSelf ? el : el.querySelector('.el-dialog');
+      dialogHeaderEl.style = 'cursor:move;';
+      // 获取原有属性 ie dom元素.currentStyle 火狐谷歌 window.getComputedStyle(dom元素, null);
+      const sty = dragDom.currentStyle || window.getComputedStyle(dragDom, null);
+      dialogHeaderEl.onmousedown = (e: MouseEvent) => {
+        // 鼠标按下，计算当前元素距离可视区的距离
+        const disX = e.clientX - dialogHeaderEl.offsetLeft;
+        const disY = e.clientY - dialogHeaderEl.offsetTop;
+        // 获取到的值带px 正则匹配替换
+        let styL, styT;
+        if (sty.left.includes('%')) {
+          styL = +document.body.clientWidth * (+sty.left.replace(/\%/g, '') / 100);
+          styT = +document.body.clientHeight * (+sty.top.replace(/\%/g, '') / 100);
+        } else {
+          styL = +sty.left.replace(/\px/g, '');
+          styT = +sty.top.replace(/\px/g, '');
         }
+        var time = null as any;
+        document.onmousemove = (e: MouseEvent) => {
+          // 通过事件委托，计算移动的距离
+          const l = e.clientX - disX;
+          const t = e.clientY - disY;
+          // 移动当前元素
+          dragDom.style.left = `${l + styL}px`;
+          dragDom.style.top = `${t + styT}px`;
+        };
 
-        if (-top > minDragDomTop) {
-          top = -minDragDomTop;
-        } else if (top > maxDragDomTop) {
-          top = maxDragDomTop;
-        }
-
-        // 移动当前元素
-        dragDom.style.cssText += `;left:${left + styL}px;top:${top + styT}px;`;
+        document.onmouseup = () => {
+          document.onmousemove = null;
+          document.onmouseup = null;
+        };
       };
-
-      document.onmouseup = function () {
-        document.onmousemove = null;
-        document.onmouseup = null;
-      };
-      return false;
-    };
+    }, 0);
   }
 };

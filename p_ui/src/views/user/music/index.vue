@@ -43,7 +43,7 @@
       <img :src="selectSong.album?.picUrl" />
       <h2>{{ selectSong.album?.name }}</h2>
       <span>{{ getAuthors(selectSong.album?.artists) }}</span>
-      <p>{{ formateDate(new Date(selectSong.album?.publishTime), 'YY-MM-dd') }}</p>
+      <p>{{ formatDate(new Date(selectSong.album?.publishTime), 'YY-MM-dd') }}</p>
       <div class="music-info-edit"></div>
     </div>
     <musicPlayer
@@ -58,7 +58,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
-import { formateDate } from '@/utils/date.ts';
+import { formatDate } from '@/utils/date.ts';
 import musicPlayer from '@/views/assembly/testField/draggle/components/audioPlayer.vue';
 import { listSong, getSongById } from '@/api/music.ts';
 import { ElMessage } from 'element-plus';

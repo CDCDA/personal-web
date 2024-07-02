@@ -101,7 +101,7 @@ onMounted(() => {
     margin-top: 10px;
     width: 100%;
     height: 45vh !important;
-    ::v-deep .el-carousel__container {
+    :deep(.el-carousel__container) {
       height: 100%;
     }
     .drama-carousel-item {
@@ -200,7 +200,6 @@ onMounted(() => {
       font-size: 18px;
       font-weight: 300;
       margin-left: 10px;
-      font-family: 'Courier New', Courier, monospace;
     }
   }
   .item-cover {

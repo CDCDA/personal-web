@@ -2,51 +2,55 @@
  * @Description: 博客展示页海浪header
 -->
 <template>
-  <div class="wave-header" :style="{ background: background }" v-cLoading="loading">
-    <div class="inner-header flex"></div>
-    <div style="opacity: 0.5; height: 15vh">
-      <svg
-        class="waves"
-        xmlns="http://www.w3.org/2000/svg"
-        xmlns:xlink="http://www.w3.org/1999/xlink"
-        viewBox="0 24 150 28"
-        preserveAspectRatio="none"
-        shape-rendering="auto"
-      >
-        <defs>
-          <path
-            id="gentle-wave"
-            d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z"
-          />
-        </defs>
-        <g class="parallax">
-          <use xlink:href="#gentle-wave" x="48" y="0" fill="rgba(255,255,255,0.7" />
-          <use xlink:href="#gentle-wave" x="48" y="3" fill="rgba(255,255,255,0.5)" />
-          <use xlink:href="#gentle-wave" x="48" y="5" fill="rgba(255,255,255,0.3)" />
-          <use xlink:href="#gentle-wave" x="48" y="7" fill="#f7f9fe" fill-opacity="100" />
-        </g>
-      </svg>
-    </div>
-    <div class="blog-info">
-      <div class="blog-info-header">
-        <span class="post-meta-original">{{
-          props.blogData.isOriginal == 0 ? '转载' : '原创'
-        }}</span>
-        <span class="post-meta-categories">博客</span>
-        <div class="tag-item" v-for="tag in props.blogData.tags">
-          <span class="tag-item-pretend">#</span>
-          <span class="tag-item-text">{{ tag.tagName }}</span>
-        </div>
+  <div class="wave-header" v-cLoading="loading">
+    <div :class="loading ? '' : 'wave-active'" ref="waveHeader">
+      <div class="inner-header flex"></div>
+      <div style="opacity: 0.5; height: 15vh">
+        <svg
+          class="waves"
+          xmlns="http://www.w3.org/2000/svg"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          viewBox="0 24 150 28"
+          preserveAspectRatio="none"
+          shape-rendering="auto"
+        >
+          <defs>
+            <path
+              id="gentle-wave"
+              d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z"
+            />
+          </defs>
+          <g class="parallax">
+            <use xlink:href="#gentle-wave" x="48" y="0" fill="rgba(255,255,255,0.7" />
+            <use xlink:href="#gentle-wave" x="48" y="3" fill="rgba(255,255,255,0.5)" />
+            <use xlink:href="#gentle-wave" x="48" y="5" fill="rgba(255,255,255,0.3)" />
+            <use xlink:href="#gentle-wave" x="48" y="7" fill="#f7f9fe" fill-opacity="100" />
+          </g>
+        </svg>
       </div>
-      <div class="blog-info-title">{{ props.blogData.blogTitle }}</div>
-      <div class="blog-info-footer">
-        <span class="footer-item"> <svg-icon iconName="write" />{{ props.blogData?.author }} </span>
-        <span class="footer-item">
-          <svg-icon iconName="date" />{{ props.blogData.createTime || '2023-10-1' }}
-        </span>
-        <span class="footer-item">
-          <svg-icon iconName="wordsNumber" />{{ props.blogData.content?.length }}
-        </span>
+      <div class="blog-info">
+        <div class="blog-info-header">
+          <span class="post-meta-original">{{
+            props.blogData.isOriginal == 0 ? '转载' : '原创'
+          }}</span>
+          <span class="post-meta-categories">博客</span>
+          <div class="tag-item" v-for="tag in props.blogData.tags">
+            <span class="tag-item-pretend">#</span>
+            <span class="tag-item-text">{{ tag.tagName }}</span>
+          </div>
+        </div>
+        <div class="blog-info-title">{{ props.blogData.blogTitle }}</div>
+        <div class="blog-info-footer">
+          <span class="footer-item">
+            <svg-icon iconName="write" />{{ props.blogData?.author }}
+          </span>
+          <span class="footer-item">
+            <svg-icon iconName="date" />{{ props.blogData.createTime || '2023-10-1' }}
+          </span>
+          <span class="footer-item">
+            <svg-icon iconName="wordsNumber" />{{ props.blogData.content?.length }}
+          </span>
+        </div>
       </div>
     </div>
   </div>
@@ -61,11 +65,22 @@ const props = defineProps({
 });
 const loading = ref('rotate' as any);
 const background = ref('' as any);
+const waveHeader = ref(null as any);
 watch(
   () => props.blogData,
   val => {
     loading.value = 'rotate';
-    if (val && val.coverUrl) background.value = `url('${val.coverUrl}') left/cover  no-repeat`;
+    if (val && val.coverUrl) {
+      background.value = `url('${val.coverUrl}') left/cover  no-repeat`;
+      var img = new Image();
+      img.src = new URL(val.coverUrl, import.meta.url).href; //需要判断的图片地址
+      img.onload = function () {
+        (waveHeader as any)._value.style.background = background.value;
+        (document.querySelector('.blog-display-main') as any).style.animation =
+          'display-in 1.5s 0.3s backwards';
+        loading.value = false;
+      };
+    }
     // else background.value = `url('http://111.229.144.36:8008/dragon-maiden.jpg') left/cover  no-repeat`;
     else {
       background.value = '';
@@ -73,7 +88,6 @@ watch(
     if (val.tags.length > 5) {
       val.tags.length = 5;
     }
-    loading.value = false;
   },
   {
     deep: true
@@ -82,16 +96,22 @@ watch(
 
 onMounted(() => {
   loading.value = 'rotate';
-  if (props.blogData && props.blogData.coverUrl)
+  if (props.blogData && props.blogData.coverUrl) {
     background.value = `url('${props.blogData.coverUrl}') left/cover  no-repeat`;
-  // else background.value = `url('http://111.229.144.36:8008/dragon-maiden.jpg') left/cover  no-repeat`;
-  else {
+    var img = new Image();
+    img.src = new URL(props.blogData.coverUrl, import.meta.url).href; //需要判断的图片地址
+    img.onload = function () {
+      (waveHeader as any)._value.style.background = background.value;
+      (document.querySelector('.blog-display-main') as any).style.animation =
+        'display-in 1.5s 0.3s backwards';
+      loading.value = false;
+    };
+  } else {
     background.value = '';
   }
   if (props.blogData.tags.length > 5) {
     props.blogData.tags.length = 5;
   }
-  loading.value = false;
 });
 </script>
 <style scoped lang="scss">
@@ -170,9 +190,11 @@ onMounted(() => {
 
 @keyframes wave-in {
   0% {
-    transform: scale(1.2);
+    filter: blur(3px);
+    transform: scale(1.1);
   }
   100% {
+    filter: blur(0px);
     transform: scale(1);
   }
 }
@@ -180,13 +202,18 @@ onMounted(() => {
 .wave-header {
   position: relative;
   text-align: center;
+  overflow: hidden;
   // background: linear-gradient(60deg, rgba(84, 58, 183, 1) 0%, rgba(0, 172, 193, 1) 100%);
   color: white;
   background-position: center;
   opacity: 1;
-  transition: cubic-bezier(0.71, 0.15, 0.16, 1.15) 1s;
-  animation: wave-in 2s linear forwards;
 }
+
+.wave-active {
+  animation: wave-in 1.5s 0.3s backwards;
+  // transition: cubic-bezier(0.71, 0.15, 0.16, 1.15) 2s;
+}
+
 .logo {
   width: 50px;
   fill: white;

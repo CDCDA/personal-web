@@ -101,7 +101,6 @@ body::after {
   background: #48b93c;
   color: white;
   text-align: center;
-  font-family: sans-serif;
   z-index: var(--supported, 0);
   opacity: var(--supported, 0);
 }
@@ -137,7 +136,6 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: 'Mona Sans', sans-serif;
 }
 
 body > div {

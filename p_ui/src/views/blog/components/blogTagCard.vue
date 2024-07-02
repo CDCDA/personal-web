@@ -7,7 +7,12 @@
       <el-icon><PriceTag /></el-icon><span class="tag-name">标签云</span>
     </div>
     <div class="tag-list">
-      <div class="tag-item" :style="{ color: generateRandomColor() }" v-for="item in tagList">
+      <div
+        class="tag-item"
+        :style="{ color: generateRandomColor() }"
+        v-for="item in tagList"
+        @click="toBlogTag(item)"
+      >
         <span>{{ item.tagName }}</span>
         <sub>{{ item.total }}</sub>
       </div>
@@ -19,7 +24,11 @@
 import { onMounted, ref } from 'vue';
 import { listByUserId } from '@/api/tag';
 import useUserStore from '@/store/modules/user';
-
+import { useRouter } from 'vue-router';
+const router = useRouter();
+function toBlogTag(item: any) {
+  router.push({ name: 'blogTagPage', query: { tagId: item.tagId } });
+}
 const tagList = ref([
   {
     tagName: '',
@@ -71,17 +80,17 @@ onMounted(() => {
       justify-content: start;
       flex-wrap: wrap;
       .tag-item {
-        padding: 7px 25px 7px 15px;
+        cursor: pointer;
+        padding: 9px 22px 6px 11px;
         border-radius: 5px;
-        color: get('font-color');
-        margin: 8px;
-        font-size: 20px;
+        margin: 5px 0px;
+        font-size: 17px;
         position: relative;
         sub {
-          top: 0px;
+          top: 2px;
           position: absolute;
-          right: 15px;
-          font-size: 14px;
+          right: 11px;
+          font-size: 11px;
           opacity: 0.6;
         }
       }

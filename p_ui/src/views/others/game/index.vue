@@ -252,7 +252,7 @@ onMounted(() => {
       font-size: 25px;
       color: get('font-color');
       font-weight: bold;
-      width: calc(100% - 25px);
+      width: calc(100% - 40px);
       text-align: left;
       margin: 15px 0px;
       background: get('background');
@@ -270,7 +270,6 @@ onMounted(() => {
         font-size: 18px;
         font-weight: 300;
         margin-left: 10px;
-        font-family: 'Courier New', Courier, monospace;
       }
     }
     .single-game-list {
@@ -278,7 +277,7 @@ onMounted(() => {
       justify-content: start;
       align-items: center;
       flex-wrap: wrap;
-      width: calc(100% + 16px);
+      width: calc(100%);
     }
     .single-game-item {
       box-shadow: get('box-shadow');

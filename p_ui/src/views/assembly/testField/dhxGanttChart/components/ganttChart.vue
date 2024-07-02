@@ -642,8 +642,11 @@ export default {
     gantt.config.click_drag = {
       callback: this.onDragEnd
     };
+    gantt.config.date_format = '%d-%m-%Y %H:%i';
     gantt.config.min_column_width = 20;
-    gantt.config.column_width = '3';
+    gantt.config.duration_unit = 'minute';
+    gantt.config.duration_step = 60;
+    gantt.config.scale_height = 75;
     gantt.config.readonly = this.readOnly; //只读
     gantt.locale.date = {
       //时间显示修改
@@ -679,18 +682,18 @@ export default {
       day_short: ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六']
     };
     // gantt.config.date_format = '%Y-%m-%d %H:%i';
-    // gantt.config.scales = [
-    //   { unit: 'hour', step: 1, format: '%g %a' },
-    //   { unit: 'day', step: 1, format: '%j %F, %l' },
-    //   { unit: 'minute', step: 15, format: '%i' }
-    // ];
+    gantt.config.scales = [
+      { unit: 'hour', step: 1, format: '%g %a' },
+      { unit: 'day', step: 1, format: '%j %F, %l' },
+      { unit: 'minute', step: 10, format: '%i' }
+    ];
     gantt.locale.labels = this.labels;
     gantt.config.columns = this.columns;
-    gantt.config.duration_unit = 'hour';
-    gantt.config.duration_step = 1;
-    gantt.config.scale_unit = 'hour'; //单元格时间单位
-    gantt.config.step = 1; //单元格时间长度
-    gantt.config.date_scale = '%H:%i'; // 设置日期格式为小时:分钟
+    // gantt.config.duration_unit = 'hour';
+    // gantt.config.duration_step = 1;
+    // gantt.config.scale_unit = 'hour'; //单元格时间单位
+    // gantt.config.step = 1; //单元格时间长度
+    // gantt.config.date_scale = '%H:%i'; // 设置日期格式为小时:分钟
     // gantt.config.multiselect_one_level = true;
     gantt.templates.task_class =
       gantt.templates.grid_row_class =

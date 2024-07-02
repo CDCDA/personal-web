@@ -20,7 +20,7 @@
         <div class="nickName">{{ userInfo.nickName }}</div>
         <div class="account">{{ userInfo.account }}</div>
         <div class="createTime" style="margin-top: 5px">
-          入站时间：{{ formateDate(new Date(userInfo.createTime), 'YY-MM') }}
+          入站时间：{{ formatDate(new Date(userInfo.createTime), 'YY-MM') }}
         </div>
       </div>
     </div>
@@ -67,7 +67,7 @@
 
 <script setup lang="ts">
 import { onMounted, ref, reactive } from 'vue';
-import { formateDate } from '@/utils/date';
+import { formatDate } from '@/utils/date';
 import useUserStore from '@/store/modules/user';
 import { getUserById, saveUser } from '@/api/user';
 import { ElNotification } from 'element-plus';

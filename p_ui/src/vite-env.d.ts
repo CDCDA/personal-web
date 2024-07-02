@@ -10,6 +10,7 @@ declare module '@/utils/techStackData.js';
 declare module 'vue-mini-weather';
 declare module 'vuepress-plugin-sakura';
 declare module '@xunlei/vue-lazy-component';
+declare module '/weatherCard/script.js';
 
 // declare module 'vite-plugin-require-transform';
 declare module 'md-editor-v3';

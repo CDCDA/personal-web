@@ -128,7 +128,6 @@
 }
 [type='submit'] {
   margin-bottom: 0;
-  font-family: var(--font-special);
   font-weight: normal;
   letter-spacing: 0.015em;
   font-size: 1.1rem;
@@ -139,7 +138,6 @@
 }
 
 input {
-  font-family: inherit;
   color: inherit;
   outline: none;
   font-size: 93%;
@@ -150,7 +148,6 @@ input {
 h3 {
   margin: 0;
   letter-spacing: -0.015em;
-  font-family: var(--font-special);
   font-weight: normal;
   line-height: 1.4;
 }

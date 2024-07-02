@@ -3,12 +3,12 @@
 -->
 <template>
   <el-container class="container-outside vacuumization">
-    <sakura style="position: absolute" :new-options="options" />
+    <!-- <sakura style="position: absolute" :new-options="options" /> -->
     <el-container class="container-inside">
       <el-header class="el-header">
         <common-header></common-header>
       </el-header>
-      <el-main>
+      <el-main id="main">
         <keep-alive><router-view></router-view></keep-alive>
         <common-footer></common-footer>
       </el-main>
@@ -22,7 +22,6 @@ import useUserStore from '@/store/modules/user';
 import { useRouter } from 'vue-router';
 import CommonHeader from '@/views/layout/commonHeader/index.vue';
 import CommonFooter from '@/views/layout/commonFooter/index.vue';
-import sakura from '@/components/sakura/index.vue';
 import { onMounted } from 'vue';
 import { verifyToken } from '@/api/user.ts';
 const userStore = useUserStore();

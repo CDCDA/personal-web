@@ -239,7 +239,6 @@ body {
   margin: 0;
   padding: 0;
   height: auto;
-  font-family: 'Barlow', sans-serif;
   background: #695681;
 }
 

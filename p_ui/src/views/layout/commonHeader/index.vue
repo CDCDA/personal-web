@@ -1,19 +1,17 @@
 <template>
   <div class="common-header" :class="isHideen ? 'is-hidden' : 'is-show'">
-    <!-- <div class="page-name" v-if="pageChange">
-      <span class="page-name-text">{{ pageName }}</span>
-    </div> -->
     <div class="header-name">
       <common-link></common-link>
       <a class="title" href="/home" title="返回主页"><span>记录</span></a>
-      <v-mini-weather class="weather">
+      <!-- <v-mini-weather class="weather">
         <template #default="{ weather, icon }">
-          <!--插入图标-->
           <v-mini-weather-icon :icon="icon"></v-mini-weather-icon>
-          <!--DIY内容-->
-          <span>{{ weather.cityname }}/{{ weather.weather }}/{{ weather.temp }}</span>
+          <span
+            >{{ weather.cityname }}/{{ weather.weather }}/{{ weather.temp
+            }}{{ setWeatherData(weather) }}</span
+          >
         </template>
-      </v-mini-weather>
+      </v-mini-weather> -->
     </div>
     <div class="header-bar">
       <div class="header-bar-menu">
@@ -62,20 +60,6 @@
       <el-tooltip content="登出" placement="top">
         <svg-icon iconName="logout" class="header-icon logout" @click="logout" />
       </el-tooltip>
-
-      <!-- <svg-icon
-        iconName="fullScreen"
-        class="header-icon full-screen"
-        @click="fullScreen"
-        v-if="!isFullScreen"
-      />
-      <svg-icon
-        iconName="exitFullScreen"
-        class="header-icon exit-full-screen"
-        @click="exitFullScreen"
-        v-if="isFullScreen"
-      /> -->
-
       <span @click="returnTop" class="progress" :class="progress == '100' ? 'is-progress-full' : ''"
         >{{ progress }}
         <el-icon @click="returnTop"><Top /></el-icon>
@@ -88,7 +72,7 @@
 
 <script setup lang="ts">
 import { ElMessageBox } from 'element-plus';
-import { reactive, ref, onMounted, watch } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 import { listBlog } from '@/api/blog';
 import { vMiniWeather, vMiniWeatherIcon } from 'vue3-mini-weather';
 import { useRouter, onBeforeRouteUpdate } from 'vue-router';
@@ -100,39 +84,10 @@ import searchDialog from './components/searchDialog.vue';
 const router = useRouter();
 const articleElement = ref(null as any);
 const progress = ref('0' as any);
-const isFullScreen = ref(false as any);
 const blogList = ref([] as any);
-const themeDialog = ref() as any;
-const showSearch = ref(false);
 const isHideen = ref(false);
 const searchVisible = ref(false as any);
-const settings = ref([
-  {
-    label: '个人中心',
-    icon: 'User',
-    name: 'manage',
-    index: '5-1'
-  },
-  {
-    label: '换肤',
-    icon: 'Connection',
-    name: 'skinPeeler',
-    index: '5-2'
-  },
-  {
-    label: '设置',
-    icon: 'Setting',
-    name: 'settings',
-    index: '5-3'
-  },
-  {
-    label: '注销',
-    icon: 'SwitchButton',
-    name: 'logOut',
-    index: '5-3'
-  }
-] as any);
-const headerSearchSelect = ref() as any;
+const weatherData = ref({});
 const pageName = ref('首页');
 const pageChange = ref(true);
 const menuData = ref([
@@ -201,6 +156,11 @@ const menuData = ref([
 let headerBarMenu = document.querySelector('.header-bar-menu') as any;
 let headerBarTitle = document.querySelector('.header-bar-title-text') as any;
 
+function setWeatherData(weather: any) {
+  weatherData.value = weather;
+  (localStorage as any).setItem('weather', JSON.stringify(weather));
+}
+
 watch(
   () => progress.value,
   (newVal, oldVal) => {
@@ -241,12 +201,6 @@ watch(
   }
 );
 
-// watch(
-//   () => router,
-//   val => {
-//     console.log('路由', val), { deep: true };
-//   }
-// );
 const isWaveShow = ref(false as any);
 
 onBeforeRouteUpdate(to => {
@@ -275,9 +229,14 @@ function searchClick() {
 function toRandom() {
   if (!blogList.value) return;
   router.push({
-    name: 'blogDisplay',
-    query: { blogId: blogList.value[Math.ceil(Math.random() * blogList.value.length)].blogId }
+    name: 'refresh'
   });
+  setTimeout(() => {
+    router.push({
+      name: 'blogDisplay',
+      query: { blogId: blogList.value[Math.ceil(Math.random() * blogList.value.length)].blogId }
+    });
+  }, 100);
 }
 
 /**
@@ -286,57 +245,6 @@ function toRandom() {
  */
 function returnTop() {
   articleElement.value.scrollTo({ top: '0', behavior: 'smooth' });
-}
-
-/**
- * @description: 全屏
- * @return {*}
- */
-function fullScreen() {
-  var elem = document.documentElement as any; // 获取整个文档的元素
-  if (elem.requestFullscreen) {
-    elem.requestFullscreen();
-  } else if (elem.mozRequestFullScreen) {
-    // Firefox
-    elem.mozRequestFullScreen();
-  } else if (elem.webkitRequestFullscreen) {
-    // Chrome, Safari and Opera
-    elem.webkitRequestFullscreen();
-  } else if (elem.msRequestFullscreen) {
-    // Internet Explorer
-    elem.msRequestFullscreen();
-  }
-  isFullScreen.value = true;
-}
-
-// function exitFullScreen() {
-//   var elem = document.documentElement as any; // 获取整个文档的元素
-//   if (elem.exitFullscreen) {
-//     elem.exitFullscreen();
-//   } else if (elem.mozCancelFullScreen) {
-//     /* Firefox */
-//     elem.mozCancelFullScreen();
-//   } else if (elem.webkitExitFullscreen) {
-//     /* Chrome, Safari and Opera */
-//     elem.webkitExitFullscreen();
-//   } else if (elem.msExitFullscreen) {
-//     /* IE/Edge */
-//     elem.msExitFullscreen();
-//   }
-//   isFullScreen.value = false;
-// }
-
-// 退出全屏
-function exitFullScreen() {
-  // 创建模拟按键事件
-  var eventObj = document.createEvent('Events') as any;
-  eventObj.initEvent('keydown', true, true);
-
-  // 设置按下的键为F11（键码为122）
-  eventObj.keyCode = 122;
-
-  // 分发事件
-  document.dispatchEvent(eventObj);
 }
 
 function logout() {
@@ -360,24 +268,13 @@ function clickMenu(item: any) {
   } else router.push({ name: item.name });
 }
 
-function toHome() {
-  router.push({ name: 'home' });
-}
-
-async function getBlogList() {
-  const { code, msg, data } = (await listBlog({})) as any;
-  if (code === 200) {
-    blogList.value = data.list;
-  }
-}
-
 onMounted(() => {
-  getBlogList();
   headerBarMenu = document.querySelector('.header-bar-menu') as any;
   headerBarTitle = document.querySelector('.header-bar-title-text') as any;
   setTimeout(() => {
     // 监听滚动事件并更新样式
     window.addEventListener('scroll', scrollEvent, true);
+    console.log(weatherData.value);
   }, 1000);
 });
 </script>

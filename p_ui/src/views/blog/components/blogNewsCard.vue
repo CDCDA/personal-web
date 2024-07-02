@@ -21,18 +21,18 @@
 </template>
 
 <script setup lang="ts">
-import { formateDate } from '@/utils/date.ts';
+import { formatDate } from '@/utils/date.ts';
 import { ref } from 'vue';
 const newsList = ref([
   {
     // url: require('http://111.229.144.36:8008/app-background1.webp'),
-    date: formateDate(new Date(), 'YY-MM-dd hh:mm'),
+    date: formatDate(new Date(), 'YY-MM-dd hh:mm'),
     type: '前端',
     url: 'http://111.229.144.36:8008/2cf465cf-6114-4319-ac33-67bbec0983e2.jpeg'
   },
   {
     // url: require('http://111.229.144.36:8008/app-background1.webp'),
-    date: formateDate(new Date(), 'YY-MM-dd hh:mm'),
+    date: formatDate(new Date(), 'YY-MM-dd hh:mm'),
     type: '前端',
     url: 'http://111.229.144.36:8008/2cf465cf-6114-4319-ac33-67bbec0983e2.jpeg'
   }

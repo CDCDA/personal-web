@@ -46,16 +46,6 @@
         </el-tree-select>
       </el-form-item>
       <el-form-item label="添加封面">
-        <!-- <el-upload
-          class="avatar-uploader"
-          action="/dev-api/pw/blog/uploadImg"
-          :show-file-list="false"
-          :on-success="handleAvatarSuccess"
-          :before-upload="beforeAvatarUpload"
-        >
-          <el-image v-if="imageUrl" :src="imageUrl" class="avatar" />
-          <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
-        </el-upload> -->
         <upload v-model="props.blogData.coverUrl"></upload>
       </el-form-item>
       <el-form-item label="博客摘要">
@@ -167,14 +157,6 @@ async function submit() {
   if (code === 200) {
     //清空博客本地缓存
     window.localStorage.setItem('blogData', '');
-    // ElNotification.success({
-    //   title: 'Success',
-    //   message: '博客发布成功\n点击前往博客',
-    //   offset: 100,
-    //   onClick: () => {
-    //     router.push({ name: 'blogDisplay', query: { blogId: data } });
-    //   }
-    // });
     ElMessageBox.confirm('博客发布成功', 'success', {
       distinguishCancelAndClose: true,
       confirmButtonText: '前往博客',

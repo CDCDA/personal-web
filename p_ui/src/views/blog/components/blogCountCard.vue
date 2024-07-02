@@ -92,13 +92,13 @@ onMounted(() => {
       justify-content: space-between;
       flex-wrap: wrap;
       .count-item {
-        padding: 8px 15px;
+        padding: 8px 11px;
         border-radius: 8px;
-        color: get('font-color');
+        color: #363636;
         border: 1px solid #b9b8b8;
         margin: 8px;
         font-size: 18px;
-        width: calc(50% - 50px);
+        width: calc(50% - 40px);
         .count-up {
           margin-bottom: 10px;
           .count-month {

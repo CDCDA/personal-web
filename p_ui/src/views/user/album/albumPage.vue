@@ -3,9 +3,9 @@
 -->
 <template>
   <div class="album-page page-main">
-    <div class="album-img-list fade-in">
+    <div class="album-img-list fade-in" v-cLoading="loading">
       <div class="album-img-item" v-for="image in albumData.images">
-        <el-image
+        <c-image
           class="album-img"
           :preview-src-list="[image.url]"
           :preview-teleported="true"
@@ -15,9 +15,12 @@
           <template #placeholder>
             <div class="image-slot" v-cLoading="'rotate'" style="width: 100%; height: 100%"></div>
           </template>
-        </el-image>
+        </c-image>
         <span class="album-img-time">{{ image.createTime }}</span>
       </div>
+      <template>
+        <el-empty description="description" />
+      </template>
     </div>
   </div>
 </template>
@@ -31,21 +34,7 @@ import { ElMessage } from 'element-plus';
 const router = useRouter();
 const userStore = useUserStore();
 const loading = ref(false as any);
-const albumData = ref({
-  id: '919588364984909824',
-  name: '测试001',
-  intro: '',
-  coverUrl: 'http://111.229.144.36:8008/fiture-room.jpg',
-  userId: '1',
-  createTime: '2023-11-08 11:16:57',
-  images: [
-    {
-      id: '16',
-      url: 'http://111.229.144.36:8008/rain-cyberpunk-city.jpg',
-      createTime: '2023-11-07 22:58:18'
-    }
-  ]
-} as any);
+const albumData = ref({} as any);
 
 async function getAlbumData() {
   loading.value = true;
@@ -55,8 +44,6 @@ async function getAlbumData() {
   if (code === 200) {
     albumData.value = data;
     loading.value = false;
-  } else {
-    ElMessage.error('相册数据获取失败', msg);
   }
 }
 
@@ -70,7 +57,7 @@ onMounted(() => {
     background: get('background');
     border-radius: 15px;
     padding: 30px;
-    width: calc(86% - 60px) !important;
+    width: calc(90% - 60px) !important;
   }
 }
 @keyframes toUp {
@@ -95,31 +82,31 @@ onMounted(() => {
   flex-wrap: wrap;
   // animation: fade-in 1s linear forwards;
   .album-img-item {
-    width: calc(33.33% - 10px);
+    width: calc(33.33% - 20px);
     aspect-ratio: 7/5;
     position: relative;
     border-radius: 4px;
     overflow: hidden;
-    margin: 5px;
+    margin: 10px;
     cursor: pointer;
     .album-img {
       height: 100%;
       width: 100%;
-      transition: all 0.5s linear;
+      transition: all 0.3s linear;
     }
     .album-img-time {
       position: absolute;
       bottom: -30px;
       right: 0px;
-      max-width: calc(100%);
+      width: calc(100%);
       line-height: 1.8;
       position: absolute;
-      left: 4px;
+      left: 0px;
       font-size: 14px;
       background: rgba(0, 0, 0, 0.3);
       padding: 4px 8px;
       color: #fff;
-      transition: all 0.3s linear;
+      transition: all 0.3s ease-in-out;
     }
   }
   .album-img-item:hover {
@@ -127,12 +114,12 @@ onMounted(() => {
       animation: toUp linear forwards 0.3s;
     }
     .album-img {
-      transform: scale(1.05);
+      transform: scale(1.02);
     }
   }
   .album-img-item:not(:hover) {
     .album-img-time {
-      animation: toDown linear forwards 0.3s;
+      animation: toDown ease-in-out forwards 0.3s;
     }
   }
 }

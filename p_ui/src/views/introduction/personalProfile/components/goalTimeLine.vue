@@ -64,7 +64,6 @@ const goalList = ref([
     .timeline-main {
       height: auto;
       margin: 0;
-      font-family: 'Droid Sans', sans-serif;
       position: relative;
       display: flex;
       justify-content: center;

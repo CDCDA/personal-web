@@ -66,3 +66,10 @@ export const countBlogByType = (params: any) =>
     method: 'get',
     params
   });
+
+// 按分类统计
+export const getRandomBlog = () =>
+  request({
+    url: '/pw/blog/getRandomBlog',
+    method: 'get'
+  });

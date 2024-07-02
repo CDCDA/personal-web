@@ -80,15 +80,25 @@
   <!-- 新增或编辑 -->
   <el-dialog v-model="open" :title="title" width="720" style="height: 70%" :modal="false">
     <el-form :model="form" label-width="40">
-      <el-form-item label="名称"> <el-input v-model="form.name" clearable></el-input> </el-form-item
-      ><el-form-item label="简介">
-        <el-input v-model="form.intro" type="textarea" clearable></el-input>
+      <el-form-item label="名称">
+        <el-input v-model="form.name" clearable></el-input>
+      </el-form-item>
+      <el-form-item label="简介">
+        <el-input
+          type="textarea"
+          :rows="3"
+          maxlength="100"
+          show-word-limit
+          v-model="form.intro"
+          placeholder="写点什么吧[]~(￣▽￣)~*"
+          clearable
+        />
       </el-form-item>
       <el-form-item label="封面">
         <upload v-model="form.coverUrl"></upload>
       </el-form-item>
       <el-form-item label="图片">
-        <upload v-model="form.imageRelations"></upload>
+        <upload v-model="form.images"></upload>
       </el-form-item>
     </el-form>
     <template #footer>
@@ -104,7 +114,7 @@ import { ref, onMounted } from 'vue';
 import { listAlbum, delAlbum, saveAlbum } from '@/api/album.ts';
 import { useRouter } from 'vue-router';
 import Pagination from '@/components/pagination/index.vue';
-import { ElMessage, ElMessageBox } from 'element-plus';
+import { ElMessage, ElMessageBox, ElNotification } from 'element-plus';
 import upload from '@/components/upload/upload.vue';
 const router = useRouter();
 const queryParams = ref({
@@ -122,7 +132,7 @@ const form = ref({
   coverUrl: null,
   intro: '',
   name: '',
-  imageRelations: []
+  images: []
 } as any);
 const tableList = ref([] as any);
 const open = ref(false as any);
@@ -139,8 +149,8 @@ async function getList() {
 async function submit() {
   const res = (await saveAlbum(form.value)) as any;
   if (res) {
-    if (!form.value.albumId) ElMessage.success('新增成功');
-    else ElMessage.success('修改成功');
+    if (!form.value.albumId) ElNotification.success('新增成功');
+    else ElNotification.success('修改成功');
     getList();
     open.value = false;
   }
@@ -169,7 +179,7 @@ function resetForm() {
     coverUrl: null,
     intro: '',
     name: '',
-    imageRelations: []
+    images: []
   };
 }
 
@@ -183,7 +193,7 @@ function handleEdit() {
   open.value = true;
   title.value = '编辑';
   form.value = JSON.parse(JSON.stringify(selection.value[0]));
-  form.value.imageRelations.forEach((img: any) => {
+  form.value.images.forEach((img: any) => {
     img.name = null;
   });
 }
@@ -201,7 +211,10 @@ async function handleDel() {
     ids = selectIds.value;
     const { code, msg, data } = (await delAlbum(ids)) as any;
     if (code == 200) {
-      ElMessage.success('删除成功');
+      ElNotification.success({
+        title: '删除成功',
+        offset: 100
+      });
       getList();
     }
   });
