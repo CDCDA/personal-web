@@ -11,6 +11,7 @@
 </template>
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
+import { autoClearTimer } from '@/utils/timer';
 var globalID = null as any;
 
 const rotate = (x: any, y: any, sin: any, cos: any, reverse: any) => {
@@ -189,7 +190,7 @@ const images = [
 ];
 
 onMounted(() => {
-  setTimeout(() => {
+  autoClearTimer(() => {
     try {
       var box = (document as any).getElementById('bubble-wrap').getBoundingClientRect();
       var radius = (document as any).querySelector('#bubbleradius').getBoundingClientRect().width;

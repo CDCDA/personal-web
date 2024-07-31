@@ -1,3 +1,6 @@
+/*
+ * @Description:
+ */
 import { createApp, Directive } from 'vue';
 import Loading from '@/components/loading/loading.vue';
 
@@ -21,6 +24,8 @@ export const cLoading: Directive = {
 
     if (binding.value) {
       appendEl(el);
+    } else {
+      removeEl(el);
     }
   },
   updated(el, binding) {

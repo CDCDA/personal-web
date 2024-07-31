@@ -4,7 +4,7 @@
 <template>
   <div class="visitor-card c-card" id="card">
     <div class="card-header">
-      <svg-icon iconName="welcome" style="width: 20px; height: 20px; margin-right: 8px" /><span
+      <svg-icon iconName="礼花" style="width: 20px; height: 20px; margin-right: 8px" /><span
         class="tag-name"
         >welcome</span
       >
@@ -28,8 +28,7 @@
 
 <script setup lang="ts">
 import { onMounted, ref, reactive } from 'vue';
-import { listByUserId } from '@/api/tag';
-import useUserStore from '@/store/modules/user';
+import { useLazyAppear } from '@/utils/lazy';
 import axios from 'axios';
 const visitorInfo = reactive({
   location: {
@@ -150,15 +149,16 @@ function range(value: any, percent: any) {
 
 onMounted(() => {
   getIp();
+  useLazyAppear(document.querySelector('.visitor-card') as any);
 });
 </script>
 <style lang="scss" scoped>
 @include theme() {
-  .visitor-card {
+  #card {
     text-align: left;
-    padding: 20px 20px !important;
-    width: calc(100% - 40px) !important;
     font-size: 18px;
+    padding: 15px !important;
+    width: calc(100% - 30px) !important;
     .card-header {
       @include flex;
       width: 100%;

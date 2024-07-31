@@ -11,6 +11,8 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 const isVisible = ref(false);
+import { autoClearTimer } from '@/utils/timer.ts';
+
 const id = ref(`visible-lazy-${generateRandomId()}` as any);
 function generateRandomId() {
   return Math.random().toString(16).substr(2, 16);
@@ -19,7 +21,7 @@ const io = new IntersectionObserver(entries => {
   if (entries[0].isIntersecting) {
     console.log('元素进入视野');
     io.disconnect();
-    setTimeout(() => {
+    autoClearTimer(() => {
       isVisible.value = true;
     }, 500);
   }

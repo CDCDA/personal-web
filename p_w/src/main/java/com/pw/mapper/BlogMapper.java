@@ -8,7 +8,6 @@ import com.pw.vo.BlogTypeCountVO;
 import com.pw.vo.BlogVO;
 import org.springframework.stereotype.Repository;
 
-import java.util.Date;
 import java.util.List;
 
 @Repository//代表持久层
@@ -22,4 +21,6 @@ public interface BlogMapper extends BaseMapper<Blog> {
     List<BlogCountVO> countBlogByDateRange(String userId, String startTime, String endTime);
 
     List<BlogTypeCountVO> countBlogByType(String userId, String startTime, String endTime);
+
+    String getRandomBlog();
 }

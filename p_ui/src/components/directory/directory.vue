@@ -23,9 +23,8 @@
 </template>
 
 <script lang="ts" setup>
-import { connected } from 'process';
 import { onMounted, reactive, ref } from 'vue';
-
+import { autoClearTimer } from '@/utils/timer';
 const titles = ref(null as any);
 const currentTitle = ref({} as any);
 const progress = ref(null as any);
@@ -165,7 +164,7 @@ function setChildrenVisible(title: any, isVisible: any) {
 }
 
 onMounted(() => {
-  setTimeout(() => {
+  autoClearTimer(() => {
     titles.value = getTitles();
     // 监听滚动事件并更新样式
     window.addEventListener('scroll', scrollEvent, true);

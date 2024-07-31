@@ -122,7 +122,7 @@ onMounted(() => {
     flex-direction: column;
     justify-content: start;
     align-items: center;
-    border-radius: 15px;
+    border-radius: 8px;
   }
   .total {
     border: 2px solid get('bk');
@@ -132,7 +132,7 @@ onMounted(() => {
   width: calc(50%);
   height: 150px;
   margin-top: 80px;
-  border-radius: 15px;
+  border-radius: 8px;
   display: flex;
   justify-content: space-around;
   align-items: center;

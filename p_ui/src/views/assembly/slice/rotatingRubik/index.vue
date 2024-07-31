@@ -177,7 +177,7 @@ body {
   width: 100%;
   height: 400px;
   position: absolute;
-  top: 19%;
+  top: 3%;
   transform: rotateY(45deg) rotateX(-20deg);
   transform-style: preserve-3d;
 }

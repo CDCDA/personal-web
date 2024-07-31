@@ -7,7 +7,6 @@ import com.pw.vo.BlogCountVO;
 import com.pw.vo.BlogTypeCountVO;
 import com.pw.vo.BlogVO;
 
-import java.util.Date;
 import java.util.List;
 
 /***
@@ -25,5 +24,7 @@ public interface BlogService extends IService<Blog> {
     List<BlogCountVO> countBlogByDateRange(String userId, String startTime,String endTime);
 
     List<BlogTypeCountVO> countBlogByType(String userId, String startTime,String endTime);
+
+    String getRandomBlog();
 
 }

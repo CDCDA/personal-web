@@ -14,7 +14,7 @@
       </el-carousel-item>
     </el-carousel>
     <div class="divider animated-0s5 c-left">
-      <svg-icon iconName="movie-black" /> 电影<span>没什么电影看啊</span>
+      <svg-icon iconName="电影" /> 电影<span>没什么电影看啊</span>
     </div>
     <div class="drama-list">
       <div class="drama-item c-up" :class="getAnimateTime()" v-for="item in movies">
@@ -26,9 +26,7 @@
         </div>
       </div>
     </div>
-    <div class="divider">
-      <svg-icon iconName="teleplay-black" />电视剧<span>没什么电视剧看啊</span>
-    </div>
+    <div class="divider"><svg-icon iconName="电视播放" />电视剧<span>没什么电视剧看啊</span></div>
     <div class="drama-list">
       <div class="drama-item" v-for="item in teleplays">
         <img :src="item.coverUrl" />
@@ -39,9 +37,7 @@
         </div>
       </div>
     </div>
-    <div class="divider">
-      <svg-icon iconName="animation-black" />动漫<span>没什么动漫看啊</span>
-    </div>
+    <div class="divider"><svg-icon iconName="animation" />动漫<span>没什么动漫看啊</span></div>
     <div class="drama-list">
       <div class="drama-item" v-for="item in animations">
         <img :src="item.coverUrl" />
@@ -96,6 +92,8 @@ onMounted(() => {
 @include theme() {
   .drama-main {
     @include flex-column;
+    background: transparent !important;
+    backdrop-filter: none !important;
   }
   .drama-carousel {
     margin-top: 10px;
@@ -108,7 +106,7 @@ onMounted(() => {
       height: calc(100%);
       box-shadow: get('box-shadow');
       // opacity: 0.9;
-      border-radius: 15px;
+      border-radius: 8px;
     }
     .carousel-item-img {
       width: 100%;
@@ -116,7 +114,7 @@ onMounted(() => {
       z-index: 1;
       object-fit: cover;
       background-position: center;
-      border-radius: 15px;
+      border-radius: 8px;
     }
   }
   .drama-list {

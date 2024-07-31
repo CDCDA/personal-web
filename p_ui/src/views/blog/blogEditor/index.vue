@@ -15,7 +15,7 @@ import { ref, nextTick, onMounted, watch } from 'vue';
 import { MdEditor } from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
 import BlogRelease from './blogRelease.vue';
-import { ElMessage } from 'element-plus';
+import { ElNotification } from 'element-plus';
 import useUserStore from '@/store/modules/user';
 import { useRouter } from 'vue-router';
 import { getBlogById } from '@/api/blog';
@@ -62,12 +62,12 @@ function resetBlogData() {
 //保存博客数据到本地
 function blogSave() {
   window.localStorage.setItem('blogData', JSON.stringify(blogData.value));
-  ElMessage.success('保存成功');
+  ElNotification.success('保存成功');
 }
 
 function openRelease() {
   if (!blogData.value.blogTitle) {
-    ElMessage.error('请输入博客标题');
+    ElNotification.error('请输入博客标题');
     return;
   }
   blogRelease.value.open();
@@ -105,14 +105,15 @@ onMounted(() => {
 <style lang="scss">
 @include theme() {
   .mavon-editor-container.page-main {
-    width: calc(86% - 10px) !important;
+    background: transparent !important;
+    backdrop-filter: none !important;
     color: get('font-color');
     display: flex;
     flex-direction: column;
-    padding: 5px;
     min-height: 86vh !important;
     overflow: auto;
     overflow-x: hidden;
+    border-radius: 0px !important;
     .md-editor__toc-nav-title {
       color: get('font-color');
     }
@@ -143,6 +144,9 @@ onMounted(() => {
       .el-input__inner {
         text-align: center;
         font-size: 16px;
+      }
+      .el-input__wrapper {
+        height: 30px !important;
       }
     }
 

@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
 import java.util.List;
 
 /***
@@ -55,5 +54,12 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements Bl
     public List<BlogTypeCountVO> countBlogByType(String userId, String startTime, String endTime){
         return blogMapper.countBlogByType(userId,startTime,endTime);
     }
+
+    @Override
+    @Transactional
+    public String getRandomBlog(){
+        return blogMapper.getRandomBlog();
+    }
+
 
 }

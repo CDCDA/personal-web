@@ -8,6 +8,7 @@
 </template>
 <script setup lang="ts">
 import { onMounted } from 'vue';
+import { autoClearTimer } from '@/utils/timer';
 const props = defineProps({
   list: {
     default: [
@@ -40,8 +41,7 @@ function scroll() {
   }, duration);
 }
 onMounted(() => {
-  console.log('WW', props);
-  setTimeout(() => {
+  autoClearTimer(() => {
     scroll();
   }, 1000);
 });
@@ -53,14 +53,16 @@ onMounted(() => {
   overflow: hidden;
   margin: auto;
 }
-.tricker p {
-  color: #333;
-  margin: 0;
-  height: 40px;
-  line-height: 40px;
-  font-size: 20px;
-  text-align: center;
-  text-transform: uppercase;
-  transition: margin-top 0.3s ease;
+@include theme() {
+  .tricker p {
+    color: get('font-color');
+    margin: 0;
+    height: 40px;
+    line-height: 40px;
+    font-size: 20px;
+    text-align: center;
+    text-transform: uppercase;
+    transition: margin-top 0.3s ease;
+  }
 }
 </style>

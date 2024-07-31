@@ -27,15 +27,19 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import jwtDecode from 'jwt-decode';
+import { autoClearTimer } from '@/utils/timer';
 import { ElMessage } from 'element-plus';
 import { login, touristLogIn } from '@/api/login';
 import { useRouter } from 'vue-router';
 import useUserStore from '@/store/modules/user';
+import useThemeStore from '@/store/modules/theme.ts';
 import Cookies from 'js-cookie';
 const userStore = useUserStore();
 const router = useRouter();
 const account = ref('' as any);
 const password = ref('' as any);
+var themeStore = useThemeStore();
+// 登录
 async function logIn() {
   if (account.value && password.value) {
     const { code, data, msg } = (await login({
@@ -43,17 +47,15 @@ async function logIn() {
       password: password.value
     })) as any;
     if (code == 200) {
+      //缓存用户数据
       const token = jwtDecode(Cookies.get('token')) as any;
       userStore.token = Cookies.get('token');
       userStore.userId = token.aud;
       userStore.userName = token.username;
       userStore.permission = ['add', 'delete', 'show', 'operate'];
-      window.localStorage.setItem('token', Cookies.get('token'));
-      window.localStorage.setItem('userId', userStore.userId);
-      window.localStorage.setItem('username', token.username);
-      window.localStorage.setItem('permission', JSON.stringify(userStore.permission));
-      logInFadeOut();
-      setTimeout(() => {
+      window.localStorage.setItem('userData', JSON.stringify(userStore));
+      // logInFadeOut();
+      autoClearTimer(() => {
         router.push('/home');
       }, 1200);
     }
@@ -65,24 +67,30 @@ async function register() {
   ElMessage.warning('暂不开放注册');
 }
 
-function logInFadeOut() {
-  (document.querySelector('.box') as any).classList.add('top-fade-out');
-}
+// function logInFadeOut() {
+//   (document.querySelector('.box') as any).classList.add('top-fade-out');
+// }
 
 async function handleTouristLogIn() {
-  const { code, data, msg } = (await touristLogIn()) as any;
+  const { code } = (await touristLogIn()) as any;
   if (code == 200) {
     const token = jwtDecode(Cookies.get('token')) as any;
     userStore.token = Cookies.get('token');
     userStore.userId = token.aud;
     userStore.userName = token.username;
     userStore.permission = [];
-    window.localStorage.setItem('token', Cookies.get('token'));
-    window.localStorage.setItem('userId', userStore.userId);
-    window.localStorage.setItem('username', token.username);
-    window.localStorage.setItem('permission', JSON.stringify(userStore.permission));
-    logInFadeOut();
-    setTimeout(() => {
+    window.localStorage.setItem(
+      'userData',
+      JSON.stringify({
+        token: userStore.token,
+        userId: userStore.userId,
+        userName: userStore.userName,
+        permission: userStore.permission
+      })
+    );
+
+    autoClearTimer(() => {
+      themeStore.isShow = true;
       router.push('/home');
     }, 1200);
   }

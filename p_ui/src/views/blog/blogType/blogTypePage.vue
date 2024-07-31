@@ -15,8 +15,14 @@
         <span class="type-item-count">{{ item.total }}</span>
       </div>
     </div>
-    <div class="c-divider" style="margin: 20px 9px"></div>
-    <div class="blog-list" v-cLoading="loading">
+    <div class="c-divider" style="margin: 12px 32px 9px 32px"></div>
+    <div class="blog-list" :class="loading ? '' : ' slide-in'">
+      <div
+        v-if="loading"
+        class="blog-list-loading"
+        v-cLoading="loading"
+        :class="loading ? 'blog-list-loading-active' : ''"
+      />
       <div class="blog-item" v-for="(item, i) in blogList" @click="toDetail(item)">
         <c-image class="blog-item-left-img" :src="item.coverUrl" />
         <div class="blog-item-right">
@@ -142,19 +148,17 @@ onMounted(() => {
     }
   }
   .blog-type-page.page-main {
-    padding: 25px;
-    width: calc(86% - 80px) !important;
-    border-radius: 15px;
-    background: get('background');
-    box-shadow: get('box-shadow');
     position: relative;
     transition: all 0.5s ease-in-out;
+    justify-content: start;
+    display: flex;
+    flex-direction: column;
     .pagi {
+      margin: 20px 7px;
+      width: calc(100% - 66px);
       position: absolute;
-      bottom: 10px;
-      left: 0px;
-      padding: 0px 40px;
-      width: calc(100% - 80px);
+      bottom: 0px;
+      left: 25px;
     }
     .page-right {
       width: 300px;
@@ -167,30 +171,31 @@ onMounted(() => {
       @include flex;
       justify-content: start;
       flex-wrap: wrap;
-      width: 100%;
-      margin-bottom: 10px;
+
+      width: calc(100% - 50px);
+      margin: 25px 25px 00px 25px;
       .type-item {
         @include flex;
         cursor: pointer;
-        padding: 5px 15px;
-        margin: 5px 10px;
-        border-radius: 10px;
+        padding: 3px 8px;
+        margin: 5px 8px;
+        border-radius: 12px 0px 12px 0px;
         color: get('font-color');
         font-size: 18px;
-        transition: all 0.3s ease-in-out;
-        border: 2px solid get('border-color');
+        transition: all 0.3s ease;
+        border: 3px solid get('border-color');
         .type-item-prefix {
           opacity: 0.8;
           font-weight: bold;
         }
         .type-item-content {
-          margin-left: 4px;
+          margin-left: 2px;
           font-weight: bold;
         }
         .type-item-count {
           // background: get('placeholder');
           color: get('font-color');
-          padding: 3px 5px;
+          padding: 3px 1px;
           border-radius: 8px;
           text-align: center;
           min-width: 21px;
@@ -202,7 +207,7 @@ onMounted(() => {
         }
       }
       .type-item:active {
-        transform: translateY(5px);
+        transform: translateY(2px);
       }
       .type-item:hover,
       .type-item.is-active {
@@ -222,8 +227,24 @@ onMounted(() => {
       flex-wrap: wrap;
       justify-content: start;
       margin-bottom: 55px; // min-height: calc(100% - 120px);
+      position: relative;
+      margin: 0px 25px 75px 25px;
+      min-height: calc(100% - 200px);
+      .blog-list-loading {
+        position: absolute !important;
+        width: calc(100% - 12px);
+        height: 100%;
+        top: 0;
+        left: 6px;
+        border-radius: 10px;
+        overflow: hidden;
+        min-height: calc(64vh - 10px);
+      }
+      .blog-list-loading-active {
+        z-index: 1;
+      }
       .blog-item {
-        background: get('background');
+        background: get('background-no-tp');
         cursor: pointer;
         color: get('font-color');
         width: calc(50% - 20px);
@@ -272,7 +293,7 @@ onMounted(() => {
           .blog-title {
             font-size: 20px;
             font-weight: bold;
-            width: 100%;
+            width: 82%;
             margin: 5px 0px;
           }
           .tag-list {
@@ -330,14 +351,16 @@ onMounted(() => {
         .blog-sort-item-index {
           right: calc(100% - 125px);
           z-index: 199;
-          opacity: 0.5;
+          opacity: 1;
           // color: get('font-color');
           justify-content: start;
+          color: white;
         }
         // transform: scale(1.02);
-        box-shadow: 0px 0px 7px 0px get('border-color');
+        // box-shadow: 0px 0px 7px 0px get('border-color');
         .blog-cursor-cover {
           left: 0px;
+          color: white;
         }
       }
     }

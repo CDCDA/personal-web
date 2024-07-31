@@ -36,7 +36,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import { listUpdateLog } from '@/api/updateLog.ts';
-
+import { autoClearTimer } from '@/utils/timer';
 const updateLogs = ref({} as any);
 
 async function getList() {
@@ -49,7 +49,7 @@ async function getList() {
       }
       updateLogs.value[e.operateTime].push(e.operation);
     });
-    setTimeout(() => {
+    autoClearTimer(() => {
       var items = document.querySelectorAll('.timeline li');
 
       function isElementInViewport(el: any) {
@@ -86,7 +86,7 @@ onMounted(() => {
 .update-log-top {
   height: 45vh;
   width: calc(100%);
-  border-radius: 15px;
+  border-radius: 8px;
   overflow: hidden;
   object-fit: cover;
   margin: 40px 0px 30px 0px;
@@ -113,7 +113,7 @@ onMounted(() => {
     background: get('background');
     color: #3c3f64;
     overflow-x: hidden;
-    border-radius: 15px;
+    border-radius: 8px;
     padding-bottom: 50px;
     padding: 0px 80px 50px 80px;
     box-shadow: get('box-shadow');

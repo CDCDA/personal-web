@@ -3292,7 +3292,7 @@ input[type='password'][data-v-20a7050e]::-ms-reveal {
 }
 .ql-container.ql-bubble:not(.ql-disabled) a:before {
   background: #444;
-  border-radius: 15px;
+  border-radius: 8px;
   top: -5px;
   font-size: 12px;
   color: #fff;
@@ -5340,7 +5340,7 @@ input[type='password'][data-v-13607044]::-ms-reveal {
 .form-render-wrapper.h5-layout[data-v-13607044] {
   margin: 0 auto;
   width: 420px;
-  border-radius: 15px;
+  border-radius: 8px;
   box-shadow: 0 0 1px 10px #495060;
   height: calc(100vh - 175px);
   overflow-y: auto;
@@ -5349,7 +5349,7 @@ input[type='password'][data-v-13607044]::-ms-reveal {
 .form-render-wrapper.pad-layout[data-v-13607044] {
   margin: 0 auto;
   width: 960px;
-  border-radius: 15px;
+  border-radius: 8px;
   box-shadow: 0 0 1px 10px #495060;
   height: calc(100vh - 175px);
   overflow-y: auto;
@@ -8497,13 +8497,13 @@ input[type='password'][data-v-33bfb7b0]::-ms-reveal {
 .form-widget-container .el-form.Pad-layout[data-v-33bfb7b0] {
   margin: 0 auto;
   max-width: 960px;
-  border-radius: 15px;
+  border-radius: 8px;
   box-shadow: 0 0 1px 10px #495060;
 }
 .form-widget-container .el-form.H5-layout[data-v-33bfb7b0] {
   margin: 0 auto;
   width: 420px;
-  border-radius: 15px;
+  border-radius: 8px;
   box-shadow: 0 0 1px 10px #495060;
 }
 .form-widget-container .el-form.widget-form[data-v-33bfb7b0] .el-row {

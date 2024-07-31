@@ -5,7 +5,7 @@
   <div class="page-main essay-main">
     <div class="essay-header animated bounceInDown">
       <video
-        :src="'http://111.229.144.36:8008/video_2000212665.mp4'"
+        :src="'/video/video_2000212665.mp4'"
         class="essay-header-video"
         autoplay
         loop
@@ -68,7 +68,7 @@
               </template>
               <template #error>
                 <div class="image-error-slot">
-                  <svg-icon iconName="imgFailed" />
+                  <svg-icon iconName="图片加载失败" />
                 </div>
               </template>
             </el-image>
@@ -84,14 +84,13 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, watch } from 'vue';
-import { useRouter } from 'vue-router';
+import { ref, onMounted } from 'vue';
+import { autoClearTimer } from '@/utils/timer';
 import { getUserById } from '@/api/user.ts';
 import { listEssay } from '@/api/essay.ts';
 import useUserStore from '@/store/modules/user';
 import { sformatDate } from '@/utils/date.ts';
 const imgLoading = ref('rotate' as any);
-const router = useRouter();
 const userStore = useUserStore();
 const essayList = ref([] as any);
 const grid = ref(null as any);
@@ -104,18 +103,6 @@ function handle() {
  * @param {*} i
  * @return {*}
  */
-function getAnimate(i: any) {
-  if (i % 3 === 0) {
-    return 'animated';
-  }
-  if (i % 3 === 1) {
-    return 'animated-1s5';
-  }
-  if (i % 3 === 2) {
-    return 'animated-2s';
-  }
-  return 'animated';
-}
 
 /**
  * @description: 获取随笔
@@ -144,25 +131,41 @@ async function getEssayList() {
         index++;
       }
     }
+
+    let column = 3;
+    let colHeightList = [] as any;
     // 计算随笔初始位置
-    setTimeout(() => {
-      let wrapHeight = 0;
+    autoClearTimer(() => {
       essayList.value.forEach((e: any, i: any) => {
-        let y = 0;
-        let tempHeight = 0;
-        for (let m = i - 3; m >= 0; m = m - 3) {
-          if (m >= 0) {
-            let height = (document.querySelector(`.essay-${essayList.value[m].i}`) as any)
-              .offsetHeight;
-            tempHeight = tempHeight + height;
-            y = y + height / 10;
-          }
+        let localIndex = i % column;
+        let el = document.querySelector(`.essay-${e.i}`) as any;
+        let height = el.offsetHeight / 10;
+        // 第一行
+        if (i < column) {
+          e.x = i;
+          e.y = 0;
+          e.h = height;
+          // 高度数据更新
+          if (!colHeightList[localIndex]) colHeightList[localIndex] = 0;
+          colHeightList[localIndex] = colHeightList[localIndex] + height;
+        } else {
+          // 最低的高度，先默认为第一列高度
+          let current = colHeightList[0];
+          // 最低的列，先默认为第一个
+          let col = 0;
+          // 循环每一列进行比较
+          colHeightList.forEach((h: any, i: any) => {
+            if (h < current) {
+              current = h;
+              col = i;
+            }
+          });
+          e.y = current;
+          e.h = height;
+          e.x = col;
+          // 更新列高度数组
+          colHeightList[col] = current + height;
         }
-        e.y = y;
-        let selfHeight = (document.querySelector(`.essay-${e.i}`) as any).offsetHeight;
-        e.h = selfHeight / 10 - 1;
-        tempHeight = tempHeight + selfHeight;
-        if (tempHeight > wrapHeight) wrapHeight = tempHeight;
       });
       grid.value.layoutUpdate();
     }, 100);
@@ -188,18 +191,20 @@ onMounted(() => {
   .essay-main {
     @include flex-column;
     justify-content: start;
-    overflow: initial;
+    background: transparent !important;
+    backdrop-filter: none !important;
+    max-width: 1100px !important;
     .essay-header {
       height: 45vh;
       width: 100%;
-      border-radius: 20px;
+      border-radius: 12px;
       box-shadow: get('box-shadow');
       position: relative;
       .essay-header-video {
-        opacity: 0.95;
+        opacity: 0.9;
         height: 100%;
         width: 100%;
-        border-radius: 20px;
+        border-radius: 12px;
         object-fit: cover;
       }
       margin-bottom: 30px;
@@ -228,7 +233,7 @@ onMounted(() => {
         display: flex;
         justify-content: center;
         align-items: center;
-        border-radius: 20px;
+        border-radius: 12px;
         position: absolute;
         right: 10px;
         bottom: 10px;
@@ -243,20 +248,20 @@ onMounted(() => {
       display: table;
       .essay-item {
         transition: all 0.2s ease-in-out;
-        border-radius: 10px;
+        border-radius: 6px;
         position: relative;
-        padding: 15px 15px 10px 15px;
+        padding: 12px 11px 10px 12px;
         text-align: left;
-        box-shadow: get('box-shadow');
+        // box-shadow: get('box-shadow');
         background: get('background-no-tp');
         color: get('font-color');
         .essay-item-user {
           display: flex;
           margin-bottom: 12px;
           .essay-item-user-avatar {
-            width: 50px;
-            height: 50px;
-            border-radius: 8px;
+            width: 47px;
+            height: 45px;
+            border-radius: 6px;
           }
           .essay-item-info {
             width: calc(100% - 50px);
@@ -269,12 +274,12 @@ onMounted(() => {
               width: 100%;
             }
             .essay-item-user-nickName {
-              font-size: 20px;
+              font-size: 16px;
               font-weight: 400;
               color: #6dbdc3;
             }
             .essay-item-date {
-              font-size: 13px;
+              font-size: 12px;
               color: #969394;
             }
           }

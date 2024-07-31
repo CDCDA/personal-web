@@ -2,7 +2,7 @@
  * @Description: 搜索弹窗
 -->
 <template>
-  <el-dialog
+  <c-dialog
     class="search-dialog"
     v-model="dialogVisible"
     title="搜索"
@@ -32,11 +32,12 @@
         </div>
       </div>
     </div>
-  </el-dialog>
+  </c-dialog>
 </template>
 <script setup lang="ts">
 import { ref, nextTick, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
+import { autoClearTimer } from '@/utils/timer';
 const dialogVisible = ref(true as any);
 const router = useRouter();
 const routes = router.getRoutes().filter((e: any) => {
@@ -60,7 +61,7 @@ onMounted(() => {
   var input = document.querySelector('.finder__input') as any;
   var finder = document.querySelector('.finder') as any;
   var form = document.querySelector('form') as any;
-  setTimeout(() => {
+  autoClearTimer(() => {
     input = document.querySelector('.finder__input') as any;
     finder = document.querySelector('.finder') as any;
     form = document.querySelector('form') as any;
@@ -79,7 +80,7 @@ onMounted(() => {
       finder.classList.add('processing');
       finder.classList.remove('active');
       input.disabled = true;
-      setTimeout(() => {
+      autoClearTimer(() => {
         finder.classList.remove('processing');
         input.disabled = false;
         if (input.value.length > 0) {
@@ -98,7 +99,7 @@ onMounted(() => {
 }
 
 .finder {
-  border-radius: 15px;
+  border-radius: 8px;
   width: 100%;
   height: 100%;
 }

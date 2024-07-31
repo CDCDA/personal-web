@@ -26,7 +26,7 @@
       </div>
 
       <div class="blog-display-right">
-        <BlogUserCard />
+        <BlogUserCard :visibleLazy="false" />
 
         <VisitorCard />
         <div class="affix c-card">
@@ -49,6 +49,7 @@ import { MdPreview, MdCatalog } from 'md-editor-v3';
 import 'md-editor-v3/lib/preview.css';
 import BlogUserCard from '@/views/blog/components/blogUserCard.vue';
 import VisitorCard from '@/views/home/components/visitorCard.vue';
+import { useLazyAppear } from '@/utils/lazy';
 const router = useRouter();
 const footerData = ref({} as any);
 const blogData = ref({ coverUrl: '', tags: [], content: '' } as any);
@@ -68,6 +69,7 @@ async function getBlog(id: any) {
 onMounted(() => {
   const { blogId } = router.currentRoute.value.query;
   getBlog(blogId);
+  useLazyAppear(document.querySelector('.affix') as any);
 });
 </script>
 <style lang="scss">
@@ -152,75 +154,78 @@ onMounted(() => {
   .md-editor-preview {
     text-align: left;
   }
-  .blog-display-main {
-    @include flex;
-    .card-header {
+  #main {
+    .blog-display-main.page-main {
+      animation: none;
       @include flex;
-      width: 100%;
-      justify-content: start;
-      font-size: 19px;
-      font-weight: bold;
-      .el-icon {
-        margin: 8px;
-        font-size: 22px;
-      }
-      span {
-        margin-bottom: 2px;
-      }
-    }
-    overflow: visible;
-    align-items: start;
-    margin: 30px 7% 0px 7% !important;
-    min-height: 0px;
-    .blog-display-left {
-      overflow: hidden;
-      width: calc(100% - 320px);
-      border-radius: 12px;
-      background: get('background');
-      box-shadow: get('box-shadow');
-      min-height: 300px;
-    }
-    .blog-display-right {
-      width: 298px;
-      margin-left: 20px;
-      min-height: 310px;
-      position: sticky;
-      top: 80px;
-      border-radius: 12px;
-      .affix {
-        background: get('background');
-        position: sticky;
-        max-height: 90vh;
-        min-height: 300px;
-        overflow: auto;
-        top: 60px;
-        border-radius: 12px;
-        & ::-webkit-scrollbar {
-          visibility: hidden !important;
+      background: transparent !important;
+      backdrop-filter: none !important;
+      .card-header {
+        @include flex;
+        width: 100%;
+        justify-content: start;
+        font-size: 19px;
+        font-weight: bold;
+        .el-icon {
+          margin: 8px;
+          font-size: 22px;
+        }
+        span {
+          margin-bottom: 2px;
         }
       }
-      // .directory {
-      //   border-radius: 12px;
-      //   background: get('background-no-tp');
-      //   box-shadow: get('box-shadow');
-      //   margin: 0px;
-      // }
-    }
-    .blog-user-component,
-    .directory {
-      background: get('background');
-      // box-shadow: get('box-shadow');
-      border-radius: 5px;
-      margin-top: 5px;
-      margin-bottom: 15px;
-    }
-    .el-backtop {
-      right: 19% !important;
-      bottom: 80px !important;
-      border: 1px solid #dcdfe6;
-      background: transparent;
-      i {
-        color: #dcdfe6;
+      overflow: visible;
+      align-items: start;
+      .blog-display-left {
+        overflow: hidden;
+        width: calc(100% - 320px);
+        border-radius: 12px;
+        background: get('background');
+        box-shadow: get('box-shadow');
+        min-height: 300px;
+      }
+      .blog-display-right {
+        width: 280px;
+        margin-left: 20px;
+        min-height: 310px;
+        position: sticky;
+        top: 80px;
+        border-radius: 12px;
+        .affix {
+          background: get('background');
+          position: sticky;
+          max-height: 90vh;
+          min-height: 300px;
+          overflow: auto;
+          top: 60px;
+          border-radius: 8px;
+          & ::-webkit-scrollbar {
+            visibility: hidden !important;
+          }
+        }
+        // .directory {
+        //   border-radius: 12px;
+        //   background: get('background-no-tp');
+        //   box-shadow: get('box-shadow');
+        //   margin: 0px;
+        // }
+      }
+      .blog-user-component,
+      .directory {
+        background: get('background');
+        // box-shadow: get('box-shadow');
+        border-radius: 5px;
+        margin-top: 5px;
+        margin-bottom: 15px;
+      }
+      .el-backtop {
+        right: 19% !important;
+        bottom: 80px !important;
+        border: 1px solid #dcdfe6;
+        background: transparent;
+        i {
+          color: #dcdfe6;
+        }
       }
     }
   }

@@ -36,6 +36,9 @@ public class Essay extends BaseEntity implements Serializable {
     @ApiModelProperty(value = "用户id")
     private long userId;
 
+    @ApiModelProperty(value = "标签")
+    private String tags;
+
     @ApiModelProperty(value = "图片关联")
     @TableField(exist = false)
     private List<ImageRelation> imageRelations;

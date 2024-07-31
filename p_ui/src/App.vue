@@ -1,18 +1,23 @@
 <template>
-  <div id="app-theme" data-theme="theme-dark">
-    <sakura
-      style="position: absolute"
-      :new-options="sakuraOptions"
-      v-if="themeStore.aspectOptions.isSakura"
-    />
-    <video id="tsparticles" autoplay loop muted v-if="backType == 'video'" />
-    <div id="tsparticles" class="particles" v-else />
-    <Particles
-      v-if="themeStore.aspectOptions && themeStore.aspectOptions.isParticles"
-      id="particles"
-      :options="options"
-    />
-    <KeepAlive> <router-view /></KeepAlive>
+  <div id="app-theme" data-theme="theme-white">
+    <el-container class="container">
+      <el-header class="el-header">
+        <common-header v-if="themeStore.isShow" />
+      </el-header>
+      <el-main id="main">
+        <sakura :new-options="sakuraOptions" v-if="themeStore.options?.isSakura" />
+        <video id="tsparticles" autoplay loop muted v-if="themeStore.backType == 'video'" />
+        <div id="tsparticles" class="particles" v-else />
+        <Particles
+          v-if="themeStore.options && themeStore.options.isParticles"
+          id="particles"
+          :options="options"
+        />
+        <keep-alive><router-view></router-view></keep-alive>
+        <common-footer v-if="isHeaderShow" />
+      </el-main>
+    </el-container>
+    <SideSetting :isHideen="false" v-if="themeStore.isShow"></SideSetting>
     <rightClickMenu :visible="visible" :left="left" :top="top" />
   </div>
 </template>
@@ -23,6 +28,10 @@ import rightClickMenu from '@/components/rightClickMenu/index.vue';
 import { useRouter } from 'vue-router';
 import useThemeStore from '@/store/modules/theme.ts';
 import useUserStore from './store/modules/user';
+import CommonHeader from '@/views/layout/commonHeader/index.vue';
+import CommonFooter from '@/views/layout/commonFooter/index.vue';
+import { autoClearTimer } from './utils/timer';
+import SideSetting from '@/views/layout/sideSetting/index.vue';
 const sakuraOptions = ref({
   staticx: false,
   stop: null,
@@ -30,13 +39,13 @@ const sakuraOptions = ref({
   show: true,
   zIndex: -1
 } as any);
-const userStore = useUserStore();
+var userStore = useUserStore();
 var themeStore = useThemeStore();
-const loading = ref('gear' as any);
-const router = useRouter();
+const router = useRouter() as any;
 const visible = ref(false);
 const top = ref(0);
 const left = ref(0);
+const isHeaderShow = ref(false);
 const options = ref({
   background: {
     color: {
@@ -114,8 +123,6 @@ const options = ref({
   },
   detectRetina: true
 } as any);
-const realOptions = ref(JSON.parse(JSON.stringify(options.value)) as any);
-const backType = ref('img' as any);
 
 watch(
   () => visible.value,
@@ -133,16 +140,6 @@ watch(
     }
   }
 );
-watch(
-  () => themeStore.backType,
-  newValue => {
-    backType.value = newValue;
-  },
-  {
-    deep: true,
-    immediate: true
-  }
-);
 
 //右击
 function openMenu(e: any) {
@@ -156,82 +153,50 @@ function openMenu(e: any) {
 function closeMenu() {
   visible.value = false; //关闭菜单
 }
-
+let userData = window.localStorage.getItem('userData') as any;
+if (userData) {
+  userData = JSON.parse(userData);
+  userStore.token = userData.token;
+  userStore.userId = userData.userId;
+  userStore.userName = userData.userName;
+  userStore.permission = userData.permission;
+}
 function init() {
-  setTimeout(() => {
-    let themeKey = window.localStorage.getItem('themeKey') as any;
-    let backUrl = window.localStorage.getItem('backUrl') as any;
-    let options = window.localStorage.getItem('aspectOptions') as any;
-    backType.value = window.localStorage.getItem('backType') as any;
-
-    //设置默认主题
-    if (!themeKey) {
-      themeKey = 'theme-light';
-      window.localStorage.setItem('themeKey', themeKey);
-    }
-    //设置默认壁纸类型
-    if (!backType.value) {
-      backType.value = 'img';
-      window.localStorage.setItem('backType', backType.value);
-    }
-    //设置默认壁纸
-    if (!backUrl) {
-      backUrl = '../src/assets/images/123123123.jpg';
-      window.localStorage.setItem('backUrl', backUrl);
-    }
-    (document.getElementById('app-theme') as any).setAttribute('data-theme', themeKey);
-    setTimeout(() => {
-      let back = document.getElementById('tsparticles') as any;
-      if (backType.value == 'img') {
-        back.style.background = 'left/cover fixed no-repeat url(' + backUrl + ')';
-      }
-      if (backType.value == 'color') back.style.background = backUrl;
-      if (backType.value == 'video') back.src = backUrl;
-    }, 0);
-    //设置壁纸
-
-    //记录主题数据
-    themeStore.theme = themeKey;
-    themeStore.backType = backType.value;
-    themeStore.aspectOptions = JSON.parse(options);
+  autoClearTimer(() => {
+    isHeaderShow.value = true;
+  }, 4500);
+  autoClearTimer(() => {
     //查看是否有token
-    if (window.localStorage.getItem('token')) {
-      userStore.userId = window.localStorage.getItem('userId') as any;
-      userStore.userName = window.localStorage.getItem('userName') as any;
-      userStore.token = window.localStorage.getItem('token') as any;
-      userStore.permission = JSON.parse(window.localStorage.getItem('permission') as any);
+    if (userStore.token) {
       router.push({ path: '/home' });
-    } else router.push({ path: '/login' });
-    if (options) {
-      options = JSON.parse(options);
-      let appTheme = document.querySelector('#app-theme') as any;
-      appTheme.style.color = options.fontColor;
-      if (!options.fontFamily) {
-        options.fontFamily = 'Microsoft YaHei';
-        window.localStorage.setItem('aspectOptions', JSON.stringify(options));
-        appTheme.style.fontFamily = options.fontFamily;
-      } else {
-        appTheme.style.fontFamily = options.fontFamily;
-      }
-
-      let header = document.querySelector('.common-header') as any;
-      let homeTop = document.querySelector('.home-top') as any;
-      let CycleUpDown = document.querySelector('.CycleUpDown') as any;
-      if (header) {
-        // header.style.color = options.mhFontColor;
-        // let icons = header.querySelectorAll('.theme-icon');
-        // Object.keys(icons).forEach((e: any) => {
-        //   icons[e].style.fill = options.mhFontColor;
-        // });
-      }
-      if (homeTop) homeTop.style.color = options.mhFontColor;
-      if (CycleUpDown) {
-        let themeIcon = CycleUpDown.querySelector('.theme-icon') as any;
-        if (themeIcon) {
-          themeIcon.style.fill = options.mhFontColor;
-        }
-      }
+      themeStore.isShow = true;
+    } else {
+      themeStore.isShow = false;
+      router.push({ path: '/login' });
     }
+    // 获取缓存的主题数据
+    let themeData = window.localStorage.getItem('themeData') as any;
+    if (themeData) {
+      themeData = JSON.parse(themeData);
+      themeStore.theme = userData.theme;
+      themeStore.backUrl = userData.backUrl;
+      themeStore.backType = userData.backType;
+      themeStore.options = userData.options;
+    }
+    var { theme, backUrl, options, backType } = themeStore;
+    // 设置主题
+    (document.getElementById('app-theme') as any).setAttribute('data-theme', theme);
+    // 设置壁纸
+    let back = document.getElementById('tsparticles') as any;
+    if (backType == 'img') {
+      back.style.background = 'left/cover fixed no-repeat url(' + backUrl + ')';
+    } else if (backType == 'color') {
+      back.style.background = backUrl;
+    } else if (backType == 'video') {
+      back.src = backUrl;
+    }
+
+    console.log(router.currentRoute._value.name == 'login');
   }, 0);
 }
 
@@ -244,11 +209,9 @@ onMounted(() => {
 #app-theme,
 #app {
   @include full();
-  // font-family: DaoLiTi;
 }
-
 #app-theme {
-  animation: blur-to-clear 2s forwards ease-in-out;
+  animation: blur-to-clear 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 body,
 html {
@@ -258,21 +221,14 @@ html {
   padding: 0px;
   overflow: hidden;
 }
-body {
-  --dy: 1;
-  --dx: 1;
-  --dz: 0;
-}
 @keyframes blur-to-clear {
   0% {
-    -webkit-filter: blur(40px);
-    transform: scale(1.4);
-    filter: blur(40px);
+    filter: blur(20px) brightness(0.4);
+    transform: scale(1.5);
   }
   100% {
-    -webkit-filter: blur(0);
+    filter: blur(0px) brightness(1);
     transform: scale(1);
-    filter: blur(0);
   }
 }
 #tsparticles {
@@ -280,22 +236,8 @@ body {
   width: 100%;
   object-fit: cover;
   position: absolute;
-  z-index: 0;
-  background: transparent;
-}
-#tsparticles::after {
-  content: '';
-  background: linear-gradient(
-    90deg,
-    rgba(247, 149, 51, 0.1),
-    rgba(243, 112, 85, 0.1) 15%,
-    rgba(239, 78, 123, 0.1) 30%,
-    rgba(161, 102, 171, 0.1) 44%,
-    rgba(80, 115, 184, 0.1) 58%,
-    rgba(16, 152, 173, 0.1) 72%,
-    rgba(7, 179, 155, 0.1) 86%,
-    rgba(109, 186, 130, 0.1)
-  ) !important;
+  z-index: -1;
+  left: 0px;
 }
 .particles {
   position: fixed;
@@ -309,5 +251,30 @@ body {
     @import '@/assets/styles/element-ui.scss';
     @import '@/assets/styles/common.scss';
   }
+}
+.el-header {
+  text-align: center;
+  line-height: 56px;
+  padding: 0 0 0 0 !important;
+  height: auto !important;
+}
+
+.el-aside {
+  text-align: center;
+}
+
+.el-main {
+  text-align: center;
+  padding: 0px;
+  overflow: auto;
+  padding: 0 0 0 0 !important;
+}
+.container {
+  height: 100%;
+  background: transparent;
+  overflow: auto;
+}
+:v-deep(.el-menu.el-menu--horizontal) {
+  border-bottom: solid 0px #e6e6e6;
 }
 </style>

@@ -25,7 +25,34 @@
 
 .el-popper.is-pure.is-light {
   background: transparent;
-  backdrop-filter: blur(20px);
+  backdrop-filter: blur(10px);
+  box-shadow: get('box-shadow');
+  font-family: 'shark';
+
+  .el-select-dropdown__item {
+    color: white;
+  }
+  .is-selected,
+  .is-hovering {
+    background: hsla(0, 0%, 100%, 0.19);
+  }
+}
+.el-button {
+  background: transparent;
+  color: get('font-color');
+  border: 2px solid get('border-color');
+  transition: all 0.3s ease-in-out;
+  font-family: 'Shark';
+  outline: none !important;
+}
+.el-button:hover {
+  background: get('border-color') !important;
+  color: get('re-font-color');
+  border: 2px solid get('border-color');
+  outline: none;
+}
+.el-button:active {
+  transform: translateY(1px);
 }
 
 //加载动画
@@ -108,4 +135,27 @@
   transform: translateX(-1000px);
   animation: left-right 3s linear forwards !important;
   transition: none !important;
+}
+
+.el-message-box {
+  background: transparent;
+  backdrop-filter: blur(20px);
+  box-shadow: get('box-shadow');
+  border: 3px solid get('border-color');
+  .el-message-box__title,
+  .el-message-box__message,
+  .el-icon.el-message-box__close {
+    color: get('font-color');
+  }
+}
+
+.el-notification {
+  background: transparent;
+  backdrop-filter: blur(10px);
+  border-color: get('modal');
+  .el-notification__content,
+  .el-notification__title,
+  .el-notification__closeBtn {
+    color: white;
+  }
 }

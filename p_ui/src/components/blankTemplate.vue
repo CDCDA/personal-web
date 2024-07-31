@@ -1,5 +1,8 @@
+<!--
+ * @Description:  
+-->
 <template>
-  <div class="page-main"></div>
+  <div class="blankTemplate"></div>
 </template>
 
 <script>
@@ -14,3 +17,9 @@ const router = useRouter();
 //   setup() {}
 // };
 </script>
+<style>
+.blankTemplate {
+  height: 100%;
+  width: 100%;
+}
+</style>

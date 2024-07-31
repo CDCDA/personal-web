@@ -52,9 +52,13 @@ public class Blog extends BaseEntity {
     @ApiModelProperty(value = "博客摘要")
     private String blogAbstract;
 
-    //0：转载，1：原创
+    //0：原创，1：转载
     @ApiModelProperty(value = "是否原创")
     private String isOriginal;
+
+    //0：否，1：是
+    @ApiModelProperty(value = "是否推荐")
+    private String isRecommend;
 
     @ApiModelProperty(value = "标签列表")
     @TableField(exist = false)

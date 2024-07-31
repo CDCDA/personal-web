@@ -20,6 +20,7 @@ var height = '300px';
 var SyncComponent = null as any;
 const display = ref('block');
 const animateName = ref('');
+import { autoClearTimer } from '@/utils/timer';
 const isVisible = ref(false); //定义一个dom元素显示与隐藏开关
 const id = ref(`visible-lazy-${generateRandomId()}` as any);
 function generateRandomId() {
@@ -35,7 +36,7 @@ onMounted(() => {
       io.disconnect();
       SyncComponent = props.component;
       //延时加载
-      setTimeout(() => {
+      autoClearTimer(() => {
         display.value = 'none';
         isVisible.value = true;
         animateName.value = 'fade-in-normal';

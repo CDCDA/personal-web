@@ -113,7 +113,7 @@ import audioPlayer from './components/audioPlayer.vue';
 import earth3d from './components/earth3d.vue';
 import { DraggableContainer } from 'vue3-draggable-resizable';
 import Vue3DraggableResizable from 'vue3-draggable-resizable';
-
+import { autoClearTimer } from '@/utils/timer';
 //default styles
 import 'vue3-draggable-resizable/dist/Vue3DraggableResizable.css';
 
@@ -407,7 +407,7 @@ function move(item: any, direction: String) {
 function resizeEndHandle(item: any) {
   if (!item.reload) return;
   item.hidden = true;
-  setTimeout(() => {
+  autoClearTimer(() => {
     item.hidden = false;
   }, 500);
 }

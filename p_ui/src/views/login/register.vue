@@ -33,7 +33,7 @@ const account = ref('' as any);
 const password = ref('' as any);
 async function logIn() {
   if (account && password) {
-    const { code, data, msg } = (await login({ account: account, password: password })) as any;
+    const { code } = (await login({ account: account, password: password })) as any;
     if (code == 200) {
       router.push('/Main');
     } else {

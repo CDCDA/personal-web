@@ -3,16 +3,20 @@
 -->
 <template>
   <div class="blog-tag page-main">
-    <div class="cards" v-for="cards in tagCardList">
-      <div
-        class="card bounceInDown"
-        v-for="(item, i) in cards"
-        @click="toTagPage"
-        :class="getAnimateTime()"
-      >
+    <div class="cards re-slide-in" v-for="cards in tagCardList">
+      <div class="card" v-for="(item, i) in cards" @click="toTagPage">
         <div class="card-face">
           <div class="card-label">
-            <el-image class="card-bg" :src="item.coverUrl" fit="cover">
+            <div
+              style="
+                width: 100%;
+                height: 100%;
+                border-radius: 12px;
+                background: linear-gradient(to right, rgb(65 67 69 / 100%), rgb(35 37 38 / 100%));
+                backdrop-filter: blur(10px);
+              "
+            ></div>
+            <!-- <el-image class="card-bg" :src="item.coverUrl" fit="cover">
               <template #placeholder>
                 <div
                   class="image-slot"
@@ -20,8 +24,9 @@
                   style="width: 100%; height: 100%"
                 ></div>
               </template>
-            </el-image>
+            </el-image> -->
             <div class="card-bg-cover"></div>
+            <span class="card-label-count">{{ item.total }}<span>篇</span></span>
             <span class="card-label-text">{{ item.tagName }}</span>
           </div>
         </div>
@@ -36,31 +41,8 @@ import useUserStore from '@/store/modules/user';
 import { useRouter } from 'vue-router';
 import { listTag } from '@/api/tag.ts';
 const router = useRouter();
-const userStore = useUserStore();
 const tagCardList = ref([] as any);
-const tagList = ref([
-  {
-    tagName: '前端',
-    key: '1',
-    isActive: false,
-    children: [
-      { tagName: 'html', key: '1-1' },
-      { tagName: 'css', key: '1-2' },
-      { tagName: 'javascript', key: '1-3' }
-    ]
-  },
-  {
-    tagName: '后端',
-    key: '2',
-    isActive: false,
-    children: [
-      { tagName: 'springboot', key: '2-1' },
-      { tagName: 'tomcat', key: '2-2' }
-    ]
-  }
-] as any);
-
-const imgLoading = ref('rotate' as any);
+const tagList = ref([] as any);
 
 async function getTagList() {
   const { code, msg, data } = (await listTag({})) as any;
@@ -93,7 +75,8 @@ onMounted(() => {
     flex-direction: column;
     background: get('background');
     box-shadow: get('box-shadow');
-    border-radius: 15px;
+    border-radius: 8px;
+    min-height: calc(100vh - 75px) !important;
   }
   .cards {
     bottom: 0;
@@ -156,6 +139,15 @@ onMounted(() => {
     top: 10px;
     left: 10px;
   }
+  .card-label-count {
+    position: absolute;
+    left: 25px;
+    bottom: 15px;
+    color: white;
+    font-weight: 700;
+    font-size: 18px;
+    z-index: 10;
+  }
 
   .card-label {
     font-size: 24px;
@@ -196,7 +188,7 @@ onMounted(() => {
     transform: translateY(-100px) rotate(0deg) scale(1.5);
     transition-duration: 1s;
 
-    z-index: 5;
+    z-index: 999;
     .card-bg {
       filter: brightness(1);
     }

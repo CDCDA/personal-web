@@ -10,14 +10,12 @@
         data-page="-1"
         role="button"
       >
-        <span class="arrow"></span>
+        <el-icon><ArrowLeftBold /></el-icon>
       </li>
 
       <div class="pagi-number" style="display: flex; align-items: center; margin-right: 30px">
         <div style="display: flex; align-items: center">
-          <img src="@/assets/svg/total.svg" style="height: 35px; width: 35px" /><span
-            >{{ total }}条</span
-          >
+          <svg-icon iconName="总共" style="height: 25px; width: 25px" /><span>{{ total }}条</span>
         </div>
         <template v-for="(group, index) in slices">
           <li
@@ -69,13 +67,14 @@
         data-page="0"
         role="button"
       >
-        <span class="arrow"></span>
+        <el-icon><ArrowRightBold /></el-icon>
       </li>
     </ul>
   </div>
 </template>
 
 <script>
+import { autoClearTimer } from '@/utils/timer';
 export default {
   name: 'Pagination',
   props: {
@@ -166,7 +165,8 @@ export default {
     // 选择size
     onSize(e) {
       this.$emit('update:pageSize', e);
-      this.onPageChange(1);
+      this.$emit('update:page', 1);
+      this.onPageChange();
       this.showPageList = false;
       // this.onPageSizeChange(e);
       // //const page = Math.ceil(this.total / e);
@@ -200,7 +200,7 @@ export default {
         const slices = [...this.slices];
         slices[num][2] = 1;
         this.slices = slices;
-        setTimeout(() => {
+        autoClearTimer(() => {
           target.children[1].focus();
         }, 100);
       }
@@ -226,13 +226,12 @@ export default {
     // font-size: $font-size-second;
     color: get('font-color');
     width: 100%;
-    letter-spacing: 1.8px;
     font-weight: 400;
-    line-height: 40px;
+    line-height: 30px;
     display: flex;
     text-align: center;
     .pn:active {
-      transform: translateY(2px);
+      transform: translateY(1px);
     }
 
     & > .pager {
@@ -245,37 +244,33 @@ export default {
       margin: 0px;
     }
     .pn {
-      border: 1px solid get('border-color');
       float: left;
       list-style: none;
       cursor: pointer;
-      line-height: 45px;
+      line-height: 35px;
       margin-left: 15px;
       text-align: center;
       background: get('re-font-color');
+      // box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.5);
+      border: 2px solid get('border-color');
       border-radius: 2px;
       font-size: 18px;
       color: get('font-color');
-      letter-spacing: 1.8px;
       font-weight: 400;
       outline: none;
-
-      height: 45px;
-      width: 45px;
-      border-radius: 10px;
+      height: 35px;
+      width: 35px;
+      border-radius: 4px;
 
       &:first-child {
         margin-left: 0;
       }
       &:hover:not(.disabled) {
         background: get('bk');
-        border: 1px solid transparent;
         color: #fff;
       }
       &.active.active {
         background: get('bk');
-        border-color: get('bk');
-        border: 1px solid transparent;
         color: #fff;
       }
       & > .dots {
@@ -293,40 +288,19 @@ export default {
       }
       &.prev,
       &.next {
-        color: get('font-color') 999;
+        color: get('font-color');
         display: flex;
         align-items: center;
         justify-content: center;
       }
       &.prev {
-        .arrow {
-          width: 8px;
-          height: 8px;
-          display: block;
-          margin-left: 4px;
-          border-left: solid 1px currentColor;
-          border-top: solid 1px currentColor;
-          -webkit-transform: rotate(-45deg);
-          transform: rotate(-45deg);
-        }
       }
       &.next {
-        .arrow {
-          width: 8px;
-          height: 8px;
-          display: block;
-          margin-right: 4px;
-          border-bottom: solid 1px currentColor;
-          border-right: solid 1px currentColor;
-          -webkit-transform: rotate(-45deg);
-          transform: rotate(-45deg);
-        }
       }
       &.next,
       &.prev {
         color: #fff !important;
         background: get('bk');
-        border: 1px solid transparent;
       }
       &.disabled {
         cursor: not-allowed;
@@ -373,17 +347,18 @@ export default {
       display: flex;
       align-items: center;
       width: auto;
-      height: 45px;
-      padding: 10px;
+      height: 35px;
+      padding: 10px 15px;
       margin: 0px;
       .page-select {
-        border: 1px solid get('border-color');
         white-space: nowrap;
         height: 100%;
+        // box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.5);
+        border: 2px solid get('border-color');
         background: get('background');
         min-width: 55px;
         padding: 0 8px 0px 12px;
-        margin: 0 8px;
+        margin: 0px;
         outline: none;
         display: flex;
         align-items: center;
@@ -391,7 +366,7 @@ export default {
         position: relative;
         cursor: pointer;
         width: auto;
-        border-radius: 8px;
+        border-radius: 4px;
         // &::after {
         //   content: '';
         //   width: 0px;
@@ -405,19 +380,21 @@ export default {
         // }
         .select-box {
           position: absolute;
-          left: 0;
+          left: -2px;
           width: 100%;
-          bottom: 50px;
-          border: 1px solid #eee;
+          bottom: 40px;
           background: get('background-no-tp');
-          border-radius: 8px;
-          border: 1px solid get('border-color');
+          // box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.5);
+          border: 2px solid get('border-color');
+          border-radius: 4px;
           z-index: 11;
           overflow: hidden;
           .seleclt-opotion {
             padding: 0 10px;
+            transition: 0.3s cubic-bezier(0.215, 0.61, 0.355, 1);
             &:hover {
-              background: #f6f7fc;
+              background: get('border-color');
+              color: white;
             }
           }
         }

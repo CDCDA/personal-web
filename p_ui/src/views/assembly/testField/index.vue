@@ -3,9 +3,9 @@
 -->
 <template>
   <div class="page-main testField-main">
-    <div class="testField-header" style="width: 100%; height: 30px; display: flex">
+    <div class="testField-header">
       <svg-icon
-        iconName="experimentalData"
+        iconName="实验数据"
         style="width: 30px; height: 30px; margin-right: 15px"
       />大模块测试
     </div>
@@ -101,26 +101,25 @@ function getAnimate(i: any) {
       }
     }
     @include flex-column;
-    background: get('background');
-    border-radius: 15px;
     justify-content: start;
-    padding: 30px;
     .testField-header {
-      height: 60px;
-      width: calc(100% - 120px);
+      height: 30px;
+      width: calc(100% - 80px);
       text-align: left;
       font-size: 22px;
       font-weight: bold;
-      padding: 12px 30px;
-      margin-left: 25px;
+      padding: 12px 0px 5px 0px;
+      margin: 25px auto 0px auto;
+      display: flex;
     }
     .testField-center {
       display: flex;
       flex-wrap: wrap;
       justify-content: start;
       align-items: center;
-      width: 100%;
-      padding: 10px 20px;
+      width: calc(100% - 60px);
+      padding: 10px 0px 30px 0px;
+      margin: 0px auto;
       .testField-item {
         animation: fade-in 0.5s linear forwards;
         margin: 10px 10px;

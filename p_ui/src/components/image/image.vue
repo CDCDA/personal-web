@@ -8,14 +8,21 @@
     </template>
     <template #error>
       <div class="image-error-slot">
-        <svg-icon iconName="imgFailed"></svg-icon>
+        <svg-icon iconName="图片加载失败"></svg-icon>
       </div>
     </template>
   </el-image>
 </template>
 <script lang="ts" setup>
 import { reactive, ref, onMounted } from 'vue';
-const props = defineProps(['src']);
+const props = defineProps({
+  src: {
+    default: null
+  },
+  preview: {
+    default: false
+  }
+});
 </script>
 <style lang="scss" scope>
 .c-image {

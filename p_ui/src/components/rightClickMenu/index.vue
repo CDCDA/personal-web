@@ -4,10 +4,10 @@
     :style="{ left: props.left + 'px', top: props.top + 'px' }"
     class="contextmenu"
   >
-    <li><svg-icon iconName="randomPlayback" />随便逛逛</li>
-    <li><svg-icon iconName="copy" />复制地址</li>
-    <li><svg-icon iconName="refresh" />重新加载</li>
-    <li><svg-icon iconName="regardTo" />关于网站</li>
+    <li><svg-icon iconName="列车" />随便逛逛</li>
+    <li><svg-icon iconName="复制" />复制地址</li>
+    <li><svg-icon iconName="刷新" />重新加载</li>
+    <li><svg-icon iconName="关于" />关于网站</li>
   </ul>
 </template>
 <script setup lang="ts">

@@ -26,7 +26,7 @@
       </el-form-item>
     </el-form>
     <div class="c-divider"></div>
-    <el-row :gutter="10" class="mb8" style="margin-bottom: 15px">
+    <el-row :gutter="10" class="manage-button-group" style="margin-bottom: 15px">
       <el-col :span="1.5">
         <el-button type="primary" plain icon="Plus" @click="handleAdd">新增</el-button>
       </el-col>
@@ -55,7 +55,7 @@
       </el-col>
       <div class="manage-tools">
         <svg-icon iconName="refresh" @click="getList()"></svg-icon>
-        <svg-icon iconName="hideMenu" @click="hideSearch()"></svg-icon>
+        <svg-icon iconName="隐藏菜单" @click="hideSearch()"></svg-icon>
       </div>
     </el-row>
     <el-table :data="tableList" class="manage-table" style="" @selection-change="selectionChange">
@@ -91,7 +91,7 @@
     />
   </div>
   <!-- 新增或编辑 -->
-  <el-dialog v-model="open" width="500" :title="title" :modal="false">
+  <c-dialog v-model="open" width="500" :title="title" :modal="false">
     <el-form :model="form" label-width="80">
       <el-form-item label="壁纸名称">
         <el-input v-model="form.name" clearable></el-input>
@@ -116,7 +116,7 @@
         <el-button type="primary" @click="submit"> 确定 </el-button>
       </span>
     </template>
-  </el-dialog>
+  </c-dialog>
 </template>
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
@@ -125,6 +125,7 @@ import { useRouter } from 'vue-router';
 import Pagination from '@/components/pagination/index.vue';
 import { ElNotification, ElMessageBox } from 'element-plus';
 import upload from '@/components/upload/upload.vue';
+import { useTableResize } from '@/utils/manage';
 const router = useRouter();
 const queryParams = ref({
   name: null,
@@ -258,9 +259,10 @@ async function handleDel() {
 
 function hideSearch() {
   isSearchShow.value = !isSearchShow.value;
+  useTableResize();
 }
 onMounted(() => {
-  getList();
+  useTableResize();
 });
 </script>
 <style lang="scss" scoped>

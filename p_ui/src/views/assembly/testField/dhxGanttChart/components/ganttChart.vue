@@ -22,8 +22,11 @@
         <el-button @click="submit()">保存</el-button>
       </el-form-item>
     </el-form>
-    <div id="gantt" style="width: 100%; height: calc(100% - 100px)"></div>
-    <el-dialog :title="title" v-model="open" width="450" :modal="false" v-drag="true">
+    <div
+      id="gantt"
+      style="width: 100%; height: calc(100% - 42px); border-radius: 8px; overflow: hidden"
+    ></div>
+    <c-dialog :title="title" v-model="open" width="450" :modal="false" v-drag="true">
       <el-upload :http-request="loadExcel" action=" " :limit="1">
         <el-button type="primary">选择文件</el-button>
         <template #tip>
@@ -35,7 +38,7 @@
           <el-button @click="open = false">取消</el-button>
         </span>
       </template>
-    </el-dialog>
+    </c-dialog>
   </div>
 </template>
 

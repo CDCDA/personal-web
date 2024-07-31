@@ -11,6 +11,7 @@
         <result property="typeName" column="type_name"/>
         <result property="blogAbstract" column="blog_abstract"/>
         <result property="isOriginal" column="is_original"/>
+        <result property="isRecommend" column="is_recommend"/>
         <result property="coverUrl" column="cover_url"/>
         <collection property="tags" javaType="list" ofType="String" select="getTagsByBlogId"
                     column="{blogId = blog_id}">
@@ -22,7 +23,7 @@
     <!--博客列表查询-->
     <select id="list" resultMap="blogMap">
         select
-        b.blog_id,
+        DISTINCT (b.blog_id),
         b.blog_title,
         b.content,
         b.mk_content,
@@ -38,6 +39,7 @@
         from `blog` b
         left join `user` u on u.user_id = b.user_id
         left join `blog_type` bt on b.type_id = bt.type_id
+        left join `blog_tag_relation` btr on b.blog_id = btr.blog_id
         <where>
             <if test="blogTitle != null and blogTitle!=''">
                 and b.blog_title like "%${blogTitle}%"
@@ -50,9 +52,17 @@
                 and
                 b.type_id = "${typeId}"
             </if>
+            <if test="tagId != null and tagId!=''">
+                and
+                btr.tag_id = "${tagId}"
+            </if>
             <if test="isOriginal != null and isOriginal!=''">
                 and
                 b.is_original = "${isOriginal}"
+            </if>
+            <if test="isRecommend != null and isRecommend!=''">
+                and
+                b.is_recommend = "${isRecommend}"
             </if>
             <if test="startTime != null and endTime != null">
                 and
@@ -95,6 +105,10 @@
             <if test="startTime != null and endTime != null">
                 and
                 b.create_time between #{startTime} and #{endTime}
+            </if>
+            <if test="isRecommend != null and isRecommend!=''">
+                and
+                b.is_recommend = "${isRecommend}"
             </if>
         </where>
     </select>
@@ -159,6 +173,13 @@
         </if>
         GROUP BY b.type_id
 
+    </select>
+
+    <select id="getRandomBlog" resultType="String">
+        SELECT blog_id
+        FROM `blog`
+        ORDER BY RAND()
+        LIMIT 1
     </select>
 </mapper>
 

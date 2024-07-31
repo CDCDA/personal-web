@@ -51,7 +51,7 @@
       </el-form-item>
     </el-form>
     <div class="c-divider"></div>
-    <el-row :gutter="10" class="mb8" style="margin-bottom: 15px">
+    <el-row :gutter="10" class="manage-button-group" style="margin-bottom: 15px">
       <el-col :span="1.5">
         <el-button type="primary" plain icon="Plus" @click="handleAdd">新增</el-button>
       </el-col>
@@ -66,7 +66,7 @@
       </el-col>
       <div class="manage-tools">
         <svg-icon iconName="refresh" @click="getBlogList()"></svg-icon>
-        <svg-icon iconName="hideMenu" @click="hideSearch()"></svg-icon>
+        <svg-icon iconName="隐藏菜单" @click="hideSearch()"></svg-icon>
       </div>
     </el-row>
     <el-table :data="blogList" class="manage-table" style="" @selection-change="selectionChange">
@@ -113,7 +113,7 @@ import { listTag } from '@/api/tag.ts';
 import { useRouter } from 'vue-router';
 import Pagination from '@/components/pagination/index.vue';
 import { ElMessage } from 'element-plus';
-
+import { useTableResize } from '@/utils/manage';
 const router = useRouter();
 const queryParams = ref({
   blogTitle: null,
@@ -197,11 +197,13 @@ async function handleDel(item: any) {
 
 function hideSearch() {
   isSearchShow.value = !isSearchShow.value;
+  useTableResize();
 }
 onMounted(() => {
   getBlogList();
   getTypeList();
   getTagList();
+  useTableResize();
 });
 </script>
 <style lang="scss" scoped></style>

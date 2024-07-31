@@ -6,6 +6,7 @@
 </template>
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
+import { autoClearTimer } from '@/utils/timer';
 // Canvas Init
 var c = null as any,
   ctx = null as any,
@@ -70,7 +71,7 @@ function resizeCanvas() {
 }
 
 onMounted(() => {
-  setTimeout(() => {
+  autoClearTimer(() => {
     c = document.getElementById('bubbles') as any;
     ctx = c.getContext('2d');
     console.log('CCC', ctx);

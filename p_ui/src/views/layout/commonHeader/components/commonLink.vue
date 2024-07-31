@@ -80,7 +80,7 @@ function clickLink(item: any) {
       transition: all 0.6s ease-in-out;
       top: 50px;
       z-index: 999;
-      border-radius: 15px;
+      border-radius: 8px;
       overflow: hidden;
       width: 320px;
       left: -30px;

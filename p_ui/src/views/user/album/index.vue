@@ -5,7 +5,7 @@
   <div class="page-main album-main">
     <div class="album-header animated bounceInDown">
       <video
-        :src="'http://111.229.144.36:8008/video_1783824280.mp4'"
+        :src="'/video/video_1783824280.mp4'"
         class="album-header-video"
         autoplay
         loop
@@ -58,7 +58,7 @@ function getAnimate(i: any) {
 }
 
 async function getAlbumList() {
-  const { code, msg, data } = (await listAlbum({ userId: userStore.userId })) as any;
+  const { code, data } = (await listAlbum({ userId: userStore.userId })) as any;
   if (code === 200 && data) {
     albumList.value = data.list;
   }
@@ -74,54 +74,56 @@ onMounted(() => {
 </script>
 <style lang="scss">
 @include theme() {
+  .album-header {
+    height: 45vh;
+    width: calc(100% - 120px);
+    margin: 40px 60px;
+    border-radius: 12px;
+    box-shadow: get('box-shadow');
+    .album-header-video {
+      opacity: 0.95;
+      height: 100%;
+      width: 100%;
+      border-radius: 12px;
+      object-fit: cover;
+    }
+    margin-bottom: 40px;
+    // color: get('re-font-color');
+    color: white;
+    .album-header-top {
+      position: absolute;
+      top: 10px;
+      left: 15px;
+    }
+    .album-header-center {
+      position: absolute;
+      top: 47px;
+      left: 14px;
+      font-size: 35px;
+      font-weight: bold;
+    }
+    .album-header-bottom {
+      position: absolute;
+      bottom: 14px;
+      left: 16px;
+    }
+  }
   .album-main {
     @include flex-column;
     justify-content: start;
-    .album-header {
-      height: 45vh;
-      width: 100%;
-      border-radius: 20px;
-      box-shadow: get('box-shadow');
-      position: relative;
-      .album-header-video {
-        opacity: 0.95;
-        height: 100%;
-        width: 100%;
-        border-radius: 20px;
-        object-fit: cover;
-      }
-      margin-bottom: 40px;
-      // color: get('re-font-color');
-      color: white;
-      .album-header-top {
-        position: absolute;
-        top: 10px;
-        left: 15px;
-      }
-      .album-header-center {
-        position: absolute;
-        top: 47px;
-        left: 14px;
-        font-size: 35px;
-        font-weight: bold;
-      }
-      .album-header-bottom {
-        position: absolute;
-        bottom: 14px;
-        left: 16px;
-      }
-    }
+    // background: transparent !important;
     .album-center {
       display: flex;
       position: relative;
       flex-wrap: wrap;
       justify-content: start;
       align-items: center;
-      width: calc(100% + 20px);
+      margin: 50px 50px 20px 50px;
+      width: calc(100% - 100px);
       .album-item {
         width: calc(25% - 20px);
         height: 450px;
-        border-radius: 20px;
+        border-radius: 12px;
         margin: 10px;
         opacity: 0.9;
         cursor: pointer;
@@ -132,7 +134,7 @@ onMounted(() => {
         .album-item-cover {
           width: 100%;
           height: 100%;
-          border-radius: 20px;
+          border-radius: 12px;
           object-fit: cover;
           object-position: 70%;
           background-repeat: no-repeat;

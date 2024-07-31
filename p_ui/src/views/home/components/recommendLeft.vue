@@ -1,5 +1,22 @@
 <template>
   <div class="recommend-left">
+    <!-- <div class="recommend-left-bottom">
+      <div
+        class="bottom-item"
+        @click="router.push({ name: 'blogTypePage', query: { typeId: '1' } })"
+      >
+        <span>前端小记</span><svg-icon iconName="书籍" />
+      </div>
+      <div
+        class="bottom-item"
+        @click="router.push({ name: 'blogTypePage', query: { typeId: '2' } })"
+      >
+        <span>后端总结</span><svg-icon iconName="火焰" />
+      </div>
+      <div class="bottom-item" @click="router.push({ name: 'essay' })">
+        <span>生活随笔</span><svg-icon iconName="编辑" />
+      </div>
+    </div> -->
     <div class="recommend-left-top">
       <div class="recommd-left-title">
         <span>我的技术栈</span>
@@ -7,24 +24,7 @@
       <TechnologyStackCard class="recommd-left-stack" :isHoverShow="false" />
       <div class="recommend-left-top-cover" @click="toRange()">
         <div>随便逛逛</div>
-        <svg-icon iconName="right"></svg-icon>
-      </div>
-    </div>
-    <div class="recommend-left-bottom">
-      <div
-        class="bottom-item"
-        @click="router.push({ name: 'blogTypePage', query: { typeId: '1' } })"
-      >
-        <span>前端小记</span><svg-icon iconName="book" />
-      </div>
-      <div
-        class="bottom-item"
-        @click="router.push({ name: 'blogTypePage', query: { typeId: '2' } })"
-      >
-        <span>后端总结</span><svg-icon iconName="hot" />
-      </div>
-      <div class="bottom-item" @click="router.push({ name: 'essay' })">
-        <span>生活随笔</span><svg-icon iconName="edit" />
+        <svg-icon iconName="右"></svg-icon>
       </div>
     </div>
   </div>
@@ -50,16 +50,16 @@ async function toRange() {
 @include theme() {
   .recommend-left {
     height: 100%;
-    width: calc(50% - 5px);
+    width: calc(50%);
     margin-right: 10px;
-    @include flex-column;
+    display: flex;
     justify-content: space-between;
     cursor: pointer;
     .recommend-left-top {
+      height: 100%;
       background: get('background');
-      border-radius: 15px;
-      width: 100%;
-      height: 36vh;
+      border-radius: 8px;
+      width: calc(100%);
       box-shadow: get('box-shadow');
       overflow: hidden;
       position: relative;
@@ -103,19 +103,18 @@ async function toRange() {
       }
     }
     .recommend-left-bottom {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      @include flex-column;
       margin-top: 5px;
-      width: 100%;
-      height: calc(14vh - 10px);
+      width: 25%;
+      height: 100%;
+      margin-right: 20px;
       .bottom-item {
-        height: 100%;
+        height: calc(33.33% - 10px);
         cursor: pointer;
         box-shadow: get('box-shadow');
-        width: calc(33% - 5px);
+        width: calc(100%);
         background: get('background');
-        border-radius: 15px;
+        border-radius: 8px;
         @include flex;
         position: relative;
         justify-content: start;
@@ -142,28 +141,24 @@ async function toRange() {
         }
       }
       .bottom-item:not(:hover) {
-        animation: re-slide-in 0.3s forwards linear;
+        // animation: re-slide-in 0.3s forwards linear;
         img {
           animation: re-rotate-img 0.3s forwards linear;
         }
       }
       .bottom-item:hover {
-        & {
-          width: 50%;
-        }
-        animation: slide-in 0.3s forwards linear;
+        // animation: slide-in 0.3s forwards linear;
         .svg-icon-wrap {
           animation: rotate-img 0.3s forwards linear;
         }
-        width: 25%;
       }
 
       .bottom-item:nth-child(1) {
         background: get('bk');
-        margin-right: 10px;
+        margin-bottom: 10px;
       }
       .bottom-item:nth-child(2) {
-        margin-right: 10px;
+        margin-bottom: 10px;
         background: linear-gradient(to right, #ff6655, #ffbf37);
       }
       .bottom-item:nth-child(3) {

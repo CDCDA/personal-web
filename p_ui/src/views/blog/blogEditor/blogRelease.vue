@@ -2,7 +2,7 @@
  * @Description: 博客发布弹窗
 -->
 <template>
-  <el-dialog class="blog-release" v-model="dialogVisible" title="发布" width="700px" :modal="false">
+  <c-dialog class="blog-release" v-model="dialogVisible" title="发布" width="700px" :modal="false">
     <el-form class="blog-release-settings" :model="blogData" label-width="80px">
       <el-form-item label="博客标签">
         <el-tag
@@ -65,13 +65,7 @@
         <el-button @click="submit">发布 </el-button>
       </span>
     </template>
-    <el-dialog
-      class="tag-dialog"
-      v-model="tagVisible"
-      title="标签选择"
-      width="500px"
-      :modal="false"
-    >
+    <c-dialog class="tag-dialog" v-model="tagVisible" title="标签选择" width="500px" :modal="false">
       <el-tag
         v-for="tag in tagList"
         :key="tag"
@@ -88,8 +82,8 @@
           <el-button @click="setTags()">确定</el-button>
         </span>
       </template>
-    </el-dialog>
-  </el-dialog>
+    </c-dialog>
+  </c-dialog>
 </template>
 <script setup lang="ts">
 import { ref, nextTick, onMounted } from 'vue';

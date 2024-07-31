@@ -7,10 +7,9 @@
     :draggable="draggable"
     :class="[isLessen ? 'is-lessen' : '', isFull ? 'is-full' : '']"
     v-model="props.modelValue"
-    :close-on-click-modal="false"
     :title="props.title"
     :width="props.width"
-    :modal="props.modal"
+    :modal="true"
     :fullscreen="isFull"
     destroy-on-close
     :show-close="false"
@@ -20,9 +19,9 @@
       <div class="c-dialog-header" @click="restore">
         <div class="c-dialog-title">{{ props.title }}</div>
         <div class="c-dialog-bt-group">
-          <svg-icon v-if="!isLessen" iconName="lessen" @click="lessen" />
-          <svg-icon iconName="blowUp" @click="blowUp" />
-          <svg-icon iconName="close" @click="close" />
+          <svg-icon v-if="!isLessen" iconName="缩小" @click="lessen" />
+          <svg-icon iconName="放大" @click="blowUp" />
+          <svg-icon iconName="关闭" @click="close" />
         </div>
       </div>
     </template>
@@ -32,6 +31,7 @@
 </template>
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
+import { autoClearTimer } from '@/utils/timer';
 const props = defineProps({
   options: {
     default: {
@@ -54,7 +54,7 @@ const props = defineProps({
     default: false
   },
   modal: {
-    default: false
+    default: true
   },
   draggable: {
     default: true
@@ -84,13 +84,16 @@ function lessen() {
   let overlay = document.querySelector('.el-overlay-dialog') as any;
   if (isLessen.value) {
     overlay.parentNode.style.width = '250px';
-    overlay.parentNode.style.height = '28px';
+    overlay.parentNode.style.height = '35px';
+    overlay.parentNode.style.bottom = '0px';
+    overlay.parentNode.style.backdropFilter = 'none';
+    overlay.parentNode.style.background = 'transparent';
     overlay.style.width = '250px';
-    overlay.style.height = '28px';
+    overlay.style.height = '35px';
     overlay.style.top = 'initial';
     tempDraggle.value = JSON.parse(JSON.stringify(draggable.value));
     draggable.value = false;
-    setTimeout(() => {
+    autoClearTimer(() => {
       const func = () => {
         lessen();
       };
@@ -99,11 +102,14 @@ function lessen() {
   } else {
     overlay.parentNode.style.width = 'initial';
     overlay.parentNode.style.height = 'initial';
+    overlay.parentNode.style.bottom = '0px';
+    overlay.parentNode.style.backdropFilter = 'blur(15px)';
+    overlay.parentNode.style.background = 'initial';
     overlay.style.width = 'initial';
     overlay.style.height = 'initial';
     overlay.style.top = '0';
     draggable.value = tempDraggle.value;
-    setTimeout(() => {
+    autoClearTimer(() => {
       const func = () => {
         return;
       };
@@ -114,6 +120,12 @@ function lessen() {
 
 function blowUp() {
   isFull.value = !isFull.value;
+  if (isFull.value) {
+    tempDraggle.value = JSON.parse(JSON.stringify(draggable.value));
+    draggable.value = false;
+  } else {
+    draggable.value = tempDraggle.value;
+  }
 }
 
 function init() {

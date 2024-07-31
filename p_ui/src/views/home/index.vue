@@ -7,9 +7,9 @@
       <div class="main-top-title">
         <div data-text></div>
       </div>
-      <svg-icon iconName="down-black" class="CycleUpDown" @click="toMainPage"></svg-icon>
+      <svg-icon iconName="下" class="CycleUpDown" @click="toMainPage" />
     </div>
-    <div class="home-main">
+    <div class="home-main page-main">
       <div class="main-header">
         <el-icon><ChromeFilled /></el-icon>
         <div class="main-header-text-list">
@@ -24,55 +24,63 @@
         </div>
         <div class="display-page">
           <div class="display-left">
-            <div class="display-header">
-              <div class="type-list">
+            <BlogUserCard />
+            <WeatherCard />
+            <VisitorCard />
+            <!-- <BlogTypeCard />
+            <BlogTagCard /> -->
+            <BlogCountCard />
+          </div>
+          <div class="display-right">
+            <!-- <div class="type-list">
                 <div
                   class="type-item"
                   :class="item.isActive ? 'is-active' : ''"
                   v-for="item in typeList"
                   @click="setQuery(item)"
                 >
-                  <!-- <span class="type-item-prefix" v-if="item.typeId">#</span> -->
                   <span class="type-item-content">{{ item.typeName }}</span>
-                  <!-- <span class="type-item-count">{{ item.total }}</span> -->
                 </div>
+              </div> -->
+            <div v-for="name in Object.keys(typeBlogList)">
+              <div class="display-header">
+                <div class="display-header-left">
+                  <svg-icon iconName="分类"></svg-icon>{{ name }}
+                </div>
+                <div class="display-header-right"><svg-icon iconName="更多"></svg-icon>MORE</div>
               </div>
-            </div>
-            <div class="display-list">
-              <div @click="toDetail(item)" class="list-item" v-for="item in recommends">
-                <div class="list-item-img">
-                  <el-image :src="item.coverUrl" lazy>
-                    <template #placeholder>
-                      <div
-                        class="image-slot"
-                        v-cLoading="'rotate'"
-                        style="width: 100%; height: 100%"
-                      />
-                    </template>
-                    <template #error>
-                      <div class="image-error-slot">
-                        <svg-icon iconName="imgFailed"></svg-icon>
-                      </div>
-                    </template>
-                  </el-image>
-                </div>
+              <div class="display-list">
+                <div
+                  @click="toDetail(item)"
+                  class="list-item"
+                  :class="`list-item-${i}`"
+                  v-for="(item, i) in typeBlogList[name]"
+                >
+                  <div class="list-item-img">
+                    <c-image :src="item.coverUrl" />
+                  </div>
 
-                <div class="list-item-footer">
-                  <span class="list-item-title">{{ item.blogTitle }}</span>
-                  <div class="list-item-tag">
-                    <div class="item-tag-list">
-                      <template v-for="(tag, i) in item.tags">
-                        <span class="item-tag" v-if="i <= 4">
-                          <span class="item-tag-pretend">#</span>
-                          <span class="item-tag-text">{{ tag.tagName }}</span>
-                        </span>
-                      </template>
+                  <div class="list-item-footer">
+                    <el-tooltip effect="dark" :content="item.blogTitle" placement="top">
+                      <span class="list-item-title no-wrap">{{ item.blogTitle }}</span>
+                    </el-tooltip>
+
+                    <div class="list-item-tag">
+                      <div class="item-tag-list">
+                        <template v-for="(tag, i) in item.tags">
+                          <span class="item-tag" v-if="i <= 4">
+                            <span class="item-tag-pretend">#</span>
+                            <span class="item-tag-text">{{ tag.tagName }}</span>
+                          </span>
+                        </template>
+                      </div>
+                      <span class="item-time">{{ formateToDay(item.createTime) }}</span>
                     </div>
-                    <span class="item-time">{{ formateToDay(item.createTime) }}</span>
                   </div>
                 </div>
               </div>
             </div>
+
             <Pagination
               v-model:page="queryParams.pageNum"
               v-model:page-size="queryParams.pageSize"
@@ -83,14 +91,13 @@
               :on-page-size-change="getBlogList"
               class="pagi page-content"
             />
-          </div>
-          <div class="display-right">
-            <visible-lazy :component="BlogUserCard" />
+
+            <!-- <visible-lazy :component="BlogUserCard" />
             <visible-lazy :component="WeatherCard" />
             <visible-lazy :component="VisitorCard" />
             <visible-lazy :component="BlogTypeCard" />
             <visible-lazy :component="BlogTagCard" />
-            <visible-lazy :component="BlogCountCard" />
+            <visible-lazy :component="BlogCountCard" /> -->
           </div>
         </div>
       </div>
@@ -105,15 +112,25 @@ import { listTotalType } from '@/api/type';
 import useUserStore from '@/store/modules/user';
 import { useRouter } from 'vue-router';
 import { listUpdateLog } from '@/api/updateLog.ts';
+import { autoClearTimer } from '@/utils/timer';
 import Pagination from '@/components/pagination/index.vue';
-const BlogUserCard = defineAsyncComponent(() => import('@/views/blog/components/blogUserCard.vue'));
-const WeatherCard = defineAsyncComponent(() => import('./components/weatherCard.vue'));
-const BlogTypeCard = defineAsyncComponent(() => import('@/views/blog/components/blogTypeCard.vue'));
-const BlogTagCard = defineAsyncComponent(() => import('@/views/blog/components/blogTagCard.vue'));
-const BlogCountCard = defineAsyncComponent(
-  () => import('@/views/blog/components/blogCountCard.vue')
-);
-const VisitorCard = defineAsyncComponent(() => import('./components/visitorCard.vue'));
+import BlogUserCard from '@/views/blog/components/blogUserCard.vue';
+import WeatherCard from './components/weatherCard.vue';
+import BlogTypeCard from '@/views/blog/components/blogTypeCard.vue';
+import BlogTagCard from '@/views/blog/components/blogTagCard.vue';
+import { verifyToken } from '@/api/user.ts';
+
+import BlogCountCard from '@/views/blog/components/blogCountCard.vue';
+import VisitorCard from './components/visitorCard.vue';
+import { useLazyAppear } from '@/utils/lazy';
+// const BlogUserCard = defineAsyncComponent(() => import('@/views/blog/components/blogUserCard.vue'));
+// const WeatherCard = defineAsyncComponent(() => import('./components/weatherCard.vue'));
+// const BlogTypeCard = defineAsyncComponent(() => import('@/views/blog/components/blogTypeCard.vue'));
+// const BlogTagCard = defineAsyncComponent(() => import('@/views/blog/components/blogTagCard.vue'));
+// const BlogCountCard = defineAsyncComponent(
+//   () => import('@/views/blog/components/blogCountCard.vue')
+// );
+// const VisitorCard = defineAsyncComponent(() => import('./components/visitorCard.vue'));
 // const RecommendLeft = defineAsyncComponent(() => import('./components/recommendLeft.vue'));
 // const RecommendRight = defineAsyncComponent(() => import('./components/recommendRight.vue'));
 import RecommendRight from './components/recommendRight.vue';
@@ -170,7 +187,7 @@ const headerList = ref([
 ] as any);
 const router = useRouter() as any;
 const typeList = ref([] as any);
-
+const typeBlogList = ref({} as any);
 const queryParams = ref({
   pageNum: 1,
   pageSize: 10,
@@ -182,7 +199,14 @@ async function getBlogList() {
   const { code, msg, data } = (await listBlog(queryParams.value)) as any;
   if (code === 200) {
     recommends.value = data.list;
+
     total.value = data.total;
+    autoClearTimer(() => {
+      recommends.value.forEach((item: any, i: Number) => {
+        item = item;
+        useLazyAppear(document.querySelector(`.list-item-${i}`) as any);
+      });
+    }, 500);
   } else {
     ElMessage.error('博客数据获取失败', msg);
   }
@@ -204,7 +228,7 @@ async function getHeaderList() {
  */
 function toMainPage() {
   let el = document.querySelector('.el-main') as any;
-  el.scrollTo({ top: window.innerHeight - 80, behavior: 'smooth' });
+  el?.scrollTo({ top: window.innerHeight - 80, behavior: 'smooth' });
 }
 
 /**
@@ -212,25 +236,39 @@ function toMainPage() {
  * @return {*}
  */
 
+async function getTypeBlog(type: any) {
+  let params = {
+    pageNum: 1,
+    pageSize: 3,
+    typeId: type.typeId
+  };
+  const { code, data } = (await listBlog(params)) as any;
+  if (code === 200) {
+    if (data.list.length > 0) typeBlogList.value[type.typeName] = data.list;
+  }
+}
+
 async function getTypeTree() {
-  const { code, msg, data } = (await listTotalType(queryParams.value)) as any;
+  const { code, data } = (await listTotalType(queryParams.value)) as any;
   if (code === 200) {
     typeList.value = data.list;
-    let total = 0;
-    typeList.value.forEach((e: any) => {
-      total += e.total;
+    typeList.value.forEach(async (item: any) => {
+      await getTypeBlog(item);
     });
-    typeList.value.unshift({
-      typeName: '全部',
-      isActive: false,
-      total
-    });
-    queryParams.value.typeId = router.currentRoute.value.query.typeId;
-    typeList.value.forEach((e: any) => {
-      if (e.typeId === queryParams.value.typeId) e.isActive = true;
-    });
-  } else {
-    ElMessage.error('分类数据获取失败', msg);
+
+    // let total = 0;
+    // typeList.value.forEach((e: any) => {
+    //   total += e.total;
+    // });
+    // typeList.value.unshift({
+    //   typeName: '全部',
+    //   isActive: false,
+    //   total
+    // });
+    // queryParams.value.typeId = router.currentRoute.value.query.typeId;
+    // typeList.value.forEach((e: any) => {
+    //   if (e.typeId === queryParams.value.typeId) e.isActive = true;
+    // });
   }
 }
 let displacement = ref(0 as any);
@@ -289,7 +327,7 @@ function setFontColor() {
 
 function setTyping() {
   let wrapper = null as any;
-  const sleep = (ms: any) => new Promise(resolve => setTimeout(resolve, ms));
+  const sleep = (ms: any) => new Promise(resolve => autoClearTimer(resolve, ms));
   async function writingAll(container: any) {
     wrapper = document.querySelector('[' + container + ']');
     // const stringsContainer = document.getElementsByClassName(stringTarget);
@@ -341,7 +379,36 @@ function setQuery(item: any) {
   getBlogList();
 }
 
+// 设置首页和顶栏颜色
+function setHomeColor() {
+  autoClearTimer(() => {
+    if (themeStore.options) {
+      const { mhFontColor } = themeStore.options;
+      console.log(mhFontColor);
+      let header = document.querySelector('.common-header') as any;
+      let homeTop = document.querySelector('.home-top') as any;
+      let CycleUpDown = document.querySelector('.CycleUpDown') as any;
+      if (header) {
+        header.style.color = mhFontColor;
+        let icons = header.querySelectorAll('.theme-icon');
+        Object.keys(icons).forEach((e: any) => {
+          icons[e].style.fill = mhFontColor;
+        });
+      }
+      if (homeTop) homeTop.style.color = mhFontColor;
+      if (CycleUpDown) {
+        let themeIcon = CycleUpDown.querySelector('.theme-icon') as any;
+        if (themeIcon) {
+          themeIcon.style.fill = mhFontColor;
+        }
+      }
+    }
+  }, 0);
+}
+
 onMounted(() => {
+  setHomeColor();
+  verifyToken();
   getHeaderList();
 
   getBlogList();
@@ -388,19 +455,20 @@ onMounted(() => {
     }
     .home-main {
       width: calc(90vw);
-      max-width: 1500px;
+      max-width: 1200px;
+      background: transparent !important;
+      backdrop-filter: none !important;
       @include flex-column;
       .main-header {
-        height: 7vh;
         width: calc(100% - 60px);
         color: get('font-color');
-        border-radius: 15px;
+        border-radius: 12px;
         background: get('background');
         box-shadow: get('box-shadow');
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: 0px 30px;
+        padding: 8px 30px;
         font-size: 22px;
         font-weight: bold;
         overflow: hidden;
@@ -428,23 +496,34 @@ onMounted(() => {
         .recommend {
           @include flex;
           width: 100%;
-          height: 50vh;
+          height: 40vh;
         }
         .display-page {
           width: 100%;
           display: flex;
           margin-top: 20px;
-          .display-left {
-            width: calc(100% - 300px);
-            margin-right: 20px;
+          .display-right {
+            width: calc(100% - 280px);
+            margin-left: 20px;
             .display-header {
+              .display-header-left,
+              .display-header-right {
+                @include flex;
+              }
+              .display-header-right {
+                cursor: pointer;
+              }
+              .svg-icon-wrap {
+                width: 30px;
+                height: 30px;
+                margin-right: 10px;
+              }
               @include flex;
-              justify-content: start;
-              height: 8vh;
+              justify-content: space-between;
               background: get('background');
               box-shadow: get('box-shadow');
-              border-radius: 15px;
-              padding: 0px 20px;
+              border-radius: 12px;
+              padding: 8px 20px;
               position: relative;
               .header-item {
                 font-size: 18px;
@@ -466,13 +545,13 @@ onMounted(() => {
                 background: linear-gradient(to right, #56ccf2, #2f80ed);
                 // box-shadow: get('box-shadow');
                 color: white;
-                border-radius: 15px;
+                border-radius: 12px;
               }
             }
             .display-list {
               margin-top: 20px;
               // height: 400px;
-              border-radius: 15px;
+              border-radius: 12px;
               display: flex;
               justify-content: space-between;
               flex-wrap: wrap;
@@ -480,22 +559,24 @@ onMounted(() => {
                 cursor: pointer;
               }
               .list-item:hover {
-                --i: -1;
-                mask-position: 0 0;
-                transform: perspective(1800px) rotate3d(1, -1, 0, calc(var(--i, 1) * 8deg));
+                // --i: -1;
+                // mask-position: 0 0;
+                // transform: perspective(1800px) rotate3d(1, -1, 0, calc(var(--i, 1) * 8deg));
                 // mask: linear-gradient(135deg, #000c 40%, #000, #000c 60%) 100% 100%/240% 240%;
                 transition: 0.4s;
               }
               .list-item {
-                width: calc(50% - 10px);
+                width: calc(33% - 10px);
                 aspect-ratio: 3/2;
                 margin-bottom: 20px;
                 background: get('background');
                 box-shadow: get('box-shadow');
-                border-radius: 15px;
+                border-radius: 12px;
+
                 @include flex-column;
                 justify-content: start;
                 .list-item-img {
+                  overflow: hidden;
                   border-radius: 15px 15px 0px 0px;
                   width: 100%;
                   // height: calc(100% - 100px);
@@ -503,60 +584,65 @@ onMounted(() => {
                   margin: 5px;
                   width: calc(100% - 10px);
                   border-radius: 10px;
-                  .el-image {
-                    width: 100%;
-                    height: 100%;
+                  .c-image {
+                    transition: all 1s;
                   }
                 }
                 .list-item-img {
                   position: relative;
-                  /* 盒子阴影 */
-                  box-shadow: 0px 5px 45px rgba(0, 0, 0, 0.1);
-                  /* 背景模糊 */
-                  backdrop-filter: blur(2px);
-                  /* 加个动画过渡，动画才不会太过生硬 */
-                  transition: all 0.3s;
+                  // /* 盒子阴影 */
+                  // box-shadow: 0px 5px 45px rgba(0, 0, 0, 0.1);
+                  // /* 背景模糊 */
+                  // backdrop-filter: blur(2px);
+                  // /* 加个动画过渡，动画才不会太过生硬 */
+                  // transition: all 0.3s;
                   overflow: hidden;
                 }
-                .list-item-img::before {
-                  content: '';
-                  position: absolute;
-                  top: 0px;
-                  left: 0px;
-                  width: 500px;
-                  height: 100%;
-                  background-color: #fff;
-                  opacity: 0.5;
-                  /* 元素沿X轴45横切，沿X轴右移150px */
-                  transform: skewX(45deg) translateX(850px);
-                  /* 动画过渡 */
-                  transition: all 0.3s;
-                }
+
                 .list-item-img:hover {
-                  &::before {
-                    z-index: 1;
-                    /* 元素沿X轴45横切，沿X轴左移150px */
-                    transform: skewX(45deg) translateX(-650px);
-                  }
-                  .el-image {
-                    aspect-ratio: 5/3;
-                    transform: scale(1.1);
-                    transition: all 0.2s;
+                  .c-image {
+                    transform: scale(1.2);
                   }
                 }
-                .list-item-img:not(:hover) {
-                  &::before {
-                    /* 元素沿X轴45横切，沿X轴左移150px */
-                    transform: skewX(0deg) translateX(0px);
-                  }
-                  .el-image {
-                    transform: scale(1);
-                    transition: all 0.2s;
-                  }
-                }
+                // .list-item-img::before {
+                //   content: '';
+                //   position: absolute;
+                //   top: 0px;
+                //   left: 0px;
+                //   width: 500px;
+                //   height: 100%;
+                //   background-color: #fff;
+                //   opacity: 0.5;
+                //   /* 元素沿X轴45横切，沿X轴右移150px */
+                //   transform: skewX(45deg) translateX(850px);
+                //   /* 动画过渡 */
+                //   transition: all 0.3s;
+                // }
+                // .list-item-img:hover {
+                //   &::before {
+                //     z-index: 1;
+                //     /* 元素沿X轴45横切，沿X轴左移150px */
+                //     transform: skewX(45deg) translateX(-650px);
+                //   }
+                //   .el-image {
+                //     aspect-ratio: 5/3;
+                //     transform: scale(1.1);
+                //     transition: all 0.2s;
+                //   }
+                // }
+                // .list-item-img:not(:hover) {
+                //   &::before {
+                //     /* 元素沿X轴45横切，沿X轴左移150px */
+                //     transform: skewX(0deg) translateX(0px);
+                //   }
+                //   .el-image {
+                //     transform: scale(1);
+                //     transition: all 0.2s;
+                //   }
+                // }
                 .list-item-footer {
                   width: calc(100% - 30px);
-                  height: 100px;
+                  height: 80px;
                   display: flex;
                   justify-content: space-evenly;
                   flex-direction: column;
@@ -574,7 +660,7 @@ onMounted(() => {
                       @include flex;
                       justify-content: start;
                       overflow: hidden;
-                      height: 30px;
+                      height: 20px;
                       width: calc(100% - 105px);
                       text-align: left;
                       display: -webkit-box;
@@ -584,27 +670,27 @@ onMounted(() => {
                       -webkit-box-orient: vertical;
                       .item-tag {
                         margin-right: 15px;
-                        font-size: 20px;
+                        font-size: 16px;
                         display: inline-block;
                       }
                       .item-tag-pretend {
                         opacity: 0.5;
+                        font-size: 15px;
                         font-weight: bold;
                       }
                     }
                     .item-time {
+                      font-size: 14px;
                       width: 105px;
+                      height: 20px;
                     }
                   }
                 }
               }
             }
           }
-          .display-right {
-            width: 300px;
-            // background: get('background');
-            // box-shadow: get('box-shadow');
-            // border-radius: 15px;
+          .display-left {
+            width: 280px;
           }
         }
       }

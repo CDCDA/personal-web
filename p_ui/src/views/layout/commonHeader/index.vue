@@ -44,21 +44,21 @@
 
     <div class="header-right">
       <el-tooltip content="随机文章" placement="top">
-        <svg-icon iconName="train" class="header-icon train" @click="toRandom" />
+        <svg-icon iconName="列车1" class="header-icon train" @click="toRandom" />
       </el-tooltip>
       <el-tooltip content="搜索" placement="top">
-        <svg-icon iconName="search" class="header-icon search" @click="searchClick" />
+        <svg-icon iconName="搜索" class="header-icon search" @click="searchClick" />
       </el-tooltip>
       <el-tooltip content="控制台" placement="top">
         <svg-icon
-          iconName="console"
+          iconName="控制台"
           class="header-icon console"
           v-permission="'show'"
           @click="router.push({ name: 'manage' })"
         />
       </el-tooltip>
       <el-tooltip content="登出" placement="top">
-        <svg-icon iconName="logout" class="header-icon logout" @click="logout" />
+        <svg-icon iconName="登出" class="header-icon logout" @click="logout" />
       </el-tooltip>
       <span @click="returnTop" class="progress" :class="progress == '100' ? 'is-progress-full' : ''"
         >{{ progress }}
@@ -66,25 +66,26 @@
       </span>
     </div>
   </div>
-  <SideSetting :isHideen="false"></SideSetting>
+
   <searchDialog v-if="searchVisible" @close="close"></searchDialog>
 </template>
 
 <script setup lang="ts">
 import { ElMessageBox } from 'element-plus';
 import { ref, onMounted, watch } from 'vue';
-import { listBlog } from '@/api/blog';
+import { getRandomBlog } from '@/api/blog';
 import { vMiniWeather, vMiniWeatherIcon } from 'vue3-mini-weather';
+import { autoClearTimer } from '@/utils/timer';
 import { useRouter, onBeforeRouteUpdate } from 'vue-router';
 import useUserStore from '@/store/modules/user';
-import SideSetting from '@/views/layout/sideSetting/index.vue';
+import useThemeStore from '@/store/modules/theme.ts';
+const themeStore = useThemeStore();
 const userStore = useUserStore();
 import commonLink from './components/commonLink.vue';
 import searchDialog from './components/searchDialog.vue';
-const router = useRouter();
+const router = useRouter() as any;
 const articleElement = ref(null as any);
 const progress = ref('0' as any);
-const blogList = ref([] as any);
 const isHideen = ref(false);
 const searchVisible = ref(false as any);
 const weatherData = ref({});
@@ -151,7 +152,40 @@ const menuData = ref([
       { label: '更新日志', icon: '', svgIcon: 'log', name: 'updateLog' }
     ]
   }
-]);
+] as any);
+
+const menuHeader = [
+  {
+    label: '博客',
+    value: 'blog',
+    children: []
+  },
+  {
+    label: '简介',
+    children: [],
+    value: 'intro'
+  },
+  {
+    label: '我的',
+    children: [],
+    value: 'user'
+  },
+  {
+    label: '组件',
+    children: [],
+    value: 'assembly'
+  },
+  {
+    label: '其他',
+    children: [],
+    value: 'other'
+  },
+  {
+    label: '关于',
+    children: [],
+    value: 'associate'
+  }
+];
 
 let headerBarMenu = document.querySelector('.header-bar-menu') as any;
 let headerBarTitle = document.querySelector('.header-bar-title-text') as any;
@@ -188,10 +222,10 @@ watch(
   val => {
     val;
     pageChange.value = false;
-    setTimeout(() => {
+    autoClearTimer(() => {
       pageChange.value = true;
     }, 200);
-    setTimeout(() => {
+    autoClearTimer(() => {
       let el = document.querySelector('.page-name') as any;
       if (el) el.classList.toggle('is-change');
     }, 1000);
@@ -205,7 +239,7 @@ const isWaveShow = ref(false as any);
 
 onBeforeRouteUpdate(to => {
   if (to.path === '/blogDisplay') isWaveShow.value = true;
-  (document as any).querySelector('.el-main').scrollTo({ top: 0 });
+  (document as any).querySelector('.el-main')?.scrollTo({ top: 0 });
 });
 
 function scrollEvent() {
@@ -226,17 +260,20 @@ function searchClick() {
   searchVisible.value = true;
 }
 
-function toRandom() {
-  if (!blogList.value) return;
-  router.push({
-    name: 'refresh'
-  });
-  setTimeout(() => {
+async function toRandom() {
+  const { data, code } = (await getRandomBlog()) as any;
+
+  if (code == 200) {
     router.push({
-      name: 'blogDisplay',
-      query: { blogId: blogList.value[Math.ceil(Math.random() * blogList.value.length)].blogId }
+      name: 'refresh'
     });
-  }, 100);
+    autoClearTimer(() => {
+      router.push({
+        name: 'blogDisplay',
+        query: { blogId: data }
+      });
+    }, 0);
+  }
 }
 
 /**
@@ -244,7 +281,7 @@ function toRandom() {
  * @return {*}
  */
 function returnTop() {
-  articleElement.value.scrollTo({ top: '0', behavior: 'smooth' });
+  articleElement.value?.scrollTo({ top: '0', behavior: 'smooth' });
 }
 
 function logout() {
@@ -256,7 +293,10 @@ function logout() {
     .then(() => {
       userStore.userId = '';
       userStore.userName = '';
-      window.localStorage.setItem('token', '');
+      userStore.token = '';
+      userStore.permission = [];
+      window.localStorage.setItem('userData', '');
+      themeStore.isShow = false;
       router.push({ name: 'login' });
     })
     .catch(() => {});
@@ -268,13 +308,23 @@ function clickMenu(item: any) {
   } else router.push({ name: item.name });
 }
 
+router.options.routes.forEach((route: any) => {
+  if (!route.meta) return;
+
+  const { icon, svgIcon, remark, parent } = route.meta;
+  if (icon || svgIcon) {
+    let parentMenu = menuHeader.find((x: any) => x.value == parent) as any;
+    parentMenu?.children.push({ label: remark, icon, svgIcon, name: route.name });
+  }
+});
+menuData.value = menuHeader;
+
 onMounted(() => {
   headerBarMenu = document.querySelector('.header-bar-menu') as any;
   headerBarTitle = document.querySelector('.header-bar-title-text') as any;
-  setTimeout(() => {
+  autoClearTimer(() => {
     // 监听滚动事件并更新样式
     window.addEventListener('scroll', scrollEvent, true);
-    console.log(weatherData.value);
   }, 1000);
 });
 </script>
@@ -322,7 +372,7 @@ onMounted(() => {
   .common-header {
     z-index: 999;
     position: absolute;
-    //animation: blur-to-clear 1.5s forwards linear;
+    // animation: re-slide-in 1.5s forwards linear;
     top: 0px;
     width: calc(100vw - 80px);
     padding: 0px 40px;
@@ -332,7 +382,7 @@ onMounted(() => {
     font-weight: bold;
     height: 56px;
     margin-bottom: 10px;
-    background: get('background');
+    background: get('back-tr');
     align-items: center;
     .page-name {
       width: 140px;
@@ -420,6 +470,7 @@ onMounted(() => {
     .header-name,
     .header-bar,
     .header-right {
+      color: inherit;
       display: flex;
       justify-content: center;
       .header-icon {
@@ -436,7 +487,7 @@ onMounted(() => {
         background: get('font-color');
         height: 100%;
         width: 100%;
-        border-radius: 10px;
+        border-radius: 25px;
         position: absolute;
         z-index: -1;
         padding: 4px;
@@ -477,7 +528,7 @@ onMounted(() => {
         height: 100%;
         &:before {
           content: ' ';
-          background: url(../../../assets/svg/main-white.svg) no-repeat;
+          background: url(../../../assets/svg/主页.svg) no-repeat;
           background-size: cover;
           height: 32px;
           width: 32px;
@@ -564,7 +615,7 @@ onMounted(() => {
           z-index: -1;
           left: 0px;
           top: 11px;
-          border-radius: 20px;
+          border-radius: 25px;
         }
       }
       .item-label {
@@ -644,7 +695,7 @@ onMounted(() => {
         //   width: 100px;
         //   height: 35px;
         //   background: get('bk');
-        //   border-radius: 20px;
+        //   border-radius: 12px;
         //   display: inline-block;
         //   position: absolute;
         //   left: 0px;
@@ -693,7 +744,7 @@ onMounted(() => {
         position: absolute;
         height: 30px;
         width: 30px;
-        border-radius: 15px;
+        border-radius: 8px;
         line-height: 30px;
         background: get('font-color');
         font-weight: bold;
@@ -786,7 +837,6 @@ onMounted(() => {
   .is-hidden {
     box-shadow: none;
     background: transparent;
-    backdrop-filter: blur(0px);
   }
 
   .setting {

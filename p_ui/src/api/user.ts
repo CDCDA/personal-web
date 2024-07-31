@@ -24,9 +24,8 @@ export const saveUser = (data: Object) =>
   });
 
 //验证token
-export const verifyToken = (params: Object) =>
+export const verifyToken = () =>
   request({
     url: '/pw/user/tokenVerify',
-    method: 'get',
-    params
+    method: 'get'
   });

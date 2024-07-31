@@ -56,6 +56,7 @@
 <script lang="ts" setup>
 import { reactive, ref, onMounted, watch } from 'vue';
 const isClose = ref(false as boolean);
+import { autoClearTimer } from '@/utils/timer';
 const FONT_SIZE = {
   samll: {
     icon: '16px',
@@ -102,10 +103,10 @@ onMounted(() => {
   if (state.loading.type == 'gear') {
     let container = (document as any).querySelector('.loading-gear') as any;
     if (container) {
-      setTimeout(() => {
+      autoClearTimer(() => {
         isClose.value = true;
       }, 1000);
-      setTimeout(() => {
+      autoClearTimer(() => {
         container.style.display = 'none';
       }, 3000);
     }

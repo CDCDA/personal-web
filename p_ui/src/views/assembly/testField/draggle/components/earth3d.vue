@@ -46,7 +46,7 @@ onMounted(() => {
     @include full();
     box-shadow: get('box-shadow');
     background: get('background');
-    border-radius: 15px;
+    border-radius: 8px;
   }
 }
 </style>

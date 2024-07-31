@@ -72,13 +72,9 @@ watch(
 
 async function submit() {
   console.log(form.value);
-  const { code, data } = (await saveUpdateLog(form.value)) as any;
+  const { code } = (await saveUpdateLog(form.value)) as any;
   if (code == 200) {
-    ElNotification({
-      title: 'Success',
-      message: '保存成功',
-      type: 'success'
-    });
+    ElNotification.success('保存成功');
     emit('getList');
     emit('close');
   }

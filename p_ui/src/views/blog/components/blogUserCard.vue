@@ -2,7 +2,7 @@
  * @Description: 作者信息卡
 -->
 <template>
-  <div class="blog-user-card c-card">
+  <div class="blog-user-card c-card" ref="blogUserCard" id="blog-user-card">
     <div class="filter-bg">
       <div class="user-header">熬夜成仙吧</div>
       <div class="user-avatar">
@@ -17,31 +17,36 @@
           </el-tooltip>
         </div>
         <div class="footer-rightSide">
-          <svg-icon iconName="weixin" class="footer-icon weixin" @click="toQrCode"></svg-icon>
+          <svg-icon iconName="微信" class="footer-icon weixin" @click="toQrCode"></svg-icon>
           <svg-icon iconName="github" class="footer-icon github"></svg-icon>
         </div>
       </div>
     </div>
   </div>
 
-  <el-dialog class="weixin-qrcode" v-model="dialogVisible" width="300" :modal="false">
+  <c-dialog class="weixin-qrcode" v-model="dialogVisible" width="300" :modal="false">
     <c-image :src="weixinQrcodeUrl"></c-image>
-  </el-dialog>
+  </c-dialog>
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import useUserStore from '@/store/modules/user';
 import { getUserById } from '@/api/user';
-
+import { useLazyAppear } from '@/utils/lazy';
 const userStore = useUserStore();
 const userInfo = ref({} as any);
-
+const blogUserCard = ref(null) as any;
 const weixinQrcodeUrl = new URL(
   '@/assets/images/3ca475b86ed6c381f709391a8edf54af.jpg',
   import.meta.url
 ).href;
-
+const props = defineProps({
+  visibleLazy: {
+    type: Boolean,
+    default: true
+  }
+});
 const dialogVisible = ref(false);
 
 // 获取用户信息
@@ -57,34 +62,33 @@ function toQrCode() {
 }
 
 onMounted(() => {
+  console.log('ccc', userStore);
   getUserInfo(userStore.userId);
+  props.visibleLazy ? useLazyAppear(blogUserCard.value) : '';
 });
 </script>
 <style lang="scss" scoped>
 @include theme() {
   .filter-bg {
-    width: calc(100% - 40px);
-    height: 100%;
     background: transparent;
     backdrop-filter: blur(5px);
     padding: 20px;
     @include flex-column;
   }
-  .blog-user-card {
+  #blog-user-card {
     transition: cubic-bezier(0.075, 0.82, 0.165, 1) 0.4s;
     overflow: hidden;
     padding: 0px !important;
-    width: 300px !important;
+    width: calc(100%) !important;
     background: url('http://111.229.144.36:8008/Ruins.jpg') center 28% / cover no-repeat !important;
-
     color: get('re-font-color') !important;
     .user-header {
       height: 24px;
       width: fit-content;
       padding: 2px 20px;
-      border-radius: 15px;
+      border-radius: 8px;
       font-size: 15px;
-      margin: 25px 0px;
+      margin: 10px 0px 25px 0px;
       color: get('re-font-color');
       cursor: pointer;
       @include flex;
@@ -122,13 +126,13 @@ onMounted(() => {
       }
     }
     .user-footer {
-      height: 80px;
+      height: 60px;
       width: 100%;
       display: flex;
       justify-content: space-around;
       align-items: center;
 
-      margin: 20px 0px;
+      margin: 20px 0px 0px 0px;
       .footer-leftSide {
         @include flex-column;
         align-items: start;

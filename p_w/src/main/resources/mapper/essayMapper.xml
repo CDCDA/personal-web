@@ -26,6 +26,7 @@
         e.id,
         e.content,
         e.user_id,
+        e.tags,
         e.create_time
         from `essay` e
         <where>
@@ -41,6 +42,7 @@
         e.id,
         e.content,
         e.user_id,
+        e.tags,
         e.create_time
         from `essay` e
         <where>
@@ -78,8 +80,6 @@
             LIMIT ${(pageNum-1)*pageSize},${pageSize}
         </if>
     </select>
-
-
 
 
 </mapper>

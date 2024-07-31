@@ -2,7 +2,6 @@ import { defineAsyncComponent } from 'vue';
 
 // 动态加载脚本
 export function loadScript(url: any, callBack: any) {
-  console.log('QQQ', url);
   const script = document.createElement('script');
   script.src = url;
   script.type = 'text/javascript';
@@ -13,7 +12,7 @@ export function loadScript(url: any, callBack: any) {
 }
 
 // 动态删除脚本
-export function deleteScripts(scripts: any) {
+export function deleteScripts() {
   var scr = document.getElementsByTagName('script');
 }
 
@@ -49,4 +48,14 @@ export function getSyncComponent(options: Object) {
       }
     }
   });
+}
+
+// 复制
+export function copyText(text: String) {
+  const input = document.createElement('input') as any;
+  input.value = text;
+  document.body.appendChild(input);
+  input.select();
+  document.execCommand('copy');
+  document.body.removeChild(input);
 }

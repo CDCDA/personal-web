@@ -37,8 +37,8 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
 import { countBlogByDateRange, countBlog } from '@/api/blog.ts';
-import { getMonthStartDay, getMonthEndDay, getPreMonthDate } from '@/utils/date.ts';
 import useUserStore from '@/store/modules/user';
+import { useLazyAppear } from '@/utils/lazy';
 const total = ref(0 as any);
 const userStore = useUserStore();
 const countList = ref([] as any);
@@ -70,6 +70,7 @@ async function getBlogDateRangeCount() {
 onMounted(() => {
   getBlogCount();
   getBlogDateRangeCount();
+  useLazyAppear(document.querySelector('.blog-count-card') as any);
 });
 </script>
 <style lang="scss" scoped>
@@ -80,11 +81,11 @@ onMounted(() => {
       @include flex;
       width: 100%;
       justify-content: start;
-      font-size: 19px;
+      font-size: 17px;
       font-weight: bold;
       .el-icon {
         margin: 8px;
-        font-size: 22px;
+        font-size: 20px;
       }
     }
     .count-list {
@@ -97,7 +98,7 @@ onMounted(() => {
         color: #363636;
         border: 1px solid #b9b8b8;
         margin: 8px;
-        font-size: 18px;
+        font-size: 16px;
         width: calc(50% - 40px);
         .count-up {
           margin-bottom: 10px;
@@ -107,7 +108,7 @@ onMounted(() => {
         }
         .count-down {
           .count-count {
-            font-size: 24px;
+            font-size: 22px;
             font-weight: bold;
             margin-right: 5px;
           }

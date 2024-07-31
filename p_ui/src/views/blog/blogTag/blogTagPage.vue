@@ -15,8 +15,14 @@
         <span class="tag-item-count">{{ item.total }}</span>
       </div>
     </div>
-    <div class="c-divider" style="margin: 20px 9px"></div>
-    <div class="blog-list" v-cloading="loading">
+    <div class="c-divider" style="margin: 12px 32px 9px 32px"></div>
+    <div class="blog-list" :class="loading ? '' : ' slide-in'">
+      <div
+        v-if="loading"
+        class="blog-list-loading"
+        v-cLoading="loading"
+        :class="loading ? 'blog-list-loading-active' : ''"
+      ></div>
       <div class="blog-item" v-for="(item, i) in blogList" @click="toDetail(item)">
         <c-image class="blog-item-left-img" :src="item.coverUrl" />
         <div class="blog-item-right">
@@ -101,11 +107,14 @@ async function getBlogList() {
       e.tags.length > 5 ? (e.tags.length = 5) : '';
     });
     total.value = data.total;
-    tagList.value.unshift({
-      tagName: '全部',
-      isActive: false,
-      total: total.value
-    });
+    if (tagList.value[0].tagName !== '全部') {
+      tagList.value.unshift({
+        tagName: '全部',
+        isActive: false,
+        total: total.value
+      });
+    }
+    tagList.value[0].total = data.total;
     loading.value = false;
   } else {
     ElMessage.error('博客数据获取失败', msg);
@@ -134,20 +143,18 @@ onMounted(() => {
     }
   }
   .blog-tag-page.page-main {
-    padding: 20px;
-    width: calc(86% - 40px) !important;
-    border-radius: 15px;
-    background: get('background');
-    box-shadow: get('box-shadow');
+    justify-content: start;
+    display: flex;
+    flex-direction: column;
     position: relative;
     animation: fade-out 0.5s forwards linear;
     transition: all 0.5s ease-in-out;
     .pagi {
+      margin: 20px 7px;
+      width: calc(100% - 66px);
       position: absolute;
-      bottom: 10px;
-      left: 0px;
-      padding: 0px 20px;
-      width: calc(100% - 40px);
+      bottom: 0px;
+      left: 25px;
     }
     .page-right {
       width: 300px;
@@ -160,20 +167,20 @@ onMounted(() => {
       @include flex;
       justify-content: start;
       flex-wrap: wrap;
-      width: 100%;
-      margin-bottom: 10px;
+      width: calc(100% - 50px);
+      margin: 25px 25px 0px 25px;
       .header-tag-item {
         @include flex;
-        padding: 8px 15px;
-        margin: 5px 10px;
-        border-radius: 10px;
+        padding: 4px 5px;
+        margin: 5px 5px;
+        border-radius: 6px;
         color: #363636;
-        font-size: 18px;
+        font-size: 16px;
         background: white;
         cursor: pointer;
-        border: 1px solid #d1d1d1;
+        border: 3px solid get('border-color');
         .tag-item-prefix {
-          opacity: 0.4;
+          opacity: 0.6;
           font-weight: bold;
         }
         .tag-item-content {
@@ -182,8 +189,8 @@ onMounted(() => {
         }
         .tag-item-count {
           background: #f7f7f9;
-          padding: 0px 5px;
-          border-radius: 8px;
+          padding: 2px 3px;
+          border-radius: 4px;
           text-align: center;
           min-width: 21px;
           display: inline-block;
@@ -192,10 +199,8 @@ onMounted(() => {
       }
       .header-tag-item:hover,
       .header-tag-item.is-active {
-        background: get('bk');
+        background: get('border-color');
         color: white;
-        box-shadow: get('box-shadow');
-        border: none;
         .tag-item-count {
           color: get('font-color');
         }
@@ -207,15 +212,18 @@ onMounted(() => {
       flex-wrap: wrap;
       justify-content: start;
       margin-bottom: 55px; // min-height: calc(100% - 120px);
+      position: relative;
+      margin: 0px 25px 75px 25px;
+      min-height: calc(100% - 200px);
       .blog-item {
+        background: get('background-no-tp');
         cursor: pointer;
-        width: calc(50% - 20px);
+        width: calc(50% - 16px);
         position: relative;
         height: auto;
         margin-bottom: 20px;
-        margin: 10px;
-        background: white;
-        border-radius: 10px;
+        margin: 8px;
+        border-radius: 6px;
         transition: all 0.3s linear;
         display: flex;
         justify-content: center;
@@ -225,8 +233,8 @@ onMounted(() => {
         .blog-item-left-img {
           object-fit: cover;
           background-position: left 28%;
-          width: 170px;
-          height: 120px;
+          width: 140px;
+          height: 100px;
           border-radius: 8px;
           margin: 8px;
         }
@@ -239,7 +247,7 @@ onMounted(() => {
           .blog-title {
             font-size: 20px;
             font-weight: bold;
-            width: 100%;
+            width: 82%;
             margin: 5px 0px;
           }
           .tag-list {
@@ -290,7 +298,7 @@ onMounted(() => {
         }
       }
       .blog-item:hover {
-        transform: scale(1.03);
+        transform: scale(1.01);
       }
     }
   }
@@ -301,6 +309,19 @@ onMounted(() => {
     right: 31px;
     font-style: italic;
     font-size: 68px;
+  }
+  .blog-list-loading {
+    position: absolute !important;
+    width: calc(100% - 10px);
+    height: 100%;
+    top: 0;
+    left: 5px;
+    border-radius: 10px;
+    overflow: hidden;
+    min-height: calc(75vh - 32px);
+  }
+  .blog-list-loading-active {
+    z-index: 1;
   }
 }
 </style>

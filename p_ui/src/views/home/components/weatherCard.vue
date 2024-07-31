@@ -2,7 +2,7 @@
  * @Description: 天气卡
 -->
 <template>
-  <div class="weather-card c-card">
+  <div class="weather-card c-card" id="weather-card">
     <div class="background">
       <div class="container">
         <svg id="back">
@@ -73,14 +73,16 @@
 </template>
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
-import { cityCodeList } from './cityCode.ts';
+import { useLazyAppear } from '@/utils/lazy';
+import { autoClearTimer } from '@/utils/timer';
 const weatherData = ref({} as any);
 onMounted(() => {
   const script = document.createElement('script');
   script.src = '/weatherCard/script.js';
   script.type = 'text/javascript';
   document.body.appendChild(script);
-  setTimeout(() => {
+  useLazyAppear(document.querySelector('.weather-card') as any);
+  autoClearTimer(() => {
     let weather = (localStorage as any).getItem('weather');
     if (weather) {
       weatherData.value = JSON.parse(weather);
@@ -101,8 +103,8 @@ onMounted(() => {
 </script>
 <style lang="scss" scoped>
 @import url('/weatherCard/style.css');
-.c-card {
-  width: 300px !important;
+#weather-card.c-card {
   padding: 0px !important;
+  width: 280px !important;
 }
 </style>

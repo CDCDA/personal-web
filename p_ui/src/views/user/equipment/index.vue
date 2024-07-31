@@ -5,7 +5,7 @@
   <div class="page-main equipment-main">
     <div class="equipment-header animated bounceInDown">
       <video
-        :src="'http://111.229.144.36:8008/video_1800042575.mp4'"
+        :src="'/video/video_1800042575.mp4'"
         class="equipment-header-video"
         autoplay
         loop
@@ -79,10 +79,12 @@ onMounted(() => {
   .equipment-main {
     @include flex-column;
     justify-content: start;
+    background: transparent !important;
+    backdrop-filter: none !important;
     .equipment-header {
       height: 45vh;
       width: 100%;
-      border-radius: 20px;
+      border-radius: 12px;
       box-shadow: get('box-shadow');
       position: relative;
 
@@ -90,7 +92,7 @@ onMounted(() => {
         opacity: 0.95;
         height: 100%;
         width: 100%;
-        border-radius: 20px;
+        border-radius: 12px;
         background: url('http://111.229.144.36:8008/cyberpunk-city.jpg');
         background-size: left 28% / cover no-repeat;
         object-fit: cover;
@@ -131,7 +133,7 @@ onMounted(() => {
       .equipment-item {
         width: calc(25% - 20px);
 
-        border-radius: 20px;
+        border-radius: 12px;
         margin: 10px 0px;
         // opacity: 0.9;
         box-shadow: get('box-shadow');

@@ -19,6 +19,12 @@
   src: url(/font-family/Shark/优设鲨鱼菲特健康体.ttf);
 }
 
+// 网格
+//linear-gradient(90deg,rgba(60,10,30,.05) 5%,transparent 0),linear-gradient(1turn,rgba(60,10,30,.05) 5%,transparent 0)
+
+// 网格
+//linear-gradient(90deg,rgba(37,82,110,.1) 1px,var(--background) 0),linear-gradient(180deg,rgba(37,82,110,.1) 1px,var(--background) 0)
+
 * {
   scrollbar-width: initial;
   scrollbar-color: initial;
@@ -36,11 +42,11 @@
     transparent 0,
     transparent
   );
-  border-radius: 1em;
+  border-radius: 4px;
 }
 
 ::-webkit-scrollbar {
-  width: 10px; /* 修改宽度 */
+  width: 8px; /* 修改宽度 */
 }
 
 input {
@@ -49,15 +55,17 @@ input {
 
 // 卡片外圈样式
 .c-card {
-  width: 280px;
+  width: 260px;
   background: get('background');
+  backdrop-filter: blur(5px);
   box-shadow: get('box-shadow');
   color: get('font-color');
-  border-radius: 15px;
+  border-radius: 8px;
   margin-bottom: 20px;
   padding: 12px 10px 10px 10px;
   transition: cubic-bezier(0.71, 0.15, 0.16, 1.15) 0.5s;
   overflow: hidden;
+  backdrop-filter: blur(20px);
 }
 .c-card:hover {
   // transform: scale(1.02);
@@ -70,16 +78,32 @@ input {
   border-bottom: 2px dashed #979494;
   margin: 10px 0px;
 }
+
 .page-main {
   width: 90%;
-  margin: 60px 5% 0px 5%;
-  min-height: calc(100vh - 60px);
-  // background-image: url('@/assets/png/beer.png');
-  background-repeat: no-repeat;
-  object-fit: cover;
-  background-size: 12% auto;
-  background-position: 100% 98%;
+  max-width: 1200px;
+  margin: 60px auto 0px auto;
+  min-height: calc(100vh - 75px);
+  border-radius: 10px;
+  animation: slide-in 1s forwards ease;
+  background: get('back-tr');
+  backdrop-filter: blur(5px);
+  position: relative;
+  box-shadow: get('box-shadow');
 }
+
+// .page-main::before {
+//   content: '';
+//   background: transparent;
+//   position: absolute;
+//   width: 100%;
+//   height: 100%;
+//   border-radius: 10px;
+//   backdrop-filter: blur(20px);
+//   top: 0;
+//   left: 0;
+//   z-index: -1;
+// }
 
 .page-main-full {
   width: 100%;
@@ -129,9 +153,11 @@ input {
 
 .is-show.common-header {
   color: get('font-color') !important;
+  backdrop-filter: blur(15px);
   .theme-icon {
     fill: get('font-color') !important;
   }
+  box-shadow: get('box-shadow');
 }
 
 .blog-info-footer {
@@ -213,15 +239,10 @@ input {
 
 /* 管理 -- 结束 */
 .manage {
-  .el-dialog__header {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
   .manage-main {
-    height: 100%;
+    height: calc(100% - 10px);
     width: calc(100% - 40px);
-    padding: 15px 20px;
+    padding: 10px 20px 0px 20px;
     position: relative;
     display: flex;
     flex-direction: column;
@@ -229,73 +250,31 @@ input {
   }
 
   .c-pagination {
-    width: calc(100% - 40px) !important;
+    width: calc(100% - 36px) !important;
     position: absolute;
-    bottom: 39px;
+    bottom: 6px;
   }
   .c-divider {
     margin: 0px 0px 15px 0px !important;
     width: calc(100% - 0px) !important;
+    animation: re-slide-in 1s forwards ease;
   }
-  .el-table {
-    .el-image {
-      width: 120px;
-      height: 80px;
-      box-shadow: get('box-shadow');
-      margin: 3px;
-    }
-  }
-
-  @keyframes hidden {
-    0% {
-      height: 95px;
-    }
-    100% {
-      height: 0px;
-    }
-  }
-  @keyframes show {
-    0% {
-      height: 0px;
-    }
-    100% {
-      height: 95px;
-    }
-  }
-  @keyframes table-show {
-    0% {
-      height: calc(100% - 140px);
-    }
-    100% {
-      height: calc(100% - 255px);
-    }
-  }
-  @keyframes table-hidden {
-    0% {
-      height: calc(100% - 270px);
-    }
-    100% {
-      height: calc(100% - 140px);
-    }
-  }
-
   .manage-query-form {
     text-align: left;
     overflow: hidden;
-    animation: show 0.4s linear forwards;
     padding-top: 10px;
+    margin-bottom: 5px;
+    animation: re-slide-in 1s forwards ease;
   }
   .is-hidden {
     .manage-query-form {
-      animation: hidden 0.4s linear forwards;
-    }
-    .manage-table {
-      transition: all 0.4s linear;
-      animation: table-hidden 0.4s linear forwards;
+      display: none;
     }
     .c-divider {
-      animation: fade-out 0.4s linear forwards;
       display: none;
+    }
+    .manage-button-group {
+      margin: 12px 0px;
     }
   }
 
@@ -313,12 +292,19 @@ input {
     }
   }
   .manage-table {
-    width: calc(100% - 0px);
+    width: calc(100% - 36px);
     height: calc(100% - 270px);
-    animation: table-show 0.4s linear forwards;
+    height: calc(100% - 167px);
+    position: absolute;
+    bottom: 62px;
     .el-image {
       border-radius: 4px;
+      width: 120px;
+      height: 80px;
+      box-shadow: get('box-shadow');
+      margin: 3px;
     }
+    transition: all 0.4s ease-in-out;
   }
   .operation-icon {
     font-size: 20px;

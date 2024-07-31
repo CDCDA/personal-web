@@ -23,8 +23,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import lightButton from '@/components/buttons/lightButton.vue';
-import { techStackData, techStackList } from '@/utils/techStackData.js';
+import { techStackData, techStackList } from '@/utils/techStackData.ts';
 import cardFlip from '@/components/cardFlip/index.vue';
 </script>
 
@@ -55,7 +54,7 @@ import cardFlip from '@/components/cardFlip/index.vue';
   // background: get('bk');
   .stack-tag {
     border: 1px solid #d1d1d1;
-    border-radius: 20px;
+    border-radius: 12px;
     padding: 5px 20px;
     margin: 10px;
     background: white;

@@ -5,7 +5,7 @@
   <div class="page-main music-main">
     <div class="music-song animated c-left">
       <div class="music-header">
-        <span>歌单</span><svg-icon iconName="handover" @click="changeSearch"> </svg-icon>
+        <span>歌单</span><svg-icon iconName="切换" @click="changeSearch"> </svg-icon>
       </div>
       <div class="music-search" v-if="isSearch">
         <el-input v-model="searchText"></el-input>
@@ -163,7 +163,7 @@ onMounted(() => {
 }
 .music-song {
   width: calc(100% - 540px);
-  border-radius: 15px;
+  border-radius: 8px;
   padding: 10px;
   height: calc(100vh - 100px);
   overflow: auto;
@@ -206,7 +206,7 @@ onMounted(() => {
 //     <div class="music-player"></div>
 .music-info {
   width: 460px;
-  border-radius: 15px;
+  border-radius: 8px;
   height: calc(100vh - 140px);
   // border: 1px solid;
   padding: 30px 20px;

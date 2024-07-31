@@ -4,11 +4,11 @@
 import type { AxiosInstance, InternalAxiosRequestConfig, AxiosResponse } from 'axios';
 import axios from 'axios';
 import useUserStore from '@/store/modules/user';
-import { ElMessageBox, ElMessage } from 'element-plus';
-const user = useUserStore();
+import { ElMessageBox, ElNotification } from 'element-plus';
+var user = window.localStorage.getItem('userData') as any;
+if (user) user = JSON.parse(user);
 import router from '@/router/index';
 axios.defaults.headers['Content-Type'] = 'application/json;charset=utf-8';
-
 // 创建axios实例
 const service: AxiosInstance = axios.create({
   baseURL: process.env.NODE_ENV === 'development' ? '/dev-api' : '/prod-api',
@@ -18,7 +18,10 @@ const service: AxiosInstance = axios.create({
 // 请求拦截器
 service.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
-    config.headers.Authorization = `${user.token || window.localStorage.getItem('token')}`;
+    if (!user) {
+      user = useUserStore();
+    }
+    config.headers.Authorization = `${user.token}`;
     return config;
   },
 
@@ -29,27 +32,27 @@ service.interceptors.request.use(
 
 // 响应拦截器
 service.interceptors.response.use(
-  (response: AxiosResponse) => {
-    if ((response as any).data.code === 401) {
-      ElMessageBox.confirm('登录状态已过期，您可以继续留在该页面，或者重新登录', '系统提示', {
+  (response: any) => {
+    if (response.data.code === 401) {
+      ElMessageBox.alert('登录状态已过期，您可以继续留在该页面，或者重新登录', '系统提示', {
         confirmButtonText: '重新登录',
-        cancelButtonText: '取消',
-        type: 'warning'
+        type: 'warning',
+        showClose: false
       })
         .then(() => {
           router.push({ name: 'login' });
         })
         .catch(() => {});
-    } else if ((response as any).data.code === 500) {
-      ElMessage.error((response as any).data.msg);
-    } else if ((response as any).data.code === 403) {
-      ElMessage.error((response as any).data.msg);
+    } else if (response.data.code === 500) {
+      ElNotification.error(response.data.msg || '无法连接到服务器');
+    } else if (response.data.code === 403) {
+      ElNotification.error(response.data.msg);
     }
     return response.data;
   },
   error => {
     Promise.reject(error);
-    ElMessage.error(error.response);
+    ElNotification.error(error.response);
     return error.response;
   }
 );

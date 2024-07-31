@@ -7,7 +7,6 @@
       class="setting-item"
       :class="menu.isShow ? 'is-show' : ''"
       @click="clickMenu(menu)"
-      v-permission="!menu.isShow ? 'show' : ''"
       v-for="menu in menuData"
     >
       <el-tooltip
@@ -44,43 +43,43 @@ const isThemeDialogShow = ref(false as any);
 const isAddLogShow = ref(false as any);
 const menuData = ref([
   {
-    iconName: 'blog',
+    iconName: '博客',
     tip: '发布博客',
     value: 'blog',
     isShow: false
   },
   {
-    iconName: 'edit',
+    iconName: '编辑',
     tip: '发布随笔',
     value: 'edit',
     isShow: false
   },
   {
-    iconName: 'skin',
+    iconName: '皮肤',
     tip: '皮肤选择',
     value: 'skin',
     isShow: true
   },
   {
-    iconName: 'setting',
+    iconName: '设置',
     tip: '更多设置',
     value: 'setting',
     isShow: true
   },
   {
-    iconName: 'up',
+    iconName: '上-实心三角',
     tip: '回到顶部',
     value: 'up',
     isShow: true
   },
   {
-    iconName: 'down',
+    iconName: '下-实心三角',
     tip: '直达底部',
     value: 'down',
     isShow: true
   },
   {
-    iconName: 'log',
+    iconName: '日志',
     tip: '新增日志',
     value: 'log',
     isShow: false

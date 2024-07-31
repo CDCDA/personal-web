@@ -62,6 +62,8 @@ const welcomeSrc = new URL('@/assets/svg/welcome.svg', import.meta.url).href;
   .personal-profile-main {
     @include flex-column;
     justify-content: start;
+    background: transparent !important;
+    backdrop-filter: none !important;
     .ps-welcome {
       width: 100%;
       height: 300px;

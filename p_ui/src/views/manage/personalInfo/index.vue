@@ -4,27 +4,41 @@
 <template>
   <div class="personal-page">
     <div class="user-info">
-      <c-image
-        class="user-avatar"
-        v-if="!isEdit"
-        style="width: 100px; height: 100px"
-        :src="userInfo.avatar"
-      />
-      <upload
-        class="user-avatar-upload"
-        v-else
-        style="width: 100px; height: 100px"
-        v-model="userInfo.avatar"
-      />
+      <c-image class="user-info-back" src="http://111.229.144.36:8008/Ruins.jpg" />
+
       <div class="info">
-        <div class="nickName">{{ userInfo.nickName }}</div>
-        <div class="account">{{ userInfo.account }}</div>
-        <div class="createTime" style="margin-top: 5px">
-          入站时间：{{ formatDate(new Date(userInfo.createTime), 'YY-MM') }}
+        <div class="info-column" style="flex-direction: row; width: calc(40% - 20px)">
+          <c-image
+            class="user-avatar"
+            v-if="!isEdit"
+            style="width: 100px; height: 100px"
+            :src="userInfo.avatar"
+          />
+          <upload
+            class="user-avatar-upload"
+            v-else
+            style="width: 100px; height: 100px"
+            v-model="userInfo.avatar"
+          />
+          <div>
+            <div class="nickName">{{ userInfo.nickName }}</div>
+            <div class="account">{{ userInfo.account }}</div>
+            <div class="createTime" style="margin-top: 5px">
+              入站时间：{{ formatDate(new Date(userInfo.createTime), 'YY-MM') }}
+            </div>
+          </div>
+        </div>
+        <div class="info-column">
+          <div class="blog-count"></div>
+          <div class="type-count"></div>
+        </div>
+        <div class="info-column">
+          <div class="tag-count">{{ userInfo.nickName }}</div>
+          <div class="essay-count">{{ userInfo.account }}</div>
         </div>
       </div>
     </div>
-    <el-divider style="width: calc(100% - 20px); margin: 0px 10px"></el-divider>
+    <!-- <el-divider style="width: calc(100% - 20px); margin: 0px 10px"></el-divider> -->
     <el-form ref="formRef" class="info-form" label-width="70" :rules="rules" :model="form">
       <el-tooltip content="编辑" placement="top">
         <el-icon class="edit" @click="showEdit">
@@ -126,18 +140,29 @@ onMounted(() => {
       display: flex;
       justify-content: start;
       align-items: center;
-      margin: 20px;
+      position: relative;
+      padding: 20px 20px 20px 0px;
+      width: calc(100% - 19px);
+      height: 30vh;
+      color: white;
+      .user-info-back {
+        position: absolute;
+        width: 100%;
+        filter: brightness(90%);
+        height: 100%;
+      }
       .user-avatar {
         border-radius: 5px;
         margin-right: 20px;
       }
       .info {
         display: flex;
-        flex-direction: column;
         justify-content: space-between;
-        align-items: start;
-        margin-left: 50px;
+        align-items: center;
+        z-index: 1;
         height: 100%;
+        width: 100%;
+        margin-left: 20px;
       }
     }
     .info-form {
@@ -198,6 +223,42 @@ onMounted(() => {
     .createTime {
       font-size: 16px;
     }
+  }
+  .info-column {
+    width: 30%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .info-column:nth-child(1) {
+    box-shadow: 0 1px 2px rgba(195, 195, 195, 0.6);
+    background: transparent;
+    backdrop-filter: blur(10px);
+    border-radius: 8px;
+  }
+  .blog-count,
+  .type-count,
+  .tag-count,
+  .essay-count {
+    width: calc(100% - 10px);
+    height: calc(50% - 10px);
+    box-shadow: 0 1px 2px rgba(195, 195, 195, 0.6);
+    background: transparent;
+    backdrop-filter: blur(10px);
+    border-radius: 8px;
+  }
+  .blog-count {
+    margin: 0px 10px 5px 10px;
+  }
+  .type-count {
+    margin: 5px 10px 0px 10px;
+  }
+  .tag-count {
+    margin: 0px 10px 5px 10px;
+  }
+  .essay-count {
+    margin: 5px 10px 0px 10px;
   }
 }
 </style>

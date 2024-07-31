@@ -1,8 +1,9 @@
 import { Directive } from 'vue';
+import { autoClearTimer } from '@/utils/timer';
 // 拖拽的指令
 export const cDrag: Directive = {
   mounted(el: any, binding: any) {
-    setTimeout(() => {
+    autoClearTimer(() => {
       const dialogHeaderEl = el.querySelector('.el-dialog__header');
       const dragDom = binding.value && binding.value.dragSelf ? el : el.querySelector('.el-dialog');
       dialogHeaderEl.style = 'cursor:move;';
@@ -13,7 +14,8 @@ export const cDrag: Directive = {
         const disX = e.clientX - dialogHeaderEl.offsetLeft;
         const disY = e.clientY - dialogHeaderEl.offsetTop;
         // 获取到的值带px 正则匹配替换
-        let styL, styT;
+        let styL = 0 as any;
+        let styT = 0 as any;
         if (sty.left.includes('%')) {
           styL = +document.body.clientWidth * (+sty.left.replace(/\%/g, '') / 100);
           styT = +document.body.clientHeight * (+sty.top.replace(/\%/g, '') / 100);
@@ -21,7 +23,6 @@ export const cDrag: Directive = {
           styL = +sty.left.replace(/\px/g, '');
           styT = +sty.top.replace(/\px/g, '');
         }
-        var time = null as any;
         document.onmousemove = (e: MouseEvent) => {
           // 通过事件委托，计算移动的距离
           const l = e.clientX - disX;

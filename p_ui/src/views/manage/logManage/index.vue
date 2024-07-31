@@ -26,7 +26,7 @@
       </el-form-item>
     </el-form>
     <div class="c-divider"></div>
-    <el-row :gutter="10" class="mb8" style="margin-bottom: 15px">
+    <el-row :gutter="10" class="manage-button-group" style="margin-bottom: 15px">
       <el-col :span="1.5">
         <el-button log="primary" plain icon="Plus" @click="handleAdd">新增</el-button>
       </el-col>
@@ -52,7 +52,7 @@
       </el-col>
       <div class="manage-tools">
         <svg-icon iconName="refresh" @click="getList()"></svg-icon>
-        <svg-icon iconName="hideMenu" @click="hideSearch()"></svg-icon>
+        <svg-icon iconName="隐藏菜单" @click="hideSearch()"></svg-icon>
       </div>
     </el-row>
     <el-table
@@ -94,11 +94,10 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import { listUpdateLog, delUpdateLog } from '@/api/updateLog.ts';
-import { useRouter } from 'vue-router';
 import Pagination from '@/components/pagination/index.vue';
 import { ElNotification, ElMessageBox } from 'element-plus';
 import addLog from '@/views/layout/sideSetting/components/addLog.vue';
-const router = useRouter();
+import { useTableResize } from '@/utils/manage';
 const addLogOpen = ref(false);
 const queryParams = ref({
   operation: '',
@@ -185,9 +184,11 @@ async function handleDel() {
 
 function hideSearch() {
   isSearchShow.value = !isSearchShow.value;
+  useTableResize();
 }
 onMounted(() => {
   getList();
+  useTableResize();
 });
 </script>
 <style lang="scss" scoped>

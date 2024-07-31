@@ -73,6 +73,13 @@ public class BlogController extends BaseController implements convertController 
         return resultData(blog);
     }
 
+    @GetMapping("/getRandomBlog")
+    @ApiOperation(value = "获取随机博客", notes = "", httpMethod = "GET")
+    public Result getRandomBlog() {
+        String blogId = blogService.getRandomBlog();
+        return resultData(blogId);
+    }
+
     @UserLoginToken
     @PostMapping("/save")
     @ApiOperation(value = "保存或修改博客", notes = "", httpMethod = "POST")

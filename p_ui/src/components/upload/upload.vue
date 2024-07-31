@@ -22,9 +22,9 @@
   >
     <el-icon><Plus /></el-icon>
   </el-upload>
-  <el-dialog v-model="dialogVisible" style="width: 100%; height: 100%; position: absolute">
+  <c-dialog v-model="dialogVisible" style="width: 100%; height: 100%; position: absolute">
     <c-image :src="dialogImageUrl" />
-  </el-dialog>
+  </c-dialog>
 </template>
 <script setup lang="ts">
 import { ref, nextTick, onMounted, watch } from 'vue';
@@ -47,7 +47,7 @@ const handleAvatarSuccess: UploadProps['onSuccess'] = (response: any) => {
   else ElMessage.error('上传失败');
 };
 
-const beforeAvatarUpload: UploadProps['beforeUpload'] = rawFile => {
+const beforeAvatarUpload: UploadProps['beforeUpload'] = () => {
   // if (rawFile.type !== 'image/jpeg') {
   //   ElMessage.error('Avatar picture must be JPG format!');
   //   return false;

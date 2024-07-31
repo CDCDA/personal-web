@@ -5,6 +5,7 @@ import com.pw.common.controller.BaseController;
 import com.pw.common.controller.convertController;
 import com.pw.common.utils.Result;
 import com.pw.common.utils.SnowFlake;
+import com.pw.common.utils.TokenUtil;
 import com.pw.domain.Album;
 import com.pw.domain.ImageRelation;
 import com.pw.dto.AlbumDTO;
@@ -56,7 +57,8 @@ public class AlbumController extends BaseController implements convertController
     @ApiOperation(value = "保存或修改相册", notes = "", httpMethod = "POST")
     public Result save(@RequestBody Album album) {
         List<String> urls = new ArrayList<>();
-        List<ImageRelation> imageRelationList = album.getImageRelations();
+        album.setUserId(TokenUtil.getTokenUserId());
+        List<ImageRelation> imageRelationList = album.getImages();
         if (ObjectUtils.isNotEmpty(album.getId())) {
             albumService.updateById(album);
             QueryWrapper<ImageRelation> wrapper = new QueryWrapper<>();

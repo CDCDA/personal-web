@@ -59,6 +59,10 @@ public class BlogVO {
     @ApiModelProperty(value = "作者")
     private String author;
 
+    //0：否，1：是
+    @ApiModelProperty(value = "是否推荐")
+    private String isRecommend;
+
     @ApiModelProperty(value = "创建时间")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")

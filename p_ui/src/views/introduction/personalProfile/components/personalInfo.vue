@@ -38,7 +38,7 @@
     position: relative;
     .glossary {
       padding: 3px 15px;
-      border-radius: 20px;
+      border-radius: 12px;
       // box-shadow: get('box-shadow');
       border: 1px solid #d1d1d1;
       background: white;

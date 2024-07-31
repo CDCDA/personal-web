@@ -3,15 +3,6 @@
 -->
 <template>
   <div class="sidebar" :class="isShowMenu ? 'is-show' : ''">
-    <!-- <i class="cover-top"></i>
-    <i class="cover-center"></i>
-    <i class="cover-bottom"></i> -->
-    <!-- <div class="menu-count-wrap" @click="isShowMenu = true">
-      <span class="menu-count-title">菜单<svg-icon iconName="down-black"></svg-icon></span>
-      <div class="menu-count">
-        <span>{{ menuList.length }}</span>
-      </div>
-    </div> -->
     <ul class="sidebar-main">
       <li
         class="sidebar-main-item"
@@ -20,7 +11,7 @@
         @click="menuClick(item)"
       >
         {{ item.meta.remark }}
-        <svg-icon class="sidebar-item-icon" iconName="right-double"></svg-icon>
+        <svg-icon class="sidebar-item-icon" iconName="右-双层"></svg-icon>
       </li>
     </ul>
   </div>
@@ -39,7 +30,7 @@ function menuClick(item: any) {
 }
 
 onMounted(() => {
-  menuList.value = (router.options.routes[1] as any).children[1].children;
+  menuList.value = (router.options.routes as any).find((x: any) => x.name == 'manage').children;
   if (menuList.value.length > 0) {
     activeMenu.value = menuList.value[0];
     router.push({ name: activeMenu.value.name });

@@ -1,4 +1,7 @@
 <!--
+ * @Description:  
+-->
+<!--
  * @Description: 美食
 -->
 <template>
@@ -15,10 +18,14 @@ onMounted(() => {});
 
 <style lang="scss" scoped>
 @include theme() {
+  .gourmet-main {
+    background: transparent !important;
+    backdrop-filter: none !important;
+  }
   .gourmet-top {
     width: 100%;
     height: 45vh;
-    border-radius: 15px;
+    border-radius: 8px;
     overflow: hidden;
   }
 }

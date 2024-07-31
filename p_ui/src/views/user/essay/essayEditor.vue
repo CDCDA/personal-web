@@ -22,9 +22,9 @@
       </el-form-item>
       <el-form-item label="随笔图片">
         <upload v-model="essayData.imageRelations"></upload>
-        <el-dialog v-model="dialogVisible">
+        <c-dialog v-model="dialogVisible">
           <img w-full :src="dialogImageUrl" alt="Preview Image" />
-        </el-dialog>
+        </c-dialog>
       </el-form-item>
       <el-form-item label="常用标签">
         <el-tag v-for="tag in commonUseTags" class="tag-item" @click.native="addTag(tag)">
@@ -192,9 +192,8 @@ onMounted(() => {
   .essay-editor {
     background: get('background');
     box-shadow: get('box-shadow');
-    border-radius: 15px;
     padding: 30px;
-    width: calc(90% - 60px) !important;
+    width: calc(80% - 60px) !important;
     min-height: calc(100% - 150px) !important;
     position: relative;
     display: flex;

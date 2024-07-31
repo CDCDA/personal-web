@@ -12,6 +12,7 @@
                 <c-image :src="scope.row.coverUrl" />
               </template>
             </el-image>
+            <div class="type-count">{{ item.total }}<span>篇</span></div>
             <div class="type-info">
               <h1>{{ item.typeName }}</h1>
               <p>{{ item.intro }}</p>
@@ -26,7 +27,7 @@
 <script setup lang="ts">
 import HoverTilt from '@/components/hoverTilt/index.vue';
 import { onMounted, ref } from 'vue';
-import { listType } from '@/api/type';
+import { listTotalType } from '@/api/type';
 import useUserStore from '@/store/modules/user';
 import { useRouter } from 'vue-router';
 import { getAnimateTime } from '@/utils/animate.ts';
@@ -35,7 +36,7 @@ const userStore = useUserStore();
 const typeList = ref([] as any);
 
 async function getTypeList() {
-  const { code, msg, data } = (await listType({})) as any;
+  const { code, msg, data } = (await listTotalType({})) as any;
   if (code === 200 && data) {
     typeList.value = data.list;
   }
@@ -51,11 +52,12 @@ onMounted(() => {
 </script>
 <style lang="scss" scoped>
 @include theme() {
-  .blog-type {
+  .blog-type.page-main {
     display: flex;
     background: get('background');
     box-shadow: get('box-shadow');
-    border-radius: 15px;
+    border-radius: 8px;
+    min-height: 100% !important;
     transform-style: preserve-3d;
     .type-list {
       width: calc(100% - 40px);
@@ -92,6 +94,22 @@ onMounted(() => {
           background-repeat: no-repeat;
           background-position: left 28%;
           object-fit: cover;
+        }
+      }
+      .type-count {
+        padding: 15px 18px;
+        position: absolute;
+        color: #fff;
+        top: 0px;
+        right: -70px;
+        font-size: 25px;
+        font-weight: 700;
+        text-shadow: rgba(0, 0, 0, 0.1) 0 10px 10px;
+        transition: 0.6s 0.2s cubic-bezier(0.215, 0.61, 0.355, 1);
+        span {
+          margin-left: 5px;
+          font-size: 18px;
+          font-weight: 700;
         }
       }
       .type-info {
@@ -137,9 +155,12 @@ onMounted(() => {
         transition: 0.8s cubic-bezier(0.445, 0.05, 0.55, 0.95);
       }
       .type-info {
-        transition: 1s cubic-bezier(0.23, 1, 0.32, 1);
+        // transition: 1s cubic-bezier(0.23, 1, 0.32, 1);
         opacity: 1;
-        transform: translateY(0);
+        transform: translateY(10%);
+      }
+      .type-count {
+        right: 0px;
       }
     }
   }

@@ -3,11 +3,8 @@
 -->
 <template>
   <div class="page-main slice-main">
-    <div class="slice-header" style="width: 100%; height: 30px; display: flex">
-      <svg-icon
-        iconName="grinding"
-        style="width: 30px; height: 30px; margin-right: 15px"
-      />一些小组件
+    <div class="slice-header">
+      <svg-icon iconName="研磨" style="width: 30px; height: 30px; margin-right: 15px" />一些小组件
     </div>
     <div class="slice-center">
       <div class="slice-item" v-for="(item, i) in sliceList" @click="toSlice(item)">
@@ -61,6 +58,19 @@ const sliceList = ref([
     routerName: 'rollText',
     introduction: '文字滚动',
     url: 'http://111.229.144.36:8008/文字滚动.png'
+  },
+  {
+    label: '心型加载',
+    routerName: 'heartLoading',
+    introduction: '心型加载',
+    url: 'http://111.229.144.36:8008/心型加载.png'
+  },
+
+  {
+    label: '雨',
+    routerName: 'neonRain',
+    introduction: '雨',
+    url: 'http://111.229.144.36:8008/雨.png'
   }
 ] as any);
 
@@ -108,31 +118,31 @@ function getAnimate(i: any) {
     }
     @include flex-column;
     background: get('background');
-    border-radius: 15px;
+    border-radius: 8px;
     justify-content: start;
-    padding: 30px;
-    width: calc(90% - 60px) !important;
     .slice-header {
-      height: 60px;
-      width: calc(100% - 120px);
+      height: 30px;
+      width: calc(100% - 80px);
       text-align: left;
       font-size: 22px;
       font-weight: bold;
-      padding: 12px 30px;
-      margin-left: 25px;
+      padding: 12px 0px 5px 0px;
+      margin: 25px auto 0px auto;
+      display: flex;
     }
     .slice-center {
       display: flex;
       flex-wrap: wrap;
       justify-content: start;
       align-items: center;
-      width: 100%;
-      padding: 10px 20px;
+      width: calc(100% - 60px);
+      padding: 10px 0px 30px 0px;
+      margin: 0px auto;
       .slice-item {
         animation: fade-in 0.5s linear forwards;
         margin: 10px 10px;
         cursor: pointer;
-        width: calc(32% - 20px);
+        width: calc(33.33% - 20px);
         aspect-ratio: 5/3.2;
         border-radius: 8px;
         overflow: hidden;
@@ -176,7 +186,7 @@ function getAnimate(i: any) {
           position: absolute;
           top: 35%;
           left: 25px;
-          transform: translate3d(300%, 0, 0);
+          transform: translate3d(500px, 0, 0);
         }
 
         // .instoction-cover {
@@ -192,7 +202,7 @@ function getAnimate(i: any) {
         transform: scale(1.02);
         @keyframes instoction-in {
           0% {
-            transform: translate3d(300%, 0, 0);
+            transform: translate3d(500px, 0, 0);
           }
           100% {
             transform: translate3d(0%, 0, 0);

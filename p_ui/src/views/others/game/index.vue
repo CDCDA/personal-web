@@ -14,7 +14,7 @@
     </div>
     <div class="game-center">
       <div class="divider c-left animated-0s5">
-        <svg-icon iconName="singlePlayerGame-white" /> 单机游戏<span
+        <svg-icon iconName="手柄" /> 单机游戏<span
           >我不知道我是谁，不知道我在哪，我只知道我要大开杀戒了</span
         >
       </div>
@@ -34,7 +34,7 @@
         </div>
       </div>
       <div class="divider c-left animated-0s5">
-        <svg-icon iconName="mobileGame-black" />
+        <svg-icon iconName="手机" />
         手机游戏<span>打发时间，遗憾的是我是个上线即下线的老咸鱼</span>
       </div>
       <div class="single-game-list">
@@ -207,6 +207,10 @@ onMounted(() => {
 
 <style lang="scss" scoped>
 @include theme() {
+  .game-main {
+    background: transparent !important;
+    backdrop-filter: none !important;
+  }
   .game-top {
     height: 45vh;
     @include flex;
@@ -223,7 +227,7 @@ onMounted(() => {
       flex: 7;
       transition: all 0.4s linear;
       img {
-        filter: brightness(100%);
+        // filter: brightness(100%);
       }
     }
     .game-top-item {
@@ -238,7 +242,6 @@ onMounted(() => {
         height: 100%;
         object-fit: cover;
         background-position: center;
-        filter: brightness(60%);
       }
       &:last-child {
         margin-right: 0px;
@@ -290,14 +293,15 @@ onMounted(() => {
       cursor: pointer;
       padding: 5px 3px;
       box-shadow: get('box-shadow');
-      height: 300px;
+      // height: 300px;
+      aspect-ratio: 7/6;
       @include flex-column;
       justify-content: start;
       overflow: hidden;
       .el-image {
         width: calc(100% - 6px);
         border-radius: 8px;
-        aspect-ratio: 5/3;
+        aspect-ratio: 7/4;
         object-fit: cover;
         background-position: center;
       }
@@ -319,12 +323,12 @@ onMounted(() => {
       color: get('font-color');
     }
     .single-game-item:hover {
-      transform: scale(1.04);
+      // transform: scale(1.04);
       span {
         -webkit-line-clamp: 6;
       }
       .single-game-info {
-        transform: translateY(-20px);
+        transform: translateY(-10px);
         background: get('background-no-tp');
       }
       img {

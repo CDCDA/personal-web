@@ -42,13 +42,13 @@
         <div class="blog-info-title">{{ props.blogData.blogTitle }}</div>
         <div class="blog-info-footer">
           <span class="footer-item">
-            <svg-icon iconName="write" />{{ props.blogData?.author }}
+            <svg-icon iconName="羽毛笔" />{{ props.blogData?.author }}
           </span>
           <span class="footer-item">
-            <svg-icon iconName="date" />{{ props.blogData.createTime || '2023-10-1' }}
+            <svg-icon iconName="日期" />{{ props.blogData.createTime || '2023-10-1' }}
           </span>
           <span class="footer-item">
-            <svg-icon iconName="wordsNumber" />{{ props.blogData.content?.length }}
+            <svg-icon iconName="字数" />{{ props.blogData.content?.length }}
           </span>
         </div>
       </div>
@@ -190,11 +190,11 @@ onMounted(() => {
 
 @keyframes wave-in {
   0% {
-    filter: blur(3px);
+    filter: brightness(50%);
     transform: scale(1.1);
   }
   100% {
-    filter: blur(0px);
+    filter: brightness(100%);
     transform: scale(1);
   }
 }

@@ -13,8 +13,6 @@ import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
-import java.util.List;
-import java.util.Map;
 
 /***
  * @author cyd
@@ -42,6 +40,9 @@ public class BlogPageDTO extends BasePageDto {
     @ApiModelProperty(value = "分类id")
     private long typeId;
 
+    @ApiModelProperty(value = "标签id")
+    private long tagId;
+
     @ApiModelProperty(value = "封面路径")
     private String coverUrl;
 
@@ -51,6 +52,10 @@ public class BlogPageDTO extends BasePageDto {
     //0：转载，1：原创
     @ApiModelProperty(value = "是否原创")
     private String isOriginal;
+
+    //0：否，1：是
+    @ApiModelProperty(value = "是否推荐")
+    private String isRecommend;
 
     @ApiModelProperty(value = "起始时间")
     @JsonFormat(pattern = "yyyy-MM-dd")

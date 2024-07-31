@@ -19,8 +19,8 @@
 import { onMounted, ref } from 'vue';
 import { listTotalType } from '@/api/type';
 import useUserStore from '@/store/modules/user';
+import { useLazyAppear } from '@/utils/lazy';
 import { useRouter } from 'vue-router';
-const userStore = useUserStore();
 const typeList = ref([] as any);
 const router = useRouter();
 function toBlogType(item: any) {
@@ -36,6 +36,7 @@ async function getTypeTree() {
 
 onMounted(() => {
   getTypeTree();
+  useLazyAppear(document.querySelector('.blog-type-card') as any);
 });
 </script>
 <style lang="scss" scoped>

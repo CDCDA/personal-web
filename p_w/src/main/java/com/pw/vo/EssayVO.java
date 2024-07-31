@@ -7,8 +7,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import com.pw.common.entity.BaseEntity;
-import com.pw.domain.ImageRelation;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -43,6 +41,9 @@ public class EssayVO implements Serializable {
     @JsonSerialize(using = ToStringSerializer.class)
     @ApiModelProperty(value = "用户id")
     private long userId;
+
+    @ApiModelProperty(value = "标签")
+    private String tags;
 
     @ApiModelProperty(value = "图片路径集合")
     @TableField(exist = false)

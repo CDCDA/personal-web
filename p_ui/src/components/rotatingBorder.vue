@@ -53,7 +53,7 @@
   overflow: hidden;
   position: relative;
   box-shadow: 0 10px 40px -10px rgba(0, 64, 128, 0.2);
-  border-radius: 15px;
+  border-radius: 8px;
   background: white;
 }
 .c-subscribe-box:hover {

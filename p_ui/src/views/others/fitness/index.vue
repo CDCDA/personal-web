@@ -303,7 +303,7 @@ onMounted(() => {});
     position: relative;
     border: 3px dashed #7d7d7d;
     padding: 0px 20px;
-    border-radius: 15px;
+    border-radius: 8px;
     margin: 15px;
     color: get('font-color');
   }
@@ -311,18 +311,20 @@ onMounted(() => {});
     @include flex;
     align-items: start;
     overflow: hidden;
+    background: transparent !important;
+    backdrop-filter: none !important;
   }
   .fitness-right {
     background: get('background');
     box-shadow: get('box-shadow');
-    border-radius: 15px;
+    border-radius: 8px;
     height: 95vh;
   }
   .fitness-left {
     width: calc(100% - 370px);
     @include flex-column;
     margin-right: 20px;
-    border-radius: 15px;
+    border-radius: 8px;
     height: 95vh;
     justify-content: start;
     .fitness-card-wrap {
@@ -331,7 +333,7 @@ onMounted(() => {});
       @include flex;
       background: get('background');
       box-shadow: get('box-shadow');
-      border-radius: 15px;
+      border-radius: 8px;
       overflow: hidden;
       .fitness-nav {
         @include flex;
@@ -357,7 +359,7 @@ onMounted(() => {});
       padding: 10px 10px 20px 10px;
       background: get('background');
       box-shadow: get('box-shadow');
-      border-radius: 15px;
+      border-radius: 8px;
       @include flex-column;
       justify-content: space-between;
       .goal-header {
@@ -419,7 +421,7 @@ onMounted(() => {});
       background-position: center;
       height: 100%;
       width: 100%;
-      border-radius: 15px;
+      border-radius: 8px;
     }
     .fitness-title {
       position: absolute;

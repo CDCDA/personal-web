@@ -5,7 +5,7 @@ spring:
     serialization:
       FAIL_ON_EMPTY_BEANS: false
   datasource: #数据源
-    url: jdbc:mysql://111.229.144.36:3306/pw?useUnicode=true&characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true&useSSL=false  # 数据库的 JDBC URL
+    url: jdbc:mysql://1.92.159.74:3306/pw?useUnicode=true&characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true&useSSL=false  # 数据库的 JDBC URL
     username: cyd  #数据库的登录用户名
     password: cyd   #数据库的登录密码
 #    url: jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true&useSSL=false  # 数据库的 JDBC URL

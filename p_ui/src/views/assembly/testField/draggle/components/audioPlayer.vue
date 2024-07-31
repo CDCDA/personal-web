@@ -12,14 +12,14 @@
       您的浏览器不支持音频播放
     </audio>
     <div class="audio-right">
-      <svg-icon iconName="previous" class="dialogAudioPlay" @click="preSong"></svg-icon>
+      <svg-icon iconName="前一个" class="dialogAudioPlay" @click="preSong"></svg-icon>
       <svg-icon
-        :iconName="audioStatus == 'pause' ? 'pause' : 'play'"
+        :iconName="audioStatus == 'pause' ? '暂停' : '播放'"
         @click="playAudio"
         class="dialogAudioPlay"
       >
       </svg-icon>
-      <svg-icon iconName="next" class="dialogAudioPlay" @click="nextSong"></svg-icon>
+      <svg-icon iconName="下一个" class="dialogAudioPlay" @click="nextSong"></svg-icon>
       <div class="progress-bar-bg" id="progressBarBg" v-dragto="setAudioIcon">
         <div class="progress-bar" id="progressBar"></div>
       </div>

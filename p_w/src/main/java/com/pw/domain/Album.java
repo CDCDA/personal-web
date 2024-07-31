@@ -44,5 +44,5 @@ public class Album extends BaseEntity implements Serializable {
 
     @ApiModelProperty(value = "图片关联")
     @TableField(exist = false)
-    private List<ImageRelation> imageRelations;
+    private List<ImageRelation> images;
 }

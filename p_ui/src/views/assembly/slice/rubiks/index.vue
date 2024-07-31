@@ -151,6 +151,7 @@
 </template>
 <script setup lang="ts">
 import { onMounted } from 'vue';
+import { autoClearTimer } from '@/utils/timer';
 onMounted(async () => {
   var scriptList = document.getElementsByTagName('script');
   await Object.keys(scriptList).forEach((name: any) => {
@@ -160,12 +161,12 @@ onMounted(async () => {
     }
   });
 
-  setTimeout(() => {
+  autoClearTimer(() => {
     const script1 = document.createElement('script');
     script1.src = '/rubiks/js/three.min.js';
     script1.type = 'text/javascript';
     document.body.appendChild(script1);
-    setTimeout(() => {
+    autoClearTimer(() => {
       var link = document.createElement('link');
       link.rel = 'stylesheet';
       link.href = '/rubiks/css/style.css';
@@ -179,7 +180,7 @@ onMounted(async () => {
   }, 1000);
 });
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .ui__background::after,
 .ui__background {
   background: transparent;
@@ -191,8 +192,9 @@ onMounted(async () => {
   height: 100%;
 }
 .ui {
-  width: 600px;
-  height: 600px;
+  width: 100%;
+  height: 100%;
+  position: relative;
   *,
   *:before,
   *:after {

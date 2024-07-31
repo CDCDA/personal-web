@@ -26,7 +26,7 @@
       </el-form-item>
     </el-form>
     <div class="c-divider"></div>
-    <el-row :gutter="10" class="mb8" style="margin-bottom: 15px">
+    <el-row :gutter="10" class="manage-button-group" style="margin-bottom: 15px">
       <el-col :span="1.5">
         <el-button type="primary" plain icon="Plus" @click="handleAdd">新增</el-button>
       </el-col>
@@ -41,7 +41,7 @@
       </el-col>
       <div class="manage-tools">
         <svg-icon iconName="refresh" @click="getList()"></svg-icon>
-        <svg-icon iconName="hideMenu" @click="hideSearch()"></svg-icon>
+        <svg-icon iconName="隐藏菜单" @click="hideSearch()"></svg-icon>
       </div>
     </el-row>
     <el-table :data="tableList" class="manage-table" style="" @selection-change="selectionChange">
@@ -57,7 +57,7 @@
               ></div> </template
             ><template #error>
               <div class="image-error-slot">
-                <svg-icon iconName="imgFailed"></svg-icon>
+                <svg-icon iconName="图片加载失败"></svg-icon>
               </div> </template
           ></el-image>
         </template>
@@ -78,8 +78,8 @@
     />
   </div>
   <!-- 新增或编辑 -->
-  <el-dialog v-model="open" :title="title" width="720" style="height: 70%" :modal="false">
-    <el-form :model="form" label-width="40">
+  <c-dialog v-model="open" :title="title" width="720" style="height: 70%" :modal="false">
+    <el-form :model="form" label-width="40" style="height: calc(100% - 40px); overflow: auto">
       <el-form-item label="名称">
         <el-input v-model="form.name" clearable></el-input>
       </el-form-item>
@@ -107,16 +107,16 @@
         <el-button type="primary" @click="submit"> 确定 </el-button>
       </span>
     </template>
-  </el-dialog>
+  </c-dialog>
 </template>
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import { listAlbum, delAlbum, saveAlbum } from '@/api/album.ts';
-import { useRouter } from 'vue-router';
 import Pagination from '@/components/pagination/index.vue';
-import { ElMessage, ElMessageBox, ElNotification } from 'element-plus';
+import { ElMessageBox, ElNotification } from 'element-plus';
 import upload from '@/components/upload/upload.vue';
-const router = useRouter();
+import { useTableResize } from '@/utils/manage';
+import { autoClearTimer } from '@/utils/timer';
 const queryParams = ref({
   name: null,
   pageNum: 1,
@@ -198,9 +198,6 @@ function handleEdit() {
   });
 }
 
-// function handleView(item: any) {
-//   router.push({ name: 'blogDisplay', query: { blogId: item.blogId } });
-// }
 async function handleDel() {
   ElMessageBox.confirm('是否确认删除选中数据?', 'Warning', {
     confirmButtonText: '确定',
@@ -222,9 +219,13 @@ async function handleDel() {
 
 function hideSearch() {
   isSearchShow.value = !isSearchShow.value;
+  autoClearTimer(() => {
+    useTableResize();
+  }, 100);
 }
 onMounted(() => {
   getList();
+  useTableResize();
 });
 </script>
 <style lang="scss" scoped>

@@ -561,3 +561,64 @@
 .bo {
   animation: bo 1.5s linear infinite;
 }
+
+@keyframes appear {
+  0% {
+    transform: scale(0.6);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.appear {
+  animation: appear 1s forwards ease !important;
+}
+
+@keyframes slide-in {
+  0% {
+    transform: translateY(20px);
+    opacity: 0.4;
+  }
+
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes re-slide-in {
+  0% {
+    transform: translateY(0px);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateY(20);
+    opacity: 1;
+  }
+}
+
+.slide-in {
+  animation: slide-in 0.6s forwards ease;
+}
+
+.re-slide-in {
+  animation: re-slide-in 0.6s forwards ease;
+}
+
+@keyframes slide-out {
+  0% {
+    transform: translateY(0px);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(20);
+    opacity: 0;
+    height: 0px;
+  }
+}
+.slide-out {
+  animation: slide-out 1s forwards ease;
+}
