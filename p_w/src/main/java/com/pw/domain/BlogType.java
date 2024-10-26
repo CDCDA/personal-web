@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.pw.common.entity.BaseEntity;
-import com.pw.vo.BlogTypeVO;
+import com.pw.vo.BlogVO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -52,4 +52,7 @@ public class BlogType extends BaseEntity implements Serializable {
 
     @TableField(exist = false)
     private List<BlogType> children;
+
+    @TableField(exist = false)
+    private List<BlogVO> blogList;
 }

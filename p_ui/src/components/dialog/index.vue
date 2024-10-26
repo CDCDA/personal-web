@@ -4,8 +4,13 @@
 <template>
   <el-dialog
     class="c-dialog"
+    :id="id"
     :draggable="draggable"
-    :class="[isLessen ? 'is-lessen' : '', isFull ? 'is-full' : '']"
+    :class="[
+      isLessen ? 'is-lessen' : '',
+      isFull ? 'is-full' : '',
+      props.dialogClass ? props.dialogClass : 'dialog-filter'
+    ]"
     v-model="props.modelValue"
     :title="props.title"
     :width="props.width"
@@ -13,10 +18,11 @@
     :fullscreen="isFull"
     destroy-on-close
     :show-close="false"
+    append-to=".dialog-base"
     @close="close"
   >
     <template #header>
-      <div class="c-dialog-header" @click="restore">
+      <div class="c-dialog-header" @click="restore" @dblclick="lessen">
         <div class="c-dialog-title">{{ props.title }}</div>
         <div class="c-dialog-bt-group">
           <svg-icon v-if="!isLessen" iconName="缩小" @click="lessen" />
@@ -32,11 +38,16 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import { autoClearTimer } from '@/utils/timer';
+import { generateRandomId } from '@/utils/common';
+const id = generateRandomId();
 const props = defineProps({
   options: {
     default: {
       isDefaultFull: false
     }
+  },
+  dialogClass: {
+    default: ''
   },
   title: {
     default: ''
@@ -78,53 +89,62 @@ var restore = () => {
 };
 
 let tempDraggle = ref(false);
+let tempOverlay = {} as any;
+let tempOverlayDialog = {} as any;
 
 function lessen() {
   isLessen.value = !isLessen.value;
-  let overlay = document.querySelector('.el-overlay-dialog') as any;
+  let dialog = document.getElementById(id) as any;
+  let overlayDialog = dialog.parentNode;
+  let overlay = overlayDialog.parentNode;
   if (isLessen.value) {
-    overlay.parentNode.style.width = '250px';
-    overlay.parentNode.style.height = '35px';
-    overlay.parentNode.style.bottom = '0px';
-    overlay.parentNode.style.backdropFilter = 'none';
-    overlay.parentNode.style.background = 'transparent';
+    tempOverlayDialog = {
+      width: overlayDialog.style.width,
+      height: overlayDialog.style.height,
+      top: overlayDialog.style.top
+    };
+    tempOverlay = {
+      width: overlay.style.width,
+      height: overlay.style.height,
+      bottom: overlay.style.bottom,
+      backdropFilter: overlay.style.backdropFilter,
+      background: overlay.style.background
+    };
     overlay.style.width = '250px';
     overlay.style.height = '35px';
-    overlay.style.top = 'initial';
+    overlay.style.bottom = '0px';
+    overlay.style.backdropFilter = 'none';
+    overlay.style.background = 'transparent';
+    overlayDialog.style.width = '250px';
+    overlayDialog.style.height = '35px';
+    overlayDialog.style.top = 'initial';
     tempDraggle.value = JSON.parse(JSON.stringify(draggable.value));
     draggable.value = false;
-    autoClearTimer(() => {
-      const func = () => {
-        lessen();
-      };
-      restore = func;
-    }, 100);
   } else {
-    overlay.parentNode.style.width = 'initial';
-    overlay.parentNode.style.height = 'initial';
-    overlay.parentNode.style.bottom = '0px';
-    overlay.parentNode.style.backdropFilter = 'blur(15px)';
-    overlay.parentNode.style.background = 'initial';
-    overlay.style.width = 'initial';
-    overlay.style.height = 'initial';
-    overlay.style.top = '0';
+    overlay.style.width = tempOverlay.width;
+    overlay.style.height = tempOverlay.height;
+    overlay.style.bottom = tempOverlay.bottom;
+    overlay.style.backdropFilter = tempOverlay.backdropFilter;
+    overlay.style.background = tempOverlay.background;
+    overlayDialog.style.width = tempOverlayDialog.width;
+    overlayDialog.style.height = tempOverlayDialog.height;
+    overlayDialog.style.top = tempOverlayDialog.top;
     draggable.value = tempDraggle.value;
-    autoClearTimer(() => {
-      const func = () => {
-        return;
-      };
-      restore = func;
-    }, 100);
   }
 }
 
 function blowUp() {
-  isFull.value = !isFull.value;
-  if (isFull.value) {
-    tempDraggle.value = JSON.parse(JSON.stringify(draggable.value));
-    draggable.value = false;
+  if (isLessen.value) {
+    isFull.value = false;
+    lessen();
   } else {
-    draggable.value = tempDraggle.value;
+    isFull.value = !isFull.value;
+    if (isFull.value) {
+      tempDraggle.value = JSON.parse(JSON.stringify(draggable.value));
+      draggable.value = false;
+    } else {
+      draggable.value = tempDraggle.value;
+    }
   }
 }
 
@@ -147,21 +167,13 @@ defineExpose({
     margin: 0px 9px 0px 14px;
     height: 100%;
     display: flex;
-    color: white;
+
     justify-content: space-between;
     align-items: center;
     .c-dialog-bt-group {
       display: flex;
     }
-    .svg-icon-wrap {
-      margin-left: 5px;
-      width: 20px;
-      height: 20px;
-      cursor: pointer;
-      :deep(.theme-icon) {
-        fill: white !important;
-      }
-    }
+
     .svg-icon-wrap:active {
       transform: translateY(1px);
     }

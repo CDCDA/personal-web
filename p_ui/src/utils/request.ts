@@ -5,8 +5,7 @@ import type { AxiosInstance, InternalAxiosRequestConfig, AxiosResponse } from 'a
 import axios from 'axios';
 import useUserStore from '@/store/modules/user';
 import { ElMessageBox, ElNotification } from 'element-plus';
-var user = window.localStorage.getItem('userData') as any;
-if (user) user = JSON.parse(user);
+var user = null as any;
 import router from '@/router/index';
 axios.defaults.headers['Content-Type'] = 'application/json;charset=utf-8';
 // 创建axios实例

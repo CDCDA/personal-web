@@ -5,7 +5,7 @@
   <div class="update-log page-main">
     <div class="update-log-top fade-in">
       <c-image
-        :src="'http://111.229.144.36:8008/quiet-forest.jpg'"
+        :src="'http://1.92.159.74:8008/quiet-forest.jpg'"
         style="width: 100%; height: 100%"
       />
     </div>
@@ -35,7 +35,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
-import { listUpdateLog } from '@/api/updateLog.ts';
+import { listUpdateLog } from '@/api/system/updateLog';
 import { autoClearTimer } from '@/utils/timer';
 const updateLogs = ref({} as any);
 

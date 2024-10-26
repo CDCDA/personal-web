@@ -1,9 +1,12 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router';
+import useThemeStore from '@/store/modules/theme.ts';
+import { autoClearTimer } from '@/utils/timer';
+
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/login',
     name: 'login',
-    meta: { remark: '登录', isHidden: true },
+    meta: { remark: '登录', isHidden: true, cache: false },
     component: () => import('@/views/login/login.vue')
   },
   {
@@ -21,73 +24,79 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: '/personalInfo',
         name: 'personalInfo',
-        meta: { remark: '个人信息', isHidden: true },
+        meta: { remark: '个人信息', isHidden: true, svgIcon: '人员信息' },
         component: () => import('@/views/manage/personalInfo/index.vue')
       },
       {
         path: '/blogManage',
         name: 'blogManage',
-        meta: { remark: '博客管理', isHidden: true },
+        meta: { remark: '博客管理', isHidden: true, svgIcon: '博客' },
         component: () => import('@/views/manage/blogManage/index.vue')
       },
       {
         path: '/typeManage',
         name: 'typeManage',
-        meta: { remark: '分类管理', isHidden: true },
+        meta: { remark: '分类管理', isHidden: true, svgIcon: '分类' },
         component: () => import('@/views/manage/typeManage/index.vue')
       },
       {
         path: '/tagManage',
         name: 'tagManage',
-        meta: { remark: '标签管理', isHidden: true },
+        meta: { remark: '标签管理', isHidden: true, svgIcon: '标签' },
         component: () => import('@/views/manage/tagManage/index.vue')
       },
       {
         path: '/essayManage',
         name: 'essayManage',
-        meta: { remark: '随笔管理', isHidden: true },
+        meta: { remark: '随笔管理', isHidden: true, svgIcon: '随笔' },
         component: () => import('@/views/manage/essayManage/index.vue')
       },
       {
         path: '/albumManage',
         name: 'albumManage',
-        meta: { remark: '相册管理', isHidden: true },
+        meta: { remark: '相册管理', isHidden: true, svgIcon: '相册' },
         component: () => import('@/views/manage/albumManage/index.vue')
       },
       {
         path: '/gameManage',
         name: 'gameManage',
-        meta: { remark: '游戏管理', isHidden: true },
+        meta: { remark: '游戏管理', isHidden: true, svgIcon: '游戏' },
         component: () => import('@/views/manage/gameManage/index.vue')
       },
       {
         path: '/dramaManage',
         name: 'dramaManage',
-        meta: { remark: '影视管理', isHidden: true },
+        meta: { remark: '影视管理', isHidden: true, svgIcon: '影视' },
         component: () => import('@/views/manage/dramaManage/index.vue')
       },
       {
         path: '/gourmetManage',
         name: 'gourmetManage',
-        meta: { remark: '美食管理', isHidden: true },
+        meta: { remark: '美食管理', isHidden: true, svgIcon: '美食' },
         component: () => import('@/views/manage/gourmetManage/index.vue')
       },
       {
         path: '/musicManage',
         name: 'musicManage',
-        meta: { remark: '音乐管理', isHidden: true },
+        meta: { remark: '音乐管理', isHidden: true, svgIcon: '音乐' },
         component: () => import('@/views/manage/musicManage/index.vue')
       },
       {
         path: '/wallpaperManage',
         name: 'wallpaperManage',
-        meta: { remark: '壁纸管理', isHidden: true },
+        meta: { remark: '壁纸管理', isHidden: true, svgIcon: '壁纸' },
         component: () => import('@/views/manage/wallpaperManage/index.vue')
+      },
+      {
+        path: '/dictManage',
+        name: 'dictManage',
+        meta: { remark: '字典管理', isHidden: true, svgIcon: '字典' },
+        component: () => import('@/views/manage/dictManage/index.vue')
       },
       {
         path: '/logManage',
         name: 'logManage',
-        meta: { remark: '更新日志管理', isHidden: true },
+        meta: { remark: '更新日志管理', isHidden: true, svgIcon: '日志' },
         component: () => import('@/views/manage/logManage/index.vue')
       }
     ]
@@ -198,50 +207,108 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: '/rubiks',
         name: 'rubiks',
-        meta: { remark: '旋转魔方' },
+        meta: {
+          remark: '魔方',
+          introduction: '普通3x3动态魔方',
+          url: 'http://1.92.159.74:8008/魔方.png'
+        },
         component: () => import('@/views/assembly/slice/rubiks/index.vue')
       },
       {
         path: '/rotatingRubik',
         name: 'rotatingRubik',
-        meta: { remark: '旋转魔方' },
+        meta: {
+          remark: '图片旋转魔方',
+          introduction: '可旋转展示6面图片的魔方',
+          url: 'http://1.92.159.74:8008/图片旋转魔方.png'
+        },
         component: () => import('@/views/assembly/slice/rotatingRubik/index.vue')
       },
       {
         path: '/3dMenu',
         name: '3dMenu',
-        meta: { remark: '3d菜单' },
+        meta: {
+          remark: '3d菜单',
+          introduction: '3d菜单',
+          url: 'http://1.92.159.74:8008/3d菜单.png'
+        },
         component: () => import('@/views/assembly/slice/3dMenu/index.vue')
       },
       {
         path: '/cardFlip',
         name: 'cardFlip',
-        meta: { remark: '卡片翻转' },
+        meta: {
+          remark: '卡片翻转',
+          introduction: '卡片翻转',
+          url: 'http://1.92.159.74:8008/卡片翻转.png'
+        },
         component: () => import('@/views/assembly/slice/cardFlip/index.vue')
       },
       {
         path: '/lightButton',
         name: 'lightButton',
-        meta: { remark: '闪光边框按钮' },
+        meta: {
+          remark: '闪光边框按钮',
+          introduction: '文字滚动',
+          url: 'http://1.92.159.74:8008/文字滚动.png'
+        },
         component: () => import('@/views/assembly/slice/lightButton/index.vue')
       },
       {
         path: '/rollText',
         name: 'rollText',
-        meta: { remark: '文字滚动' },
+        meta: {
+          remark: '文字滚动',
+          introduction: '文字滚动',
+          url: 'http://1.92.159.74:8008/文字滚动.png'
+        },
         component: () => import('@/views/assembly/slice/rollText/index.vue')
       },
       {
         path: '/heartLoading',
         name: 'heartLoading',
-        meta: { remark: '心型加载' },
+        meta: {
+          remark: '心型加载',
+          introduction: '心型加载',
+          url: 'http://1.92.159.74:8008/心型加载.png'
+        },
         component: () => import('@/views/assembly/slice/heartLoading/index.vue')
       },
       {
         path: '/neonRain',
         name: 'neonRain',
-        meta: { remark: '霓虹雨' },
+        meta: { remark: '霓虹雨', introduction: '雨', url: 'http://1.92.159.74:8008/雨.png' },
         component: () => import('@/views/assembly/slice/neonRain/index.vue')
+      },
+      {
+        path: '/sideNav',
+        name: 'sideNav',
+        meta: {
+          remark: '侧边导航',
+          introduction: '侧边导航',
+          url: 'http://1.92.159.74:8008/雨.png'
+        },
+        component: () => import('@/views/assembly/slice/sideNav/index.vue')
+      },
+      {
+        path: '/stackCard',
+        name: 'stackCard',
+        meta: {
+          remark: '堆叠卡',
+          introduction: '堆叠卡',
+          url: 'http://1.92.159.74:8008/雨.png'
+        },
+        component: () => import('@/views/assembly/slice/stackCard/index.vue')
+      },
+      {
+        path: '/rotateMenu',
+        name: 'rotateMenu',
+        meta: {
+          remark: '旋转菜单',
+          introduction: '旋转菜单',
+          url: 'http://1.92.159.74:8008/雨.png'
+        },
+        component: () => import('@/views/assembly/slice/rotateMenu/index.vue')
       }
     ]
   },
@@ -270,6 +337,12 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import('@/views/assembly/testField/dhxGanttChart/index.vue')
       },
       {
+        path: '/editor',
+        name: 'editor',
+        meta: { remark: '富文本编辑器' },
+        component: () => import('@/views/assembly/testField/editor/index.vue')
+      },
+      {
         path: '/canvas',
         name: 'canvas',
         meta: { remark: 'canvas动画' },
@@ -289,12 +362,12 @@ const routes: Array<RouteRecordRaw> = [
   //   meta: { remark: '项目经历' },
   //   component: () => import('@/views/introduction/projectExperience/index.vue')
   // },
-  {
-    path: '/fitness',
-    name: 'fitness',
-    meta: { remark: '运动', svgIcon: '运动', parent: 'other' },
-    component: () => import('@/views/others/fitness/index.vue')
-  },
+  // {
+  //   path: '/fitness',
+  //   name: 'fitness',
+  //   meta: { remark: '运动', svgIcon: '运动', parent: 'other' },
+  //   component: () => import('@/views/others/fitness/index.vue')
+  // },
   {
     path: '/game',
     name: 'game',
@@ -307,12 +380,12 @@ const routes: Array<RouteRecordRaw> = [
     meta: { remark: '影视', icon: 'VideoCamera', parent: 'other' },
     component: () => import('@/views/others/dramaSeries/index.vue')
   },
-  {
-    path: '/gourmet',
-    name: 'gourmet',
-    meta: { remark: '美食', icon: 'KnifeFork', parent: 'other' },
-    component: () => import('@/views/others/gourmet/index.vue')
-  },
+  // {
+  //   path: '/gourmet',
+  //   name: 'gourmet',
+  //   meta: { remark: '美食', icon: 'KnifeFork', parent: 'other' },
+  //   component: () => import('@/views/others/gourmet/index.vue')
+  // },
   {
     path: '/website',
     name: 'website',
@@ -348,13 +421,29 @@ const router = createRouter({
   routes
 });
 
-const navShowRoute = ['login', '404'];
+const navShowRoute = ['login', 'register'];
 
 //切换路由后回到顶部
-router.afterEach((to: any, from: any) => {
+router.afterEach((to: any) => {
+  // console.log('当前路由', to);
   scrollToView();
   to = to;
-  console.log('AA', from);
+  var themeStore = useThemeStore();
+  if (!themeStore) return;
+  if (navShowRoute.includes(to.name)) {
+    themeStore.isShow = false;
+    themeStore.isFooterShow = false;
+  }
+  // else if (to.name.includes('anage') || to.name.includes('personalInfo')) {
+  //   themeStore.isFooterShow = false;
+  //   themeStore.isShow = true;
+  // }
+  else {
+    themeStore.isShow = true;
+    autoClearTimer(() => {
+      themeStore.isFooterShow = true;
+    }, 3000);
+  }
 });
 
 // 滚动到指定的位置

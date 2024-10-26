@@ -32,28 +32,20 @@
             <BlogCountCard />
           </div>
           <div class="display-right">
-            <!-- <div class="type-list">
-                <div
-                  class="type-item"
-                  :class="item.isActive ? 'is-active' : ''"
-                  v-for="item in typeList"
-                  @click="setQuery(item)"
-                >
-                  <span class="type-item-content">{{ item.typeName }}</span>
-                </div>
-              </div> -->
             <div v-for="name in Object.keys(typeBlogList)">
               <div class="display-header">
                 <div class="display-header-left">
                   <svg-icon iconName="分类"></svg-icon>{{ name }}
                 </div>
-                <div class="display-header-right"><svg-icon iconName="更多"></svg-icon>MORE</div>
+                <div class="display-header-right" @click="toBlogType(name)">
+                  <svg-icon iconName="更多"></svg-icon>MORE
+                </div>
               </div>
               <div class="display-list">
                 <div
                   @click="toDetail(item)"
                   class="list-item"
-                  :class="`list-item-${i}`"
+                  :class="`list-item-${item.blogId}`"
                   v-for="(item, i) in typeBlogList[name]"
                 >
                   <div class="list-item-img">
@@ -81,7 +73,7 @@
               </div>
             </div>
 
-            <Pagination
+            <!-- <Pagination
               v-model:page="queryParams.pageNum"
               v-model:page-size="queryParams.pageSize"
               :total="total"
@@ -90,14 +82,7 @@
               :pageSizeList="[10, 20, 30]"
               :on-page-size-change="getBlogList"
               class="pagi page-content"
-            />
-
-            <!-- <visible-lazy :component="BlogUserCard" />
-            <visible-lazy :component="WeatherCard" />
-            <visible-lazy :component="VisitorCard" />
-            <visible-lazy :component="BlogTypeCard" />
-            <visible-lazy :component="BlogTagCard" />
-            <visible-lazy :component="BlogCountCard" /> -->
+            /> -->
           </div>
         </div>
       </div>
@@ -111,14 +96,14 @@ import { ElMessage } from 'element-plus';
 import { listTotalType } from '@/api/type';
 import useUserStore from '@/store/modules/user';
 import { useRouter } from 'vue-router';
-import { listUpdateLog } from '@/api/updateLog.ts';
+import { listUpdateLog } from '@/api/system/updateLog';
 import { autoClearTimer } from '@/utils/timer';
 import Pagination from '@/components/pagination/index.vue';
 import BlogUserCard from '@/views/blog/components/blogUserCard.vue';
 import WeatherCard from './components/weatherCard.vue';
 import BlogTypeCard from '@/views/blog/components/blogTypeCard.vue';
 import BlogTagCard from '@/views/blog/components/blogTagCard.vue';
-import { verifyToken } from '@/api/user.ts';
+import { verifyToken } from '@/api/system/user';
 
 import BlogCountCard from '@/views/blog/components/blogCountCard.vue';
 import VisitorCard from './components/visitorCard.vue';
@@ -165,26 +150,7 @@ const slogans = ref([
   '风一吹就没了'
 ] as any);
 
-const slogan = ref('' as String);
-
-const headerList = ref([
-  {
-    text: '加了个滚动技术栈',
-    routerName: 'main'
-  },
-  {
-    text: '相册已完成',
-    routerName: 'album'
-  },
-  {
-    text: '修整了一下首页',
-    routerName: 'main'
-  },
-  {
-    text: '放假放假放假',
-    routerName: 'essay'
-  }
-] as any);
+const headerList = ref([] as any);
 const router = useRouter() as any;
 const typeList = ref([] as any);
 const typeBlogList = ref({} as any);
@@ -193,24 +159,6 @@ const queryParams = ref({
   pageSize: 10,
   userId: null
 } as any);
-
-const total = ref(100 as any);
-async function getBlogList() {
-  const { code, msg, data } = (await listBlog(queryParams.value)) as any;
-  if (code === 200) {
-    recommends.value = data.list;
-
-    total.value = data.total;
-    autoClearTimer(() => {
-      recommends.value.forEach((item: any, i: Number) => {
-        item = item;
-        useLazyAppear(document.querySelector(`.list-item-${i}`) as any);
-      });
-    }, 500);
-  } else {
-    ElMessage.error('博客数据获取失败', msg);
-  }
-}
 
 async function getHeaderList() {
   const { code, data } = (await listUpdateLog({ operation: '', pageNum: 1, pageSize: 999 })) as any;
@@ -228,7 +176,7 @@ async function getHeaderList() {
  */
 function toMainPage() {
   let el = document.querySelector('.el-main') as any;
-  el?.scrollTo({ top: window.innerHeight - 80, behavior: 'smooth' });
+  el?.scrollTo({ top: window.innerHeight - 15, behavior: 'smooth' });
 }
 
 /**
@@ -244,7 +192,14 @@ async function getTypeBlog(type: any) {
   };
   const { code, data } = (await listBlog(params)) as any;
   if (code === 200) {
-    if (data.list.length > 0) typeBlogList.value[type.typeName] = data.list;
+    if (data.list.length > 0) {
+      typeBlogList.value[type.typeName] = data.list;
+      autoClearTimer(() => {
+        data.list.forEach((item: any) => {
+          useLazyAppear(document.querySelector(`.list-item-${item.blogId}`) as any);
+        });
+      }, 500);
+    }
   }
 }
 
@@ -253,43 +208,14 @@ async function getTypeTree() {
   if (code === 200) {
     typeList.value = data.list;
     typeList.value.forEach(async (item: any) => {
+      typeBlogList.value[item.typeName] = [];
       await getTypeBlog(item);
     });
-
-    // let total = 0;
-    // typeList.value.forEach((e: any) => {
-    //   total += e.total;
-    // });
-    // typeList.value.unshift({
-    //   typeName: '全部',
-    //   isActive: false,
-    //   total
-    // });
-    // queryParams.value.typeId = router.currentRoute.value.query.typeId;
-    // typeList.value.forEach((e: any) => {
-    //   if (e.typeId === queryParams.value.typeId) e.isActive = true;
-    // });
   }
-}
-let displacement = ref(0 as any);
-
-function headerRoll(header: any) {
-  displacement.value -= 49;
-  if (displacement.value == -75) displacement.value = 0;
-  header.style.transform = `translate3d(0px, ${displacement.value}px, 0px)`;
 }
 
 function formateToDay(date: any) {
   return date?.substring(0, 10);
-}
-
-function isActive(item: any) {
-  typeList.value.forEach((e: any) => {
-    e.isActive = false;
-  });
-  item.isActive = true;
-  queryParams.value.userId = item.typeId;
-  getBlogList();
 }
 
 // 博客详情
@@ -297,34 +223,7 @@ function toDetail(item: any) {
   router.push({ name: 'blogDisplay', query: { blogId: item.blogId } });
 }
 
-/**
- * @description: 设置首页字体颜色
- * @return {*}
- */
-function setFontColor() {
-  let options = JSON.parse(localStorage.getItem('aspectOptions') as any) as any;
-  if (!options) return;
-  const { mhFontColor } = options;
-  let header = document.querySelector('.common-header') as any;
-  let homeTop = document.querySelector('.home-top') as any;
-  let CycleUpDown = document.querySelector('.CycleUpDown') as any;
-  if (header) {
-    header.style.color = mhFontColor;
-    let icons = header.querySelectorAll('.theme-icon');
-    Object.keys(icons).forEach((e: any) => {
-      icons[e].style.fill = mhFontColor;
-    });
-  }
-  if (homeTop) homeTop.style.color = mhFontColor;
-  if (CycleUpDown) {
-    let themeIcon = CycleUpDown.querySelector('.theme-icon') as any;
-    if (themeIcon) {
-      themeIcon.style.fill = mhFontColor;
-    }
-  }
-  localStorage.setItem('aspectOptions', JSON.stringify(options));
-}
-
+// 打字效果
 function setTyping() {
   let wrapper = null as any;
   const sleep = (ms: any) => new Promise(resolve => autoClearTimer(resolve, ms));
@@ -363,58 +262,38 @@ function setTyping() {
   writingAll('data-text');
 }
 
-const routes = router.getRoutes().filter((e: any) => {
-  return e.meta.isHidden !== true && e.meta.remark;
-}) as any;
-
-function setQuery(item: any) {
-  if (item) {
-    typeList.value.forEach((type: any) => {
-      type.isActive = false;
-    });
-    item.isActive = true;
-  }
-  queryParams.value.pageNum = 1;
-  queryParams.value.typeId = item.typeId;
-  getBlogList();
+function toBlogType(name: String) {
+  let type = null as any;
+  typeList.value.forEach((x: any) => {
+    x.typeName == name ? (type = x) : '';
+  });
+  router.push({ name: 'blogTypePage', query: { typeId: type.typeId } });
 }
 
 // 设置首页和顶栏颜色
 function setHomeColor() {
-  autoClearTimer(() => {
-    if (themeStore.options) {
-      const { mhFontColor } = themeStore.options;
-      console.log(mhFontColor);
-      let header = document.querySelector('.common-header') as any;
-      let homeTop = document.querySelector('.home-top') as any;
-      let CycleUpDown = document.querySelector('.CycleUpDown') as any;
-      if (header) {
-        header.style.color = mhFontColor;
-        let icons = header.querySelectorAll('.theme-icon');
-        Object.keys(icons).forEach((e: any) => {
-          icons[e].style.fill = mhFontColor;
-        });
-      }
-      if (homeTop) homeTop.style.color = mhFontColor;
-      if (CycleUpDown) {
-        let themeIcon = CycleUpDown.querySelector('.theme-icon') as any;
-        if (themeIcon) {
-          themeIcon.style.fill = mhFontColor;
-        }
+  if (themeStore.options) {
+    const { mhFontColor } = themeStore.options;
+    let homeTop = document.querySelector('.home-top') as any;
+    let CycleUpDown = document.querySelector('.CycleUpDown') as any;
+    if (homeTop) homeTop.style.color = mhFontColor;
+    if (CycleUpDown) {
+      let themeIcon = CycleUpDown.querySelector('.theme-icon') as any;
+      if (themeIcon) {
+        themeIcon.style.fill = mhFontColor;
       }
     }
-  }, 0);
+  }
 }
 
 onMounted(() => {
-  setHomeColor();
   verifyToken();
   getHeaderList();
-
-  getBlogList();
   getTypeTree();
-  setFontColor();
   setTyping();
+  autoClearTimer(() => {
+    setHomeColor();
+  }, 500);
 });
 </script>
 <style lang="scss" scoped>
@@ -522,7 +401,7 @@ onMounted(() => {
               justify-content: space-between;
               background: get('background');
               box-shadow: get('box-shadow');
-              border-radius: 12px;
+              border-radius: 8px;
               padding: 8px 20px;
               position: relative;
               .header-item {
@@ -559,11 +438,7 @@ onMounted(() => {
                 cursor: pointer;
               }
               .list-item:hover {
-                // --i: -1;
-                // mask-position: 0 0;
-                // transform: perspective(1800px) rotate3d(1, -1, 0, calc(var(--i, 1) * 8deg));
-                // mask: linear-gradient(135deg, #000c 40%, #000, #000c 60%) 100% 100%/240% 240%;
-                transition: 0.4s;
+                transition: all 0.4s ease;
               }
               .list-item {
                 width: calc(33% - 10px);
@@ -571,34 +446,24 @@ onMounted(() => {
                 margin-bottom: 20px;
                 background: get('background');
                 box-shadow: get('box-shadow');
-                border-radius: 12px;
+                border-radius: 10px;
 
                 @include flex-column;
                 justify-content: start;
                 .list-item-img {
                   overflow: hidden;
-                  border-radius: 15px 15px 0px 0px;
+                  border-radius: 8px;
                   width: 100%;
                   // height: calc(100% - 100px);
-                  aspect-ratio: 7/4;
+                  aspect-ratio: 5/3;
                   margin: 5px;
                   width: calc(100% - 10px);
-                  border-radius: 10px;
                   .c-image {
-                    transition: all 1s;
+                    height: 100%;
+                    width: 100%;
+                    transition: all 0.6s;
                   }
                 }
-                .list-item-img {
-                  position: relative;
-                  // /* 盒子阴影 */
-                  // box-shadow: 0px 5px 45px rgba(0, 0, 0, 0.1);
-                  // /* 背景模糊 */
-                  // backdrop-filter: blur(2px);
-                  // /* 加个动画过渡，动画才不会太过生硬 */
-                  // transition: all 0.3s;
-                  overflow: hidden;
-                }
-
                 .list-item-img:hover {
                   .c-image {
                     transform: scale(1.2);
@@ -641,16 +506,17 @@ onMounted(() => {
                 //   }
                 // }
                 .list-item-footer {
-                  width: calc(100% - 30px);
-                  height: 80px;
+                  width: calc(100% - 20px);
+                  padding: 6px 0px 10px 0px;
+                  height: 50px;
                   display: flex;
-                  justify-content: space-evenly;
+                  justify-content: space-between;
                   flex-direction: column;
-                  padding: 0px 15px;
                   align-items: start;
                   .list-item-title {
-                    font-size: 20px;
+                    font-size: 17px;
                     font-weight: bold;
+                    width: 100%;
                   }
                   .list-item-tag {
                     width: 100%;
@@ -670,19 +536,22 @@ onMounted(() => {
                       -webkit-box-orient: vertical;
                       .item-tag {
                         margin-right: 15px;
-                        font-size: 16px;
+                        font-size: 15px;
                         display: inline-block;
                       }
                       .item-tag-pretend {
-                        opacity: 0.5;
+                        opacity: 0.7;
                         font-size: 15px;
                         font-weight: bold;
                       }
                     }
                     .item-time {
-                      font-size: 14px;
+                      font-size: 13px;
                       width: 105px;
                       height: 20px;
+                      display: flex;
+                      align-items: center;
+                      justify-content: end;
                     }
                   }
                 }

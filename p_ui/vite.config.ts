@@ -2,7 +2,7 @@
  * @Description:打包配置
  * @Author: cyd 1205489124@qq.com
  * @Date: 2023-06-26 16:41:56
- * @LastEditTime: 2023-11-28 14:10:40
+ * @LastEditTime: 2024-10-26 15:28:33
  */
 import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
@@ -85,14 +85,14 @@ export default defineConfig({
     },
     proxy: {
       '/dev-api': {
-        target: 'http://localhost:5008',
-        // target: 'http://111.229.144.36:5008',
+        // target: 'http://localhost:5008',
+        target: 'http://1.92.159.74:80',
         changeOrigin: true,
         rewrite: p => p.replace(/^\/dev-api/, '')
       },
       // 服务器图片接口
       '/img': {
-        target: 'http://111.229.144.36:8008',
+        target: 'http://1.92.159.74:8008',
         changeOrigin: true,
         rewrite: p => p.replace(/^\/img/, '')
       },

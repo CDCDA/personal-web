@@ -50,6 +50,12 @@ public class BlogTypeController extends BaseController implements convertControl
         return resultIPage(result);
     }
 
+    @GetMapping("/listTypeAndBlog")
+    @ApiOperation(value = "查询分类列表并列出指定数量的博客", notes = "", httpMethod = "GET")
+    public Result listTypeAndBlog() {
+        return resultList(blogTypeService.listTypeAndBlog());
+    }
+
     @GetMapping("/totalList")
     @ApiOperation(value = "查询分类列表(带统计)", notes = "", httpMethod = "GET")
     public Result totaLlist(BlogType blogType) {

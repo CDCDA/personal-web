@@ -1,13 +1,13 @@
 <template>
-  <div class="mavon-editor-container page-main">
+  <div class="mavon-editor-container page-main" :class="fullStatus ? 'full-screen' : ''">
     <div class="blog-editor-header">
       <el-button @click="blogSave" class="bt-save">保存</el-button>
       <el-input class="blog-title-editor" placeholder="请输入标题" v-model="blogData.blogTitle" />
       <el-button @click="openRelease" class="bt-release">发布</el-button>
     </div>
-    <MdEditor v-model="blogData.content" />
-    <BlogRelease :blog-data="blogData" ref="blogRelease" @resetBlogData="resetBlogData" />
+    <MdEditor ref="editorRef" v-model="blogData.content" @onUploadImg="onUploadImg" />
   </div>
+  <BlogRelease :blog-data="blogData" ref="blogRelease" @resetBlogData="resetBlogData" />
 </template>
 
 <script setup lang="ts">
@@ -34,10 +34,38 @@ import { getBlogById } from '@/api/blog';
 //代码块高亮样式   codeTheme:'atom'|'a11y'|'github'|'gradient'|'kimbie'|'paraiso'|'qtcreator'|'stackoverflow'
 //编辑器内联样式   style:''
 //图表展示         noMermaid:false | true
-
+import axios from 'axios';
 const router = useRouter() as any;
 const userStore = useUserStore();
 const loading = ref('rotate' as any);
+const fullStatus = ref(false) as any;
+const editorRef = ref(null) as any;
+async function onUploadImg(files: any, callback: any) {
+  const res = await Promise.all(
+    files.map((file: any) => {
+      return new Promise((rev, rej) => {
+        const form = new FormData();
+        form.append('file', file);
+        axios
+          .post(
+            ` ${
+              process.env.NODE_ENV === 'development' ? '/dev-api' : '/prod-api'
+            }/pw/blog/uploadImg`,
+            form,
+            {
+              headers: {
+                'Content-Type': 'multipart/form-data'
+              }
+            }
+          )
+          .then(res => rev(res))
+          .catch(error => rej(error));
+      });
+    })
+  );
+  callback(res.map(item => item.data));
+}
+
 const blogData = ref({
   tags: [],
   userId: userStore.userId,
@@ -100,10 +128,25 @@ onMounted(() => {
   } else if (tempBlogData) {
     blogData.value = JSON.parse(tempBlogData);
   }
+  editorRef.value?.on('pageFullscreen', (status: any) => {
+    fullStatus.value = status;
+  });
 });
 </script>
 <style lang="scss">
 @include theme() {
+  .mavon-editor-container.page-main.full-screen {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: 100% !important;
+    z-index: 9999 !important;
+    position: absolute !important;
+    border-radius: 0px !important;
+    margin: auto !important;
+    #md-editor-v3 {
+      border-radius: 0px;
+    }
+  }
   .mavon-editor-container.page-main {
     background: transparent !important;
     backdrop-filter: none !important;
@@ -114,6 +157,7 @@ onMounted(() => {
     overflow: auto;
     overflow-x: hidden;
     border-radius: 0px !important;
+    transition: all 0.6s ease;
     .md-editor__toc-nav-title {
       color: get('font-color');
     }
@@ -146,7 +190,7 @@ onMounted(() => {
         font-size: 16px;
       }
       .el-input__wrapper {
-        height: 30px !important;
+        height: 32px !important;
       }
     }
 

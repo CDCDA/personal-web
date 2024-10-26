@@ -36,25 +36,31 @@ const testFieldList = ref([
     label: '低代码',
     routerName: 'vForm',
     introduction: '低代码表单平台',
-    url: 'http://111.229.144.36:8008/低代码.png'
+    url: 'http://1.92.159.74:8008/低代码.png'
   },
   {
     label: '自由拖拽',
     routerName: 'draggle',
     introduction: '一个自由拖拽组件的页面',
-    url: 'http://111.229.144.36:8008/自由拖拽.png'
+    url: 'http://1.92.159.74:8008/自由拖拽.png'
   },
   {
     label: '甘特图',
     routerName: 'ganttChart',
     introduction: '复杂甘特图',
-    url: 'http://111.229.144.36:8008/甘特图.png'
+    url: 'http://1.92.159.74:8008/甘特图.png'
+  },
+  {
+    label: '富文本编辑器',
+    routerName: 'editor',
+    introduction: '富文本编辑器',
+    url: 'http://1.92.159.74:8008/富文本编辑器.png'
   }
   // {
   //   label: 'canvas研究',
   //   routerName: 'canvas',
   //   introduction: 'canvas研究',
-  //   url: 'http://111.229.144.36:8008/canvas.png'
+  //   url: 'http://1.92.159.74:8008/canvas.png'
   // }
 ] as any);
 
@@ -124,7 +130,7 @@ function getAnimate(i: any) {
         animation: fade-in 0.5s linear forwards;
         margin: 10px 10px;
         cursor: pointer;
-        width: calc(32% - 20px);
+        width: calc(33.33% - 20px);
         aspect-ratio: 5/3.2;
         border-radius: 8px;
         overflow: hidden;

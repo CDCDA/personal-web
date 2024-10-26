@@ -296,7 +296,6 @@ function logout() {
       userStore.token = '';
       userStore.permission = [];
       window.localStorage.setItem('userData', '');
-      themeStore.isShow = false;
       router.push({ name: 'login' });
     })
     .catch(() => {});
@@ -319,13 +318,29 @@ router.options.routes.forEach((route: any) => {
 });
 menuData.value = menuHeader;
 
+// 设置首页和顶栏颜色
+function setHeaderFontColor() {
+  if (themeStore.options) {
+    const { mhFontColor } = themeStore.options;
+    let header = document.querySelector('.common-header') as any;
+    if (header) {
+      header.style.color = mhFontColor;
+      let icons = header.querySelectorAll('.theme-icon');
+      Object.keys(icons).forEach((e: any) => {
+        icons[e].style.fill = mhFontColor;
+      });
+    }
+  }
+}
+
 onMounted(() => {
   headerBarMenu = document.querySelector('.header-bar-menu') as any;
   headerBarTitle = document.querySelector('.header-bar-title-text') as any;
   autoClearTimer(() => {
     // 监听滚动事件并更新样式
     window.addEventListener('scroll', scrollEvent, true);
-  }, 1000);
+    setHeaderFontColor();
+  }, 200);
 });
 </script>
 <style lang="scss" scoped>
@@ -370,7 +385,7 @@ onMounted(() => {
   }
 
   .common-header {
-    z-index: 999;
+    z-index: 100;
     position: absolute;
     // animation: re-slide-in 1.5s forwards linear;
     top: 0px;
@@ -481,12 +496,16 @@ onMounted(() => {
         cursor: pointer;
         position: relative;
       }
+      .console {
+        width: 22px;
+        height: 22px;
+      }
       .header-icon::before {
         content: ' ';
         transition: all 0.3s linear;
         background: get('font-color');
-        height: 100%;
-        width: 100%;
+        height: 26px;
+        width: 26px;
         border-radius: 25px;
         position: absolute;
         z-index: -1;
@@ -634,7 +653,7 @@ onMounted(() => {
         .item-menu {
           margin-top: 4px;
           padding: 10px 8px 15px;
-          background: get('background-no-tp');
+          background: get('background');
           color: get('font-color');
           box-shadow: 0 0 8px;
           border-radius: 30px;
@@ -739,13 +758,15 @@ onMounted(() => {
       background: get('font-color');
       color: get('re-font-color');
       position: relative;
+      transition: all 0.3s ease-in-out;
       .el-icon {
         visibility: hidden;
         position: absolute;
         height: 30px;
         width: 30px;
-        border-radius: 8px;
+        border-radius: 30px;
         line-height: 30px;
+
         background: get('font-color');
         font-weight: bold;
         cursor: pointer;
@@ -762,7 +783,8 @@ onMounted(() => {
     }
 
     .is-progress-full {
-      width: 40px;
+      width: 50px;
+      border-radius: 15px;
       cursor: pointer;
     }
   }
@@ -837,6 +859,11 @@ onMounted(() => {
   .is-hidden {
     box-shadow: none;
     background: transparent;
+  }
+  .is-show {
+    .header-icon::before {
+      background: get('re-font-color') !important;
+    }
   }
 
   .setting {

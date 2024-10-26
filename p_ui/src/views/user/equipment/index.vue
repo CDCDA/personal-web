@@ -18,10 +18,12 @@
 
     <div class="equipment-center">
       <div class="equipment-item c-right" :class="getAnimate(i)" v-for="(item, i) in equipmentList">
-        <img class="equipment-item-cover" :src="item.coverUrl" />
-        <span class="equipment-item-name">{{ item.name }}</span>
-        <span class="equipment-item-type">{{ item.model }}</span>
-        <span class="equipment-item-instoction">{{ item.intro }}</span>
+        <c-image class="equipment-item-cover" :src="item.coverUrl" />
+        <div class="equipment-item-info">
+          <span class="equipment-item-name">{{ item.name }}</span>
+          <span class="equipment-item-type">{{ item.model }}</span>
+          <span class="equipment-item-instoction">{{ item.intro }}</span>
+        </div>
       </div>
     </div>
   </div>
@@ -63,19 +65,6 @@ onMounted(() => {
 </script>
 <style lang="scss">
 @include theme() {
-  // <div class="page-main equipment-main">
-  //   <div class="equipment-header">
-  //     <el-image class="equipment-header-img"></el-image>
-  //   </div>
-  //   <div class="equipment-center">
-  //     <div class="equipment-item" v-for="item in equipmentList">
-  //       <el-image class="equipment-item-cover"></el-image>
-  //       <span class="equipment-item-name">{{ item.equipmentName }}</span>
-  //       <span class="equipment-ite-date">{{ item.equipmentType }}</span>
-  //       <span class="equipment-item-instoction">{{ item.introduction }}</span>
-  //     </div>
-  //   </div>
-  // </div>
   .equipment-main {
     @include flex-column;
     justify-content: start;
@@ -87,18 +76,14 @@ onMounted(() => {
       border-radius: 12px;
       box-shadow: get('box-shadow');
       position: relative;
-
       .equipment-header-video {
         opacity: 0.95;
         height: 100%;
         width: 100%;
         border-radius: 12px;
-        background: url('http://111.229.144.36:8008/cyberpunk-city.jpg');
-        background-size: left 28% / cover no-repeat;
         object-fit: cover;
       }
       margin-bottom: 40px;
-      // color: get('re-font-color');
       color: white;
       .equipment-header-top {
         position: absolute;
@@ -132,51 +117,56 @@ onMounted(() => {
 
       .equipment-item {
         width: calc(25% - 20px);
-
-        border-radius: 12px;
+        border-radius: 10px;
         margin: 10px 0px;
-        // opacity: 0.9;
         box-shadow: get('box-shadow');
         background: get('background');
         position: relative;
         color: get('font-color');
-        height: 340px;
         position: relative;
-
+        overflow: hidden;
         @include flex-column;
         justify-content: start;
         .equipment-item-cover {
           width: 100%;
-          height: 210px;
-          border-radius: 20px 20px 0px 0px;
+          aspect-ratio: 7/5;
           object-fit: cover;
           object-position: center;
           background-repeat: no-repeat;
           background: white;
+          border-bottom: 1px solid get('border-color');
         }
-        .equipment-item-name {
-          font-weight: bold;
-          font-size: 20px;
-          margin: 5px;
-        }
-        .equipment-item-type {
-          margin-bottom: 0px;
-          opacity: 0.6;
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          width: calc(100% - 30px);
-        }
-        .equipment-item-instoction {
-          overflow: hidden;
-          display: block;
-          width: calc(100% - 20px);
-          margin: 10px;
-          display: -webkit-box;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          -webkit-box-orient: vertical;
-          -webkit-line-clamp: 2;
+        .equipment-item-info {
+          display: flex;
+          flex-direction: column;
+          justify-content: space-around;
+          height: 120px;
+          width: 100%;
+          align-items: center;
+          .equipment-item-name {
+            font-weight: bold;
+            font-size: 20px;
+            margin: 10px;
+          }
+          .equipment-item-type {
+            margin-bottom: 0px;
+            opacity: 0.6;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            width: calc(100% - 30px);
+          }
+          .equipment-item-instoction {
+            overflow: hidden;
+            display: block;
+            width: calc(100% - 20px);
+            margin: 10px;
+            display: -webkit-box;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+          }
         }
       }
       .equipment-item:hover {

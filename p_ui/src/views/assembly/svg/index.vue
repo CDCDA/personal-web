@@ -5,6 +5,7 @@
   <div class="page-main svg-main">
     <div class="svg-header">
       <svg-icon iconName="物质" style="width: 30px; height: 30px; margin-right: 15px" />svg列表
+      <!-- <div><el-input v-model="searchText" :suffix-icon="Search"></el-input></div> -->
     </div>
     <div class="svg-center">
       <div class="svg-item" v-for="(item, i) in svgList" @click="getSvgCode(item)">
@@ -19,10 +20,11 @@
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { ElNotification } from 'element-plus';
-import { copyText } from '@/utils/commonUtils.ts';
+import { copyText } from '@/utils/common';
+import { Search } from '@element-plus/icons-vue';
 const router = useRouter();
 const svgList = ref([] as any);
-
+const searchText = ref('') as any;
 function getSvgCode(item: any) {
   copyText(`<svg-icon iconName="${item.fileName}" />`);
   ElNotification.success('svg代码复制成功');

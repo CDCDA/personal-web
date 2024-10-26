@@ -41,6 +41,7 @@ const props = defineProps({
 });
 const isThemeDialogShow = ref(false as any);
 const isAddLogShow = ref(false as any);
+const isFull = ref(false as any);
 const menuData = ref([
   {
     iconName: '博客',
@@ -85,6 +86,16 @@ const menuData = ref([
     isShow: false
   }
 ] as any);
+
+const pageMainStyle = ref({
+  width: '',
+  height: '',
+  padding: '',
+  margin: '',
+  borderRadius: '',
+  position: '',
+  maxWidth: ''
+} as any);
 
 const showAll = ref(false as any);
 

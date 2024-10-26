@@ -7,7 +7,9 @@
       trigger="click"
       type="card"
       class="drama-carousel animated bounceInDown"
-      :autoplay="false"
+      loop
+      autoplay
+      interval="5000"
     >
       <el-carousel-item v-for="item in coverImages" class="drama-carousel-item">
         <img class="carousel-item-img" :src="item" />
@@ -17,34 +19,58 @@
       <svg-icon iconName="电影" /> 电影<span>没什么电影看啊</span>
     </div>
     <div class="drama-list">
-      <div class="drama-item c-up" :class="getAnimateTime()" v-for="item in movies">
-        <img :src="item.coverUrl" />
+      <div class="drama-item" v-for="item in movies">
+        <c-image :src="item.coverUrl" />
         <div class="drama-info">
           <h3>{{ item.name }}</h3>
-          <span class="no-wrap">{{ item.intro }}</span>
-          <div class="item-cover">{{ item.intro }}</div>
+          <el-rate
+            class="drama-rate"
+            v-model="item.rate"
+            disabled
+            show-score
+            allow-half
+            text-color="#ff9900"
+            :score-template="`${item.rate * 2}`"
+          />
+          <span class="no-wrap drama-intro">{{ item.intro }}</span>
         </div>
       </div>
     </div>
     <div class="divider"><svg-icon iconName="电视播放" />电视剧<span>没什么电视剧看啊</span></div>
     <div class="drama-list">
       <div class="drama-item" v-for="item in teleplays">
-        <img :src="item.coverUrl" />
+        <c-image :src="item.coverUrl" />
         <div class="drama-info">
           <h3>{{ item.name }}</h3>
-          <span class="no-wrap">{{ item.intro }}</span>
-          <div class="item-cover">{{ item.intro }}</div>
+          <el-rate
+            class="drama-rate"
+            v-model="item.rate"
+            disabled
+            show-score
+            allow-half
+            text-color="#ff9900"
+            :score-template="`${item.rate * 2}`"
+          />
+          <span class="drama-intro no-wrap">{{ item.intro }}</span>
         </div>
       </div>
     </div>
     <div class="divider"><svg-icon iconName="animation" />动漫<span>没什么动漫看啊</span></div>
     <div class="drama-list">
       <div class="drama-item" v-for="item in animations">
-        <img :src="item.coverUrl" />
+        <c-image :src="item.coverUrl" />
         <div class="drama-info">
           <h3>{{ item.name }}</h3>
-          <span class="no-wrap">{{ item.intro }}</span>
-          <div class="item-cover">{{ item.intro }}</div>
+          <el-rate
+            class="drama-rate"
+            v-model="item.rate"
+            disabled
+            show-score
+            allow-half
+            text-color="#ff9900"
+            :score-template="`${item.rate * 2}`"
+          />
+          <span class="drama-intro no-wrap">{{ item.intro }}</span>
         </div>
       </div>
     </div>
@@ -130,46 +156,54 @@ onMounted(() => {
     position: relative;
     transition: all 0.2s linear;
     border-radius: 10px;
-    width: calc(25% - 26px);
+    width: calc(20% - 30px);
+    aspect-ratio: 5/8;
     margin: 10px;
-    padding: 5px 3px;
     box-shadow: get('box-shadow');
-    height: 300px;
     @include flex-column;
     justify-content: start;
     overflow: hidden;
-    img {
-      width: calc(100% - 6px);
+    .c-image {
+      width: 100%;
       border-radius: 8px;
-      aspect-ratio: 5/3;
-      object-fit: cover;
-      background-position: center;
+      height: 100%;
     }
-    span {
-      width: calc(100% - 20px);
-      padding: 0px 10px;
-      display: -webkit-box;
-      -webkit-box-orient: vertical;
-      -webkit-line-clamp: 2;
+  }
+  .c-image {
+    :deep(img) {
+      filter: brightness(90%);
     }
   }
   .drama-info {
     @include flex-column;
-    transition: transform 0.3s linear;
-    bottom: -6%;
-    width: 100%;
+    justify-content: start;
+    align-items: start;
+    transition: all 0.6s ease;
+    bottom: -60%;
+    width: calc(100% - 40px);
+    padding: 0px 20px;
     position: absolute;
-    height: 60%;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(0, 0, 0, 0.5) 25%);
+    height: 100%;
+    color: white;
+    h3 {
+      margin: 30px 3px 10px 3px;
+    }
+    .drama-rate {
+      margin-bottom: 10px;
+      // width: calc(100% - 20px);
+    }
+    .drama-intro {
+      text-align: left;
+      margin-left: 3px;
+    }
   }
   .drama-item:hover {
-    transform: scale(1.04);
     .drama-info {
-      transform: translateY(-20px);
-      background: get('background-no-tp');
+      bottom: 0%;
     }
-    img {
-      filter: brightness(60%);
-      // transform: scale(1.04);
+    .drama-intro {
+      -webkit-line-clamp: 20 !important;
     }
     // .item-cover {
     //   opacity: 1;

@@ -1,27 +1,54 @@
 <template>
-  <el-upload
-    v-if="!Array.isArray(props.modelValue)"
-    class="c-uploader"
-    :action="uploadAction"
-    :show-file-list="false"
-    :on-success="handleAvatarSuccess"
-    :before-upload="beforeAvatarUpload"
-    crossorigin="anonymous"
-  >
-    <el-image v-if="props.modelValue" :src="props.modelValue" class="avatar" />
-    <el-icon v-else class="c-uploader-icon"><Plus /></el-icon>
-  </el-upload>
-  <el-upload
-    v-else
-    v-model:file-list="props.modelValue"
-    :action="uploadAction"
-    list-type="picture-card"
-    :on-preview="handlePictureCardPreview"
-    :on-remove="handleRemove"
-    :on-success="handleSucess"
-  >
-    <el-icon><Plus /></el-icon>
-  </el-upload>
+  <div class="c-upload" :class="isUrl ? 'c-upload-url' : ' '">
+    <svg-icon iconName="切换" @click="uploadSwitch" class="upload-switch"></svg-icon>
+    <div v-if="isUrl">
+      <el-input v-if="!isArr" v-model="imageValue">
+        <template #prepend>
+          <el-icon @click="uploadSwitch"><Switch /> </el-icon>
+        </template>
+      </el-input>
+      <div v-else>
+        <el-input
+          v-for="(item, i) in imageValue"
+          v-model="imageValue[i].url"
+          :key="i"
+          style="margin-bottom: 10px"
+        >
+          <template #prepend>
+            <el-icon @click="uploadSwitch"><Switch /> </el-icon>
+          </template>
+          <template #append>
+            <el-icon v-if="isArr" @click="addNewImageUrl"><Select /> </el-icon>
+          </template>
+        </el-input>
+      </div>
+    </div>
+    <div v-else>
+      <el-upload
+        v-if="!isArr"
+        class="c-uploader"
+        :action="uploadAction"
+        :show-file-list="false"
+        :on-success="handleAvatarSuccess"
+        :before-upload="beforeAvatarUpload"
+        crossorigin="anonymous"
+      >
+        <c-image v-if="imageValue" :src="imageValue" class="avatar" />
+        <el-icon v-else class="c-uploader-icon"><Plus /></el-icon>
+      </el-upload>
+      <el-upload
+        v-else
+        v-model:file-list="imageValue"
+        :action="uploadAction"
+        list-type="picture-card"
+        :on-preview="handlePictureCardPreview"
+        :on-success="handleSuccess"
+      >
+        <el-icon><Plus /></el-icon>
+      </el-upload>
+    </div>
+  </div>
+
   <c-dialog v-model="dialogVisible" style="width: 100%; height: 100%; position: absolute">
     <c-image :src="dialogImageUrl" />
   </c-dialog>
@@ -30,7 +57,10 @@
 import { ref, nextTick, onMounted, watch } from 'vue';
 import type { UploadProps } from 'element-plus';
 import { ElMessage } from 'element-plus';
-
+import { Select, Switch } from '@element-plus/icons-vue';
+const imageValue = ref(null) as any;
+const isArr = ref(false);
+const isUrl = ref(false);
 const uploadAction = ` ${
   process.env.NODE_ENV === 'development' ? '/dev-api' : '/prod-api'
 }/pw/blog/uploadImg`;
@@ -38,9 +68,9 @@ const dialogImageUrl = ref('' as any);
 const dialogVisible = ref(false);
 const emit = defineEmits(['update:modelValue']);
 const props = defineProps({
-  modelValue: null
+  modelValue: null as any,
+  isUrl: false as any
 });
-const imgList = ref([] as any);
 
 const handleAvatarSuccess: UploadProps['onSuccess'] = (response: any) => {
   if (response.data) emit('update:modelValue', response.data);
@@ -48,32 +78,41 @@ const handleAvatarSuccess: UploadProps['onSuccess'] = (response: any) => {
 };
 
 const beforeAvatarUpload: UploadProps['beforeUpload'] = () => {
-  // if (rawFile.type !== 'image/jpeg') {
-  //   ElMessage.error('Avatar picture must be JPG format!');
-  //   return false;
-  // } else if (rawFile.size / 1024 / 1024 > 2) {
-  //   ElMessage.error('Avatar picture size can not exceed 2MB!');
-  //   return false;
-  // }
   return true;
-};
-const handleRemove: UploadProps['onRemove'] = (uploadFile, uploadFiles) => {
-  uploadFile;
-  uploadFiles;
 };
 
 const handlePictureCardPreview: UploadProps['onPreview'] = uploadFile => {
-  console.log('QQQ', uploadFile);
   dialogImageUrl.value = uploadFile.url;
   dialogVisible.value = true;
 };
 
-function handleSucess(response: any) {
-  let imageRelations = props.modelValue;
+function uploadSwitch() {
+  if (isArr.value && imageValue.value.length == 0) {
+    imageValue.value.push({
+      id: null,
+      url: '',
+      createTime: ''
+    });
+  }
+  isUrl.value = !isUrl.value;
+}
+
+function addNewImageUrl() {
+  if (!isUrl.value) return;
+  imageValue.value.push({
+    id: null,
+    url: '',
+    createTime: ''
+  });
+  emit('update:modelValue', imageValue.value);
+}
+
+function handleSuccess(response: any) {
+  let imageRelations = imageValue.value;
   imageRelations.pop();
   if (response.code == 200) {
     imageRelations.push({
-      name: response.data.replace('http://111.229.144.36:8008/', ''),
+      name: response.data.replace('http://1.92.159.74:8008/', ''),
       url: response.data
     });
   } else {
@@ -81,21 +120,79 @@ function handleSucess(response: any) {
   }
   emit('update:modelValue', imageRelations);
 }
-// watch(
-//   () => props.modelValue,
-//   newValue => {
-//     // console.log('sss', newValue);
-//   },
-//   {
-//     deep: true
-//   }
-// );
+onMounted(() => {
+  isUrl.value = props.isUrl;
+  isArr.value = Array.isArray(props.modelValue);
+  if (isArr.value && props.modelValue.length == 0) {
+    imageValue.value = [];
+    console.log(isUrl.value, isArr.value, imageValue.value);
+  } else {
+    imageValue.value = props.modelValue;
+    console.log(imageValue.value);
+  }
+});
+watch(
+  () => props.modelValue,
+  val => {
+    isArr.value = Array.isArray(val);
+    if (isArr.value && val.length == 0) {
+      imageValue.value = [];
+      console.log(isUrl.value, isArr.value, imageValue.value);
+    } else {
+      imageValue.value = val;
+      console.log(imageValue.value);
+    }
+  },
+  {
+    deep: true
+  }
+);
 </script>
 <style lang="scss" scoped>
 @include theme() {
+  .upload-switch {
+    z-index: 10;
+    height: 18px;
+    width: 18px;
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    opacity: 0;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    :deep(.theme-icon) {
+      fill: get('border-color') !important;
+    }
+  }
+  .el-input {
+    z-index: 11;
+  }
+  .upload-switch:hover {
+    opacity: 1;
+  }
+  .upload-switch:active {
+    transform: translateY(2px);
+  }
+  .c-upload-url {
+    width: 100%;
+  }
+  .el-icon {
+    cursor: pointer;
+    color: get('border-color') !important;
+  }
+  .el-icon:active {
+    transform: translateY(2px);
+  }
+  .c-upload {
+    position: relative;
+    .el-input {
+      width: 100%;
+    }
+  }
   .c-uploader {
     border: 1px solid get('border-color');
     background: transparent;
+
     width: 146px;
     height: 145px;
     display: flex;
@@ -105,6 +202,9 @@ function handleSucess(response: any) {
     :deep(.el-upload) {
       height: 100%;
       width: 100%;
+    }
+    .c-uploader-icon {
+      font-size: 20px;
     }
   }
 }

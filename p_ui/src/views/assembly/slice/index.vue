@@ -8,10 +8,10 @@
     </div>
     <div class="slice-center">
       <div class="slice-item" v-for="(item, i) in sliceList" @click="toSlice(item)">
-        <c-image class="slice-item-cover" :src="item.url" />
-        <span class="slice-item-name">{{ item.label }}</span>
+        <c-image class="slice-item-cover" :src="item.meta.url" />
+        <span class="slice-item-name">{{ item.meta.remark }}</span>
         <span class="slice-item-divider"></span>
-        <span class="slice-item-instoction no-wrap">{{ item.introduction }}</span>
+        <span class="slice-item-instoction no-wrap">{{ item.meta.introduction }}</span>
         <!-- <div class="instoction-cover">
           {{ item.introduction }}
         </div> -->
@@ -22,62 +22,18 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import routerViewDialog from '@/components/routerViewDialog/index.vue';
 const router = useRouter();
 const routerDialog = ref(null as any);
 const title = ref(null as any);
-const sliceList = ref([
-  {
-    label: '魔方',
-    routerName: 'rubiks',
-    introduction: '普通3x3动态魔方',
-    url: 'http://111.229.144.36:8008/魔方.png'
-  },
-  {
-    label: '图片旋转魔方',
-    routerName: 'rotatingRubik',
-    introduction: '可旋转展示6面图片的魔方',
-    url: 'http://111.229.144.36:8008/图片旋转魔方.png'
-  },
-  {
-    label: '3d菜单',
-    routerName: '3dMenu',
-    introduction: '3d菜单',
-    url: 'http://111.229.144.36:8008/3d菜单.png'
-  },
-  {
-    label: '卡片翻转',
-    routerName: 'cardFlip',
-    introduction: '卡片翻转',
-    url: 'http://111.229.144.36:8008/卡片翻转.png'
-  },
-  {
-    label: '文字滚动',
-    routerName: 'rollText',
-    introduction: '文字滚动',
-    url: 'http://111.229.144.36:8008/文字滚动.png'
-  },
-  {
-    label: '心型加载',
-    routerName: 'heartLoading',
-    introduction: '心型加载',
-    url: 'http://111.229.144.36:8008/心型加载.png'
-  },
-
-  {
-    label: '雨',
-    routerName: 'neonRain',
-    introduction: '雨',
-    url: 'http://111.229.144.36:8008/雨.png'
-  }
-] as any);
+const sliceList = ref([] as any);
 
 function toSlice(item: any) {
-  title.value = item.label;
+  title.value = item.meta.remark;
   routerDialog.value.open();
-  router.push({ name: item.routerName });
+  router.push({ name: item.name });
 }
 
 function close() {
@@ -102,6 +58,10 @@ function getAnimate(i: any) {
   }
   return 'animated';
 }
+
+onMounted(() => {
+  sliceList.value = (router.options.routes as any).find((x: any) => x.name == 'slice').children;
+});
 </script>
 <style lang="scss" scoped>
 @include theme() {

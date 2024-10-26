@@ -39,15 +39,15 @@ const visitorInfo = reactive({
 
 // 获取ip
 async function getIp() {
-  axios
-    .get('https://api.ipify.org?format=json')
-    .then(response => {
-      visitorInfo.ip = response.data.ip; // 输出客户端IP地址
-      getLocationByIp();
-    })
-    .catch(error => {
-      console.log(error);
-    });
+  // axios
+  //   .get('https://api.ipify.org?format=json')
+  //   .then(response => {
+  //     visitorInfo.ip = response.data.ip; // 输出客户端IP地址
+  //     getLocationByIp();
+  //   })
+  //   .catch(error => {
+  //     console.log(error);
+  //   });
 }
 
 // 获取地理位置

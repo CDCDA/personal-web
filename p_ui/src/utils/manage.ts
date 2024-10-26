@@ -11,7 +11,7 @@ export const useTableResize = () => {
       getTotalHeight(divider) +
       getTotalHeight(buttonGroup) +
       getTotalHeight(pagination) +
-      (divider.offsetHeight == 0 ? -8 : 12)
+      (divider.offsetHeight == 0 ? 0 : 10)
     }px)`;
   }, 200);
 };

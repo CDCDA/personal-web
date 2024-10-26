@@ -22,6 +22,7 @@ import java.util.List;
 @Service
 public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements BlogService {
 
+
     @Autowired
     BlogMapper blogMapper;
 
@@ -46,20 +47,29 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements Bl
     @Override
     @Transactional
     public List<BlogCountVO> countBlogByDateRange(String userId, String startTime, String endTime) {
-        return blogMapper.countBlogByDateRange(userId,startTime,endTime);
+        return blogMapper.countBlogByDateRange(userId, startTime, endTime);
     }
 
     @Override
     @Transactional
-    public List<BlogTypeCountVO> countBlogByType(String userId, String startTime, String endTime){
-        return blogMapper.countBlogByType(userId,startTime,endTime);
+    public List<BlogTypeCountVO> countBlogByType(String userId, String startTime, String endTime) {
+        return blogMapper.countBlogByType(userId, startTime, endTime);
     }
 
     @Override
     @Transactional
-    public String getRandomBlog(){
+    public String getRandomBlog() {
         return blogMapper.getRandomBlog();
     }
 
 
+    @Override
+    public String getPreBlog(String blogId) {
+        return blogMapper.getPreBlog(blogId);
+    }
+
+    @Override
+    public String getNextBlog(String blogId) {
+        return blogMapper.getNextBlog(blogId);
+    }
 }

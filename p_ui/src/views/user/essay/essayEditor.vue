@@ -161,8 +161,9 @@ async function getEssayData(id: any) {
     essayData.value.imageRelations = [];
     data.images.forEach((img: any) => {
       let spArr = img.split('/');
-      essayData.value.imageRelations.push({ name: spArr[spArr.length - 1], url: img });
+      essayData.value.imageRelations.push({ name: spArr[spArr.length - 1], url: img, id: null });
     });
+    console.log('SSS', essayData.value.imageRelations);
     if (data.tags) essayData.value.tags = JSON.parse(data.tags);
   }
 }

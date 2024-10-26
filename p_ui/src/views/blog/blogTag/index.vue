@@ -4,7 +4,7 @@
 <template>
   <div class="blog-tag page-main">
     <div class="cards re-slide-in" v-for="cards in tagCardList">
-      <div class="card" v-for="(item, i) in cards" @click="toTagPage">
+      <div class="card" v-for="(item, i) in cards" @click="toTagPage(item)">
         <div class="card-face">
           <div class="card-label">
             <div
@@ -16,7 +16,7 @@
                 backdrop-filter: blur(10px);
               "
             ></div>
-            <!-- <el-image class="card-bg" :src="item.coverUrl" fit="cover">
+            <el-image class="card-bg" :src="item.coverUrl" fit="cover">
               <template #placeholder>
                 <div
                   class="image-slot"
@@ -24,7 +24,7 @@
                   style="width: 100%; height: 100%"
                 ></div>
               </template>
-            </el-image> -->
+            </el-image>
             <div class="card-bg-cover"></div>
             <span class="card-label-count">{{ item.total }}<span>篇</span></span>
             <span class="card-label-text">{{ item.tagName }}</span>
@@ -55,6 +55,7 @@ async function getTagList() {
 }
 
 function toTagPage(item: any) {
+  console.log('SSS', item);
   router.push({ name: 'blogTagPage', query: { tagId: item.tagId } });
 }
 
@@ -96,15 +97,15 @@ onMounted(() => {
     width: 150px;
     cursor: pointer;
   }
-  .card:after {
-    bottom: 0;
-    content: '';
-    left: -60px;
-    position: absolute;
-    right: -60px;
-    top: 0px;
-    z-index: 10;
-  }
+  // .card:after {
+  //   bottom: 0;
+  //   content: '';
+  //   left: -60px;
+  //   position: absolute;
+  //   right: -60px;
+  //   top: 0px;
+  //   z-index: 10;
+  // }
 
   .card-face {
     bottom: 0;
@@ -114,8 +115,8 @@ onMounted(() => {
     position: absolute;
     right: 0;
     top: 0;
-
-    transition: 800ms cubic-bezier(0.19, 1, 0.22, 1) transform;
+    transition: all 1000ms cubic-bezier(0.19, 1, 0.22, 1);
+    box-shadow: get('box-shadow');
   }
 
   .card-bg {
@@ -125,9 +126,11 @@ onMounted(() => {
     z-index: 1;
     border-radius: 10px;
     object-fit: cover;
+    box-shadow: get('box-shadow');
     opacity: 0.9;
     background: get('font-color');
     filter: brightness(0.6);
+    transition: all 1000ms cubic-bezier(0.19, 1, 0.22, 1);
   }
   .card-label-text {
     color: white;
@@ -176,18 +179,16 @@ onMounted(() => {
     border-radius: 10px;
     transform: translateY(15px) rotate(5deg);
   }
-  .card:hover:after {
-    top: -175px;
-  }
-  .card:hover .card-face:after {
-    animation: fade 1s ease-out forwards linear;
-    transition: all 1s;
-  }
+  // .card:hover:after {
+  //   top: -175px;
+  // }
+  // .card:hover .card-face:after {
+  //   animation: fade 1s ease-out forwards linear;
+  //   transition: all 1s;
+  // }
   .card:hover .card-face {
     // box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4), inset 0 0 0 2px rgba(255, 214, 153, 0.75);
-    transform: translateY(-100px) rotate(0deg) scale(1.5);
-    transition-duration: 1s;
-
+    transform: translateY(-50px) rotate(0deg) scale(1.3);
     z-index: 999;
     .card-bg {
       filter: brightness(1);

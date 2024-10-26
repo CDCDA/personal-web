@@ -89,7 +89,8 @@ input {
   background: get('back-tr');
   backdrop-filter: blur(5px);
   position: relative;
-  box-shadow: get('box-shadow');
+  // transition: all 0.4s ease;
+  // box-shadow: get('box-shadow');
 }
 
 // .page-main::before {
@@ -239,6 +240,17 @@ input {
 
 /* 管理 -- 结束 */
 .manage {
+  // width: 100%;
+  // margin: 56px auto 0px auto;
+  // //
+  // height: calc(100vh - 56px);
+  // // border-radius: 10px;
+  // animation: slide-in 1s forwards ease;
+  // background: get('background');
+  // backdrop-filter: blur(5px);
+  // position: relative;
+  // transition: all 0.3s ease;
+  background: get('background-no-tp');
   .manage-main {
     height: calc(100% - 10px);
     width: calc(100% - 40px);
@@ -255,7 +267,7 @@ input {
     bottom: 6px;
   }
   .c-divider {
-    margin: 0px 0px 15px 0px !important;
+    margin: 0px 0px 10px 0px !important;
     width: calc(100% - 0px) !important;
     animation: re-slide-in 1s forwards ease;
   }
@@ -263,7 +275,7 @@ input {
     text-align: left;
     overflow: hidden;
     padding-top: 10px;
-    margin-bottom: 5px;
+    margin-bottom: 0px;
     animation: re-slide-in 1s forwards ease;
   }
   .is-hidden {
@@ -274,21 +286,7 @@ input {
       display: none;
     }
     .manage-button-group {
-      margin: 12px 0px;
-    }
-  }
-
-  .manage-tools {
-    position: absolute;
-    right: 5px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    .svg-icon-wrap {
-      height: 25px;
-      width: 25px;
-      cursor: pointer;
-      margin-left: 5px;
+      margin-top: 5px;
     }
   }
   .manage-table {
@@ -314,6 +312,17 @@ input {
   .operation-icon:active {
     transform: translateY(1px);
   }
+}
+.manage.page-main.is-full {
+  width: 100vw !important;
+  height: 100vh !important;
+  padding: 0px;
+  margin: 0px !important;
+  border-radius: 0px;
+  position: absolute;
+  max-width: none;
+
+  z-index: 200;
 }
 /* 管理 -- 结束 */
 

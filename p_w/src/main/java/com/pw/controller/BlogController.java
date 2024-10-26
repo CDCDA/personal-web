@@ -1,5 +1,6 @@
 package com.pw.controller;
 
+import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.pw.common.controller.BaseController;
 import com.pw.common.controller.convertController;
@@ -28,9 +29,7 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 import static com.pw.common.utils.ResultUtil.*;
 import static org.apache.commons.lang3.ObjectUtils.isEmpty;
@@ -154,6 +153,17 @@ public class BlogController extends BaseController implements convertController 
     @ApiOperation(value = "按分类查询博客列表计数", notes = "", httpMethod = "GET")
     public Result countBlogByType(String userId, String startTime, String endTime) {
         return resultData(blogService.countBlogByType(userId, startTime, endTime));
+    }
+
+    @GetMapping("/getPreAndNextBlog")
+    @ApiOperation(value = "获取博客的前一个博客和后一个博客", notes = "", httpMethod = "GET")
+    public Result getPreAndNextBlog(String blogId) {
+        Map<String, BlogVO> map = new HashMap<>();
+        String preBlogId = blogService.getPreBlog(blogId);
+        String nextBlogId = blogService.getNextBlog(blogId);
+        map.put("preBlog", ObjectUtil.isNotEmpty(preBlogId) ? blogService.getBlogById(Long.valueOf(preBlogId)) : null);
+        map.put("nextBlog", ObjectUtil.isNotEmpty(nextBlogId) ? blogService.getBlogById(Long.valueOf(nextBlogId)) : null);
+        return Result.ok().data(map);
     }
 
     @PostMapping("/uploadImg")

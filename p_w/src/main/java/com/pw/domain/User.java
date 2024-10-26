@@ -1,12 +1,9 @@
 package com.pw.domain;
 
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.pw.common.entity.BaseEntity;
-//import io.swagger.annotations.ApiModel;
-//import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -54,4 +51,16 @@ public class User extends BaseEntity implements Serializable {
 
     @ApiModelProperty(value = "性别")
     private String sex;
+
+    @ApiModelProperty(value = "博客网站")
+    private String webUrl;
+
+    @ApiModelProperty(value = "ip属地")
+    private String ipRegion;
+
+    @ApiModelProperty(value = "系统")
+    private String os;
+
+    @ApiModelProperty(value = "浏览器")
+    private String browser;
 }

@@ -27,4 +27,8 @@ public interface BlogService extends IService<Blog> {
 
     String getRandomBlog();
 
+    String getPreBlog(String blogId);
+
+    String getNextBlog(String blogId);
+
 }

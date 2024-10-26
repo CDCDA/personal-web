@@ -3,7 +3,7 @@
  */
 
 import { defineStore } from 'pinia';
-import { computed, reactive, ref } from 'vue';
+import { ref } from 'vue';
 
 interface T {
   setGlobalState: any;
@@ -11,12 +11,13 @@ interface T {
 
 const useThemeStore = defineStore('theme', () => {
   const isShow = ref(false);
+  const isFooterShow = ref(false);
   //主题风格
   const theme = ref('theme-white');
   //背景类型
   const backType = ref('img');
   //背景url
-  const backUrl = ref('../src/assets/images/123123123.jpg');
+  const backUrl = ref(new URL('@/assets/images/123123123.jpg', import.meta.url).href);
   //外观设置
   const options = ref({
     //粒子特效
@@ -30,6 +31,7 @@ const useThemeStore = defineStore('theme', () => {
   } as any);
   return {
     isShow,
+    isFooterShow,
     theme,
     backType,
     options,

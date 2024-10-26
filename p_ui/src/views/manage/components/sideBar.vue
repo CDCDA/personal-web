@@ -10,8 +10,7 @@
         v-for="item in menuList"
         @click="menuClick(item)"
       >
-        {{ item.meta.remark }}
-        <svg-icon class="sidebar-item-icon" iconName="右-双层"></svg-icon>
+        {{ item.meta.remark }} <svg-icon class="sidebar-item-icon" iconName="右-双层"></svg-icon>
       </li>
     </ul>
   </div>
@@ -153,7 +152,8 @@ onMounted(() => {
   position: relative;
   margin: 0;
   padding: 0;
-
+  overflow-y: auto;
+  overflow-x: hidden;
   li {
     height: 50px;
     // border: 1px solid;

@@ -2,7 +2,7 @@
  * @Description: 博客接口
  * @Author: cyd 1205489124@qq.com
  * @Date: 2023-07-07 16:59:41
- * @LastEditTime: 2023-11-08 16:11:58
+ * @LastEditTime: 2024-10-22 16:07:09
  */
 import request from '@/utils/request';
 // 分页
@@ -72,4 +72,12 @@ export const getRandomBlog = () =>
   request({
     url: '/pw/blog/getRandomBlog',
     method: 'get'
+  });
+
+// 随机博客
+export const getPreAndNextBlog = (params: any) =>
+  request({
+    url: '/pw/blog/getPreAndNextBlog',
+    method: 'get',
+    params
   });

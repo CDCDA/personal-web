@@ -1,5 +1,7 @@
 package com.pw.common.utils;
 
+import cn.hutool.core.util.ObjectUtil;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -39,12 +41,18 @@ public class ArraysToTreeUtil<T> {
      */
     public List<T> tree(List<T> list) {
         List<T> treeList = new ArrayList<>();
-        Map<Object, T> codeMap = list.stream().collect(Collectors.toMap(t -> code.apply(t), t -> t));
+        Map<Object, T> codeMap = list.stream().collect(Collectors.toMap(t -> code.apply(t).toString(), t -> t));
         list.stream().forEach(t -> {
-            if (!codeMap.containsKey(parent.apply(t))) {
+            Object parentVal = parent.apply(t);
+            if (ObjectUtil.isNotEmpty(parentVal)) {
+                parentVal = parentVal.toString();
+            } else {
+                parentVal = "";
+            }
+            if (!codeMap.containsKey(parentVal)) {
                 treeList.add(t);
             } else {
-                T parentT = codeMap.get(parent.apply(t));
+                T parentT = codeMap.get(parentVal);
                 children.apply(parentT).add(t);
             }
         });

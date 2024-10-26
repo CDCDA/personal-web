@@ -24,7 +24,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue';
+import { ref, onMounted } from 'vue';
 import { secondDayDiff, monthDayDiff } from '@/utils/date';
 import { menuData } from '../menuData.ts';
 import { useRouter, onBeforeRouteUpdate } from 'vue-router';
@@ -34,8 +34,6 @@ const time = ref('' as any);
 const timeDifference = ref('' as any);
 const meteorDifference = ref('' as any);
 const weenkendDifference = ref('' as any);
-const imgSrc1 = new URL('@/assets/svg/流星.svg', import.meta.url).href;
-const imgSrc2 = new URL('@/assets/svg/火箭.svg', import.meta.url).href;
 // 计算下一次英仙座流星雨的时间
 function calculateNextPerseidMeteorShower() {
   const now = new Date(); // 当前日期和时间

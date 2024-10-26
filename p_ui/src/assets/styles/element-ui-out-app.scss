@@ -15,6 +15,7 @@
 
 .el-popper.is-light {
   background-color: transparent;
+  backdrop-filter: blur(20px);
 }
 
 .el-menu--horizontal.el-menu,
@@ -24,13 +25,14 @@
 }
 
 .el-popper.is-pure.is-light {
-  background: transparent;
-  backdrop-filter: blur(10px);
+  // background: get('background');
+  // backdrop-filter: blur(10px);
   box-shadow: get('box-shadow');
   font-family: 'shark';
-
+  border-radius: 6px;
+  overflow: hidden;
   .el-select-dropdown__item {
-    color: white;
+    color: black;
   }
   .is-selected,
   .is-hovering {
@@ -40,7 +42,7 @@
 .el-button {
   background: transparent;
   color: get('font-color');
-  border: 2px solid get('border-color');
+  border: 1px solid get('border-color');
   transition: all 0.3s ease-in-out;
   font-family: 'Shark';
   outline: none !important;
@@ -48,7 +50,7 @@
 .el-button:hover {
   background: get('border-color') !important;
   color: get('re-font-color');
-  border: 2px solid get('border-color');
+  border: 1px solid get('border-color');
   outline: none;
 }
 .el-button:active {
@@ -150,12 +152,31 @@
 }
 
 .el-notification {
-  background: transparent;
+  background: white;
   backdrop-filter: blur(10px);
   border-color: get('modal');
   .el-notification__content,
   .el-notification__title,
   .el-notification__closeBtn {
-    color: white;
+    color: black;
+  }
+}
+.el-overlay-dialog {
+  overflow: hidden;
+}
+
+/* 树 -- 开始 */
+.el-tree {
+  background: transparent !important;
+  backdrop-filter: 15px;
+  color: get('font-color');
+  .el-tree-node__content:hover {
+    background: hsla(0, 0%, 100%, 0.18823529411764706); // hover 节点背景色，否则是白色
+  }
+  .el-tree-node:focus > .el-tree-node__content {
+    background: transparent; // focus 节点背景透明，否则是白色
+  }
+  .el-tree-node__expand-icon {
+    color: get('font-color');
   }
 }

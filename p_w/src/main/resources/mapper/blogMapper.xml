@@ -123,6 +123,10 @@
         b.user_id,
         b.cover_url,
         b.blog_abstract,
+        b.create_time,
+        b.create_by,
+        b.update_time,
+        b.update_by,
         bt.type_id,
         bt.type_name,
         u.nick_name as author
@@ -178,8 +182,26 @@
     <select id="getRandomBlog" resultType="String">
         SELECT blog_id
         FROM `blog`
-        ORDER BY RAND()
-        LIMIT 1
+        ORDER BY RAND() LIMIT 1
     </select>
+
+    <select id="getPreBlog" resultType="String">
+        SELECT MAX(blog_id)
+        FROM `blog`
+        <if test="blogId != null and blogId!=''">
+            WHERE "${blogId}" > blog_id
+        </if>
+    </select>
+
+    <select id="getNextBlog" resultType="String">
+        SELECT MIN(blog_id)
+        FROM `blog`
+        <if test="blogId != null and blogId!=''">
+            WHERE blog_id > "${blogId}"
+        </if>
+
+    </select>
+
+
 </mapper>
 

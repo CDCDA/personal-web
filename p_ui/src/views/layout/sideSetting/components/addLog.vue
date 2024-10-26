@@ -36,7 +36,7 @@
 </template>
 <script setup lang="ts">
 import { ref, nextTick, onMounted, watch } from 'vue';
-import { saveUpdateLog } from '@/api/updateLog.ts';
+import { saveUpdateLog } from '@/api/system/updateLog';
 import { ElNotification } from 'element-plus';
 const title = ref('新增更新日志');
 const dialogVisible = ref(true);

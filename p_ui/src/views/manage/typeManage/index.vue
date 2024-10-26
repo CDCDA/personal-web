@@ -26,35 +26,13 @@
       </el-form-item>
     </el-form>
     <div class="c-divider"></div>
-    <el-row :gutter="10" class="manage-button-group" style="margin-bottom: 15px">
-      <el-col :span="1.5">
-        <el-button type="primary" plain icon="Plus" @click="handleAdd">新增</el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button
-          type="primary"
-          plain
-          icon="Edit"
-          :disabled="selection.length == 1"
-          @click="handleEdit"
-          >修改</el-button
-        >
-      </el-col>
-      <el-col :span="1.5">
-        <el-button
-          type="primary"
-          plain
-          icon="Select"
-          :disabled="selection.length > 0"
-          @click="handleDel"
-          >删除</el-button
-        >
-      </el-col>
-      <div class="manage-tools">
-        <svg-icon iconName="refresh" @click="getList()"></svg-icon>
-        <svg-icon iconName="隐藏菜单" @click="hideSearch()"></svg-icon>
-      </div>
-    </el-row>
+    <tools
+      @handleAdd="handleAdd"
+      @handleEdit="handleEdit"
+      @handleDel="handleDel"
+      :selection="selection"
+      @refresh="getList"
+    />
     <el-table :data="tableList" class="manage-table" style="" @selection-change="selectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="封面" align="center" prop="isOriginal" width="150">
@@ -82,7 +60,7 @@
     />
   </div>
   <!-- 新增或编辑 -->
-  <c-dialog :title="title" v-model="open" width="450" :modal="false" v-drag="true">
+  <c-dialog :title="title" v-model="open" width="450" :modal="false">
     <el-form ref="submitForm" :model="form" label-width="55" :rules="rules">
       <el-form-item label="名称" prop="typeName">
         <el-input v-model="form.typeName" clearable></el-input>
@@ -110,6 +88,7 @@ import Pagination from '@/components/pagination/index.vue';
 import { ElMessageBox, ElNotification } from 'element-plus';
 import upload from '@/components/upload/upload.vue';
 import { useTableResize } from '@/utils/manage';
+import tools from '../components/tools.vue';
 const submitForm = ref(null as any);
 const router = useRouter();
 const queryParams = ref({
@@ -127,7 +106,7 @@ const isSearchShow = ref(false as any);
 const selectIds = ref([] as any);
 const title = ref('新增' as String);
 const form = ref({
-  coverUrl: '',
+  coverUrl: '111',
   intro: '',
   typeName: ''
 } as any);
@@ -187,7 +166,7 @@ function selectionChange(val: any) {
 
 function resetForm() {
   form.value = {
-    coverUrl: '',
+    coverUrl: '11',
     intro: '',
     typeName: ''
   };

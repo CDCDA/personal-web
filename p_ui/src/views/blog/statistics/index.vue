@@ -44,7 +44,7 @@ import { countAlbum } from '@/api/album.ts';
 import { countEssay } from '@/api/essay.ts';
 import { countMusic } from '@/api/music.ts';
 import { countType } from '@/api/type.ts';
-import { countUpdateLog } from '@/api/updateLog.ts';
+import { countUpdateLog } from '@/api/system/updateLog';
 import { useTransition } from '@vueuse/core';
 const blogNum = ref(0 as any);
 const blogNumValue = useTransition(blogNum);

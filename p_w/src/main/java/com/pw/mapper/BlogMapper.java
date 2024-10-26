@@ -23,4 +23,8 @@ public interface BlogMapper extends BaseMapper<Blog> {
     List<BlogTypeCountVO> countBlogByType(String userId, String startTime, String endTime);
 
     String getRandomBlog();
+
+    String getPreBlog(String blogId);
+
+    String getNextBlog(String blogId);
 }

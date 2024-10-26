@@ -92,7 +92,7 @@
 <script setup lang="ts">
 import { reactive, ref, onMounted } from 'vue';
 import useThemeStore from '@/store/modules/theme.ts';
-import { listWallpaper } from '@/api/wallpaper.ts';
+import { listWallpaper } from '@/api/system/wallpaper.ts';
 const emit = defineEmits(['closeThemeDialog']);
 var themeStore = useThemeStore();
 const dialogVisible = ref(true);
@@ -200,6 +200,7 @@ function setTheme() {
  */
 function setBack() {
   let backUrl = activeBack.url as any;
+  themeStore.backUrl = backUrl;
   themeStore.backType = activeBack.type;
   let back = document.getElementById('tsparticles') as any;
   switch (activeBack.type) {
@@ -349,6 +350,7 @@ defineExpose({
     }
     .el-tabs {
       height: 100%;
+      width: 100%;
     }
     .preview {
       position: absolute;
@@ -433,6 +435,7 @@ defineExpose({
       height: 30px;
       line-height: 30px;
       color: white;
+      text-align: center;
     }
     .el-dialog__header {
       margin-bottom: 0px !important;

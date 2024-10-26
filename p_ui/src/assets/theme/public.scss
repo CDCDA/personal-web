@@ -56,3 +56,10 @@ html {
   box-shadow: get('box-shadow');
   color: rgba(255, 255, 255, 0.6);
 }
+
+body {
+  @include getValue() {
+    @import '@/assets/styles/element-ui.scss';
+    @import '@/assets/styles/common.scss';
+  }
+}

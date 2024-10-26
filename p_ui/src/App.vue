@@ -1,20 +1,31 @@
 <template>
   <div id="app-theme" data-theme="theme-white">
+    <div class="dialog-base"></div>
     <el-container class="container">
       <el-header class="el-header">
         <common-header v-if="themeStore.isShow" />
       </el-header>
       <el-main id="main">
         <sakura :new-options="sakuraOptions" v-if="themeStore.options?.isSakura" />
-        <video id="tsparticles" autoplay loop muted v-if="themeStore.backType == 'video'" />
+        <video
+          id="tsparticles"
+          class="tsparticles-video"
+          autoplay
+          loop
+          muted
+          :src="src"
+          v-if="themeStore.backType == 'video'"
+        />
         <div id="tsparticles" class="particles" v-else />
         <Particles
           v-if="themeStore.options && themeStore.options.isParticles"
           id="particles"
           :options="options"
         />
-        <keep-alive><router-view></router-view></keep-alive>
-        <common-footer v-if="isHeaderShow" />
+        <router-view v-slot="{ Component }">
+          <component :is="Component" />
+        </router-view>
+        <common-footer v-if="themeStore.isFooterShow" />
       </el-main>
     </el-container>
     <SideSetting :isHideen="false" v-if="themeStore.isShow"></SideSetting>
@@ -39,13 +50,14 @@ const sakuraOptions = ref({
   show: true,
   zIndex: -1
 } as any);
+const src = ref(null) as any;
 var userStore = useUserStore();
 var themeStore = useThemeStore();
 const router = useRouter() as any;
 const visible = ref(false);
 const top = ref(0);
 const left = ref(0);
-const isHeaderShow = ref(false);
+const isFooterShow = ref(false);
 const options = ref({
   background: {
     color: {
@@ -160,44 +172,44 @@ if (userData) {
   userStore.userId = userData.userId;
   userStore.userName = userData.userName;
   userStore.permission = userData.permission;
+  userStore.nickName = userData.nickName;
+  userStore.email = userData.email;
+  userStore.avatar = userData.avatar;
 }
 function init() {
   autoClearTimer(() => {
-    isHeaderShow.value = true;
+    themeStore.isFooterShow = true;
   }, 4500);
-  autoClearTimer(() => {
-    //查看是否有token
-    if (userStore.token) {
-      router.push({ path: '/home' });
-      themeStore.isShow = true;
-    } else {
-      themeStore.isShow = false;
-      router.push({ path: '/login' });
-    }
-    // 获取缓存的主题数据
-    let themeData = window.localStorage.getItem('themeData') as any;
-    if (themeData) {
-      themeData = JSON.parse(themeData);
-      themeStore.theme = userData.theme;
-      themeStore.backUrl = userData.backUrl;
-      themeStore.backType = userData.backType;
-      themeStore.options = userData.options;
-    }
-    var { theme, backUrl, options, backType } = themeStore;
-    // 设置主题
-    (document.getElementById('app-theme') as any).setAttribute('data-theme', theme);
-    // 设置壁纸
-    let back = document.getElementById('tsparticles') as any;
-    if (backType == 'img') {
-      back.style.background = 'left/cover fixed no-repeat url(' + backUrl + ')';
-    } else if (backType == 'color') {
-      back.style.background = backUrl;
-    } else if (backType == 'video') {
-      back.src = backUrl;
-    }
-
-    console.log(router.currentRoute._value.name == 'login');
-  }, 0);
+  let appTheme = document.querySelector('#app-theme') as any;
+  //查看是否有token
+  if (userStore.token) {
+    router.push({ path: '/home' });
+  } else {
+    router.push({ path: '/login' });
+  }
+  // 获取缓存的主题数据
+  let themeData = window.localStorage.getItem('themeData') as any;
+  if (themeData) {
+    themeData = JSON.parse(themeData);
+    themeStore.theme = themeData.theme ? themeData.theme : null;
+    themeStore.backUrl = themeData.backUrl ? themeData.backUrl : null;
+    themeStore.backType = themeData.backType ? themeData.backType : null;
+    themeStore.options = themeData.options ? themeData.options : null;
+  }
+  var { theme, backUrl, options, backType } = themeStore;
+  // 设置主题
+  appTheme.setAttribute('data-theme', theme);
+  // 设置壁纸
+  let back = document.getElementById('tsparticles') as any;
+  if (backType == 'img') {
+    back.style.background = 'left/cover fixed no-repeat url(' + backUrl + ')';
+  } else if (backType == 'color') {
+    back.style.background = backUrl;
+  } else if (backType == 'video') {
+    src.value = backUrl;
+  }
+  // 设置字体
+  appTheme.style.fontFamily = options.fontFamily;
 }
 
 onMounted(() => {

@@ -19,7 +19,7 @@
 
 /* 标签 -- 开始 */
 .el-tag {
-  border: 2px solid get('border-color');
+  border: 1px solid get('border-color');
   background: get('background');
   margin-right: 6px;
   padding: 0 12px;
@@ -52,15 +52,37 @@
 .el-textarea__inner {
   color: get('font-color');
   box-shadow: none;
-  border: 2px solid get('border-color');
+  border: 1px solid get('border-color');
 }
 
 /* 输入框 -- 结束 */
-
+.el-popper.is-pure.is-light {
+  background: get('background');
+}
+.el-input-group {
+  box-shadow: rgba(0, 0, 0, 0.125) 0px 0px 10px 0px;
+  .el-input__wrapper {
+    border-radius: 0px !important;
+    box-shadow: none;
+    padding: 0.8px 11px;
+    height: 30.4px;
+    border: none;
+    background: transparent;
+  }
+  .el-input-group__prepend,
+  .el-input-group__append {
+    box-shadow: none;
+    padding: 0px 10px;
+  }
+}
+.el-input-group__prepend,
+.el-input-group__append {
+  background: transparent;
+  height: 32px;
+}
 /* 弹窗 -- 开始 */
 .el-dialog {
   padding: 0px;
-  background: get('modal');
   transition: opacity 0.3s, transform 0.3s, margin-top 0.3s, height 0.3s;
   object-fit: cover;
   background-position: center;
@@ -87,15 +109,65 @@
     // background: get('bk');
     background: transparent;
   }
-  .el-dialog__title {
-    // color: get('font-color');
-    // font-weight: 400;
+  .c-dialog-header {
+    color: get('font-color');
+    .svg-icon-wrap {
+      margin-left: 5px;
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+      :deep(.theme-icon) {
+        fill: white;
+      }
+    }
   }
   .el-dialog__body {
-    height: calc(100% - 60px);
+    height: calc(100% - 58px);
     overflow: hidden;
+    overflow-y: auto;
     padding: 15px 13px 12px 13px;
     border-radius: 4px 4px 0px 0px;
+  }
+
+  .el-dialog__headerbtn {
+    top: -1px;
+    height: 40px;
+    width: 40px;
+    margin-right: 5px;
+  }
+}
+.el-dialog.dialog-filter {
+  background: get('modal');
+  .el-icon,
+  .el-input__count,
+  .el-radio__label {
+    color: white;
+  }
+  .c-dialog-header {
+    color: white;
+  }
+
+  .c-dialog-header {
+    color: white;
+    .svg-icon-wrap {
+      margin-left: 5px;
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+      .theme-icon {
+        fill: white;
+      }
+    }
+    // .el-icon.el-dialog__close {
+    //   color: get('font-color') !important;
+    //   font-size: 20px;
+    //   padding: 5px;
+    // }
+    // .el-icon.el-dialog__close:hover {
+    //   color: get('re-font-color') !important;
+    //   background: get('bk');
+    //   border-radius: 12px;
+    // }
   }
   .el-icon.el-dialog__close {
     color: get('font-color');
@@ -127,6 +199,7 @@
     .el-tabs__header {
       margin-bottom: 10px;
     }
+
     .el-tabs__item.is-active {
       color: white;
       border-radius: 8px 8px 0px 0px;
@@ -140,12 +213,50 @@
       background-color: hsla(0, 0%, 100%, 0.4392156863);
     }
   }
+  .el-input-group {
+    box-shadow: rgba(0, 0, 0, 0.125) 0px 0px 10px 0px;
+    .el-input__wrapper {
+      border-radius: 0px !important;
+      box-shadow: none;
+      padding: 0.8px 11px;
+      height: 30.4px;
+      border: none;
+    }
+    .el-input-group__prepend,
+    .el-input-group__append {
+      box-shadow: none;
+      padding: 0px 10px;
+    }
+  }
+  .el-input-group__prepend,
+  .el-input-group__append {
+    height: 32px;
+  }
+  .el-input-group__prepend,
+  .el-input-group__append,
   .el-textarea .el-textarea__inner,
   .el-input__wrapper {
-    background: transparent;
+    background: rgba(255, 255, 255, 0.19);
     color: white;
-    border: 2px solid hsla(0, 0%, 100%, 0.4);
+    box-shadow: rgba(0, 0, 0, 0.125) 0px 0px 10px 0px;
   }
+  .el-textarea__inner::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+  }
+  // .el-textarea__inner:hover {
+  //   background: hsla(0, 0%, 100%, 0.4392156862745098);
+  //   &::before {
+  //     content: '';
+  //     position: absolute;
+  //     border-radius: 12px;
+  //     top: -4px;
+  //     left: -4px;
+  //     right: -4px;
+  //     bottom: -4px;
+  //     border: 1px solid hsla(0, 0%, 100%, 0.4392156862745098);
+  //     transition: opacity 0.3s;
+  //   }
+  // }
   .el-input {
     background: transparent;
   }
@@ -157,8 +268,9 @@
   }
   .el-select__wrapper {
     background: transparent;
-    border: 2px solid hsla(0, 0%, 100%, 0.4);
-    .el-select__selected-item {
+    border: 1px solid hsla(0, 0%, 100%, 0.4);
+    .el-select__selected-item,
+    .el-range-separator {
       color: white;
     }
   }
@@ -172,7 +284,7 @@
   .el-date-range-picker__time-picker-wrap .el-time-panel {
     background: transparent;
     color: white;
-    border: 2px solid hsla(0, 0%, 100%, 0.4);
+    border: 1px solid hsla(0, 0%, 100%, 0.4);
     .el-time-spinner__item {
       color: white;
     }
@@ -189,7 +301,7 @@
   .el-button {
     background: transparent !important;
     color: white;
-    border: 2px solid hsla(0, 0%, 100%, 0.4);
+    border: 1px solid hsla(0, 0%, 100%, 0.4);
   }
   .el-button:hover {
     background: hsla(0, 0%, 100%, 0.4) !important;
@@ -205,7 +317,7 @@
 }
 .is-full {
   border-radius: 0px !important;
-  margin: auto;
+  margin: auto !important;
   left: initial;
   top: initial;
   height: 100% !important;
@@ -253,7 +365,7 @@
 .el-message--error {
   box-shadow: get('box-shadow');
   background: get('background');
-  border: 2px solid var(--el-color-error);
+  border: 1px solid var(--el-color-error);
 }
 .el-message.el-message--success {
   box-shadow: get('box-shadow');
@@ -262,20 +374,20 @@
   .el-message__content {
     color: get('font-color');
   }
-  border: 2px solid white;
+  border: 1px solid white;
 }
 
 /* 表格 -- 开始 */
 .el-table {
   background: transparent;
   // box-shadow: get('box-shadow');
-  border: 2px solid get('border-color');
+  border: 1px solid get('border-color');
   tr,
   th,
   td {
     color: get('font-color');
     background: get('re-font-color');
-    border-bottom: 2px solid get('border-color');
+    border-bottom: 1px solid get('border-color');
     // box-shadow: get('box-shadow');
   }
   td.el-table__cell,
@@ -300,7 +412,7 @@
 .el-button {
   background: get('re-font-color');
   color: get('font-color');
-  border: 2px solid get('border-color');
+  border: 1px solid get('border-color');
   transition: all 1s ease-in-out linear;
   font-family: 'Shark';
 }
@@ -316,7 +428,7 @@
 /* 下拉框 -- 开始 */
 .el-select {
   .el-select__wrapper {
-    border: 2px solid get('border-color');
+    border: 1px solid get('border-color');
     box-shadow: none;
   }
 }
@@ -326,7 +438,7 @@
 .el-date-editor.el-input__wrapper {
   background: get('re-font-color');
   box-shadow: none;
-  height: 27.2px;
+  height: 31.2px;
   color: get('font-color');
   .el-range-separator {
     color: get('font-color');
@@ -352,7 +464,7 @@
   box-shadow: none;
   backdrop-filter: blur(20px);
   color: get('font-color');
-  border: 2px solid get('border-color');
+  border: 1px solid get('border-color');
   .el-time-spinner__item {
     color: get('font-color');
   }
@@ -382,7 +494,7 @@
   .btn-prev,
   .btn-next {
     background: transparent !important;
-    border: 2px solid white;
+    border: 1px solid white;
     i {
       color: get('font-color');
     }
@@ -394,27 +506,12 @@
 }
 /* 分页 -- 结束 */
 
-/* 树 -- 开始 */
-.el-tree {
-  background: get('background');
-  color: get('font-color');
-  .el-tree-node__content:hover {
-    background: get('background'); // hover 节点背景色，否则是白色
-  }
-  .el-tree-node:focus > .el-tree-node__content {
-    background: get('background'); // focus 节点背景透明，否则是白色
-  }
-  .el-tree-node__expand-icon {
-    color: get('font-color');
-  }
-}
-
 /* 树 -- 结束 */
 
 /* el-message-box -- 开始 */
 
 .el-overlay {
-  backdrop-filter: blur(15px);
+  backdrop-filter: blur(8px);
 }
 .el-tabs__nav-scroll {
   display: flex !important;
@@ -511,12 +608,15 @@
   }
 }
 .el-input__wrapper {
-  border: 2px solid get('border-color');
+  border: 1px solid get('border-color');
   border-radius: 4px;
-  height: 26.8px;
+  height: 28.8px;
   box-shadow: none;
   .el-input__inner {
     font-family: 'Shark';
+    color: get('font-color');
+  }
+  .el-range-separator {
     color: get('font-color');
   }
 }
@@ -536,11 +636,19 @@
 }
 
 .el-upload--picture-card:hover {
-  border: 2px dashed get('border-color');
+  border: 1px dashed get('border-color');
   color: get('font-color');
 }
 .el-upload--picture-card {
-  border: 2px dashed get('border-color');
+  border: 1px dashed get('border-color');
   color: get('font-color');
   background: get('background');
+}
+
+.el-rate .el-rate__icon {
+  margin-right: 3px;
+  // color: get('border-color');
+  .el-rate__decimal {
+    margin-right: 20px;
+  }
 }

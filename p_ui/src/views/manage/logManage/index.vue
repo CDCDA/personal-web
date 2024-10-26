@@ -26,35 +26,13 @@
       </el-form-item>
     </el-form>
     <div class="c-divider"></div>
-    <el-row :gutter="10" class="manage-button-group" style="margin-bottom: 15px">
-      <el-col :span="1.5">
-        <el-button log="primary" plain icon="Plus" @click="handleAdd">新增</el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button
-          log="primary"
-          :disabled="selection.length == 0"
-          plain
-          icon="Edit"
-          @click="handleEdit"
-          >修改</el-button
-        >
-      </el-col>
-      <el-col :span="1.5">
-        <el-button
-          log="primary"
-          :disabled="selection.length == 0"
-          plain
-          icon="Select"
-          @click="handleDel"
-          >删除</el-button
-        >
-      </el-col>
-      <div class="manage-tools">
-        <svg-icon iconName="refresh" @click="getList()"></svg-icon>
-        <svg-icon iconName="隐藏菜单" @click="hideSearch()"></svg-icon>
-      </div>
-    </el-row>
+    <tools
+      @handleAdd="handleAdd"
+      @handleEdit="handleEdit"
+      @handleDel="handleDel"
+      :selection="selection"
+      @refresh="getList"
+    />
     <el-table
       :data="tableList"
       ref="table"
@@ -93,11 +71,12 @@
 </template>
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
-import { listUpdateLog, delUpdateLog } from '@/api/updateLog.ts';
+import { listUpdateLog, delUpdateLog } from '@/api/system/updateLog';
 import Pagination from '@/components/pagination/index.vue';
 import { ElNotification, ElMessageBox } from 'element-plus';
 import addLog from '@/views/layout/sideSetting/components/addLog.vue';
 import { useTableResize } from '@/utils/manage';
+import tools from '../components/tools.vue';
 const addLogOpen = ref(false);
 const queryParams = ref({
   operation: '',

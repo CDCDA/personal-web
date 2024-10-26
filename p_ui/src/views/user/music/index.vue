@@ -46,13 +46,13 @@
       <p>{{ formatDate(new Date(selectSong.album?.publishTime), 'YY-MM-dd') }}</p>
       <div class="music-info-edit"></div>
     </div>
-    <musicPlayer
-      class="music-player"
-      :song="selectSong"
-      @getNextSong="getNextSong"
-      @getPreSong="getPreSong"
-    ></musicPlayer>
   </div>
+  <musicPlayer
+    class="music-player"
+    :song="selectSong"
+    @getNextSong="getNextSong"
+    @getPreSong="getPreSong"
+  ></musicPlayer>
 </template>
 
 <script setup lang="ts">
@@ -144,6 +144,8 @@ onMounted(() => {
 @include theme() {
   .music-main {
     color: get('font-color');
+    background: transparent !important;
+    backdrop-filter: none !important;
   }
   .song,
   img,

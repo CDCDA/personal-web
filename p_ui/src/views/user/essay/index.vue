@@ -54,46 +54,46 @@
           </div>
           <span class="essay-item-content">{{ item.content }}</span>
           <div class="img-list" v-if="item.images && item.images.length > 0">
-            <el-image
-              class="img-list-item"
-              :preview-src-list="item.images"
-              v-for="img in item.images"
-              :preview-teleported="true"
-              :src="img"
-              fit="cover"
-              lazy
-            >
-              <template #placeholder>
-                <div class="image-slot" v-cLoading="imgLoading" style="width: 100%; height: 100%" />
-              </template>
-              <template #error>
-                <div class="image-error-slot">
-                  <svg-icon iconName="图片加载失败" />
-                </div>
-              </template>
-            </el-image>
+            <c-image class="img-list-item" v-for="img in item.images" :src="img" />
           </div>
           <div class="c-dotted-line"></div>
-          <div class="essay-item-tag-list">
-            <span class="essay-item-tag" v-for="tag in item.tags">{{ `# ${tag.tagName}` }}</span>
+          <div class="essay-item-footer">
+            <div class="essay-item-tag-list">
+              <span class="essay-item-tag" v-for="tag in item.tags">{{ `# ${tag.tagName}` }}</span>
+            </div>
+            <svg-icon iconName="评论" @click="toComment(item)"></svg-icon>
           </div>
         </div>
       </grid-item>
     </grid-layout>
+    <essayComment
+      :visible="commentOpen"
+      @close="close"
+      :essay-data="selectEssay"
+      :user-data="userData"
+    />
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup lang="ts" name="essay">
 import { ref, onMounted } from 'vue';
 import { autoClearTimer } from '@/utils/timer';
-import { getUserById } from '@/api/user.ts';
+import { getUserById } from '@/api/system/user';
 import { listEssay } from '@/api/essay.ts';
 import useUserStore from '@/store/modules/user';
 import { sformatDate } from '@/utils/date.ts';
+import essayComment from './components/essayComment.vue';
+import { ElNotification } from 'element-plus';
 const imgLoading = ref('rotate' as any);
 const userStore = useUserStore();
 const essayList = ref([] as any);
+const commentOpen = ref(false);
 const grid = ref(null as any);
+const selectEssay = ref({}) as any;
+function close() {
+  commentOpen.value = false;
+}
+
 function handle() {
   imgLoading.value = false;
 }
@@ -174,6 +174,12 @@ async function getEssayList() {
 
 const userData = ref({} as any);
 
+function toComment(item: any) {
+  // ElNotification.info('施工中...');
+  selectEssay.value = item;
+  commentOpen.value = true;
+}
+
 async function getUserData() {
   const { code, data } = (await getUserById(userStore.userId)) as any;
   if (code == 200) {
@@ -193,7 +199,7 @@ onMounted(() => {
     justify-content: start;
     background: transparent !important;
     backdrop-filter: none !important;
-    max-width: 1100px !important;
+    // max-width: 1100px !important;
     .essay-header {
       height: 45vh;
       width: 100%;
@@ -303,16 +309,26 @@ onMounted(() => {
             border-radius: 5px;
           }
         }
-        .essay-item-tag-list {
+        .essay-item-footer {
           display: flex;
-          flex-wrap: nowrap;
-          .essay-item-tag {
-            margin-right: 10px;
-            font-size: 14px;
-            padding: 2px 5px;
-            color: #999;
-            background: #f2f2f2;
-            border-radius: 4px;
+          justify-content: space-between;
+          .essay-item-tag-list {
+            width: calc(100% - 40px);
+            display: flex;
+            flex-wrap: nowrap;
+            .essay-item-tag {
+              margin-right: 10px;
+              font-size: 14px;
+              padding: 2px 5px;
+              color: #999;
+              background: #f2f2f2;
+              border-radius: 4px;
+            }
+          }
+          .svg-icon-wrap {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
           }
         }
       }

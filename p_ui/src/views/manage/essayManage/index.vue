@@ -26,21 +26,13 @@
       </el-form-item>
     </el-form>
     <div class="c-divider"></div>
-    <el-row :gutter="10" class="manage-button-group" style="margin-bottom: 15px">
-      <el-col :span="1.5">
-        <el-button type="primary" plain icon="Plus" @click="handleAdd">新增</el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button type="primary" plain icon="Edit" @click="handleEdit">修改</el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button type="primary" plain icon="Select" @click="handleDel">删除</el-button>
-      </el-col>
-      <div class="manage-tools">
-        <svg-icon iconName="refresh" @click="getList()"></svg-icon>
-        <svg-icon iconName="隐藏菜单" @click="hideSearch()"></svg-icon>
-      </div>
-    </el-row>
+    <tools
+      @handleAdd="handleAdd"
+      @handleEdit="handleEdit"
+      @handleDel="handleDel"
+      :selection="selection"
+      @refresh="getList"
+    />
     <el-table :data="tableList" class="manage-table" style="" @selection-change="selectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="图片(仅展示第一张)" align="center" prop="isOriginal" width="300">
@@ -82,6 +74,7 @@ import { autoClearTimer } from '@/utils/timer';
 import Pagination from '@/components/pagination/index.vue';
 import { ElMessageBox, ElNotification } from 'element-plus';
 import { useTableResize } from '@/utils/manage';
+import tools from '../components/tools.vue';
 const router = useRouter();
 const queryParams = ref({
   content: '',

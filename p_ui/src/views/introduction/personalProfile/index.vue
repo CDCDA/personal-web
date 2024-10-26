@@ -5,7 +5,7 @@
   <div class="page-main personal-profile-main">
     <PersonalInfo class="bounceInDown animated"></PersonalInfo>
     <div class="ps-welcome c-left animated">
-      <span>欢迎来到我的网站<el-image :src="welcomeSrc"></el-image></span>
+      <span>欢迎来到我的网站<svg-icon iconName="礼花" /></span>
       <span>我叫CCCC</span>
       <span>是一名全栈开发工程师</span>
     </div>
@@ -20,7 +20,7 @@
       </div>
       <div class="ps-info-right">
         <div class="ps-info-map c-right animated">
-          <c-image class="map-img" :src="'http://111.229.144.36:8008/location.png'" />
+          <c-image class="map-img" :src="'http://1.92.159.74:8008/location.png'" />
           <div class="map-tip">现居 福州</div>
         </div>
         <div class="ps-info-life c-right animated">
@@ -55,7 +55,6 @@
 import PersonalInfo from './components/personalInfo.vue';
 import TechnologyStackCard from './components/technologyStackCard.vue';
 import GoalTimeLine from './components/goalTimeLine.vue';
-const welcomeSrc = new URL('@/assets/svg/welcome.svg', import.meta.url).href;
 </script>
 <style lang="scss" scoped>
 @include theme() {
@@ -81,7 +80,7 @@ const welcomeSrc = new URL('@/assets/svg/welcome.svg', import.meta.url).href;
         background-image: linear-gradient(to right, #f0c27b, #4b1248);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
-        .el-image {
+        .svg-icon-wrap {
           width: 40px;
           height: 40px;
           margin-left: 10px;

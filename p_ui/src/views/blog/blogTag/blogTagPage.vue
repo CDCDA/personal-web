@@ -82,6 +82,7 @@ async function getTagList() {
     tagList.value.forEach((e: any) => {
       if (e.tagId === queryParams.value.tagId) e.isActive = true;
     });
+    getBlogList();
   }
 }
 
@@ -128,8 +129,8 @@ function toDetail(item: any) {
 
 onMounted(() => {
   queryParams.value.tagId = (router as any).currentRoute._value.query.tagId;
+  console.log('AAA', (router as any).currentRoute);
   getTagList();
-  getBlogList();
 });
 </script>
 <style lang="scss" scoped>

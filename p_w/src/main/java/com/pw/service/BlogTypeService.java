@@ -2,14 +2,7 @@ package com.pw.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.pw.domain.BlogType;
-import com.pw.domain.User;
-import com.pw.dto.BlogPageDTO;
-import com.pw.mapper.BlogMapper;
-import com.pw.vo.BlogTagVO;
 import com.pw.vo.BlogTypeVO;
-import com.pw.vo.BlogVO;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -20,4 +13,6 @@ import java.util.List;
  **/
 public interface BlogTypeService  extends IService<BlogType> {
     List<BlogTypeVO> listBlogType(String userId);
+
+    List<BlogType> listTypeAndBlog();
 }

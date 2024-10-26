@@ -51,7 +51,7 @@ import { onMounted, ref } from 'vue';
     width: 100%;
     text-align: left;
     font-family: 'Press Start 2P', cursive;
-    font-size: 32px;
+    font-size: 25px;
     cursor: pointer;
   }
   h2:hover {
@@ -67,8 +67,8 @@ import { onMounted, ref } from 'vue';
     font-size: 20px;
   }
   .svg-icon-wrap {
-    height: 40px;
-    width: 40px;
+    height: 35px;
+    width: 35px;
     display: inline-block;
     margin-right: 10px;
   }
@@ -81,7 +81,7 @@ import { onMounted, ref } from 'vue';
   .page-main.website {
     @include flex-column;
     justify-content: start;
-    max-width: 900px !important;
+    max-width: 1000px !important;
   }
   .page-main-content {
     width: calc(100% - 200px);

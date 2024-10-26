@@ -26,7 +26,7 @@
       id="gantt"
       style="width: 100%; height: calc(100% - 42px); border-radius: 8px; overflow: hidden"
     ></div>
-    <c-dialog :title="title" v-model="open" width="450" :modal="false" v-drag="true">
+    <c-dialog :title="title" v-model="open" width="450" :modal="false">
       <el-upload :http-request="loadExcel" action=" " :limit="1">
         <el-button type="primary">选择文件</el-button>
         <template #tip>

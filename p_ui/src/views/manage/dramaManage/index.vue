@@ -51,21 +51,13 @@
       </el-form-item>
     </el-form>
     <div class="c-divider"></div>
-    <el-row :gutter="10" class="manage-button-group" style="margin-bottom: 15px">
-      <el-col :span="1.5">
-        <el-button type="primary" plain icon="Plus" @click="handleAdd">新增</el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button type="primary" plain icon="Edit" @click="handleEdit">修改</el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button type="primary" plain icon="Select" @click="handleDel">删除</el-button>
-      </el-col>
-      <div class="manage-tools">
-        <svg-icon iconName="refresh" @click="getList()"></svg-icon>
-        <svg-icon iconName="隐藏菜单" @click="hideSearch()"></svg-icon>
-      </div>
-    </el-row>
+    <tools
+      @handleAdd="handleAdd"
+      @handleEdit="handleEdit"
+      @handleDel="handleDel"
+      :selection="selection"
+      @refresh="getList"
+    />
     <el-table :data="blogList" class="manage-table" style="" @selection-change="selectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="封面" align="center" prop="isOriginal" width="150">
@@ -140,6 +132,7 @@ import { useRouter } from 'vue-router';
 import Pagination from '@/components/pagination/index.vue';
 import { ElMessageBox, ElNotification } from 'element-plus';
 import { useTableResize } from '@/utils/manage';
+import tools from '../components/tools.vue';
 const title = ref('');
 const fromNet = ref(true as any);
 const form = ref({

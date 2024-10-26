@@ -6,7 +6,6 @@ import { visibleLazy } from './visibleLazy';
 //批量注册指令
 const directives = {
   permission,
-  cDrag,
   cLoading,
   visibleLazy
 } as any;

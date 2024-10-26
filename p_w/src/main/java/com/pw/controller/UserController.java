@@ -17,7 +17,12 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
 import java.util.List;
 
 import static com.pw.common.utils.ResultUtil.*;
@@ -106,5 +111,50 @@ public class UserController extends BaseController implements convertController 
         cookie.setPath("/");
         response.addCookie(cookie);
         return Result.ok().data("token", token);
+    }
+
+
+    @GetMapping("/weixinVerify")
+    @ApiOperation(value = "微信公众号校验", notes = "", httpMethod = "GET")
+    public void handleValidation(HttpServletRequest request, HttpServletResponse response,
+                                 @RequestParam("signature") String signature,
+                                 @RequestParam("timestamp") String timestamp,
+                                 @RequestParam("nonce") String nonce) throws IOException {
+        // 微信公众号的 token（自己设置）
+        String token = "yourToken";
+
+        // 按照微信要求进行验证计算
+        String[] params = {token, timestamp, nonce};
+        Arrays.sort(params);
+        StringBuffer sb = new StringBuffer();
+        for (String param : params) {
+            sb.append(param);
+        }
+        String sha1 = calculateSHA1(sb.toString());
+
+        if (sha1.equals(signature)) {
+            // 验证通过，返回指定响应
+            response.getWriter().write(request.getParameter("echostr"));
+        } else {
+            response.setStatus(400);
+        }
+    }
+
+    // 计算 SHA1
+    private String calculateSHA1(String input) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA1");
+            md.update(input.getBytes());
+            byte[] digest = md.digest();
+
+            StringBuilder sb = new StringBuilder();
+            for (byte b : digest) {
+                sb.append(String.format("%02x", b));
+            }
+            return sb.toString();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+            return "";
+        }
     }
 }

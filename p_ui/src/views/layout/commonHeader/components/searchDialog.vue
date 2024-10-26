@@ -28,7 +28,7 @@
       <div class="finder__outer finder-list">
         <div class="finder-list-item" v-for="item in resultRoutes" @click="routeTo(item)">
           <span>{{ item.meta.remark }}</span
-          ><svg-icon iconName="right" />
+          ><svg-icon iconName="右" />
         </div>
       </div>
     </div>

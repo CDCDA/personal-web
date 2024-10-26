@@ -4,37 +4,17 @@
 <template>
   <div class="personal-page">
     <div class="user-info">
-      <c-image class="user-info-back" src="http://111.229.144.36:8008/Ruins.jpg" />
+      <c-image class="user-info-back" src="http://1.92.159.74:8008/Ruins.jpg" />
 
       <div class="info">
-        <div class="info-column" style="flex-direction: row; width: calc(40% - 20px)">
-          <c-image
-            class="user-avatar"
-            v-if="!isEdit"
-            style="width: 100px; height: 100px"
-            :src="userInfo.avatar"
-          />
-          <upload
-            class="user-avatar-upload"
-            v-else
-            style="width: 100px; height: 100px"
-            v-model="userInfo.avatar"
-          />
-          <div>
-            <div class="nickName">{{ userInfo.nickName }}</div>
-            <div class="account">{{ userInfo.account }}</div>
-            <div class="createTime" style="margin-top: 5px">
-              入站时间：{{ formatDate(new Date(userInfo.createTime), 'YY-MM') }}
-            </div>
+        <c-image class="user-avatar" v-if="!isEdit" :src="userInfo.avatar" />
+        <upload class="user-avatar-upload" v-else v-model="userInfo.avatar" />
+        <div class="user-info-detail">
+          <div class="nickName">{{ userInfo.nickName }}</div>
+          <div class="account">{{ userInfo.account }}</div>
+          <div class="createTime" style="margin-top: 5px">
+            入站时间：{{ formatDate(new Date(userInfo.createTime), 'YY-MM') }}
           </div>
-        </div>
-        <div class="info-column">
-          <div class="blog-count"></div>
-          <div class="type-count"></div>
-        </div>
-        <div class="info-column">
-          <div class="tag-count">{{ userInfo.nickName }}</div>
-          <div class="essay-count">{{ userInfo.account }}</div>
         </div>
       </div>
     </div>
@@ -45,11 +25,11 @@
           <Edit />
         </el-icon>
       </el-tooltip>
-      <el-form-item label="昵&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;称">
+      <el-form-item label="昵&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;称">
         <span v-if="!isEdit">{{ userInfo.nickName }}</span>
         <el-input v-else v-model="form.nickName"></el-input>
       </el-form-item>
-      <el-form-item label="账&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号">
+      <el-form-item label="账&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号">
         <span>{{ userInfo.account }}</span>
         <!-- <el-input v-else v-model="userInfo.account"></el-input> -->
       </el-form-item>
@@ -57,11 +37,11 @@
         <span v-if="!isEdit">{{ userInfo.phone }}</span>
         <el-input v-else v-model="form.phone"></el-input>
       </el-form-item>
-      <el-form-item label="邮&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;箱">
+      <el-form-item label="邮&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;箱">
         <span v-if="!isEdit">{{ userInfo.email }}</span>
         <el-input v-else v-model="form.email"></el-input>
       </el-form-item>
-      <el-form-item label="性&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;别">
+      <el-form-item label="性&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;别">
         <span v-if="!isEdit">{{ userInfo.sex === '0' ? '男' : '女' }}</span>
         <el-radio-group v-else v-model="form.sex" style="margin-left: 15px">
           <el-radio label="0" size="small">男</el-radio>
@@ -83,7 +63,7 @@
 import { onMounted, ref, reactive } from 'vue';
 import { formatDate } from '@/utils/date';
 import useUserStore from '@/store/modules/user';
-import { getUserById, saveUser } from '@/api/user';
+import { getUserById, saveUser } from '@/api/system/user';
 import { ElNotification } from 'element-plus';
 import upload from '@/components/upload/upload.vue';
 const userInfo = ref({} as any);
@@ -130,7 +110,7 @@ onMounted(() => {
   getUserInfo(userStore.userId);
 });
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 @include theme() {
   .personal-page {
     height: 100%;
@@ -148,27 +128,36 @@ onMounted(() => {
       .user-info-back {
         position: absolute;
         width: 100%;
-        filter: brightness(90%);
+        filter: brightness(0.6);
         height: 100%;
       }
-      .user-avatar {
-        border-radius: 5px;
-        margin-right: 20px;
+      .user-info-detail {
+        text-align: left;
+        justify-content: space-between;
+        display: flex;
+        flex-direction: column;
+      }
+      .user-avatar,
+      :deep(.c-uploader) {
+        border-radius: 8px;
+        margin-right: 40px;
+        width: 130px;
+        height: 130px;
       }
       .info {
         display: flex;
-        justify-content: space-between;
-        align-items: center;
-        z-index: 1;
-        height: 100%;
+        flex-direction: row;
         width: 100%;
-        margin-left: 20px;
+        position: absolute;
+        filter: brightness(1.5);
+        justify-content: start;
+        margin-left: 50px;
       }
     }
     .info-form {
       margin: 20px;
       position: relative;
-      height: calc(100% - 180px);
+      height: calc(100% - 30vh - 80px);
       .el-input,
       .el-textarea {
         width: 250px;
@@ -224,19 +213,19 @@ onMounted(() => {
       font-size: 16px;
     }
   }
-  .info-column {
-    width: 30%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
-  .info-column:nth-child(1) {
-    box-shadow: 0 1px 2px rgba(195, 195, 195, 0.6);
-    background: transparent;
-    backdrop-filter: blur(10px);
-    border-radius: 8px;
-  }
+  // .info-column {
+  //   width: 30%;
+  //   height: 100%;
+  //   display: flex;
+  //   flex-direction: column;
+  //   justify-content: space-between;
+  // }
+  // .info-column:nth-child(1) {
+  //   box-shadow: 0 1px 2px rgba(195, 195, 195, 0.6);
+  //   background: transparent;
+  //   backdrop-filter: blur(10px);
+  //   border-radius: 8px;
+  // }
   .blog-count,
   .type-count,
   .tag-count,

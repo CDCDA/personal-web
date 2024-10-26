@@ -42,17 +42,13 @@
           </div>
         </div>
         <svg-icon
-          iconName="volumeMiddle"
+          iconName="非静音"
           style="height: 30px; width: 30px"
           class="audio_high"
           @click.stop="audioHuds = !audioHuds"
         />
       </div>
-      <svg-icon
-        iconName="randomPlayback"
-        class="dialogAudioPlay"
-        style="margin-right: 15px"
-      ></svg-icon>
+      <svg-icon iconName="顺序播放" class="dialogAudioPlay" style="margin-right: 15px"></svg-icon>
     </div>
   </div>
 </template>

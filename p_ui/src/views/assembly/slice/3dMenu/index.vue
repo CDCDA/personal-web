@@ -11,7 +11,7 @@
   </div>
 </template>
 <script>
-import { loadScript } from '@/utils/commonUtils';
+import { loadScript } from '@/utils/common';
 import { autoClearTimer } from '@/utils/timer';
 
 export default {

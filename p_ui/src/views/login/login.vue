@@ -24,21 +24,23 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup lang="ts" name="login">
 import { ref } from 'vue';
 import jwtDecode from 'jwt-decode';
 import { autoClearTimer } from '@/utils/timer';
 import { ElMessage } from 'element-plus';
-import { login, touristLogIn } from '@/api/login';
+import { login, touristLogIn } from '@/api/system/login.ts';
 import { useRouter } from 'vue-router';
 import useUserStore from '@/store/modules/user';
-import useThemeStore from '@/store/modules/theme.ts';
 import Cookies from 'js-cookie';
+import { getUserById } from '@/api/system/user';
+import useThemeStore from '@/store/modules/theme.ts';
+var themeStore = useThemeStore();
 const userStore = useUserStore();
 const router = useRouter();
 const account = ref('' as any);
 const password = ref('' as any);
-var themeStore = useThemeStore();
+
 // 登录
 async function logIn() {
   if (account.value && password.value) {
@@ -46,17 +48,39 @@ async function logIn() {
       account: account.value,
       password: password.value
     })) as any;
+    console.log(code, data, msg);
     if (code == 200) {
       //缓存用户数据
       const token = jwtDecode(Cookies.get('token')) as any;
       userStore.token = Cookies.get('token');
       userStore.userId = token.aud;
       userStore.userName = token.username;
+
       userStore.permission = ['add', 'delete', 'show', 'operate'];
-      window.localStorage.setItem('userData', JSON.stringify(userStore));
-      // logInFadeOut();
+      getUserInfo(token.aud);
+
+      logInFadeOut();
       autoClearTimer(() => {
+        console.log('登录成功，跳转至首页');
         router.push('/home');
+        const { mhFontColor } = themeStore.options;
+        let header = document.querySelector('.common-header') as any;
+        let homeTop = document.querySelector('.home-top') as any;
+        let CycleUpDown = document.querySelector('.CycleUpDown') as any;
+        if (header) {
+          header.style.color = mhFontColor;
+          let icons = header.querySelectorAll('.theme-icon');
+          Object.keys(icons).forEach((e: any) => {
+            icons[e].style.fill = mhFontColor;
+          });
+        }
+        if (homeTop) homeTop.style.color = mhFontColor;
+        if (CycleUpDown) {
+          let themeIcon = CycleUpDown.querySelector('.theme-icon') as any;
+          if (themeIcon) {
+            themeIcon.style.fill = mhFontColor;
+          }
+        }
       }, 1200);
     }
   } else {
@@ -67,9 +91,34 @@ async function register() {
   ElMessage.warning('暂不开放注册');
 }
 
-// function logInFadeOut() {
-//   (document.querySelector('.box') as any).classList.add('top-fade-out');
-// }
+function logInFadeOut() {
+  (document.querySelector('.box') as any).classList.add('top-fade-out');
+  autoClearTimer(() => {
+    (document.querySelector('.box') as any).classList.add('top-fade-out');
+  });
+}
+
+// 获取用户信息
+async function getUserInfo(userId: any) {
+  const { code, msg, data } = (await getUserById(userId)) as any;
+  if (code === 200 && data) {
+    userStore.email = data.email;
+    userStore.nickName = data.nickName;
+    userStore.avatar = data.avatar;
+    window.localStorage.setItem(
+      'userData',
+      JSON.stringify({
+        token: userStore.token,
+        userId: userStore.userId,
+        userName: userStore.userName,
+        permission: userStore.permission,
+        email: userStore.email,
+        nickName: userStore.nickName,
+        avatar: userStore.avatar
+      })
+    );
+  }
+}
 
 async function handleTouristLogIn() {
   const { code } = (await touristLogIn()) as any;
@@ -89,10 +138,7 @@ async function handleTouristLogIn() {
       })
     );
 
-    autoClearTimer(() => {
-      themeStore.isShow = true;
-      router.push('/home');
-    }, 1200);
+    router.push('/home');
   }
 }
 </script>

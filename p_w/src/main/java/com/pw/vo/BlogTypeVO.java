@@ -47,5 +47,7 @@ public class BlogTypeVO {
     @ApiModelProperty(value = "分类博客数")
     private Integer total;
 
+    @ApiModelProperty(value = "博客列表")
+    private List<BlogVO> blogList;
 
 }

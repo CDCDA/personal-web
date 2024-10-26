@@ -21,7 +21,7 @@
         />
       </el-form-item>
       <el-form-item label="分类">
-        <el-select v-model="queryParams.type">
+        <el-select v-model="queryParams.type" style="width: 200px">
           <el-option value="0" label="单机"></el-option>
           <el-option value="1" label="手游"></el-option>
         </el-select>
@@ -32,21 +32,13 @@
       </el-form-item>
     </el-form>
     <div class="c-divider"></div>
-    <el-row :gutter="10" class="manage-button-group" style="margin-bottom: 15px">
-      <el-col :span="1.5">
-        <el-button type="primary" plain icon="Plus" @click="handleAdd">新增</el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button type="primary" plain icon="Edit" @click="handleEdit">修改</el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button type="primary" plain icon="Select" @click="handleDel">删除</el-button>
-      </el-col>
-      <div class="manage-tools">
-        <svg-icon iconName="refresh" @click="getList()"></svg-icon>
-        <svg-icon iconName="隐藏菜单" @click="hideSearch()"></svg-icon>
-      </div>
-    </el-row>
+    <tools
+      @handleAdd="handleAdd"
+      @handleEdit="handleEdit"
+      @handleDel="handleDel"
+      :selection="selection"
+      @refresh="getList"
+    />
     <el-table :data="tableList" class="manage-table" style="" @selection-change="selectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="封面" align="center" prop="coverUrl" width="150">
@@ -62,6 +54,7 @@
           }}</a>
         </template>
       </el-table-column>
+      <el-table-column label="评分" align="center" prop="rate" show-overflow-tooltip />
       <el-table-column
         label="简介"
         width="auto"
@@ -92,7 +85,6 @@
         <upload v-if="!fromNet" v-model="form.coverUrl" />
         <el-input v-else v-model="form.coverUrl" clearable />
       </el-form-item>
-
       <el-form-item label="分类">
         <el-radio-group v-model="form.type" class="ml-4">
           <el-radio :label="'0'" size="mini">单机</el-radio>
@@ -101,6 +93,9 @@
       </el-form-item>
       <el-form-item label="官网">
         <el-input v-model="form.url" clearable />
+      </el-form-item>
+      <el-form-item label="评分">
+        <el-input type="number" v-model="form.rate" clearable />
       </el-form-item>
       <el-form-item label="简介">
         <el-input
@@ -130,6 +125,7 @@ import Pagination from '@/components/pagination/index.vue';
 import { ElNotification, ElMessageBox } from 'element-plus';
 import upload from '@/components/upload/upload.vue';
 import { useTableResize } from '@/utils/manage';
+import tools from '../components/tools.vue';
 const queryParams = ref({
   name: null,
   pageNum: 1,
@@ -163,7 +159,8 @@ async function getList() {
 async function submit() {
   const res = (await saveGame(form.value)) as any;
   if (res) {
-    if (!form.value.gameId)
+    console.log(form.value);
+    if (!form.value.id)
       ElNotification({
         title: 'Success',
         message: '新增成功',

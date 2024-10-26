@@ -1,7 +1,7 @@
 /*
  * @Author: chenyd
  * @Date: 2023-01-12 14:03:57
- * @LastEditTime: 2024-07-30 11:24:33
+ * @LastEditTime: 2024-10-22 14:39:55
  * @Description:日期处理方法合集
  */
 
@@ -11,7 +11,6 @@
  * @Description: 日期转 年-月-日 string
  */
 export const formatDate = (date: Date, type?: String) => {
-  console.log(typeof date);
   if (!type) {
     type = 'YY-MM-dd hh-mm-ss';
   }

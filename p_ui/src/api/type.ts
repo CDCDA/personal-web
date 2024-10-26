@@ -49,3 +49,10 @@ export const listTotalType = (params: any) =>
     method: 'get',
     params
   });
+
+// 查询分类列表并列出指定数量的博客
+export const listTypeAndBlog = () =>
+  request({
+    url: '/pw/blogType/listTypeAndBlog',
+    method: 'get'
+  });

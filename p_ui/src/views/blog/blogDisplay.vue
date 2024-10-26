@@ -7,6 +7,10 @@
     <div class="blog-diaplay">
       <div class="blog-display-left">
         <md-preview :editorId="'preview-only'" :modelValue="blogData.content" />
+        <div></div>
+        <blogPreAndNext :blog-id="blogData.blogId" v-show="preNextShow" />
+        <div class="c-divider" style="margin: 40px 21px 30px 21px"></div>
+        <comment :type="0" :relevanceId="blogData.blogId" :blogData="blogData" />
         <!-- <el-divider></el-divider> -->
         <div class="blog-display-footer">
           <div v-for="(item, index) in footerData" :key="index">
@@ -16,13 +20,6 @@
             <span>{{ item.count }}</span>
           </div>
         </div>
-        <!-- <el-divider></el-divider>
-
-        <div class="blog-display-comment"></div> -->
-
-        <!-- <comment></comment> -->
-
-        <!-- <el-backtop target=".blog-display-left"></el-backtop> -->
       </div>
 
       <div class="blog-display-right">
@@ -46,10 +43,14 @@ import { useRouter } from 'vue-router';
 import wave from './components/wave/index.vue';
 import { getBlogById } from '@/api/blog';
 import { MdPreview, MdCatalog } from 'md-editor-v3';
+import comment from '@/components/comment/index.vue';
 import 'md-editor-v3/lib/preview.css';
 import BlogUserCard from '@/views/blog/components/blogUserCard.vue';
 import VisitorCard from '@/views/home/components/visitorCard.vue';
+import blogPreAndNext from './components/blogPreAndNext.vue';
+import { autoClearTimer } from '@/utils/timer';
 import { useLazyAppear } from '@/utils/lazy';
+const preNextShow = ref(false);
 const router = useRouter();
 const footerData = ref({} as any);
 const blogData = ref({ coverUrl: '', tags: [], content: '' } as any);
@@ -70,6 +71,9 @@ onMounted(() => {
   const { blogId } = router.currentRoute.value.query;
   getBlog(blogId);
   useLazyAppear(document.querySelector('.affix') as any);
+  autoClearTimer(() => {
+    preNextShow.value = true;
+  }, 1000);
 });
 </script>
 <style lang="scss">
@@ -84,14 +88,14 @@ onMounted(() => {
   }
 }
 
-@keyframes display-in {
-  0% {
-    transform: scale(1.03) translateY(30px);
-  }
-  100% {
-    transform: scale(1) translateY(0px);
-  }
-}
+// @keyframes display-in {
+//   0% {
+//     transform: translateY(-30px);
+//   }
+//   100% {
+//     transform: translateY(0px);
+//   }
+// }
 
 @keyframes enLarge {
   0% {
@@ -146,7 +150,7 @@ onMounted(() => {
   }
   .md-editor-previewOnly {
     color: get('font-color');
-    min-height: 100%;
+    // min-height: 100%;
   }
   .blog-display-left:hover {
     box-shadow: 0px 1px 15px 0px rgb(231, 231, 184) !important;
@@ -183,6 +187,7 @@ onMounted(() => {
         background: get('background');
         box-shadow: get('box-shadow');
         min-height: 300px;
+        height: fit-content;
       }
       .blog-display-right {
         width: 280px;

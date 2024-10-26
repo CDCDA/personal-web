@@ -32,7 +32,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import useUserStore from '@/store/modules/user';
-import { getUserById } from '@/api/user';
+import { getUserById } from '@/api/system/user';
 import { useLazyAppear } from '@/utils/lazy';
 const userStore = useUserStore();
 const userInfo = ref({} as any);
@@ -62,7 +62,6 @@ function toQrCode() {
 }
 
 onMounted(() => {
-  console.log('ccc', userStore);
   getUserInfo(userStore.userId);
   props.visibleLazy ? useLazyAppear(blogUserCard.value) : '';
 });
@@ -80,7 +79,7 @@ onMounted(() => {
     overflow: hidden;
     padding: 0px !important;
     width: calc(100%) !important;
-    background: url('http://111.229.144.36:8008/Ruins.jpg') center 28% / cover no-repeat !important;
+    background: url('http://1.92.159.74:8008/Ruins.jpg') center 28% / cover no-repeat !important;
     color: get('re-font-color') !important;
     .user-header {
       height: 24px;

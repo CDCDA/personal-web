@@ -31,7 +31,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup lang="ts" name="album">
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { listAlbum } from '@/api/album.ts';
@@ -76,8 +76,8 @@ onMounted(() => {
 @include theme() {
   .album-header {
     height: 45vh;
-    width: calc(100% - 120px);
-    margin: 40px 60px;
+    width: calc(100%);
+    // margin: 40px 60px;
     border-radius: 12px;
     box-shadow: get('box-shadow');
     .album-header-video {
@@ -111,20 +111,22 @@ onMounted(() => {
   .album-main {
     @include flex-column;
     justify-content: start;
-    // background: transparent !important;
+    background: transparent !important;
+    backdrop-filter: none !important;
+    // max-width: 1100px !important;
     .album-center {
       display: flex;
       position: relative;
       flex-wrap: wrap;
       justify-content: start;
       align-items: center;
-      margin: 50px 50px 20px 50px;
-      width: calc(100% - 100px);
+      width: calc(100% + 20px);
       .album-item {
         width: calc(25% - 20px);
-        height: 450px;
+        height: 420px;
         border-radius: 12px;
         margin: 10px;
+        transition: all 0.6s ease;
         opacity: 0.9;
         cursor: pointer;
         box-shadow: get('box-shadow');
@@ -171,13 +173,10 @@ onMounted(() => {
     }
     // .album-center:not(:hover) {
     // filter: blur(0px);
-    .album-item:not(:hover) {
-      filter: blur(8px);
-    }
+
     .album-item:hover {
       filter: blur(0px);
       transform: scale(1.03);
-      transition: all 200ms linear;
     }
     .album-center:not(:hover) {
       .album-item {

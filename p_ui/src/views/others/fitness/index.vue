@@ -39,7 +39,7 @@
       </div>
     </div>
     <div class="fitness-right animated-1s5 bounceInDown">
-      <img class="fitness-right-img" :src="'http://111.229.144.36:8008/fitness.jpg'" />
+      <img class="fitness-right-img" :src="'http://1.92.159.74:8008/fitness.jpg'" />
       <div class="fitness-title">健身</div>
       <div class="fitness-motto">还是先锻炼起来再说吧 <br />不管怎么说，再小的力量也是力量</div>
       <div class="fitness-grievance">好难减啊<img :src="'@/assets/svg/emote/cry.svg'" /></div>

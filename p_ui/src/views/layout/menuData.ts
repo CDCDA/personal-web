@@ -29,8 +29,8 @@ export const menuData = [
     children: [
       { label: '随笔', icon: 'Notebook', name: 'essay' },
       { label: '相册', icon: 'Camera', name: 'album' },
-      { label: '装备', icon: 'Suitcase', name: 'equipment' },
-      { label: '音乐', icon: 'Headset', name: 'music' }
+      { label: '装备', icon: 'Suitcase', name: 'equipment' }
+      // { label: '音乐', icon: 'Headset', name: 'music' }
     ]
   },
   {
@@ -47,10 +47,10 @@ export const menuData = [
     icon: '',
     name: '',
     children: [
-      { label: '健身', icon: '', svgIcon: '@/assets/svg/fitness.svg', name: 'fitness' },
+      // { label: '健身', icon: '', svgIcon: '@/assets/svg/fitness.svg', name: 'fitness' },
       { label: '游戏', icon: '', svgIcon: '@/assets/svg/game.svg', name: 'game' },
-      { label: '影视', icon: 'VideoCamera', name: 'drama' },
-      { label: '美食', icon: 'KnifeFork', name: 'gourmet' }
+      { label: '影视', icon: 'VideoCamera', name: 'drama' }
+      // { label: '美食', icon: 'KnifeFork', name: 'gourmet' }
     ]
   }
 ];

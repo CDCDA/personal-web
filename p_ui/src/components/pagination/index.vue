@@ -252,7 +252,7 @@ export default {
       text-align: center;
       background: get('re-font-color');
       // box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.5);
-      border: 2px solid get('border-color');
+      border: 1px solid get('border-color');
       border-radius: 2px;
       font-size: 18px;
       color: get('font-color');
@@ -354,7 +354,7 @@ export default {
         white-space: nowrap;
         height: 100%;
         // box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.5);
-        border: 2px solid get('border-color');
+        border: 1px solid get('border-color');
         background: get('background');
         min-width: 55px;
         padding: 0 8px 0px 12px;
@@ -385,7 +385,7 @@ export default {
           bottom: 40px;
           background: get('background-no-tp');
           // box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.5);
-          border: 2px solid get('border-color');
+          border: 1px solid get('border-color');
           border-radius: 4px;
           z-index: 11;
           overflow: hidden;

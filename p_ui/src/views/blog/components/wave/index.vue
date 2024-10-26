@@ -71,17 +71,18 @@ watch(
   val => {
     loading.value = 'rotate';
     if (val && val.coverUrl) {
+      (document.querySelector('.blog-display-main') as any).style.animation = 'none';
       background.value = `url('${val.coverUrl}') left/cover  no-repeat`;
       var img = new Image();
       img.src = new URL(val.coverUrl, import.meta.url).href; //需要判断的图片地址
       img.onload = function () {
         (waveHeader as any)._value.style.background = background.value;
-        (document.querySelector('.blog-display-main') as any).style.animation =
-          'display-in 1.5s 0.3s backwards';
+        // (document.querySelector('.blog-display-main') as any).style.animation =
+        //   'display-in 1.5s backwards';
         loading.value = false;
       };
     }
-    // else background.value = `url('http://111.229.144.36:8008/dragon-maiden.jpg') left/cover  no-repeat`;
+    // else background.value = `url('http://1.92.159.74:8008/dragon-maiden.jpg') left/cover  no-repeat`;
     else {
       background.value = '';
     }
@@ -102,8 +103,8 @@ onMounted(() => {
     img.src = new URL(props.blogData.coverUrl, import.meta.url).href; //需要判断的图片地址
     img.onload = function () {
       (waveHeader as any)._value.style.background = background.value;
-      (document.querySelector('.blog-display-main') as any).style.animation =
-        'display-in 1.5s 0.3s backwards';
+      // (document.querySelector('.blog-display-main') as any).style.animation =
+      //   'display-in 1.5s backwards';
       loading.value = false;
     };
   } else {
