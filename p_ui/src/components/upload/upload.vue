@@ -1,6 +1,6 @@
 <template>
   <div class="c-upload" :class="isUrl ? 'c-upload-url' : ' '">
-    <svg-icon iconName="切换" @click="uploadSwitch" class="upload-switch"></svg-icon>
+    <svg-icon iconName="commonSvg-切换" @click="uploadSwitch" class="upload-switch"></svg-icon>
     <div v-if="isUrl">
       <el-input v-if="!isArr" v-model="imageValue">
         <template #prepend>
@@ -204,7 +204,7 @@ watch(
       width: 100%;
     }
     .c-uploader-icon {
-      font-size: 20px;
+      font-size: 1rem;
     }
   }
 }

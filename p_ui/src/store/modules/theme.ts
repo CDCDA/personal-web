@@ -27,7 +27,8 @@ const useThemeStore = defineStore('theme', () => {
     //首页字体颜色
     mhFontColor: '#fff',
     //字体
-    fontFamily: 'Shark'
+    fontFamily: 'Shark',
+    dialogType: 'filter'
   } as any);
   return {
     isShow,

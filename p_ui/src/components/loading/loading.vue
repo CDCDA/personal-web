@@ -186,7 +186,7 @@ onMounted(() => {
   font-size: 16px;
   color: #335dfd;
   :deep(.anticon-loading) {
-    font-size: 20px;
+    font-size: 1rem;
   }
   p {
     margin-top: 10px;
@@ -275,9 +275,9 @@ onMounted(() => {
   -moz-border-radius: 6px;
   -webkit-border-radius: 6px;
   border-radius: 6px;
-  -moz-box-shadow: 0px 0px 0px 1px rgba(255, 255, 255, 0.1);
-  -webkit-box-shadow: 0px 0px 0px 1px rgba(255, 255, 255, 0.1);
-  box-shadow: 0px 0px 0px 1px rgba(255, 255, 255, 0.1);
+  -moz-box-shadow: 0 00 1px rgba(255, 255, 255, 0.1);
+  -webkit-box-shadow: 0 00 1px rgba(255, 255, 255, 0.1);
+  box-shadow: 0 00 1px rgba(255, 255, 255, 0.1);
 }
 .gearbox .overlay {
   -moz-border-radius: 6px;
@@ -290,9 +290,9 @@ onMounted(() => {
   width: 100%;
   height: 100%;
   z-index: 10;
-  -moz-box-shadow: inset 0px 0px 20px black;
-  -webkit-box-shadow: inset 0px 0px 20px black;
-  box-shadow: inset 0px 0px 20px black;
+  -moz-box-shadow: inset00 20px black;
+  -webkit-box-shadow: inset00 20px black;
+  box-shadow: inset00 20px black;
   -moz-transition: background 0.2s;
   -o-transition: background 0.2s;
   -webkit-transition: background 0.2s;
@@ -306,9 +306,9 @@ onMounted(() => {
   position: absolute;
   height: 60px;
   width: 60px;
-  -moz-box-shadow: 0px -1px 0px 0px #888888, 0px 1px 0px 0px black;
-  -webkit-box-shadow: 0px -1px 0px 0px #888888, 0px 1px 0px 0px black;
-  box-shadow: 0px -1px 0px 0px #888888, 0px 1px 0px 0px black;
+  -moz-box-shadow: 0 -1px 0 0 #888888, 0 1px 0 0 black;
+  -webkit-box-shadow: 0 -1px 0 0 #888888, 0 1px 0 0 black;
+  box-shadow: 0 -1px 0 0 #888888, 0 1px 0 0 black;
   -moz-border-radius: 30px;
   -webkit-border-radius: 30px;
   border-radius: 30px;
@@ -359,12 +359,12 @@ onMounted(() => {
   margin-left: -18px;
   margin-top: -18px;
   z-index: 3;
-  -moz-box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.1), inset 0px 0px 10px rgba(0, 0, 0, 0.1),
-    inset 0px 2px 0px 0px #090909, inset 0px -1px 0px 0px #888888;
-  -webkit-box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.1), inset 0px 0px 10px rgba(0, 0, 0, 0.1),
-    inset 0px 2px 0px 0px #090909, inset 0px -1px 0px 0px #888888;
-  box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.1), inset 0px 0px 10px rgba(0, 0, 0, 0.1),
-    inset 0px 2px 0px 0px #090909, inset 0px -1px 0px 0px #888888;
+  -moz-box-shadow: 0 0 10px rgba(255, 255, 255, 0.1), inset00 10px rgba(0, 0, 0, 0.1),
+    inset0 2px 0 0 #090909, inset0 -1px 0 0 #888888;
+  -webkit-box-shadow: 0 0 10px rgba(255, 255, 255, 0.1), inset00 10px rgba(0, 0, 0, 0.1),
+    inset0 2px 0 0 #090909, inset0 -1px 0 0 #888888;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.1), inset00 10px rgba(0, 0, 0, 0.1),
+    inset0 2px 0 0 #090909, inset0 -1px 0 0 #888888;
 }
 
 .gear-inner {
@@ -454,9 +454,9 @@ h1 {
   text-align: center;
   text-transform: uppercase;
   color: #888;
-  font-size: 19px;
+  font-size: 1rem;
   padding-top: 10px;
-  text-shadow: 1px 1px 0px #111;
+  text-shadow: 1px 1px 0 #111;
 }
 </style>
 <style scoped lang="scss">
@@ -494,7 +494,7 @@ body {
 
 @keyframes toLeft {
   0% {
-    left: 0px;
+    left: 0;
   }
   100% {
     left: -100%;
@@ -503,7 +503,7 @@ body {
 
 @keyframes toRight {
   0% {
-    right: 0px;
+    right: 0;
   }
   100% {
     right: -100%;
@@ -525,15 +525,15 @@ body {
   width: 50%;
   height: 100%;
   background: #555;
-  top: 0px;
-  left: 0px;
+  top: 0;
+  left: 0;
   position: absolute;
 }
 .gear-container-right {
   width: 50%;
   height: 100%;
-  top: 0px;
-  right: 0px;
+  top: 0;
+  right: 0;
   background: #555;
   position: absolute;
 }

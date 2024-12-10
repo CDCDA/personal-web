@@ -46,7 +46,7 @@
               ></div> </template
             ><template #error>
               <div class="image-error-slot">
-                <svg-icon iconName="图片加载失败"></svg-icon>
+                <svg-icon iconName="commonSvg-图片加载失败"></svg-icon>
               </div> </template
           ></el-image>
         </template>
@@ -191,12 +191,12 @@ onMounted(() => {
     height: 50px;
   }
   100% {
-    height: 0px;
+    height: 0;
   }
 }
 @keyframes show {
   0% {
-    height: 0px;
+    height: 0;
   }
   100% {
     height: 50px;

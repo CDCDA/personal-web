@@ -4,10 +4,10 @@
     :style="{ left: props.left + 'px', top: props.top + 'px' }"
     class="contextmenu"
   >
-    <li><svg-icon iconName="列车" />随便逛逛</li>
-    <li><svg-icon iconName="复制" />复制地址</li>
-    <li><svg-icon iconName="刷新" />重新加载</li>
-    <li><svg-icon iconName="关于" />关于网站</li>
+    <li><svg-icon iconName="commonSvg-列车" />随便逛逛</li>
+    <li><svg-icon iconName="commonSvg-复制" />复制地址</li>
+    <li><svg-icon iconName="commonSvg-刷新" />重新加载</li>
+    <li><svg-icon iconName="commonSvg-关于" />关于网站</li>
   </ul>
 </template>
 <script setup lang="ts">
@@ -41,7 +41,7 @@ const props = defineProps({
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    .svg-icon-wrap {
+    .svg-icon {
       width: 20px;
       height: 20px;
       margin-right: 5px;

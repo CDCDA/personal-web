@@ -136,16 +136,16 @@ onMounted(() => {
   display: flex;
   justify-content: space-around;
   align-items: center;
-  padding: 0px 5%;
+  padding: 0 5%;
   .total-col {
     :deep(.el-statistic__head) {
       font-weight: bold;
-      font-size: 20px;
+      font-size: 1rem;
       margin-bottom: 30px;
     }
     :deep(.el-statistic__content) {
       font-weight: bold;
-      font-size: 18px;
+      font-size: 0.9rem;
     }
   }
 }

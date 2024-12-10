@@ -69,10 +69,10 @@ async function logIn() {
         let CycleUpDown = document.querySelector('.CycleUpDown') as any;
         if (header) {
           header.style.color = mhFontColor;
-          let icons = header.querySelectorAll('.theme-icon');
-          Object.keys(icons).forEach((e: any) => {
-            icons[e].style.fill = mhFontColor;
-          });
+          // let icons = header.querySelectorAll('.theme-icon');
+          // Object.keys(icons).forEach((e: any) => {
+          //   icons[e].style.fill = mhFontColor;
+          // });
         }
         if (homeTop) homeTop.style.color = mhFontColor;
         if (CycleUpDown) {
@@ -170,7 +170,7 @@ async function handleTouristLogIn() {
 
   .box > h2 {
     color: rgba(255, 255, 255, 0.9);
-    margin: 0px 0px 20px 0px;
+    margin: 0 0 20px 0;
   }
 
   .box .input-box {
@@ -181,7 +181,7 @@ async function handleTouristLogIn() {
   }
 
   .box .input-box label {
-    font-size: 13px;
+    font-size: 0.8rem;
     color: rgba(255, 255, 255, 0.9);
     margin-bottom: 5px;
   }
@@ -218,7 +218,7 @@ async function handleTouristLogIn() {
     width: 250px;
     text-align: end;
     text-decoration: none;
-    font-size: 13px;
+    font-size: 0.8rem;
     color: rgba(255, 255, 255, 0.9);
   }
 

@@ -6,7 +6,7 @@
     class="search-dialog"
     v-model="dialogVisible"
     title="搜索"
-    width="500px"
+    width="30rem"
     @close="emit('close')"
     style="height: 400px"
     :modal="false"
@@ -27,8 +27,8 @@
       <div class="c-divider"></div>
       <div class="finder__outer finder-list">
         <div class="finder-list-item" v-for="item in resultRoutes" @click="routeTo(item)">
-          <span>{{ item.meta.remark }}</span
-          ><svg-icon iconName="右" />
+          <span>{{ item.meta.remark }}</span>
+          <svg-icon iconName="commonSvg-右" />
         </div>
       </div>
     </div>
@@ -75,19 +75,20 @@ onMounted(() => {
         finder.classList.remove('active');
       }
     });
-    form.addEventListener('submit', (ev: any) => {
-      ev.preventDefault();
-      finder.classList.add('processing');
-      finder.classList.remove('active');
-      input.disabled = true;
-      autoClearTimer(() => {
-        finder.classList.remove('processing');
-        input.disabled = false;
-        if (input.value.length > 0) {
-          finder.classList.add('active');
-        }
-      }, 1000);
-    });
+    if (form)
+      form.addEventListener('submit', (ev: any) => {
+        ev.preventDefault();
+        finder.classList.add('processing');
+        finder.classList.remove('active');
+        input.disabled = true;
+        autoClearTimer(() => {
+          finder.classList.remove('processing');
+          input.disabled = false;
+          if (input.value.length > 0) {
+            finder.classList.add('active');
+          }
+        }, 1000);
+      });
   }, 1000);
 });
 </script>
@@ -122,22 +123,16 @@ onMounted(() => {
   align-items: center;
   // padding: 10px 5px;
   .finder-list-item {
-    width: calc(100% - 30px);
-    // border-radius: 10px;
+    width: calc(100% - 2rem);
     cursor: pointer;
-    height: 40px;
-    margin: 5px 0px;
-    // border: 1px solid;
-    box-shadow: 0px 1px 0px 0px #c3c3c3;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0px 15px;
-    span {
-    }
-    .svg-icon-wrap {
-      height: 20px;
-      width: 20px;
+    padding: 0.5rem 1rem;
+    border-bottom: 1px solid #ccc;
+    font-size: 0.9rem;
+    .svg-icon {
+      font-size: 1rem;
     }
   }
 }
@@ -190,7 +185,7 @@ onMounted(() => {
   top: 50%;
   position: absolute;
   transform: translateY(-50%);
-  left: 0px;
+  left: 0;
   right: 0;
   margin: auto;
   border-radius: 50%;
@@ -237,7 +232,7 @@ onMounted(() => {
 <style lang="scss">
 .search-dialog {
   .el-dialog__body {
-    height: calc(100% - 60px) !important;
+    height: calc(100% - 78px) !important;
   }
 }
 </style>

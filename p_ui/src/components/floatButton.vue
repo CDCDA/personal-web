@@ -66,7 +66,7 @@ onMounted(() => {
       background: rgba(17, 17, 17, 0.8);
       color: get('font-color');
       i {
-        font-size: 20px;
+        font-size: 1rem;
       }
     }
     .el-button.is-circle:hover {
@@ -81,13 +81,13 @@ onMounted(() => {
     background: rgba(29, 32, 33, 0.6);
     box-shadow: get('box-shadow');
     border: none;
-    padding: 0px;
+    padding: 0;
     .el-dropdown-menu__item {
       background: transparent;
       span {
         color: get('font-color');
       }
-      padding: 0px 12px;
+      padding: 0 12px;
     }
     .el-dropdown-menu__item:hover {
       background: rgba(54, 55, 56, 0.9);

@@ -5,16 +5,16 @@
         class="bottom-item"
         @click="router.push({ name: 'blogTypePage', query: { typeId: '1' } })"
       >
-        <span>前端小记</span><svg-icon iconName="书籍" />
+        <span>前端小记</span><svg-icon iconName="commonSvg-书籍" />
       </div>
       <div
         class="bottom-item"
         @click="router.push({ name: 'blogTypePage', query: { typeId: '2' } })"
       >
-        <span>后端总结</span><svg-icon iconName="火焰" />
+        <span>后端总结</span><svg-icon iconName="commonSvg-火焰" />
       </div>
       <div class="bottom-item" @click="router.push({ name: 'essay' })">
-        <span>生活随笔</span><svg-icon iconName="编辑" />
+        <span>生活随笔</span><svg-icon iconName="commonSvg-编辑" />
       </div>
     </div> -->
     <div class="recommend-left-top">
@@ -24,7 +24,7 @@
       <TechnologyStackCard class="recommd-left-stack" :isHoverShow="false" />
       <div class="recommend-left-top-cover" @click="toRange()">
         <div>随便逛逛</div>
-        <svg-icon iconName="右"></svg-icon>
+        <svg-icon iconName="commonSvg-右"></svg-icon>
       </div>
     </div>
   </div>
@@ -91,7 +91,7 @@ async function toRange() {
         align-items: flex-start;
         padding-left: 50px;
         transition: cubic-bezier(0.71, 0.15, 0.16, 1.15) 0.6s;
-        .svg-icon-wrap {
+        .svg-icon {
           width: 120px;
           height: 120px;
         }
@@ -121,10 +121,10 @@ async function toRange() {
         span {
           color: white;
           font-weight: bold;
-          font-size: 20px;
+          font-size: 1rem;
           padding-left: 25px;
         }
-        .svg-icon-wrap {
+        .svg-icon {
           opacity: 0.2;
           position: absolute;
           right: 0%;
@@ -148,7 +148,7 @@ async function toRange() {
       }
       .bottom-item:hover {
         // animation: slide-in 0.3s forwards linear;
-        .svg-icon-wrap {
+        .svg-icon {
           animation: rotate-img 0.3s forwards linear;
         }
       }

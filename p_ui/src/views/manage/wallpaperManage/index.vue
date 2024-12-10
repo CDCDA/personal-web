@@ -9,7 +9,7 @@
       ref="queryRef"
       :inline="true"
       label-width="40"
-      size="mini"
+      size="small"
     >
       <el-form-item label="名称">
         <el-input
@@ -247,12 +247,12 @@ onMounted(() => {
     height: 50px;
   }
   100% {
-    height: 0px;
+    height: 0;
   }
 }
 @keyframes show {
   0% {
-    height: 0px;
+    height: 0;
   }
   100% {
     height: 50px;

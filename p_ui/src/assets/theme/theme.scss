@@ -13,35 +13,40 @@ $light: (
   border-color: rgb(180 180 180),
   font-color: #363636,
   re-font-color: white,
-  box-shadow: 0px 1px 2px 0px #000000,
+  box-shadow: 0 1px 2px 0 #000000,
   audio-pro-bar: #aca8a8,
   top-button-color: rgb(255 255 255 / 80%),
   placeholder: rgb(87, 87, 87),
-  scrollbar-track-color: '',
+  scrollbar-back-color: #49b1f5,
   scrollbar-thumb-color: hsla(0, 0%, 100%, 0.4)
 );
 
 //白色主题
 $white: (
+  //主背景色
   background: rgb(255 255 255 / 100%),
+  //主背景色（透明）
   back-tr: rgb(255 255 255 / 70%),
+  //主背景色（不透明）
   background-no-tp: rgb(255 255 255 / 100%),
-  // background: rgb(255 255 255 / 94%),
+  //遮罩层
   modal: hsla(0, 0%, 100%, 0.18823529411764706),
-  // background-no-tp: rgb(62, 42, 42),
-  bk-pri: white,
-  re-bk-pri: black,
-  bk: rgb(180 180 180),
+  bk: #b4b4b4,
+  //文字颜色
   font-color: #363636,
-  border-color: rgb(180 180 180),
+  //文字反转色
   re-font-color: white,
+  //边框色
+  border-color: #b4b4b4,
+  //阴影
   box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3),
+  //阴影反转
   re-box-shadow: 1px 1px 3px rgba(255, 255, 255, 0.3),
-  // box-shadow: 0px 0px 10px #484848,
-  audio-pro-bar: #aca8a8,
-  top-button-color: rgb(255 255 255 / 80%),
+  //占位色
   placeholder: #b5b8c0,
-  scrollbar-track-color: '',
+  //hover色
+  hover-color: #dddddd,
+  scrollbar-back-color: '',
   scrollbar-thumb-color: hsla(0, 0%, 100%, 0.4)
 );
 

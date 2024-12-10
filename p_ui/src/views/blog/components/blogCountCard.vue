@@ -81,11 +81,11 @@ onMounted(() => {
       @include flex;
       width: 100%;
       justify-content: start;
-      font-size: 17px;
+      font-size: 0.9rem;
       font-weight: bold;
       .el-icon {
         margin: 8px;
-        font-size: 20px;
+        font-size: 1rem;
       }
     }
     .count-list {
@@ -93,10 +93,10 @@ onMounted(() => {
       justify-content: space-between;
       flex-wrap: wrap;
       .count-item {
-        padding: 8px 11px;
+        padding: 8px 10px;
         border-radius: 8px;
         color: #363636;
-        border: 1px solid #b9b8b8;
+        border: 1px solid get('border-color');
         margin: 8px;
         font-size: 16px;
         width: calc(50% - 40px);
@@ -125,7 +125,7 @@ onMounted(() => {
       .station-count {
         width: 80%;
         @include flex;
-        font-size: 18px;
+        font-size: 0.9rem;
         margin: 8px;
         justify-content: space-between;
         & > span {

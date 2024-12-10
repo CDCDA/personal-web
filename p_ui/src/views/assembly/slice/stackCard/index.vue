@@ -138,14 +138,14 @@ onMounted(() => {});
 .food-card__name {
   grid-column: 1;
   grid-row: 1;
-  font-size: 18px;
+  font-size: 0.9rem;
   font-weight: bold;
   color: #11313c;
 }
 .food-card__price {
   grid-column: 2;
   grid-row: 1;
-  font-size: 18px;
+  font-size: 0.9rem;
   font-weight: bold;
   color: #f7736e;
   text-align: right;

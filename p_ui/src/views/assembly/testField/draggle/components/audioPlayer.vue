@@ -12,14 +12,14 @@
       您的浏览器不支持音频播放
     </audio>
     <div class="audio-right">
-      <svg-icon iconName="前一个" class="dialogAudioPlay" @click="preSong"></svg-icon>
+      <svg-icon iconName="commonSvg-前一个" class="dialogAudioPlay" @click="preSong"></svg-icon>
       <svg-icon
-        :iconName="audioStatus == 'pause' ? '暂停' : '播放'"
+        :iconName="commonSvg - audioStatus == 'pause' ? '暂停' : '播放'"
         @click="playAudio"
         class="dialogAudioPlay"
       >
       </svg-icon>
-      <svg-icon iconName="下一个" class="dialogAudioPlay" @click="nextSong"></svg-icon>
+      <svg-icon iconName="commonSvg-下一个" class="dialogAudioPlay" @click="nextSong"></svg-icon>
       <div class="progress-bar-bg" id="progressBarBg" v-dragto="setAudioIcon">
         <div class="progress-bar" id="progressBar"></div>
       </div>
@@ -42,13 +42,17 @@
           </div>
         </div>
         <svg-icon
-          iconName="非静音"
+          iconName="commonSvg-非静音"
           style="height: 30px; width: 30px"
           class="audio_high"
           @click.stop="audioHuds = !audioHuds"
         />
       </div>
-      <svg-icon iconName="顺序播放" class="dialogAudioPlay" style="margin-right: 15px"></svg-icon>
+      <svg-icon
+        iconName="commonSvg-顺序播放"
+        class="dialogAudioPlay"
+        style="margin-right: 15px"
+      ></svg-icon>
     </div>
   </div>
 </template>
@@ -220,7 +224,7 @@ computed(() => {
 <style lang="scss" scoped>
 .audio-container {
   width: calc(100% - 20px);
-  padding: 0px 10px;
+  padding: 0 10px;
   box-shadow: get('box-shadow');
   background: get('background');
 }
@@ -232,7 +236,7 @@ computed(() => {
     position: absolute;
     left: 70px;
     top: 3px;
-    font-size: 13px;
+    font-size: 0.8rem;
     color: get('font-color');
   }
   .volume {
@@ -302,8 +306,8 @@ computed(() => {
 
     .audio-time {
       overflow: hidden;
-      font-size: 19px;
-      margin: 0px 10px;
+      font-size: 1rem;
+      margin: 0 10px;
       .audio-length-total {
         float: right;
       }

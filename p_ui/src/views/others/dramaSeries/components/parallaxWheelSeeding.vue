@@ -106,6 +106,6 @@ img {
 #item-1:checked ~ .cards #song-1 img,
 #item-2:checked ~ .cards #song-2 img,
 #item-3:checked ~ .cards #song-3 img {
-  box-shadow: 0px 0px 5px 0px rgba(81, 81, 81, 0.47);
+  box-shadow: 0 0 5px 0 rgba(81, 81, 81, 0.47);
 }
 </style>

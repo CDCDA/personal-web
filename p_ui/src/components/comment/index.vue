@@ -3,21 +3,21 @@
 -->
 <template>
   <div class="comment">
-    <div class="comment-title"><svg-icon iconName="评论1"></svg-icon>评论</div>
+    <div class="comment-title"><svg-icon iconName="commonSvg-评论1"></svg-icon>评论</div>
     <commentEditor :type="props.type" @getList="getList" :relevanceId="props.relevanceId" />
     <div v-if="commentList.length != 0" v-cLoading="loading">
       <div class="comment-header">
         <span class="comment-count">{{ total }}条评论</span>
-        <svg-icon iconName="刷新" @click="getList"></svg-icon>
+        <svg-icon iconName="commonSvg-刷新" @click="getList"></svg-icon>
       </div>
       <!-- <div class="c-divider" style="margin: 20px 20px -10px 20px"></div> -->
       <div class="comment-list">
         <div v-for="(item, i) in commentList">
-          <commentItem :commentData="item" @getList="getList" :blogData="props.blogData" />
+          <commentItem :commentData="item" @getList="getList" :data="props.data" />
           <div
             v-if="i != commentList.length - 1"
             class="c-divider"
-            style="margin: 15px 20px 0px 20px"
+            style="margin: 15px 20px 0 20px"
           ></div>
         </div>
       </div>
@@ -29,7 +29,7 @@ import commentEditor from './components/commentEditor.vue';
 import commentItem from './components/commentItem.vue';
 import { ref, onMounted, watch } from 'vue';
 import { listTreeComment } from '@/api/comment';
-const props = defineProps(['relevanceId', 'type', 'blogData']);
+const props = defineProps(['relevanceId', 'type', 'data']);
 const commentList = ref([]) as any;
 const loading = ref(false);
 const total = ref(0);
@@ -69,17 +69,17 @@ onMounted(() => {
     // background: get('background');
     // padding: 20px;
     padding-bottom: 20px;
-    width: calc(100% - 0px);
+    width: 100%;
   }
   .comment-title {
-    padding: 0px 22px;
+    padding: 0 22px;
     font-weight: bold;
     font-size: 22px;
     display: flex;
     width: 100%;
     justify-content: start;
     align-items: center;
-    .svg-icon-wrap {
+    .svg-icon {
       height: 25px;
       width: 25px;
       margin-right: 10px;
@@ -91,17 +91,17 @@ onMounted(() => {
     justify-content: space-between;
     align-items: center;
     background: get('background');
-    padding: 15px 22px 0px 22px;
+    padding: 15px 22px 0 22px;
     .comment-count {
-      font-size: 20px;
+      font-size: 1rem;
       font-weight: bold;
     }
-    .svg-icon-wrap {
+    .svg-icon {
       width: 20px;
       height: 20px;
       cursor: pointer;
     }
-    .svg-icon-wrap:active {
+    .svg-icon:active {
       transform: translateY(2px);
     }
   }

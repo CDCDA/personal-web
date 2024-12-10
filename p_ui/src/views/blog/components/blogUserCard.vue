@@ -17,8 +17,12 @@
           </el-tooltip>
         </div>
         <div class="footer-rightSide">
-          <svg-icon iconName="微信" class="footer-icon weixin" @click="toQrCode"></svg-icon>
-          <svg-icon iconName="github" class="footer-icon github"></svg-icon>
+          <svg-icon
+            iconName="commonSvg-微信"
+            class="footer-icon weixin"
+            @click="toQrCode"
+          ></svg-icon>
+          <svg-icon iconName="commonSvg-github" class="footer-icon github"></svg-icon>
         </div>
       </div>
     </div>
@@ -74,10 +78,10 @@ onMounted(() => {
     padding: 20px;
     @include flex-column;
   }
-  #blog-user-card {
+  .blog-user-card {
     transition: cubic-bezier(0.075, 0.82, 0.165, 1) 0.4s;
     overflow: hidden;
-    padding: 0px !important;
+    padding: 0 !important;
     width: calc(100%) !important;
     background: url('http://1.92.159.74:8008/Ruins.jpg') center 28% / cover no-repeat !important;
     color: get('re-font-color') !important;
@@ -86,8 +90,8 @@ onMounted(() => {
       width: fit-content;
       padding: 2px 20px;
       border-radius: 8px;
-      font-size: 15px;
-      margin: 10px 0px 25px 0px;
+      font-size: 0.8rem;
+      margin: 10px 0 25px 0;
       color: get('re-font-color');
       cursor: pointer;
       @include flex;
@@ -102,25 +106,25 @@ onMounted(() => {
     .introduction {
       position: absolute;
       opacity: 0;
-      width: 150px;
-      height: 150px;
-      top: 0px;
-      left: 0px;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
       @include flex;
     }
     .user-avatar {
-      height: 150px;
-      margin: 10px 0px 0px 0px;
-      width: 150px;
+      height: 10rem;
+      margin: 10px 0 0 0;
+      width: 10rem;
       position: relative;
+      @include flex;
       .el-avatar {
-        width: 130px;
-        height: 130px;
+        width: 7rem;
+        height: 7rem;
         position: absolute;
-        bottom: 15px;
-        left: calc(50% - 65px);
+        @include flex;
         animation: huxi_light 4s infinite;
-        border: solid 5px get('re-font-color');
+        border: solid 5px white;
         transition: cubic-bezier(0.075, 0.82, 0.165, 1) 0.4s;
       }
     }
@@ -131,20 +135,20 @@ onMounted(() => {
       justify-content: space-around;
       align-items: center;
 
-      margin: 20px 0px 0px 0px;
+      margin: 20px 0 0 0;
       .footer-leftSide {
         @include flex-column;
         align-items: start;
         .user-name {
           font-weight: bold;
           font-size: 22px;
-          margin: 2px 0px;
+          margin: 2px 0;
         }
         .user-motto {
           font-size: 16px;
           float: left;
-          margin: 0px;
-          margin: 2px 0px;
+          margin: 0;
+          margin: 2px 0;
         }
       }
       .footer-rightSide {
@@ -161,11 +165,8 @@ onMounted(() => {
   }
   .blog-user-card:hover {
     .el-avatar {
-      height: 0px;
-      width: 0px;
-      left: calc(50%);
-      bottom: 15px;
-
+      height: 0;
+      width: 0;
       animation: none;
       border: none;
     }

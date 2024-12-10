@@ -6,7 +6,7 @@
     class="log"
     v-model="dialogVisible"
     :title="title"
-    width="500px"
+    width="28rem"
     :modal="false"
     @keyup.enter.native="submit()"
     @close="emit('close')"

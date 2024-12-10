@@ -204,7 +204,7 @@ body > div > div {
   font-weight: 800;
   text-transform: uppercase;
   font-stretch: 150%;
-  font-size: 18px;
+  font-size: 0.9rem;
   font-size: clamp(1.5vw, 1.5vmin, 32px);
   color: var(--text-color);
   padding: calc(var(--card-width) / 8);

@@ -2,7 +2,7 @@
   <div class="recommend-right" @click="toSlice()">
     <neonRain class="neon-rain" />
     <span class="slice-name">雨</span>
-    <span class="more-slice">更多切片<svg-icon iconName="去哪儿" /></span>
+    <span class="more-slice">更多切片<svg-icon iconName="commonSvg-去哪儿" /></span>
     <!-- <div class="front" v-if="frontShow">
       <c-image class="front-img" :src="recommends[1]?.coverUrl" @click="toDetail(recommends[1])" />
       <span class="reBlog">推荐文章</span>
@@ -103,7 +103,7 @@ onMounted(() => {
     font-weight: bold;
     opacity: 0;
     @include flex();
-    .svg-icon-wrap {
+    .svg-icon {
       width: 80px;
       height: 80px;
     }
@@ -160,7 +160,7 @@ onMounted(() => {
 //     .reBlogTitle {
 //       left: 40px;
 //       bottom: 30px;
-//       font-size: 25px;
+//       font-size: 1.2rem;
 //       font-weight: bold;
 //     }
 //     .more-re {
@@ -175,7 +175,7 @@ onMounted(() => {
 //       justify-content: space-between;
 //       align-items: center;
 //       :deep(.el-icon) {
-//         font-size: 20px;
+//         font-size: 1rem;
 //         margin-right: 5px;
 //         cursor: pointer;
 //       }
@@ -190,7 +190,7 @@ onMounted(() => {
 //         left: -35px;
 //       }
 //       100% {
-//         left: 0px;
+//         left:0;
 //       }
 //     }
 //     .icon-rec {
@@ -202,7 +202,7 @@ onMounted(() => {
 //       width: 35px;
 //       height: 35px;
 //       background: linear-gradient(to right, #1488cc, #2b32b2);
-//       // border-radius: 15px 0px;
+//       // border-radius: 15px 0;
 //       @include flex;
 //     }
 //     .right-item:hover {
@@ -224,17 +224,17 @@ onMounted(() => {
 //       .item-image {
 //         height: calc(100% - 50px);
 //         width: 100%;
-//         // border-radius: 15px 15px 0px 0px;
+//         // border-radius: 15px 15px 0 0;
 //       }
 //       .item-title {
 //         @include flex;
 //         height: 50px;
-//         padding: 0px 10px;
+//         padding:0 10px;
 //         width: calc(100% - 20px);
 //         margin: 0 auto;
 
 //         .el-text {
-//           font-size: 18px;
+//           font-size: 0.9rem;
 //           font-weight: bold;
 //           color: get('font-color');
 //         }

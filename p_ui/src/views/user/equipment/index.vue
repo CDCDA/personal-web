@@ -71,7 +71,7 @@ onMounted(() => {
     background: transparent !important;
     backdrop-filter: none !important;
     .equipment-header {
-      height: 45vh;
+      height: 40vh;
       width: 100%;
       border-radius: 12px;
       box-shadow: get('box-shadow');
@@ -83,7 +83,7 @@ onMounted(() => {
         border-radius: 12px;
         object-fit: cover;
       }
-      margin-bottom: 40px;
+      margin-bottom: 1rem;
       color: white;
       .equipment-header-top {
         position: absolute;
@@ -118,7 +118,7 @@ onMounted(() => {
       .equipment-item {
         width: calc(25% - 20px);
         border-radius: 10px;
-        margin: 10px 0px;
+        margin: 10px 0;
         box-shadow: get('box-shadow');
         background: get('background');
         position: relative;
@@ -145,11 +145,11 @@ onMounted(() => {
           align-items: center;
           .equipment-item-name {
             font-weight: bold;
-            font-size: 20px;
+            font-size: 1rem;
             margin: 10px;
           }
           .equipment-item-type {
-            margin-bottom: 0px;
+            margin-bottom: 0;
             opacity: 0.6;
             white-space: nowrap;
             overflow: hidden;
@@ -162,10 +162,9 @@ onMounted(() => {
             width: calc(100% - 20px);
             margin: 10px;
             display: -webkit-box;
-            overflow: hidden;
             text-overflow: ellipsis;
             -webkit-box-orient: vertical;
-            -webkit-line-clamp: 2;
+            -webkit-line-clamp: 1;
           }
         }
       }

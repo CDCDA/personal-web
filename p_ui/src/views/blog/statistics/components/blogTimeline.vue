@@ -8,10 +8,10 @@
         <el-timeline-item :timestamp="item.updateTime || item.createTime" placement="top">
           <el-card>
             <div class="card-line">
-              <p style="margin: 0px 5px 10px 0px">
+              <p style="margin: 0 5px 10px 0">
                 {{ item.updateTime ? '更新' : '发布博客' }}
               </p>
-              <el-link type="primary" style="margin-top: 0px" @click="viewBlog(item.blogId)"
+              <el-link type="primary" style="margin-top: 0" @click="viewBlog(item.blogId)"
                 >《{{ item.blogTitle }}》</el-link
               >
             </div>
@@ -60,7 +60,7 @@ onMounted(() => {
     .el-timeline {
       overflow: auto;
       height: 100%;
-      padding: 20px 0px 0px 10px;
+      padding: 20px 0 0 10px;
       .el-card {
         border: none;
         background: transparent;
@@ -86,7 +86,7 @@ onMounted(() => {
           padding: 15px;
 
           h4 {
-            margin: 0px;
+            margin: 0;
             color: get('font-color');
           }
           p {

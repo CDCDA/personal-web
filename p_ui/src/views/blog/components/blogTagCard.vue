@@ -70,7 +70,7 @@ onMounted(() => {
       @include flex;
       width: 100%;
       justify-content: start;
-      font-size: 19px;
+      font-size: 1rem;
       font-weight: bold;
       .el-icon {
         margin: 8px;
@@ -85,8 +85,8 @@ onMounted(() => {
         cursor: pointer;
         padding: 9px 22px 6px 11px;
         border-radius: 5px;
-        margin: 5px 0px;
-        font-size: 17px;
+        margin: 5px 0;
+        font-size: 0.9rem;
         position: relative;
         sub {
           top: 2px;

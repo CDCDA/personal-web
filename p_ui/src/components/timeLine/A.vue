@@ -30,8 +30,8 @@
       content: '';
       position: absolute;
       top: 50%;
-      left: 0px;
-      bottom: 0px;
+      left: 0;
+      bottom: 0;
       transform: translateY(50%);
       width: 100%;
       background-color: #fff;
@@ -70,7 +70,7 @@
             border-radius: 100%;
             top: 50%;
             /* transform: translateY(-50%); */
-            right: 0px;
+            right: 0;
             z-index: 1000;
           }
           &.big:before {

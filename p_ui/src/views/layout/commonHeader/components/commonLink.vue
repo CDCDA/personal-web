@@ -55,7 +55,6 @@ function clickLink(item: any) {
 @include theme() {
   .common-link {
     margin: 0 5px;
-    height: 55px;
     position: relative;
     cursor: pointer;
     @include flex;
@@ -76,7 +75,7 @@ function clickLink(item: any) {
       position: absolute;
       visibility: hidden;
       background: get('background-no-tp');
-      opacity: 0;
+      opacity: 1;
       transition: all 0.6s ease-in-out;
       top: 50px;
       z-index: 999;
@@ -108,25 +107,27 @@ function clickLink(item: any) {
           @include flex;
           justify-content: start;
           cursor: pointer;
-          padding: 0px 10px;
+          padding: 0 10px;
           width: 120px;
           height: 40px;
           margin: 5px;
           border-radius: 5px;
-          // border: 1px solid;
           .link-icon {
             width: 30px;
             height: 30px;
             margin-right: 10px;
           }
           .link-text {
-            font-size: 15px;
+            font-size: 0.8rem;
             color: get('font-color');
           }
           &:hover {
-            background: get('bk');
+            background: get('border-color');
             border-radius: 8px;
             box-shadow: get('box-shadow');
+            .link-text {
+              color: get('re-font-color');
+            }
           }
         }
       }

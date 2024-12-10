@@ -103,7 +103,7 @@ onMounted(() => {
   //   left: -60px;
   //   position: absolute;
   //   right: -60px;
-  //   top: 0px;
+  //   top:0;
   //   z-index: 10;
   // }
 
@@ -148,7 +148,7 @@ onMounted(() => {
     bottom: 15px;
     color: white;
     font-weight: 700;
-    font-size: 18px;
+    font-size: 0.9rem;
     z-index: 10;
   }
 

@@ -84,12 +84,12 @@ onMounted(() => {
 </script>
 <style lang="scss" scoped>
 .update-log-top {
-  height: 45vh;
+  height: 40vh;
   width: calc(100%);
   border-radius: 8px;
   overflow: hidden;
   object-fit: cover;
-  margin: 40px 0px 30px 0px;
+  margin: 40px 0 30px 0;
   background-position: center;
 }
 .update-log-preface {
@@ -99,7 +99,7 @@ onMounted(() => {
     margin-bottom: 20px;
   }
   p {
-    margin: 10px 0px;
+    margin: 10px 0;
   }
 }
 
@@ -115,7 +115,7 @@ onMounted(() => {
     overflow-x: hidden;
     border-radius: 8px;
     padding-bottom: 50px;
-    padding: 0px 80px 50px 80px;
+    padding: 0 80px 50px 80px;
     box-shadow: get('box-shadow');
     color: get('font-color');
   }
@@ -151,7 +151,7 @@ onMounted(() => {
 .timeline ul li div {
   position: relative;
   bottom: 0;
-  width: 400px;
+  width: 25rem;
   padding: 20px;
   background: #fff;
   box-shadow: 4px 13px 30px 1px rgba(252, 56, 56, 0.2);
@@ -162,10 +162,12 @@ onMounted(() => {
 .timeline ul li div time {
   position: absolute;
   background: #f5af19;
+  color: white;
   width: 120px;
   height: 30px;
   top: -15px;
   border-radius: 5px;
+  padding: 5px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -202,10 +204,10 @@ onMounted(() => {
   }
 }
 .timeline ul li:nth-of-type(odd) > div {
-  left: 45px;
+  left: 3rem;
 }
 .timeline ul li:nth-of-type(even) > div {
-  left: -439px;
+  left: -28rem;
 }
 
 .timeline ul li div {
@@ -250,7 +252,7 @@ onMounted(() => {
     width: calc(100vw - 91px);
   }
   .timeline ul li:nth-of-type(even) > div {
-    left: 45px;
+    left: 4rem;
   }
 }
 </style>

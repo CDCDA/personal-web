@@ -7,7 +7,7 @@
       <div class="main-top-title">
         <div data-text></div>
       </div>
-      <svg-icon iconName="下" class="CycleUpDown" @click="toMainPage" />
+      <svg-icon iconName="commonSvg-下" class="CycleUpDown" @click="toMainPage" />
     </div>
     <div class="home-main page-main">
       <div class="main-header">
@@ -35,10 +35,10 @@
             <div v-for="name in Object.keys(typeBlogList)">
               <div class="display-header">
                 <div class="display-header-left">
-                  <svg-icon iconName="分类"></svg-icon>{{ name }}
+                  <svg-icon iconName="commonSvg-分类"></svg-icon>{{ name }}
                 </div>
                 <div class="display-header-right" @click="toBlogType(name)">
-                  <svg-icon iconName="更多"></svg-icon>MORE
+                  <svg-icon iconName="commonSvg-更多"></svg-icon>MORE
                 </div>
               </div>
               <div class="display-list">
@@ -314,7 +314,7 @@ onMounted(() => {
     .main-top-vice-title {
       margin-top: 10px;
       margin-bottom: 100px;
-      font-size: 25px;
+      font-size: 1.2rem;
     }
     .main-top-back {
       height: 100vh;
@@ -325,8 +325,7 @@ onMounted(() => {
       transform: rotate(90deg);
     }
     .CycleUpDown {
-      font-size: 40px;
-      height: 60px;
+      font-size: 70px;
       color: get('font-color');
       bottom: 40px;
       cursor: pointer;
@@ -355,7 +354,7 @@ onMounted(() => {
           @include flex-column;
           height: 100%;
           transition-duration: 300ms;
-          transform: translate3d(0px, 0px, 0px);
+          transform: translate3d(0px, 0, 0);
           .main-header-text {
             height: 30px;
             margin: 10px;
@@ -363,7 +362,7 @@ onMounted(() => {
           }
         }
         .el-icon {
-          font-size: 25px;
+          font-size: 1.2rem;
           color: get('foont-color');
           cursor: pointer;
         }
@@ -375,14 +374,14 @@ onMounted(() => {
         .recommend {
           @include flex;
           width: 100%;
-          height: 40vh;
+          height: 18rem;
         }
         .display-page {
           width: 100%;
           display: flex;
           margin-top: 20px;
           .display-right {
-            width: calc(100% - 280px);
+            width: calc(100% - 16rem - 20px);
             margin-left: 20px;
             .display-header {
               .display-header-left,
@@ -392,7 +391,7 @@ onMounted(() => {
               .display-header-right {
                 cursor: pointer;
               }
-              .svg-icon-wrap {
+              .svg-icon {
                 width: 30px;
                 height: 30px;
                 margin-right: 10px;
@@ -405,7 +404,7 @@ onMounted(() => {
               padding: 8px 20px;
               position: relative;
               .header-item {
-                font-size: 18px;
+                font-size: 0.9rem;
                 font-weight: bold;
                 padding: 5px 15px 7px 15px;
                 cursor: pointer;
@@ -415,7 +414,7 @@ onMounted(() => {
                 position: absolute;
                 right: 10px;
                 cursor: pointer;
-                font-size: 18px;
+                font-size: 0.9rem;
                 font-weight: bold;
                 padding: 5px 15px;
               }
@@ -447,13 +446,11 @@ onMounted(() => {
                 background: get('background');
                 box-shadow: get('box-shadow');
                 border-radius: 10px;
-
                 @include flex-column;
                 justify-content: start;
                 .list-item-img {
                   overflow: hidden;
                   border-radius: 8px;
-                  width: 100%;
                   // height: calc(100% - 100px);
                   aspect-ratio: 5/3;
                   margin: 5px;
@@ -472,8 +469,8 @@ onMounted(() => {
                 // .list-item-img::before {
                 //   content: '';
                 //   position: absolute;
-                //   top: 0px;
-                //   left: 0px;
+                //   top:0;
+                //   left:0;
                 //   width: 500px;
                 //   height: 100%;
                 //   background-color: #fff;
@@ -507,14 +504,14 @@ onMounted(() => {
                 // }
                 .list-item-footer {
                   width: calc(100% - 20px);
-                  padding: 6px 0px 10px 0px;
-                  height: 50px;
+                  padding: 0.4rem 0 0.6rem 0;
+                  height: 2.7rem;
                   display: flex;
                   justify-content: space-between;
                   flex-direction: column;
                   align-items: start;
                   .list-item-title {
-                    font-size: 17px;
+                    font-size: 1rem;
                     font-weight: bold;
                     width: 100%;
                   }
@@ -526,7 +523,7 @@ onMounted(() => {
                       @include flex;
                       justify-content: start;
                       overflow: hidden;
-                      height: 20px;
+                      height: 1rem;
                       width: calc(100% - 105px);
                       text-align: left;
                       display: -webkit-box;
@@ -535,20 +532,26 @@ onMounted(() => {
                       -webkit-line-clamp: 1;
                       -webkit-box-orient: vertical;
                       .item-tag {
-                        margin-right: 15px;
-                        font-size: 15px;
+                        margin-right: 0.75rem;
+                        font-size: 0.8rem;
+                        height: 1rem;
                         display: inline-block;
+                        span {
+                          height: 100%;
+                          display: inline-block;
+                        }
                       }
                       .item-tag-pretend {
-                        opacity: 0.7;
-                        font-size: 15px;
+                        opacity: 0.8;
+                        font-size: 0.85rem;
                         font-weight: bold;
+                        margin-right: 2px;
                       }
                     }
                     .item-time {
-                      font-size: 13px;
+                      font-size: 0.8rem;
                       width: 105px;
-                      height: 20px;
+                      height: 1rem;
                       display: flex;
                       align-items: center;
                       justify-content: end;
@@ -559,7 +562,7 @@ onMounted(() => {
             }
           }
           .display-left {
-            width: 280px;
+            width: 16rem;
           }
         }
       }
@@ -579,7 +582,7 @@ onMounted(() => {
       margin: 3px;
       border-radius: 10px;
       color: get('font-color');
-      font-size: 18px;
+      font-size: 0.9rem;
       transition: all 0.3s ease-in-out;
       // border: 2px solid get('border-color');
       .type-item-prefix {
@@ -592,7 +595,7 @@ onMounted(() => {
       }
       .type-item-count {
         background: #f7f7f9;
-        padding: 0px 5px;
+        padding: 0 5px;
         border-radius: 8px;
         text-align: center;
         min-width: 21px;

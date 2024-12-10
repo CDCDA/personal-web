@@ -47,7 +47,7 @@ onMounted(() => {
       @include flex;
       width: 100%;
       justify-content: start;
-      font-size: 19px;
+      font-size: 1rem;
       font-weight: bold;
       .el-icon {
         margin: 8px;
@@ -64,7 +64,7 @@ onMounted(() => {
         color: get('font-color');
         border: 1px solid #b9b8b8;
         margin: 8px;
-        font-size: 18px;
+        font-size: 0.9rem;
         cursor: pointer;
       }
       .type-item-prepend {

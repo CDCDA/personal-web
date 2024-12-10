@@ -120,7 +120,7 @@ export default {
           type: 'project', //类型
           progress: 0.6, //进度
           open: true, //是否展开
-          start_date: '02-04-2023 00:00', //时间
+          start_date: '02-04-2023 0 0:00', //时间
           duration: 13, //工期
           planQty: 60, //计划数量
           group: 'y', //分组
@@ -130,7 +130,7 @@ export default {
         //   id: 12,
         //   text: '产线 A-1',
         //   type: 'project',
-        //   start_date: '02-04-2023 00:00',
+        //   start_date: '02-04-2023 0 0:00',
         //   duration: 5,
         //   parent: '11',
         //   progress: 0.3,
@@ -141,7 +141,7 @@ export default {
         {
           id: 13,
           text: '产线 A-2',
-          start_date: '02-04-2023 00:00',
+          start_date: '02-04-2023 0 0:00',
           type: 'project',
           render: 'split',
           parent: '11',
@@ -154,7 +154,7 @@ export default {
         {
           id: 17,
           text: '任务 A-2-1',
-          start_date: '02-04-2023 00:00',
+          start_date: '02-04-2023 0 0:00',
           duration: 1,
           group: 'y',
           parent: '13',
@@ -271,7 +271,7 @@ export default {
         {
           id: 16,
           text: '任务 A-4-4',
-          start_date: '02-04-2023 00:00',
+          start_date: '02-04-2023 0 0:00',
           duration: 1,
           type: 'milestone',
           parent: '15',
@@ -288,7 +288,7 @@ export default {
           type: 'project',
           progress: 0,
           open: true,
-          start_date: '02-04-2023 00:00',
+          start_date: '02-04-2023 0 0:00',
           duration: 10,
           planQty: 10,
           group: 'x',
@@ -301,7 +301,7 @@ export default {
           type: 'project',
           progress: 0,
           open: true,
-          start_date: '02-04-2023 00:00',
+          start_date: '02-04-2023 0 0:00',
           duration: 6,
           planQty: 4,
           group: 'x',
@@ -313,7 +313,7 @@ export default {
 
           progress: 0,
           open: true,
-          start_date: '02-04-2023 00:00',
+          start_date: '02-04-2023 0 0:00',
           duration: 2,
           planQty: 4,
           group: 'x',
@@ -325,7 +325,7 @@ export default {
 
           progress: 0,
           open: true,
-          start_date: '02-04-2023 00:00',
+          start_date: '02-04-2023 0 0:00',
           duration: 1,
           planQty: 4,
           group: 'x',

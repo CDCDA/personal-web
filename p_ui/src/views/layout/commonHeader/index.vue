@@ -17,20 +17,25 @@
       <div class="header-bar-menu">
         <div class="header-bar-item" v-for="item in menuData">
           <div class="item-label">
-            {{ item.label }}
+            <svg-icon
+              class="menu-icon"
+              :iconName="item.iconName"
+              style="font-size: 1.1rem; margin-right: 8px"
+            />
+            <span> {{ item.label }}</span>
           </div>
           <div class="item-content" v-if="item.children">
             <div class="item-menu">
               <div class="item" @click="clickMenu(e)" v-for="e in item.children">
-                <el-icon v-if="e.icon" class="menu-icon">
-                  <component :is="e.icon" />
-                </el-icon>
-                <svg-icon
-                  v-else
-                  class="menu-icon"
-                  :iconName="e.svgIcon"
-                  style="height: 22px; width: 22px"
-                ></svg-icon>
+                <!--                <el-icon v-if="e.icon" class="menu-icon">-->
+                <!--                  <component :is="e.icon" />-->
+                <!--                </el-icon>-->
+                <!--                <svg-icon-->
+                <!--                  v-else-->
+                <!--                  class="menu-icon"-->
+                <!--                  :iconName="commonSvg - e.svgIcon"-->
+                <!--                  style="height: 22px; width: 22px"-->
+                <!--                />-->
                 {{ e.label }}
               </div>
             </div>
@@ -44,24 +49,36 @@
 
     <div class="header-right">
       <el-tooltip content="随机文章" placement="top">
-        <svg-icon iconName="列车1" class="header-icon train" @click="toRandom" />
+        <i class="svg-icon-wrap">
+          <svg-icon iconName="commonSvg-列车1" class="header-icon train" @click="toRandom" />
+        </i>
       </el-tooltip>
       <el-tooltip content="搜索" placement="top">
-        <svg-icon iconName="搜索" class="header-icon search" @click="searchClick" />
+        <i class="svg-icon-wrap">
+          <svg-icon iconName="commonSvg-搜索" class="header-icon search" @click="searchClick" />
+        </i>
       </el-tooltip>
       <el-tooltip content="控制台" placement="top">
-        <svg-icon
-          iconName="控制台"
-          class="header-icon console"
-          v-permission="'show'"
-          @click="router.push({ name: 'manage' })"
-        />
+        <i class="svg-icon-wrap">
+          <svg-icon
+            iconName="commonSvg-控制台"
+            class="header-icon console"
+            v-permission="'show'"
+            @click="router.push({ name: 'manage' })"
+          />
+        </i>
       </el-tooltip>
       <el-tooltip content="登出" placement="top">
-        <svg-icon iconName="登出" class="header-icon logout" @click="logout" />
+        <i class="svg-icon-wrap">
+          <svg-icon iconName="commonSvg-登出" class="header-icon logout" @click="logout" />
+        </i>
       </el-tooltip>
-      <span @click="returnTop" class="progress" :class="progress == '100' ? 'is-progress-full' : ''"
-        >{{ progress }}
+      <span
+        @click="returnTop"
+        class="progress"
+        :class="progress == '100' ? 'is-progress-full' : ''"
+      >
+        {{ progress }}
         <el-icon @click="returnTop"><Top /></el-icon>
       </span>
     </div>
@@ -91,98 +108,43 @@ const searchVisible = ref(false as any);
 const weatherData = ref({});
 const pageName = ref('首页');
 const pageChange = ref(true);
-const menuData = ref([
-  {
-    label: '博客',
-    icon: '',
-    name: '',
-    children: [
-      { label: '分类', icon: 'FolderOpened', name: 'blogType' },
-      { label: '标签', icon: 'PriceTag', name: 'blogTag' },
-      { label: '统计', icon: 'Histogram', name: 'statistics' }
-    ]
-  },
-  {
-    label: '简介',
-    icon: '',
-    name: '',
-    children: [
-      { label: '个人信息', icon: 'User', name: 'personalProfile' }
-      // { label: '技术栈', icon: 'Promotion', name: 'technologyStack' },
-      // { label: '项目经历', icon: 'Postcard', name: 'projectExperience' }
-    ]
-  },
-  {
-    label: '我的',
-    icon: '',
-    name: '',
-    children: [
-      { label: '随笔', icon: 'Notebook', name: 'essay' },
-      { label: '相册', icon: 'Camera', name: 'album' },
-      { label: '装备', icon: 'Suitcase', name: 'equipment' },
-      { label: '音乐', icon: 'Headset', name: 'music' }
-    ]
-  },
-  {
-    label: '组件',
-    icon: '',
-    name: '',
-    children: [
-      { label: '切片', icon: 'Orange', name: 'slice' },
-      { label: '试验田', icon: 'OfficeBuilding', name: 'testField' }
-    ]
-  },
-  {
-    label: '其他',
-    icon: '',
-    name: '',
-    children: [
-      { label: '健身', icon: '', svgIcon: 'fitness', name: 'fitness' },
-      { label: '游戏', icon: '', svgIcon: 'game', name: 'game' },
-      { label: '影视', icon: 'VideoCamera', name: 'drama' },
-      { label: '美食', icon: 'KnifeFork', name: 'gourmet' }
-    ]
-  },
-  {
-    label: '关于',
-    icon: '',
-    name: '',
-    children: [
-      { label: '关于本站', icon: '', svgIcon: 'regardTo', name: 'website' },
-      { label: '更新日志', icon: '', svgIcon: 'log', name: 'updateLog' }
-    ]
-  }
-] as any);
+const menuData = ref([] as any);
 
 const menuHeader = [
   {
     label: '博客',
     value: 'blog',
+    iconName: 'pixelSvg-刨冰',
     children: []
   },
   {
     label: '简介',
     children: [],
+    iconName: 'pixelSvg-米饭',
     value: 'intro'
   },
   {
     label: '我的',
     children: [],
+    iconName: 'pixelSvg-西瓜',
     value: 'user'
   },
   {
     label: '组件',
     children: [],
+    iconName: 'pixelSvg-电池',
     value: 'assembly'
   },
   {
     label: '其他',
     children: [],
+    iconName: 'pixelSvg-游戏机',
     value: 'other'
   },
   {
     label: '关于',
     children: [],
+    iconName: 'pixelSvg-蜂蜜',
     value: 'associate'
   }
 ];
@@ -309,7 +271,6 @@ function clickMenu(item: any) {
 
 router.options.routes.forEach((route: any) => {
   if (!route.meta) return;
-
   const { icon, svgIcon, remark, parent } = route.meta;
   if (icon || svgIcon) {
     let parentMenu = menuHeader.find((x: any) => x.value == parent) as any;
@@ -326,9 +287,9 @@ function setHeaderFontColor() {
     if (header) {
       header.style.color = mhFontColor;
       let icons = header.querySelectorAll('.theme-icon');
-      Object.keys(icons).forEach((e: any) => {
-        icons[e].style.fill = mhFontColor;
-      });
+      // Object.keys(icons).forEach((e: any) => {
+      //   icons[e].style.fill = mhFontColor;
+      // });
     }
   }
 }
@@ -388,15 +349,16 @@ onMounted(() => {
     z-index: 100;
     position: absolute;
     // animation: re-slide-in 1.5s forwards linear;
-    top: 0px;
+    top: 0;
     width: calc(100vw - 80px);
-    padding: 0px 40px;
+    padding: 0 40px;
     color: get('font-color');
     display: flex;
     justify-content: space-between;
     font-weight: bold;
-    height: 56px;
+    height: 2.8rem;
     margin-bottom: 10px;
+    //background: get('background');
     background: get('back-tr');
     align-items: center;
     .page-name {
@@ -474,7 +436,7 @@ onMounted(() => {
     :deep(.el-input-group__append) {
       height: 27px;
       background: transparent;
-      padding: 0px 14px;
+      padding: 0 14px;
       .el-buttton {
         box-shadow: none !important;
       }
@@ -488,40 +450,11 @@ onMounted(() => {
       color: inherit;
       display: flex;
       justify-content: center;
-      .header-icon {
-        width: 24px;
-        height: 24px;
-        margin: 10px;
-        @include flex;
-        cursor: pointer;
-        position: relative;
-      }
-      .console {
-        width: 22px;
-        height: 22px;
-      }
-      .header-icon::before {
-        content: ' ';
-        transition: all 0.3s linear;
-        background: get('font-color');
-        height: 26px;
-        width: 26px;
-        border-radius: 25px;
-        position: absolute;
-        z-index: -1;
-        padding: 4px;
-        opacity: 0;
-      }
-      .header-icon:hover {
-        &::before {
-          opacity: 1;
-        }
-      }
     }
     .header-name {
-      width: 320px;
+      width: 300px;
       font-weight: bold;
-      font-size: 25px;
+      font-size: 1.2rem;
       display: flex;
       justify-content: start;
       align-items: center;
@@ -545,38 +478,34 @@ onMounted(() => {
         color: inherit;
         position: relative;
         height: 100%;
+        @include flex;
         &:before {
           content: ' ';
-          background: url(../../../assets/svg/主页.svg) no-repeat;
+          background: url(../../../assets/svg/commonSvg/主页.svg) no-repeat;
           background-size: cover;
-          height: 32px;
-          width: 32px;
+          height: 1.5rem;
+          width: 1.5rem;
           display: inline-block;
           position: absolute;
-          z-index: 1;
-          left: calc(50% - 16px);
-          top: 12px;
           opacity: 0;
+          z-index: 1;
         }
         &:after {
+          background: get('bk');
           content: ' ';
           opacity: 0;
           width: 100%;
-          height: 35px;
-          background: get('bk');
-          border-radius: 10px;
+          height: 2rem;
+          border-radius: 6px;
           display: inline-block;
           position: absolute;
-          left: -20%;
-          top: 11px;
-          padding: 0px 10px;
+          padding: 0 10px;
           box-shadow: get('box-shadow');
         }
       }
       .weather {
-        font-size: 20px;
+        @include flex;
         height: 100%;
-        font-size: 20px;
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -595,15 +524,12 @@ onMounted(() => {
           opacity: 1;
         }
       }
-
-      .title:hover {
-      }
     }
     .header-bar {
       @include flex-column;
       height: 100%;
-      width: calc(100% - 492px);
-      font-size: 20px;
+      width: calc(100% - 600px);
+      font-size: 1rem;
     }
     .header-bar-menu {
       width: 100%;
@@ -612,29 +538,32 @@ onMounted(() => {
       height: 100%;
       @include flex;
       .header-bar-item {
-        padding: 0px 20px;
-        font-size: 20px;
+        padding: 0 20px;
+        font-size: 1rem;
         cursor: pointer;
         position: relative;
         @include flex;
-      }
-      .header-bar-item:hover {
-        .item-label {
-          color: white;
-        }
-
         &::before {
           content: ' ';
-          background: get('border-color');
-          box-shadow: get('box-shadow');
-          height: 35px;
-          width: 80px;
+          background: #ffa500;
+          height: 7px;
+          width: 0%;
           display: inline-block;
           position: absolute;
           z-index: -1;
-          left: 0px;
-          top: 11px;
-          border-radius: 25px;
+          left: 20px;
+          bottom: 0;
+          transition: all 0.3s ease;
+        }
+      }
+      .header-bar-item:hover {
+        .item-label {
+          span {
+            color: #ffa500;
+          }
+        }
+        &::before {
+          width: 65%;
         }
       }
       .item-label {
@@ -644,43 +573,37 @@ onMounted(() => {
       .item-content {
         position: absolute;
         visibility: hidden;
-
         opacity: 0;
-        transition: all 0.3s ease-in-out;
-        // right: -137px;
-        top: 50px;
-        z-index: 1;
+        transition: all 0.5s ease;
+        top: 49px;
+        background: get('back-tr');
+        backdrop-filter: blur(20px);
+        border-radius: 6px;
+        overflow: hidden;
+        box-shadow: get('box-shadow');
         .item-menu {
-          margin-top: 4px;
-          padding: 10px 8px 15px;
-          background: get('background');
-          color: get('font-color');
-          box-shadow: 0 0 8px;
-          border-radius: 30px;
-          height: 60px;
-          padding: 0px 10px;
-          @include flex;
+          padding: 5px 10px;
+          width: 8rem;
+          @include flex-column;
           .item {
             @include flex;
             .menu-icon {
-              margin: 0px 10px 0px 0px;
+              margin: 0 10px 0 0;
             }
-            white-space: nowrap;
             text-align: center;
-            height: 35px;
-            line-height: 35px;
+            height: 1.7rem;
+            line-height: 1.7rem;
             cursor: pointer;
-            padding: 5px 20px;
+            width: calc(100% - 10px);
+            background: hsla(0, 0%, 100%, 0.4392156862745098);
+            border-radius: 4px;
+            margin: 5px 10px;
+            box-shadow: get('box-shadow');
+            font-size: 0.9rem;
+            padding: 3px 5px;
+            color: #4a4a4a;
             &:hover {
-              // box-shadow: get('box-shadow');
-              background: get('bk');
-              border-radius: 30px;
-              color: white;
-              .menu-icon {
-                .svg-use {
-                  fill: white;
-                }
-              }
+              color: #ffa500;
             }
           }
         }
@@ -701,6 +624,7 @@ onMounted(() => {
       overflow: hidden;
       z-index: -1;
       cursor: pointer;
+      @include flex;
       div {
         transform: translateY(100px);
         transition: all 0.2s linear;
@@ -717,9 +641,9 @@ onMounted(() => {
         //   border-radius: 12px;
         //   display: inline-block;
         //   position: absolute;
-        //   left: 0px;
+        //   left:0;
         //   top: 10px;
-        //   padding: 0px 10px;
+        //   padding:0 10px;
         // }
       }
       // div:hover {
@@ -729,27 +653,51 @@ onMounted(() => {
       // }
     }
     .header-right {
-      width: 236px;
+      width: 300px;
       display: flex;
       justify-content: end;
       align-items: center;
-      .el-icon {
-        margin: 0px 8px;
-        font-size: 22px;
-        font-weight: bold;
-        cursor: pointer;
+      .svg-icon-wrap {
+        position: relative;
+        margin: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        &:active {
+          transform: translateY(1px);
+        }
       }
-      .el-avatar {
-        margin: 5px;
-        height: 45px;
-        width: 45px;
+      .svg-icon-wrap::before {
+        width: 1.5rem;
+        height: 1.5rem;
+        content: '';
+        border-radius: 4px;
+        background: get('bk');
+        position: absolute;
+        opacity: 0;
+      }
+      .svg-icon-wrap:hover {
+        &::before {
+          opacity: 1;
+        }
+        .header-icon {
+          :deep(.theme-icon) {
+            fill: white !important;
+          }
+        }
+      }
+      .header-icon {
+        font-size: 1.3rem;
+        @include flex;
         cursor: pointer;
+        position: relative;
+        outline: unset;
       }
     }
     .progress {
-      margin: 0px 10px;
+      margin: 0 10px;
       border-radius: 30px;
-      font-size: 15px;
+      font-size: 0.8rem;
       height: 30px;
       width: 30px;
       display: flex;
@@ -766,9 +714,8 @@ onMounted(() => {
         width: 30px;
         border-radius: 30px;
         line-height: 30px;
-
         background: get('font-color');
-        font-weight: bold;
+        font-size: 26px;
         cursor: pointer;
         svg {
           margin-left: -1px;
@@ -807,7 +754,7 @@ onMounted(() => {
       position: relative;
       height: 60px;
       line-height: 60px;
-      font-size: 20px;
+      font-size: 1rem;
       color: #fff;
       background-color: #000;
       padding: 0 24px;
@@ -832,7 +779,7 @@ onMounted(() => {
         box-shadow: 0 0 8px;
         backdrop-filter: blur(20px);
         border-radius: 5px;
-        padding: 0px;
+        padding: 0;
         .menuItem {
           white-space: nowrap;
           text-align: center;
@@ -841,7 +788,7 @@ onMounted(() => {
           line-height: 35px;
           cursor: pointer;
           border-radius: 4px;
-          padding: 0px 20px;
+          padding: 0 20px;
           &:hover {
             box-shadow: get('box-shadow');
             border-radius: 5px;
@@ -860,10 +807,20 @@ onMounted(() => {
     box-shadow: none;
     background: transparent;
   }
-  .is-show {
-    .header-icon::before {
-      background: get('re-font-color') !important;
+  .is-show.common-header {
+    color: get('font-color') !important;
+    backdrop-filter: blur(15px);
+    box-shadow: get('box-shadow');
+    .svg-icon {
+      color: get('font-color');
     }
+    // .svg-icon-wrap:hover {
+    //   .header-icon.svg-icon {
+    //     :deep(.theme-icon) {
+    //       fill: white !important;
+    //     }
+    //   }
+    // }
   }
 
   .setting {
@@ -872,13 +829,13 @@ onMounted(() => {
     backdrop-filter: blur(20px);
     border-radius: 5px;
     // right: 93px;
-    padding: 0px;
+    padding: 0;
     .setting-item {
       list-style: none;
       text-align: center;
       height: 35px;
       line-height: 35px;
-      padding: 0px 20px;
+      padding: 0 20px;
     }
     .setting-item:hover {
       box-shadow: get('box-shadow');

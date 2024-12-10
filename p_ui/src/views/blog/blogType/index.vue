@@ -57,7 +57,6 @@ onMounted(() => {
     background: get('background');
     box-shadow: get('box-shadow');
     border-radius: 8px;
-    min-height: 100% !important;
     transform-style: preserve-3d;
     .type-list {
       width: calc(100% - 40px);
@@ -86,7 +85,6 @@ onMounted(() => {
         width: 120%;
         height: 120%;
         padding: 20px;
-
         transition: 0.8s cubic-bezier(0.445, 0.05, 0.55, 0.95),
           opacity 4s 0.8s cubic-bezier(0.445, 0.05, 0.55, 0.95);
         pointer-events: none;
@@ -100,15 +98,15 @@ onMounted(() => {
         padding: 15px 18px;
         position: absolute;
         color: #fff;
-        top: 0px;
+        top: 0;
         right: -70px;
-        font-size: 25px;
+        font-size: 1.25rem;
         font-weight: 700;
         text-shadow: rgba(0, 0, 0, 0.1) 0 10px 10px;
         transition: 0.6s 0.2s cubic-bezier(0.215, 0.61, 0.355, 1);
         span {
           margin-left: 5px;
-          font-size: 18px;
+          font-size: 0.9rem;
           font-weight: 700;
         }
       }
@@ -117,10 +115,10 @@ onMounted(() => {
         position: absolute;
         bottom: 0;
         color: #fff;
-        transform: translateY(40%);
+        transform: translateY(42%);
         transition: 0.6s 0.2s cubic-bezier(0.215, 0.61, 0.355, 1);
         h1 {
-          font-size: 36px;
+          font-size: 1.7rem;
           font-weight: 700;
           text-shadow: rgba(0, 0, 0, 0.1) 0 10px 10px;
           padding-left: 0;
@@ -157,10 +155,10 @@ onMounted(() => {
       .type-info {
         // transition: 1s cubic-bezier(0.23, 1, 0.32, 1);
         opacity: 1;
-        transform: translateY(10%);
+        transform: translateY(16%);
       }
       .type-count {
-        right: 0px;
+        right: 0;
       }
     }
   }

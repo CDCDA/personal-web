@@ -83,7 +83,7 @@ const goalList = ref([
       .entries {
         width: calc(100% - 80px);
         max-width: 800px;
-        padding: 0px;
+        padding: 0;
         flex-direction: column;
         justify-content: center;
         height: auto;
@@ -112,7 +112,7 @@ const goalList = ref([
             border: 1px solid;
             border-radius: 10px;
             text-align: left;
-            padding: 0px 10px;
+            padding: 0 10px;
           }
           .title {
             font-size: 32px;
@@ -149,7 +149,7 @@ const goalList = ref([
               }
               .title-text {
                 left: -71px;
-                top: 0px;
+                top: 0;
               }
             }
             .body {
@@ -169,7 +169,7 @@ const goalList = ref([
     }
   }
   .timeline::-webkit-scrollbar {
-    width: 0px;
+    width: 0;
   }
 }
 </style>

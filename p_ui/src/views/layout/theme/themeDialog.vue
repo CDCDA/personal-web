@@ -1,177 +1,113 @@
 <!--
- * @Description: 换肤 
+ * @Description: 换肤
 -->
 <template>
-  <div v-cDrag="true">
-    <c-dialog
-      class="skin-change"
-      v-model="dialogVisible"
-      title="换肤"
-      style="height: 75%"
-      width="60%"
-      :modal="false"
-      align-center
-      @close="emit('closeThemeDialog')"
-    >
-      <el-tabs v-model="activeName" class="skin-tabs" v-loading.fullscreen.lock="loading">
-        <el-tab-pane label="主题" name="theme">
-          <div class="theme-main">
-            <div
-              v-for="item in themes"
-              :class="['theme-item', item.active ? 'theme-item-active' : '']"
-              @click="changeTheme(item)"
-            >
-              <div class="theme-back" :style="{ background: item.background }"></div>
-              <span class="theme-label">{{ item.label }}</span>
-            </div>
-          </div></el-tab-pane
-        >
-        <el-tab-pane label="静态壁纸" name="static">
-          <div class="back-main" v-loading="false">
-            <div
-              v-for="item in backs.filter((e:any)=> e.type !== 'video')"
-              :class="['back-item', item.active ? 'back-item-active' : '']"
-              @click="changeBack(item)"
-            >
-              <c-image class="back-image" v-if="item.type == 'img'" :src="item.url" />
-              <div
-                v-if="item.type == 'color'"
-                class="back-image"
-                :style="{ background: item.url }"
-              />
-              <span class="back-label">{{ item.name }}</span>
-            </div>
-          </div></el-tab-pane
-        >
-        <el-tab-pane label="动态壁纸" name="dynamic">
-          <div class="back-main" v-loading="false">
-            <div
-              v-for="item in backs.filter((e:any)=> e.type == 'video')"
-              :class="['back-item', item.active ? 'back-item-active' : '']"
-              @click="changeBack(item)"
-            >
-              <c-image class="back-image" :src="item.coverUrl"></c-image>
-              <span class="back-label">{{ item.name }}</span>
-            </div>
-          </div></el-tab-pane
-        >
-        <el-tab-pane label="其他" name="other">
-          <div class="other-main">
-            <div class="setting-item">
-              <div class="setting-item-label">粒子效果(仅静态壁纸)</div>
-              <el-switch
-                v-model="themeStore.options.isParticles"
-                @change="setParticles()"
-              ></el-switch>
-            </div>
-            <div class="setting-item">
-              <div class="setting-item-label">樱花特效</div>
-              <el-switch v-model="themeStore.options.isSakura" @change="setIsSakura()"></el-switch>
-            </div>
-            <div class="setting-item">
-              <div class="setting-item-label">首页字体颜色</div>
-              <el-color-picker v-model="themeStore.options.mhFontColor" @change="setFontColor()" />
-            </div>
-            <div class="setting-item">
-              <div class="setting-item-label">字体</div>
-              <el-select v-model="themeStore.options.fontFamily" @change="setFontFamily()">
-                <el-option
-                  v-for="item in fontFamilys"
-                  :value="item.value"
-                  :label="item.label"
-                ></el-option>
-              </el-select>
-            </div>
+  <c-dialog
+    class="skin-change"
+    v-model="dialogVisible"
+    title="换肤"
+    style="height: 75%"
+    width="60%"
+    :modal="false"
+    align-center
+    @close="emit('closeThemeDialog')"
+  >
+    <el-tabs v-model="activeName" class="skin-tabs" v-loading.fullscreen.lock="loading">
+      <el-tab-pane label="主题" name="theme">
+        <div class="theme-main">
+          <div
+            v-for="item in themes"
+            :class="['theme-item', activeTheme.key == item.key ? 'theme-item-active' : '']"
+            @click="changeTheme(item)"
+          >
+            <div class="theme-back" :style="{ background: item.background }"></div>
+            <span class="theme-label">{{ item.label }}</span>
           </div>
-        </el-tab-pane>
-      </el-tabs>
-    </c-dialog>
-  </div>
+        </div></el-tab-pane
+      >
+      <el-tab-pane label="静态壁纸" name="static">
+        <div class="back-main" v-loading="false">
+          <div
+            v-for="item in backs.filter((e:any)=> e.type !== 'video')"
+            :class="['back-item', item.active ? 'back-item-active' : '']"
+            @click="changeBack(item)"
+          >
+            <c-image class="back-image" v-if="item.type == 'img'" :src="item.url" />
+            <div v-if="item.type == 'color'" class="back-image" :style="{ background: item.url }" />
+            <span class="back-label">{{ item.name }}</span>
+          </div>
+        </div></el-tab-pane
+      >
+      <el-tab-pane label="动态壁纸" name="dynamic">
+        <div class="back-main" v-loading="false">
+          <div
+            v-for="item in backs.filter((e:any)=> e.type == 'video')"
+            :class="['back-item', item.active ? 'back-item-active' : '']"
+            @click="changeBack(item)"
+          >
+            <c-image class="back-image" :src="item.coverUrl"></c-image>
+            <span class="back-label">{{ item.name }}</span>
+          </div>
+        </div></el-tab-pane
+      >
+      <el-tab-pane label="其他" name="other">
+        <div class="other-main">
+          <div class="setting-item">
+            <div class="setting-item-label">粒子效果(仅静态壁纸)</div>
+            <el-switch
+              v-model="themeStore.options.isParticles"
+              @change="setParticles()"
+            ></el-switch>
+          </div>
+          <div class="setting-item">
+            <div class="setting-item-label">樱花特效</div>
+            <el-switch v-model="themeStore.options.isSakura" @change="setIsSakura()"></el-switch>
+          </div>
+          <div class="setting-item">
+            <div class="setting-item-label">首页字体颜色</div>
+            <el-color-picker v-model="themeStore.options.mhFontColor" @change="setFontColor()" />
+          </div>
+          <div class="setting-item">
+            <div class="setting-item-label">弹窗风格</div>
+            <el-radio-group v-model="themeStore.options.dialogType" @change="setDialogType()">
+              <el-radio value="normal">常规</el-radio>
+              <el-radio value="filter">磨砂</el-radio>
+            </el-radio-group>
+          </div>
+          <div class="setting-item">
+            <div class="setting-item-label">字体</div>
+            <el-select
+              v-model="themeStore.options.fontFamily"
+              @change="setFontFamily()"
+              append-to=".select-base"
+            >
+              <el-option
+                v-for="item in fontFamilys"
+                :value="item.value"
+                :label="item.label"
+              ></el-option>
+            </el-select>
+          </div>
+        </div>
+      </el-tab-pane>
+    </el-tabs>
+  </c-dialog>
 </template>
 
 <script setup lang="ts">
 import { reactive, ref, onMounted } from 'vue';
 import useThemeStore from '@/store/modules/theme.ts';
 import { listWallpaper } from '@/api/system/wallpaper.ts';
+import { themes, fontFamilys } from './themeData.ts';
 const emit = defineEmits(['closeThemeDialog']);
 var themeStore = useThemeStore();
 const dialogVisible = ref(true);
 const loading = ref(false as any);
 const activeName = ref('theme');
 var activeBack = {} as any;
-var activeTheme = {} as any;
-//主题
-const themes = reactive([
-  {
-    key: 'theme-dark',
-    label: '深色',
-    background: 'linear-gradient(to right, rgba(55, 57, 58, 0.95), rgb(35 37 38 / 95%))',
-    active: true
-  },
-  {
-    key: 'theme-light',
-    label: '棕黄',
-    background: 'linear-gradient(to right, rgb(236 233 230 / 95%), rgb(255 255 255 / 95%))',
-    active: false
-  },
-  {
-    key: 'theme-white',
-    label: '白色',
-    background: 'rgb(255 255 255 / 95%)',
-    active: false
-  },
-  {
-    key: 'theme-green',
-    label: '青色',
-    background: 'linear-gradient(to right, rgb(61 159 169/90%), rgb(12 51 76/90%))',
-    active: false
-  }
-]);
+const activeTheme = ref({}) as any;
 //背景图
 const backs = reactive([] as any);
-//字体
-const fontFamilys = [
-  {
-    value: 'DaoLiTi',
-    name: '刀隶体'
-  },
-  {
-    value: 'FangDaKai',
-    label: '东方大楷'
-  },
-  { value: 'DingDing', label: '钉钉进步体' },
-  { value: 'Uranus', label: '天王星像素' },
-  { value: 'Shark', label: '优设鲨鱼菲特健康体' },
-  { value: "'Press Start 2P', cursive", label: 'Press Start 2P' },
-  {
-    value: 'SimSun',
-    label: '宋体'
-  },
-  {
-    value: 'SimHei',
-    label: '黑体'
-  },
-  {
-    value: 'Microsoft YaHei',
-    label: '微软雅黑'
-  },
-  {
-    value: 'LiSu',
-    label: '隶书'
-  },
-  {
-    value: 'FangSong',
-    label: '仿宋'
-  },
-  {
-    value: 'KaiTi',
-    label: '楷体'
-  },
-  {
-    value: 'YaHei',
-    label: '雅黑'
-  }
-];
 
 var localStorage = window.localStorage as any;
 
@@ -188,7 +124,7 @@ function open() {
  * @return {*}
  */
 function setTheme() {
-  let theme = activeTheme.key as any;
+  let theme = activeTheme.value.key as any;
   (document.getElementById('app-theme') as any).setAttribute('data-theme', theme);
   themeStore.theme = theme;
   saveThemeData();
@@ -198,7 +134,7 @@ function setTheme() {
  * @description: 设置背景
  * @return {*}
  */
-function setBack() {
+const setBack = (): void => {
   let backUrl = activeBack.url as any;
   themeStore.backUrl = backUrl;
   themeStore.backType = activeBack.type;
@@ -217,7 +153,7 @@ function setBack() {
       break;
   }
   saveThemeData();
-}
+};
 
 // 设置文字主题
 function setFontFamily() {
@@ -267,7 +203,7 @@ function changeTheme(item: any) {
     theme.active = false;
   });
   item.active = true;
-  activeTheme = JSON.parse(JSON.stringify(item));
+  activeTheme.value = JSON.parse(JSON.stringify(item));
   setTheme();
 }
 
@@ -280,6 +216,11 @@ function changeBack(item: any) {
   item.active = true;
   activeBack = JSON.parse(JSON.stringify(item));
   setBack();
+}
+
+// 选中弹窗风格
+function setDialogType() {
+  saveThemeData();
 }
 
 // 缓存主题数据
@@ -301,11 +242,11 @@ function saveThemeData() {
  */
 function init() {
   // 获取缓存的主题数据
-  var { theme, backUrl } = themeStore;
+  const { theme, backUrl } = themeStore;
   themes.forEach((e: any) => {
     if (e.key == theme) {
       e.active = true;
-      activeTheme = JSON.parse(JSON.stringify(e));
+      activeTheme.value = JSON.parse(JSON.stringify(e));
     } else {
       e.active = false;
     }
@@ -336,13 +277,14 @@ defineExpose({
   open
 });
 </script>
+<!--suppress SassScssResolvedByNameOnly -->
 <style lang="scss">
 @include theme() {
   .skin-change {
     .el-dialog__body {
       overflow: hidden !important;
       padding-top: 5px !important;
-      height: calc(100% - 35px) !important;
+      height: calc(100% - 2.5rem - 17px) !important;
     }
     .el-tabs__content {
       height: calc(100% - 55px);
@@ -351,27 +293,6 @@ defineExpose({
     .el-tabs {
       height: 100%;
       width: 100%;
-    }
-    .preview {
-      position: absolute;
-      opacity: 0;
-      background: rgba(0, 0, 0, 0.5);
-      height: 87px;
-      width: 150px;
-      z-index: 1000;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 4px 4px 0px 0px;
-      .preview-text {
-        color: white;
-      }
-    }
-    .preview:hover {
-      opacity: 2;
-      .preview-text {
-        display: block;
-      }
     }
 
     .theme-main,
@@ -389,15 +310,14 @@ defineExpose({
         border-radius: 5px;
         position: relative;
         background: get('modal');
-        transition: all 0.3s;
-        box-shadow: rgba(0, 0, 0, 0.125) 0px 0px 10px 0px;
+        box-shadow: rgba(0, 0, 0, 0.225) 0 0 10px 0;
         .back-image,
         .theme-image,
         .theme-back {
           overflow: hidden;
           aspect-ratio: 11/7;
           width: calc(100% - 10px);
-          margin: 5px;
+          margin: 5px 5px 0 5px;
           border-radius: 5px;
           object-fit: cover;
           img {
@@ -409,7 +329,12 @@ defineExpose({
       .theme-item:hover,
       .theme-item-active,
       .back-item-active {
-        background: hsla(0, 0%, 100%, 0.4392156862745098);
+        background: get('border-color');
+
+        .theme-label,
+        .back-label {
+          color: white;
+        }
         .back-image,
         .theme-image,
         .theme-back {
@@ -421,35 +346,35 @@ defineExpose({
           content: '';
           position: absolute;
           border-radius: 9px;
-          top: -4px;
-          left: -4px;
-          right: -4px;
-          bottom: -4px;
-          border: 2px solid hsla(0, 0%, 100%, 0.4392156862745098);
+          top: -5px;
+          left: -5px;
+          right: -5px;
+          bottom: -5px;
+          // border: 2px solid hsla(0, 0%, 100%, 0.4392156862745098);
+          border: 3px solid get('border-color');
           transition: opacity 0.3s;
         }
       }
     }
     .theme-label,
     .back-label {
-      height: 30px;
-      line-height: 30px;
-      color: white;
+      height: 2rem;
+      line-height: 2rem;
+      font-size: 0.85rem;
+      color: get('font-color');
       text-align: center;
     }
     .el-dialog__header {
-      margin-bottom: 0px !important;
+      margin-bottom: 0 !important;
     }
     .other-main {
       width: calc(100% - 20px);
       height: 100%;
-      padding: 0px 10px;
-      // display: flex;
-      // justify-content: center;
-      // align-items: center;
+      padding: 0 10px;
+      font-size: 0.85rem;
       .setting-item {
         .setting-item-label {
-          height: 30px;
+          height: 1.5rem;
           display: flex;
           align-items: center;
         }
@@ -461,14 +386,15 @@ defineExpose({
         align-items: center;
         position: relative;
         padding: 10px 20px;
-        box-shadow: rgba(0, 0, 0, 0.125) 0px 0px 10px 0px;
+        box-shadow: rgba(0, 0, 0, 0.225) 0 0 3px 0;
         border-radius: 8px;
-        margin: 10px 0px;
-        color: white;
+        margin: 10px 0;
+        color: get('font-color');
         background-color: rgba(255, 255, 255, 0.19);
       }
       .setting-item:hover {
-        background: hsla(0, 0%, 100%, 0.4392156862745098);
+        background: get('border-color');
+        color: get('re-font-color');
         &::before {
           content: '';
           position: absolute;
@@ -477,13 +403,39 @@ defineExpose({
           left: -4px;
           right: -4px;
           bottom: -4px;
-          border: 2px solid hsla(0, 0%, 100%, 0.4392156862745098);
+          border: 2px solid get('border-color');
           transition: opacity 0.3s;
         }
       }
     }
     .other-form {
-      padding: 0px 100px;
+      padding: 0 100px;
+    }
+  }
+  .skin-change.filter {
+    .theme-label,
+    .back-label {
+      color: white;
+    }
+    .back-item:hover,
+    .theme-item:hover,
+    .theme-item-active,
+    .back-item-active {
+      background: hsla(0, 0%, 100%, 0.4392156862745098);
+      &::before {
+        border: 2px solid get('border-color');
+      }
+    }
+    .setting-item {
+      color: white;
+      background-color: rgba(255, 255, 255, 0.19);
+      box-shadow: rgba(0, 0, 0, 0.225) 0 0 10px 0;
+    }
+    .setting-item:hover {
+      background: hsla(0, 0%, 100%, 0.4392156862745098);
+      &::before {
+        border: 2px solid hsla(0, 0%, 100%, 0.4392156862745098);
+      }
     }
   }
 }

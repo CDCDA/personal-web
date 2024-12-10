@@ -104,7 +104,16 @@ onMounted(() => {
 <style lang="scss" scoped>
 @import url('/weatherCard/style.css');
 #weather-card.c-card {
-  padding: 0px !important;
-  width: 280px !important;
+  padding: 0 !important;
+  width: 100% !important;
+  height: 20rem;
+  .weather {
+    width: 100% !important;
+    height: 100% !important;
+    #inner {
+      width: 100% !important;
+      height: 100% !important;
+    }
+  }
 }
 </style>

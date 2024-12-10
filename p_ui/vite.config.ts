@@ -21,8 +21,16 @@ export default defineConfig({
     // }),
     vue(),
     createSvgIconsPlugin({
-      iconDirs: [path.resolve(process.cwd(), 'src/assets/svg')],
-      symbolId: '[name]'
+      iconDirs: [
+        path.resolve(process.cwd(), 'src/assets/svg'),
+        path.resolve(process.cwd(), 'src/assets/svg/pixelSvg'),
+        path.resolve(process.cwd(), 'src/assets/svg/commonSvg'),
+        path.resolve(process.cwd(), 'src/assets/svg/linkSvg'),
+        path.resolve(process.cwd(), 'src/assets/svg/techStackSvg'),
+        path.resolve(process.cwd(), 'src/assets/svg/audioSvg'),
+        path.resolve(process.cwd(), 'src/assets/svg/socialSvg'),
+      ],
+      symbolId: '[dir]-[name]'
     }),
     viteCompression({
       verbose: true,

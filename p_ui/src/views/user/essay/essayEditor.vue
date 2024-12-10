@@ -78,7 +78,7 @@ import upload from '@/components/upload/upload.vue';
 import { formatDate } from '@/utils/date.ts';
 const router = useRouter();
 const userStore = useUserStore();
-const commonUseTags = ref(['游戏', '吐槽', '分享', '生活', '音乐', '电影']);
+const commonUseTags = ref(['游戏', '吐槽', '分享', '生活', '音乐', '电影', '开发']);
 const essayData = ref({
   name: '',
   content: '',
@@ -191,11 +191,11 @@ onMounted(() => {
 <style lang="scss" scoped>
 @include theme() {
   .essay-editor {
-    background: get('background');
+    background: get('background-no-tp') !important;
     box-shadow: get('box-shadow');
     padding: 30px;
     width: calc(80% - 60px) !important;
-    min-height: calc(100% - 150px) !important;
+    min-height: calc(100vh - 3.7rem - 60px) !important;
     position: relative;
     display: flex;
     justify-content: center;
@@ -206,7 +206,7 @@ onMounted(() => {
   height: calc(100% - 40px);
 }
 :deep(.el-form-item .el-form-item__label) {
-  font-size: 18px;
+  font-size: 0.9rem;
 }
 :deep(.el-textarea__inner) {
   background-image: url('@/assets/png/pikachu-sit.png') !important;

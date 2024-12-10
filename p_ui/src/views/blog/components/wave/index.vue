@@ -42,13 +42,13 @@
         <div class="blog-info-title">{{ props.blogData.blogTitle }}</div>
         <div class="blog-info-footer">
           <span class="footer-item">
-            <svg-icon iconName="羽毛笔" />{{ props.blogData?.author }}
+            <svg-icon iconName="commonSvg-羽毛笔" />{{ props.blogData?.author }}
           </span>
           <span class="footer-item">
-            <svg-icon iconName="日期" />{{ props.blogData.createTime || '2023-10-1' }}
+            <svg-icon iconName="commonSvg-日期" />{{ props.blogData.createTime || '2023-10-1' }}
           </span>
           <span class="footer-item">
-            <svg-icon iconName="字数" />{{ props.blogData.content?.length }}
+            <svg-icon iconName="commonSvg-字数" />{{ props.blogData.content?.length }}
           </span>
         </div>
       </div>
@@ -118,7 +118,7 @@ onMounted(() => {
 <style scoped lang="scss">
 @include theme() {
   .blog-info {
-    font-size: 20px;
+    font-size: 1rem;
     @include flex-column;
     align-items: start;
     position: absolute;
@@ -129,7 +129,7 @@ onMounted(() => {
       background: rgba(255, 255, 255, 0.2);
       color: get('re-font-color') !important;
       padding: 0 0.5rem;
-      font-size: 20px;
+      font-size: 1rem;
       border-radius: 8px;
       font-weight: bold;
       height: 32px;
@@ -145,7 +145,7 @@ onMounted(() => {
     .blog-info-title {
       font-size: 45px;
       font-weight: bold;
-      margin: 40px 0px 20px 0px;
+      margin: 40px 0 20px 0;
       text-align: left;
     }
   }
@@ -154,7 +154,7 @@ onMounted(() => {
     @include flex;
     margin-top: 15px;
     justify-content: start;
-    .svg-icon-wrap {
+    .svg-icon {
       height: 25px;
       width: 25px;
       margin-right: 5px;
@@ -168,7 +168,7 @@ onMounted(() => {
 .blog-info-header {
   width: 100%;
   @include flex;
-  margin: 5px 0px;
+  margin: 5px 0;
   flex-wrap: nowrap;
   justify-content: start;
   text-overflow: ellipsis;
@@ -181,7 +181,7 @@ onMounted(() => {
   }
   .tag-item {
     margin-right: 15px;
-    font-size: 20px;
+    font-size: 1rem;
   }
   .tag-item-pretend {
     opacity: 0.5;

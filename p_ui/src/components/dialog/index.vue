@@ -6,11 +6,7 @@
     class="c-dialog"
     :id="id"
     :draggable="draggable"
-    :class="[
-      isLessen ? 'is-lessen' : '',
-      isFull ? 'is-full' : '',
-      props.dialogClass ? props.dialogClass : 'dialog-filter'
-    ]"
+    :class="[isLessen ? 'is-lessen' : '', isFull ? 'is-full' : '', dialogType]"
     v-model="props.modelValue"
     :title="props.title"
     :width="props.width"
@@ -25,9 +21,11 @@
       <div class="c-dialog-header" @click="restore" @dblclick="lessen">
         <div class="c-dialog-title">{{ props.title }}</div>
         <div class="c-dialog-bt-group">
-          <svg-icon v-if="!isLessen" iconName="缩小" @click="lessen" />
-          <svg-icon iconName="放大" @click="blowUp" />
-          <svg-icon iconName="关闭" @click="close" />
+          <svg-icon v-if="!isLessen" iconName="commonSvg-缩小" @click="lessen" />
+          <svg-icon iconName="commonSvg-刷新" @click="changeDialogType" />
+          <svg-icon iconName="commonSvg-缩小窗口" @click="blowUp" v-if="isFull" />
+          <svg-icon iconName="commonSvg-放大窗口" @click="blowUp" v-else />
+          <svg-icon iconName="commonSvg-关闭" @click="close" />
         </div>
       </div>
     </template>
@@ -36,18 +34,17 @@
   </el-dialog>
 </template>
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 import { autoClearTimer } from '@/utils/timer';
 import { generateRandomId } from '@/utils/common';
+import useThemeStore from '@/store/modules/theme.ts';
+const themeStore = useThemeStore();
 const id = generateRandomId();
 const props = defineProps({
   options: {
     default: {
       isDefaultFull: false
     }
-  },
-  dialogClass: {
-    default: ''
   },
   title: {
     default: ''
@@ -75,7 +72,15 @@ const isFull = ref(false);
 const draggable = ref(false);
 const isLessen = ref(false);
 const emit = defineEmits(['update:modelValue', 'close']);
+const dialogType = ref('');
 
+function changeDialogType() {
+  if (dialogType.value == 'normal') {
+    dialogType.value = 'filter';
+  } else {
+    dialogType.value = 'normal';
+  }
+}
 function close() {
   emit('close');
   emit('update:modelValue', false);
@@ -151,6 +156,7 @@ function blowUp() {
 function init() {
   isFull.value = props.isFull;
   draggable.value = props.draggable;
+  dialogType.value = themeStore.options.dialogType;
 }
 onMounted(() => {
   init();
@@ -164,17 +170,20 @@ defineExpose({
 @include theme() {
   .c-dialog-header {
     width: 100%;
-    margin: 0px 9px 0px 14px;
+    margin: 0 0.5rem -3px 0.8rem;
     height: 100%;
     display: flex;
-
+    font-size: 1rem;
     justify-content: space-between;
     align-items: center;
     .c-dialog-bt-group {
       display: flex;
+      font-size: 1.15rem;
     }
-
-    .svg-icon-wrap:active {
+    .svg-icon {
+      font-size: inherit;
+    }
+    .svg-icon:active {
       transform: translateY(1px);
     }
   }

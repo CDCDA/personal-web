@@ -16,9 +16,9 @@
       <div>©2023 - 2023 By 记录</div>
       <div>
         距离下一次英仙座流星雨还有{{ meteorDifference }}
-        <svg-icon iconName="流星" />
+        <svg-icon iconName="commonSvg-流星" />
       </div>
-      <div>本站已运行{{ timeDifference }} <svg-icon iconName="火箭" /></div>
+      <div>本站已运行{{ timeDifference }} <svg-icon iconName="commonSvg-pixelSvg房子" /></div>
     </div>
   </div>
 </template>
@@ -82,7 +82,7 @@ onMounted(() => {
     }
     .footer-top {
       height: auto;
-      margin: 22px 0px;
+      margin: 22px 0;
     }
     .footer-bottom {
       @keyframes upDown {
@@ -102,11 +102,11 @@ onMounted(() => {
           transform: translateY(0);
         }
       }
-      margin: 30px 0px 30px 0px;
+      margin: 30px 0 30px 0;
       & > div {
-        margin: 8px 0px;
+        margin: 8px 0;
         @include flex;
-        .svg-icon-wrap {
+        .svg-icon {
           height: 25px;
           width: 25px;
           margin-left: 8px;
@@ -114,7 +114,7 @@ onMounted(() => {
         }
       }
       & > div:nth-child(1) {
-        font-size: 18px;
+        font-size: 0.9rem;
       }
     }
     .footer-main {
@@ -123,7 +123,7 @@ onMounted(() => {
       align-items: flex-start;
       flex-direction: center;
       justify-content: center;
-      // padding: 0px 20%;
+      // padding:0 20%;
       .footer-col {
         width: 15%;
         height: 100%;
@@ -134,9 +134,9 @@ onMounted(() => {
       .footer-row {
         width: 100%;
         height: auto;
-        margin: 15px 0px;
+        margin: 15px 0;
         font-weight: 400;
-        font-size: 15px;
+        font-size: 0.8rem;
         cursor: pointer;
         color: #363636;
       }

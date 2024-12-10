@@ -30,7 +30,7 @@
         </el-button>
         <el-icon
           @click="tagVisible = true"
-          style="font-size: 20px; margin-left: 10px; cursor: pointer"
+          style="font-size: 1rem; margin-left: 10px; cursor: pointer"
           ><Grid
         /></el-icon>
       </el-form-item>

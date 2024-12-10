@@ -18,7 +18,7 @@
         </div>
       </div>
     </div>
-    <!-- <el-divider style="width: calc(100% - 20px); margin: 0px 10px"></el-divider> -->
+    <!-- <el-divider style="width: calc(100% - 20px); margin:0 10px"></el-divider> -->
     <el-form ref="formRef" class="info-form" label-width="70" :rules="rules" :model="form">
       <el-tooltip content="编辑" placement="top">
         <el-icon class="edit" @click="showEdit">
@@ -121,7 +121,7 @@ onMounted(() => {
       justify-content: start;
       align-items: center;
       position: relative;
-      padding: 20px 20px 20px 0px;
+      padding: 20px 20px 20px 0;
       width: calc(100% - 19px);
       height: 30vh;
       color: white;
@@ -167,7 +167,7 @@ onMounted(() => {
         width: calc(100% - 100px);
       }
       .el-icon {
-        font-size: 25px;
+        font-size: 1.2rem;
         margin-left: 10px;
         // visibility: hidden;
       }
@@ -182,7 +182,7 @@ onMounted(() => {
       //   color: get('font-color');
       // }
       .user-footer {
-        bottom: 0px;
+        bottom: 0;
         position: absolute;
         width: 100%;
       }
@@ -203,7 +203,7 @@ onMounted(() => {
     }
     .nickName {
       font-weight: bold;
-      font-size: 25px;
+      font-size: 1.2rem;
     }
     .account {
       font-weight: bold;
@@ -238,16 +238,16 @@ onMounted(() => {
     border-radius: 8px;
   }
   .blog-count {
-    margin: 0px 10px 5px 10px;
+    margin: 0 10px 5px 10px;
   }
   .type-count {
-    margin: 5px 10px 0px 10px;
+    margin: 5px 10px 0 10px;
   }
   .tag-count {
-    margin: 0px 10px 5px 10px;
+    margin: 0 10px 5px 10px;
   }
   .essay-count {
-    margin: 5px 10px 0px 10px;
+    margin: 5px 10px 0 10px;
   }
 }
 </style>

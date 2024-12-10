@@ -4,13 +4,27 @@
 <template>
   <div class="page-main svg-main">
     <div class="svg-header">
-      <svg-icon iconName="物质" style="width: 30px; height: 30px; margin-right: 15px" />svg列表
+      <svg-icon
+        iconName="commonSvg-物质"
+        style="width: 30px; height: 30px; margin-right: 15px"
+      />svg列表
       <!-- <div><el-input v-model="searchText" :suffix-icon="Search"></el-input></div> -->
     </div>
     <div class="svg-center">
-      <div class="svg-item" v-for="(item, i) in svgList" @click="getSvgCode(item)">
-        <svg-icon :iconName="item.fileName" class="svg-item-icon" />
-        <span class="svg-item-name">{{ item.fileName }}</span>
+      <div class="svg-list-wrap" v-for="item in svgData">
+        <div class="svg-list-header">
+          <div class="title">
+            <svg-icon class="icon-windmill" iconName="commonSvg-风车"></svg-icon
+            >{{ `${item.label} [${item.list.length}]` }}
+          </div>
+          <!--          <div class="count">{{ item.list.length }}条</div>-->
+        </div>
+        <div class="svg-list">
+          <div class="svg-item" v-for="svg in item.list" @click="getSvgCode(svg)">
+            <svg-icon :iconName="svg.iconName" class="svg-item-icon" />
+            <span class="svg-item-name">{{ svg.fileName }}</span>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -23,20 +37,85 @@ import { ElNotification } from 'element-plus';
 import { copyText } from '@/utils/common';
 import { Search } from '@element-plus/icons-vue';
 const router = useRouter();
-const svgList = ref([] as any);
 const searchText = ref('') as any;
+const svgData = ref([
+  {
+    label: '关联网站svg',
+    value: 'linkSvg',
+    list: []
+  },
+  {
+    label: '技术栈svg',
+    value: 'techStackSvg',
+    list: []
+  },
+  {
+    label: '社交svg',
+    value: 'socialSvg',
+    list: []
+  },
+  {
+    label: '音频svg',
+    value: 'audioSvg',
+    list: []
+  },
+  {
+    label: '像素svg',
+    value: 'pixelSvg',
+    list: []
+  },
+  {
+    label: '通用svg',
+    value: 'commonSvg',
+    list: []
+  }
+] as any);
 function getSvgCode(item: any) {
-  copyText(`<svg-icon iconName="${item.fileName}" />`);
+  copyText(`<svg-icon iconName="commonSvg-${item.fileName}" />`);
   ElNotification.success('svg代码复制成功');
 }
 
-onMounted(() => {
-  const files = (import.meta as any).glob('@/assets/svg/*.svg', { eager: true });
-  Object.keys(files).forEach((name: any) => {
-    const fileName = name.split('/').pop().replace('.svg', '');
-    svgList.value.push({ fileName, src: files[name].default });
+function initSvgData() {
+  svgData.value.forEach((item: any) => {
+    let svgList = [] as any;
+    let files = [] as any;
+    switch (item.value) {
+      case 'audioSvg':
+        files = (import.meta as any).glob(`@/assets/svg/audioSvg/*.svg`, { eager: true });
+        break;
+      case 'socialSvg':
+        files = (import.meta as any).glob(`@/assets/svg/socialSvg/*.svg`, { eager: true });
+        break;
+      case 'linkSvg':
+        files = (import.meta as any).glob(`@/assets/svg/linkSvg/*.svg`, { eager: true });
+        break;
+      case 'techStackSvg':
+        files = (import.meta as any).glob(`@/assets/svg/techStackSvg/*.svg`, { eager: true });
+        break;
+      case 'pixelSvg':
+        files = (import.meta as any).glob(`@/assets/svg/pixelSvg/*.svg`, { eager: true });
+        break;
+      case 'commonSvg':
+        files = (import.meta as any).glob(`@/assets/svg/commonSvg/*.svg`, { eager: true });
+        break;
+      default:
+        break;
+    }
+    Object.keys(files).forEach((name: any) => {
+      const fileName = name.split('/').pop().replace('.svg', '');
+      svgList.push({
+        fileName: fileName,
+        src: files[name].default,
+        iconName: item.value + '-' + fileName
+      });
+    });
+    item.list = svgList;
   });
-  console.log('qqq', svgList.value);
+  console.log(svgData.value);
+}
+
+onMounted(() => {
+  initSvgData();
 });
 </script>
 <style lang="scss" scoped>
@@ -60,20 +139,43 @@ onMounted(() => {
       height: 30px;
       width: calc(100% - 80px);
       text-align: left;
-      font-size: 22px;
+      font-size: 1.1rem;
       font-weight: bold;
-      padding: 12px 0px 5px 0px;
-      margin: 25px auto 0px auto;
+      padding: 12px 0 5px 0;
+      margin: 25px auto 0 auto;
       display: flex;
     }
     .svg-center {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: start;
-      align-items: center;
       width: calc(100% - 60px);
-      padding: 10px 0px 30px 0px;
-      margin: 0px auto;
+      padding: 10px 0 30px 0;
+      margin: 0 auto;
+      .svg-list-wrap:hover {
+        .icon-windmill {
+          transform: scale(1.02);
+          animation: rotate 1s linear infinite;
+        }
+      }
+      .svg-list-wrap {
+        display: flex;
+        flex-direction: column;
+        .svg-list-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin: 8px 8px;
+          .icon-windmill {
+            color: #fb7061;
+            font-size: 1.3rem;
+            margin-right: 5px;
+          }
+        }
+        .svg-list {
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: start;
+          align-items: center;
+        }
+      }
       .svg-item {
         animation: fade-in 0.5s linear forwards;
         margin: 10px 10px;
@@ -86,20 +188,19 @@ onMounted(() => {
         opacity: 0.9;
         box-shadow: get('box-shadow');
         background: get('background');
-        position: relative;
         color: get('font-color');
         display: flex;
         justify-content: start;
         align-items: center;
         flex-direction: column;
-        overflow: hidden;
+
         .svg-item-name {
-          font-size: 14px;
+          font-size: 0.8rem;
           text-align: center;
           width: calc(100% - 10px);
           height: 30px;
-          padding: 0px 5px;
-          margin-bottom: 5px;
+          padding: 0 5px;
+          margin-bottom: 10px;
           line-height: 30px;
           text-overflow: ellipsis;
           overflow: hidden;
@@ -107,9 +208,8 @@ onMounted(() => {
           color: get('font-color');
         }
         .svg-item-icon {
-          width: 40px;
-          height: 40px;
-          margin: 15px auto 5px auto;
+          margin: 15px auto 12px auto;
+          font-size: 2rem;
         }
       }
       .svg-item:hover {

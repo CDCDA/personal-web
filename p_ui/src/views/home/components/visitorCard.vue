@@ -4,10 +4,10 @@
 <template>
   <div class="visitor-card c-card" id="card">
     <div class="card-header">
-      <svg-icon iconName="礼花" style="width: 20px; height: 20px; margin-right: 8px" /><span
-        class="tag-name"
-        >welcome</span
-      >
+      <svg-icon
+        iconName="commonSvg-礼花"
+        style="width: 20px; height: 20px; margin-right: 8px"
+      /><span class="tag-name">welcome</span>
     </div>
     <div class="visitor-location">
       欢迎来自
@@ -156,14 +156,14 @@ onMounted(() => {
 @include theme() {
   #card {
     text-align: left;
-    font-size: 18px;
+    font-size: 1rem;
     padding: 15px !important;
     width: calc(100% - 30px) !important;
     .card-header {
       @include flex;
       width: 100%;
       justify-content: start;
-      font-size: 19px;
+      font-size: 1rem;
       font-weight: bold;
       .el-icon {
         margin: 8px;
@@ -175,7 +175,7 @@ onMounted(() => {
     .visitor-distance,
     .visitor-ip,
     .visitor-salutation {
-      margin: 10px 0px;
+      margin: 10px 0;
     }
     .visitor-location span {
       color: #49b1f5;

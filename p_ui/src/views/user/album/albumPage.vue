@@ -65,12 +65,12 @@ onMounted(() => {
     bottom: -40px;
   }
   100% {
-    bottom: 0px;
+    bottom: 0;
   }
 }
 @keyframes toDown {
   0% {
-    bottom: 0px;
+    bottom: 0;
   }
   100% {
     bottom: -40px;
@@ -99,11 +99,11 @@ onMounted(() => {
     .album-img-time {
       position: absolute;
       bottom: -30px;
-      right: 0px;
+      right: 0;
       width: calc(100%);
       line-height: 1.8;
       position: absolute;
-      left: 0px;
+      left: 0;
       font-size: 14px;
       background: rgba(0, 0, 0, 0.3);
       padding: 4px 8px;

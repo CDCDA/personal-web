@@ -534,8 +534,8 @@
 // @keyframes small-to-normal {
 //   0% {
 //     opacity: 0.5;
-//     width: 0px !important;
-//     height: 0px !important;
+//     width:0 !important;
+//     height:0 !important;
 //   }
 //   100% {
 //     opacity: 1;
@@ -616,9 +616,22 @@
   100% {
     transform: translateY(20);
     opacity: 0;
-    height: 0px;
+    height: 0;
   }
 }
 .slide-out {
   animation: slide-out 1s forwards ease;
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.rotate {
+  animation: rotate 1s linear infinite;
 }

@@ -82,7 +82,7 @@ onMounted(() => {
     box-shadow: get('box-shadow');
     justify-content: space-between;
     /* border: 1px solid; */
-    margin: 5px 0px;
+    margin: 5px 0;
     height: 60px;
     background: get('background');
   }
@@ -127,7 +127,7 @@ onMounted(() => {
     font-size: 12px;
   }
   .article-title {
-    font-size: 15px;
+    font-size: 0.8rem;
     margin-bottom: 5px;
   }
   .article-type {

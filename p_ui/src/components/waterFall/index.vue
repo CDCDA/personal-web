@@ -115,7 +115,7 @@ onMounted(() => {
     }
     .text-box {
       font-weight: 500px;
-      font-size: 18px;
+      font-size: 0.9rem;
       color: #000000;
     }
   }

@@ -70,7 +70,7 @@ async function register() {}
 
   .box > h2 {
     color: rgba(255, 255, 255, 0.9);
-    margin: 0px 0px 20px 0px;
+    margin: 0 0 20px 0;
   }
 
   .box .input-box {
@@ -81,7 +81,7 @@ async function register() {}
   }
 
   .box .input-box label {
-    font-size: 13px;
+    font-size: 0.8rem;
     color: rgba(255, 255, 255, 0.9);
     margin-bottom: 5px;
   }
@@ -118,7 +118,7 @@ async function register() {}
     width: 250px;
     text-align: end;
     text-decoration: none;
-    font-size: 13px;
+    font-size: 0.8rem;
     color: rgba(255, 255, 255, 0.9);
   }
 

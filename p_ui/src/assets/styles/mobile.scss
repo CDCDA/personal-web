@@ -4,7 +4,7 @@
     display: none !important;
   }
   .common-header {
-    padding: 0px 15px 0px 5px !important;
+    padding: 0 15px 0 5px !important;
     width: calc(100vw - 20px) !important;
   }
   .header-name {
@@ -18,7 +18,7 @@
   }
   .recommend-left {
     width: 100% !important;
-    margin-right: 0px !important;
+    margin-right: 0 !important;
     .recommend-left-bottom {
       width: 100%;
     }
@@ -37,7 +37,16 @@
       height: auto !important;
     }
     .display-page {
-      margin-top: 0px !important;
+      margin-top: 0 !important;
     }
+  }
+}
+
+@media screen and (max-width: 2560px) and (min-width: 1600px) {
+  html {
+    font-size: 20px !important;
+  }
+  .page-main {
+    max-width: 1500px !important;
   }
 }

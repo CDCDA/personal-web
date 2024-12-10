@@ -8,7 +8,7 @@
       <div class="identification-container">
         <i class="el-icon-date"></i>
         <span style="font-size: 12px; color: darkgrey">{{ news.date }}</span>
-        <span style="font-size: 15px">{{ news.type }}</span>
+        <span style="font-size: 0.8rem">{{ news.type }}</span>
       </div>
       <div class="news-title">
         <span style="font-size: 16px; font-weight: bold">垂直水平居中方法汇总</span>
@@ -56,7 +56,7 @@ const newsList = ref([
 .blog-news {
   .news-title {
     margin: 5px 0 0 10px;
-    font-size: 15px;
+    font-size: 0.8rem;
   }
   .el-image {
     height: 260px;
@@ -65,7 +65,7 @@ const newsList = ref([
 
 .news-introduction {
   margin: 5px;
-  font-size: 13px;
+  font-size: 0.8rem;
 }
 .news-image {
   border-radius: 5px;

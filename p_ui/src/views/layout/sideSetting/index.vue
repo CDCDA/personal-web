@@ -22,18 +22,13 @@
       </el-tooltip>
     </div>
   </div>
-
-  <theme-dialog
-    @closeThemeDialog="closeThemeDialog"
-    v-if="isThemeDialogShow"
-    ref="themeDialog"
-  ></theme-dialog>
-  <AddLog v-if="isAddLogShow" @close="closeLog" :form="{}"></AddLog>
+  <theme-dialog @closeThemeDialog="closeThemeDialog" v-if="isThemeDialogShow" ref="themeDialog" />
+  <AddLog v-if="isAddLogShow" @close="closeLog" :form="{}" />
 </template>
 <script setup lang="ts">
 import { ref } from 'vue';
 import ThemeDialog from '@/views/layout/theme/themeDialog.vue';
-import AddLog from './components/addLog.vue';
+import AddLog from '@/views/layout/sideSetting/components/addLog.vue';
 import { useRouter } from 'vue-router';
 const router = useRouter();
 const props = defineProps({
@@ -44,43 +39,43 @@ const isAddLogShow = ref(false as any);
 const isFull = ref(false as any);
 const menuData = ref([
   {
-    iconName: '博客',
+    iconName: 'commonSvg-博客',
     tip: '发布博客',
     value: 'blog',
     isShow: false
   },
   {
-    iconName: '编辑',
+    iconName: 'commonSvg-编辑',
     tip: '发布随笔',
     value: 'edit',
     isShow: false
   },
   {
-    iconName: '皮肤',
+    iconName: 'commonSvg-皮肤',
     tip: '皮肤选择',
     value: 'skin',
     isShow: true
   },
   {
-    iconName: '设置',
+    iconName: 'commonSvg-设置',
     tip: '更多设置',
     value: 'setting',
     isShow: true
   },
   {
-    iconName: '上-实心三角',
+    iconName: 'commonSvg-上-实心三角',
     tip: '回到顶部',
     value: 'up',
     isShow: true
   },
   {
-    iconName: '下-实心三角',
+    iconName: 'commonSvg-下-实心三角',
     tip: '直达底部',
     value: 'down',
     isShow: true
   },
   {
-    iconName: '日志',
+    iconName: 'commonSvg-日志',
     tip: '新增日志',
     value: 'log',
     isShow: false
@@ -209,6 +204,11 @@ function closeThemeDialog() {
   .setting-item {
     animation: right-out 0.5s linear forwards;
   }
+  .setting-item {
+    .svg-icon:active {
+      transform: translateY(1px) !important;
+    }
+  }
 }
 
 .side-setting {
@@ -219,29 +219,39 @@ function closeThemeDialog() {
   bottom: 32%;
   z-index: 1;
   .setting-item {
-    height: 35px;
-    width: 35px;
+    height: 2rem;
+    width: 2rem;
     margin-bottom: 10px;
     cursor: pointer;
     transition: all 0.5s linear;
+    box-shadow: 0 1px 1px 0 #000000;
+    border-radius: 4px;
   }
   .setting-item-img {
     width: 100%;
     height: 100%;
     position: relative;
-    border-radius: 100%;
+    border-radius: 4px;
     position: relative;
     @include flex;
-    .svg-icon-wrap {
+    .svg-icon {
       z-index: 1;
       position: absolute;
-      width: 75%;
-      height: 75%;
+      width: 70%;
+      height: 70%;
       @include flex;
     }
   }
   .setting {
-    animation: rotate 2s linear infinite;
+    .svg-icon {
+      animation: rotate 2s linear infinite;
+    }
+  }
+  .blog,
+  .log {
+    .svg-icon {
+      margin-left: 4px;
+    }
   }
 }
 @include theme() {

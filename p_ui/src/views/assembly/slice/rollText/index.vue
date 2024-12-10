@@ -48,7 +48,7 @@ onMounted(() => {
   margin: 0;
   height: 40px;
   line-height: 40px;
-  font-size: 20px;
+  font-size: 1rem;
   text-align: center;
   text-transform: uppercase;
   transition: margin-top 0.3s ease;

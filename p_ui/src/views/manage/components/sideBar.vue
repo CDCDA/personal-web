@@ -10,7 +10,8 @@
         v-for="item in menuList"
         @click="menuClick(item)"
       >
-        {{ item.meta.remark }} <svg-icon class="sidebar-item-icon" iconName="右-双层"></svg-icon>
+        {{ item.meta.remark }}
+        <svg-icon class="sidebar-item-icon" iconName="commonSvg-右-双层"></svg-icon>
       </li>
     </ul>
   </div>
@@ -63,7 +64,7 @@ onMounted(() => {
   .sidebar-main-item.is-active {
     background: get('border-color');
     transform: scale(1.04);
-    box-shadow: 0px 1px 2px 0px #757171;
+    box-shadow: 0 1px 2px 0 #757171;
     border-radius: 8px;
     color: get('re-font-color');
     .sidebar-item-icon {
@@ -143,7 +144,7 @@ onMounted(() => {
   height: 100%;
   overflow: hidden;
   position: relative;
-  padding: 0px !important;
+  padding: 0 !important;
 }
 .sidebar-main {
   width: 100%;
@@ -183,7 +184,7 @@ onMounted(() => {
   left: 50%;
   top: -26%;
   height: 150%;
-  width: 0px;
+  width: 0;
   transform: rotate(23deg);
   transition: all 0.5s linear;
 }
@@ -214,7 +215,7 @@ onMounted(() => {
   position: relative;
   .sidebar-item-icon {
     position: absolute;
-    right: 0px;
+    right: 0;
     opacity: 0;
     top: calc(50% - 10px);
     width: 20px;
@@ -247,7 +248,7 @@ onMounted(() => {
     align-items: center;
     justify-content: center;
     position: absolute;
-    .svg-icon-wrap {
+    .svg-icon {
       width: 25px;
       height: 25px;
     }

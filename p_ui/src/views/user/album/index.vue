@@ -75,7 +75,7 @@ onMounted(() => {
 <style lang="scss">
 @include theme() {
   .album-header {
-    height: 45vh;
+    height: 40vh;
     width: calc(100%);
     // margin: 40px 60px;
     border-radius: 12px;
@@ -87,7 +87,7 @@ onMounted(() => {
       border-radius: 12px;
       object-fit: cover;
     }
-    margin-bottom: 40px;
+    margin-bottom: 1rem;
     // color: get('re-font-color');
     color: white;
     .album-header-top {
@@ -123,7 +123,7 @@ onMounted(() => {
       width: calc(100% + 20px);
       .album-item {
         width: calc(25% - 20px);
-        height: 420px;
+        aspect-ratio: 5/7;
         border-radius: 12px;
         margin: 10px;
         transition: all 0.6s ease;
@@ -131,7 +131,6 @@ onMounted(() => {
         cursor: pointer;
         box-shadow: get('box-shadow');
         position: relative;
-        // color: get('re-font-color');
         color: white;
         .album-item-cover {
           width: 100%;
@@ -164,7 +163,7 @@ onMounted(() => {
         .album-item-instoction {
           position: absolute;
           font-weight: bold;
-          font-size: 20px;
+          font-size: 1rem;
           left: 25px;
           top: 77px;
           opacity: 0.9;

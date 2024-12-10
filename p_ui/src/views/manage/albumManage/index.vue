@@ -46,7 +46,7 @@
               ></div> </template
             ><template #error>
               <div class="image-error-slot">
-                <svg-icon iconName="图片加载失败"></svg-icon>
+                <svg-icon iconName="commonSvg-图片加载失败"></svg-icon>
               </div> </template
           ></el-image>
         </template>
@@ -67,7 +67,7 @@
     />
   </div>
   <!-- 新增或编辑 -->
-  <c-dialog v-model="open" :title="title" width="720" style="height: 70%" :modal="false">
+  <c-dialog v-model="open" :title="title" width="60%" style="height: 70%" :modal="false">
     <el-form :model="form" label-width="40" style="height: calc(100% - 40px); overflow: auto">
       <el-form-item label="名称">
         <el-input v-model="form.name" clearable></el-input>
@@ -224,12 +224,12 @@ onMounted(() => {
     height: 50px;
   }
   100% {
-    height: 0px;
+    height: 0;
   }
 }
 @keyframes show {
   0% {
-    height: 0px;
+    height: 0;
   }
   100% {
     height: 50px;

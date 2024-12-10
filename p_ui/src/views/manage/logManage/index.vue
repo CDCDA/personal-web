@@ -176,12 +176,12 @@ onMounted(() => {
     height: 50px;
   }
   100% {
-    height: 0px;
+    height: 0;
   }
 }
 @keyframes show {
   0% {
-    height: 0px;
+    height: 0;
   }
   100% {
     height: 50px;

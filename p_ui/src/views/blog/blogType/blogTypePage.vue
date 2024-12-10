@@ -15,36 +15,39 @@
         <span class="type-item-count">{{ item.total }}</span>
       </div>
     </div>
-    <div class="c-divider" style="margin: 12px 32px 9px 32px"></div>
-    <div class="blog-list" :class="loading ? '' : ' slide-in'">
+    <div class="c-divider" style="margin: 15px 32px 6px 32px; width: calc(100% - 64px)"></div>
+    <div class="blog-list-wrap">
       <div
         v-if="loading"
         class="blog-list-loading"
         v-cLoading="loading"
         :class="loading ? 'blog-list-loading-active' : ''"
       />
-      <div class="blog-item" v-for="(item, i) in blogList" @click="toDetail(item)">
-        <c-image class="blog-item-left-img" :src="item.coverUrl" />
-        <div class="blog-item-right">
-          <div class="blog-title no-wrap">{{ item.blogTitle }}</div>
-          <div class="tag-list">
-            <div class="tag-item" v-for="tag in item.tags">
-              <span class="tag-item-pretend">#</span>
-              <span class="tag-item-text">{{ tag.tagName }}</span>
+      <div class="blog-list" :class="loading ? '' : ' slide-in'">
+        <div class="blog-item" v-for="(item, i) in blogList" @click="toDetail(item)">
+          <c-image class="blog-item-left-img" :src="item.coverUrl" />
+          <div class="blog-item-right">
+            <div class="blog-title no-wrap">{{ item.blogTitle }}</div>
+            <div class="tag-list">
+              <div class="tag-item" v-for="tag in item.tags">
+                <span class="tag-item-pretend">#</span>
+                <span class="tag-item-text">{{ tag.tagName }}</span>
+              </div>
+            </div>
+            <div class="blog-time">
+              <el-icon><Calendar /></el-icon>{{ formatDate(new Date(item.createTime), 'YY-MM-dd') }}
             </div>
           </div>
-          <div class="blog-time">
-            <el-icon><Calendar /></el-icon>{{ formatDate(new Date(item.createTime), 'YY-MM-dd') }}
+          <span class="blog-sort-item-index">{{ i + 1 }}</span>
+          <div class="blog-cursor-cover">
+            <span class="no-wrap" style="-webkit-line-clamp: 3">{{
+              item.blogAbstract || '暂时没有摘要 ╮(￣▽￣)╭'
+            }}</span>
           </div>
-        </div>
-        <span class="blog-sort-item-index">{{ i + 1 }}</span>
-        <div class="blog-cursor-cover">
-          <span class="no-wrap" style="-webkit-line-clamp: 3">{{
-            item.blogAbstract || '暂时没有摘要 ╮(￣▽￣)╭'
-          }}</span>
         </div>
       </div>
     </div>
+
     <Pagination
       v-model:page="queryParams.pageNum"
       v-model:page-size="queryParams.pageSize"
@@ -67,6 +70,7 @@ import useUserStore from '@/store/modules/user';
 import Pagination from '@/components/pagination/index.vue';
 import { formatDate } from '@/utils/date.ts';
 import { useRouter } from 'vue-router';
+import { Calendar } from '@element-plus/icons-vue';
 const router = useRouter();
 const userStore = useUserStore();
 const loading = ref('rotate' as any);
@@ -151,14 +155,12 @@ onMounted(() => {
     position: relative;
     transition: all 0.5s ease-in-out;
     justify-content: start;
+    align-items: center;
     display: flex;
     flex-direction: column;
     .pagi {
-      margin: 20px 7px;
+      margin: 6px 7px 15px 7px;
       width: calc(100% - 66px);
-      position: absolute;
-      bottom: 0px;
-      left: 25px;
     }
     .page-right {
       width: 300px;
@@ -171,17 +173,16 @@ onMounted(() => {
       @include flex;
       justify-content: start;
       flex-wrap: wrap;
-
       width: calc(100% - 50px);
-      margin: 25px 25px 00px 25px;
+      margin: 25px 25px 0 25px;
       .type-item {
         @include flex;
         cursor: pointer;
         padding: 3px 8px;
         margin: 5px 8px;
-        border-radius: 12px 0px 12px 0px;
+        border-radius: 12px 0 12px 0;
         color: get('font-color');
-        font-size: 18px;
+        font-size: 0.9rem;
         transition: all 0.3s ease;
         border: 3px solid get('border-color');
         .type-item-prefix {
@@ -221,41 +222,47 @@ onMounted(() => {
         }
       }
     }
-
-    .blog-list {
-      @include flex;
-      flex-wrap: wrap;
-      justify-content: start;
-      margin-bottom: 55px; // min-height: calc(100% - 120px);
+    .blog-list-wrap {
+      margin: 4px 25px 0 25px;
+      min-height: calc(100vh - 249px);
+      width: calc(100% - 50px);
       position: relative;
-      margin: 0px 25px 75px 25px;
-      min-height: calc(100% - 200px);
       .blog-list-loading {
         position: absolute !important;
+        margin-top: 7px;
         width: calc(100% - 12px);
-        height: 100%;
+        height: calc(100% - 5px);
         top: 0;
         left: 6px;
         border-radius: 10px;
         overflow: hidden;
         min-height: calc(64vh - 10px);
+        .loading-container {
+          background: transparent !important;
+        }
       }
       .blog-list-loading-active {
         z-index: 1;
       }
+    }
+    .blog-list {
+      @include flex;
+      flex-wrap: wrap;
+      justify-content: start;
+      position: relative;
+      width: 100%;
+
       .blog-item {
         background: get('background-no-tp');
         cursor: pointer;
         color: get('font-color');
-        width: calc(50% - 20px);
+        width: calc(50% - 1rem);
         position: relative;
-        height: auto;
-        margin-bottom: 20px;
+        height: 6rem;
         margin: 7px;
         border-radius: 10px;
         transition: all 0.15s linear;
         display: flex;
-        justify-content: center;
         align-items: center;
         overflow: hidden;
         justify-content: space-between;
@@ -268,7 +275,7 @@ onMounted(() => {
           height: calc(100% - 20px);
           padding: 10px 20px 10px 15%;
           left: 100%;
-          top: 0px;
+          top: 0;
           color: get('font-color');
           display: flex !important;
           align-items: center;
@@ -279,37 +286,37 @@ onMounted(() => {
           object-fit: cover;
           background-position: left 28%;
           transition: all 0.4s ease-in-out;
-          width: 170px;
-          height: 100px;
+          width: 7rem;
+          height: 5rem;
           border-radius: 8px;
-          margin: 8px;
+          margin: 0.5rem;
         }
         .blog-item-right {
           @include flex-column;
-          width: calc(100% - 140px);
-          padding: 0px 85px 0px 15px;
+          width: calc(100% - 13.5rem);
+          padding: 0 4.5rem 0 1rem;
           align-items: start;
           text-align: left;
           .blog-title {
-            font-size: 20px;
+            font-size: 1rem;
             font-weight: bold;
-            width: 82%;
-            margin: 5px 0px;
+            width: 100%;
+            margin: 5px 0;
+            height: 1.2rem;
           }
           .tag-list {
             width: 100%;
             height: 25px;
             @include flex;
-            margin: 5px 0px;
+            margin: 5px 0 10px 0;
             flex-wrap: wrap;
             justify-content: start;
             text-overflow: ellipsis;
             overflow: hidden;
             white-space: nowrap;
-            margin-bottom: 10px;
             .tag-item {
-              margin: 5px 10px 5px 0px;
-              font-size: 16px;
+              margin: 5px 10px 5px 0;
+              font-size: 1rem;
               @include flex;
             }
             .tag-item-pretend {
@@ -325,18 +332,14 @@ onMounted(() => {
             flex-wrap: wrap;
           }
           .blog-time {
-            height: 28px;
+            height: 1.5rem;
             display: block;
-            line-height: 28px;
-            border-radius: 28px;
-            opacity: 0.6;
-            font-weight: bold;
-            // border: 1px solid #d1d1d1;
-            // padding: 0px 15px;
-            // background: #9999992b;
+            line-height: 1.5rem;
+            border-radius: 1.5rem;
+            opacity: 0.9;
             width: fit-content;
             text-align: center;
-            font-size: 17px;
+            font-size: 0.9rem;
             @include flex;
             .el-icon {
               margin-right: 5px;
@@ -346,7 +349,7 @@ onMounted(() => {
       }
       .blog-item:hover {
         .blog-item-left-img {
-          width: 0px;
+          width: 0;
         }
         .blog-sort-item-index {
           right: calc(100% - 125px);
@@ -357,9 +360,9 @@ onMounted(() => {
           color: white;
         }
         // transform: scale(1.02);
-        // box-shadow: 0px 0px 7px 0px get('border-color');
+        // box-shadow:00 7px 0 get('border-color');
         .blog-cursor-cover {
-          left: 0px;
+          left: 0;
           color: white;
         }
       }

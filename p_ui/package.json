@@ -21,7 +21,7 @@
     "dhtmlx-gantt": "8.0.6",
     "echarts": "^5.4.1",
     "echarts-gl": "^2.0.9",
-    "element-plus": "^2.7.4",
+    "element-plus": "^2.8.8",
     "js-cookie": "^3.0.5",
     "jwt-decode": "^3.1.2",
     "less": "^4.1.2",

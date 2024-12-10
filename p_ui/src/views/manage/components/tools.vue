@@ -38,13 +38,13 @@
     </el-col>
     <div class="manage-tools">
       <el-tooltip content="刷新" placement="top">
-        <svg-icon iconName="刷新" @click="emit('refresh')" />
+        <svg-icon iconName="commonSvg-刷新" @click="emit('refresh')" />
       </el-tooltip>
       <el-tooltip content="全屏" placement="top">
-        <svg-icon iconName="全屏" @click="fullScreen" />
+        <svg-icon iconName="commonSvg-全屏" @click="fullScreen" />
       </el-tooltip>
       <el-tooltip content="搜索栏" placement="top">
-        <svg-icon iconName="搜索" @click="showSearch" />
+        <svg-icon iconName="commonSvg-搜索" @click="showSearch" />
       </el-tooltip>
     </div>
   </el-row>
@@ -90,7 +90,7 @@ onMounted(() => {});
     justify-content: center;
     align-items: center;
     height: 100%;
-    .svg-icon-wrap {
+    .svg-icon {
       height: 22px;
       width: 22px;
       cursor: pointer;
@@ -98,10 +98,10 @@ onMounted(() => {});
       position: relative;
       transition: all 0.2s ease;
     }
-    .svg-icon-wrap:active {
+    .svg-icon:active {
       transform: translateY(2px);
     }
-    .svg-icon-wrap:hover {
+    .svg-icon:hover {
       &::before {
         content: '';
         width: 28px;

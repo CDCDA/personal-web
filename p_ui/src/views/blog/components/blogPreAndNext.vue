@@ -40,7 +40,6 @@ import { useRouter } from 'vue-router';
 import { getPreAndNextBlog } from '@/api/blog';
 import { formatDate } from '@/utils/date.ts';
 import { autoClearTimer } from '@/utils/timer';
-import { useLazyAppear } from '@/utils/lazy';
 const props = defineProps(['blogId']);
 const router = useRouter();
 const blogPreNext = ref(null) as any;
@@ -117,7 +116,7 @@ onMounted(() => {
         z-index: 10;
         .date-time {
           margin-left: 5px;
-          font-size: 13px;
+          font-size: 0.8rem;
         }
         margin-bottom: 10px;
       }

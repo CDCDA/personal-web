@@ -43,7 +43,7 @@ import footerMenu from './components/footerMenu.vue';
     // border-right: 1px solid #ccc;
   }
   .manage-center {
-    width: calc(100% - 0px);
+    width: 100%;
   }
   .manage-right {
   }

@@ -10,7 +10,7 @@
         <div></div>
         <blogPreAndNext :blog-id="blogData.blogId" v-show="preNextShow" />
         <div class="c-divider" style="margin: 40px 21px 30px 21px"></div>
-        <comment :type="0" :relevanceId="blogData.blogId" :blogData="blogData" />
+        <comment :type="0" :relevanceId="blogData.blogId" :data="blogData" />
         <!-- <el-divider></el-divider> -->
         <div class="blog-display-footer">
           <div v-for="(item, index) in footerData" :key="index">
@@ -103,14 +103,14 @@ onMounted(() => {
   }
   100% {
     font-weight: bold;
-    font-size: 20px;
+    font-size: 1rem;
   }
 }
 
 @keyframes shrink {
   0% {
     font-weight: bold;
-    font-size: 20px;
+    font-size: 1rem;
   }
   100% {
     transform: scale(1) translateX(0px);
@@ -138,7 +138,7 @@ onMounted(() => {
   }
   .md-editor-catalog-active {
     span {
-      font-size: 18px;
+      font-size: 0.9rem;
       font-weight: bold;
       transition: ease-in-out 0.3s;
     }
@@ -153,7 +153,7 @@ onMounted(() => {
     // min-height: 100%;
   }
   .blog-display-left:hover {
-    box-shadow: 0px 1px 15px 0px rgb(231, 231, 184) !important;
+    box-shadow: 0 1px 15px 0 rgb(231, 231, 184) !important;
   }
   .md-editor-preview {
     text-align: left;
@@ -168,7 +168,7 @@ onMounted(() => {
         @include flex;
         width: 100%;
         justify-content: start;
-        font-size: 19px;
+        font-size: 1rem;
         font-weight: bold;
         .el-icon {
           margin: 8px;
@@ -182,7 +182,7 @@ onMounted(() => {
       align-items: start;
       .blog-display-left {
         overflow: hidden;
-        width: calc(100% - 320px);
+        width: calc(100% - 16rem);
         border-radius: 12px;
         background: get('background');
         box-shadow: get('box-shadow');
@@ -190,7 +190,7 @@ onMounted(() => {
         height: fit-content;
       }
       .blog-display-right {
-        width: 280px;
+        width: 16rem;
         margin-left: 20px;
         min-height: 310px;
         position: sticky;
@@ -199,7 +199,7 @@ onMounted(() => {
         .affix {
           background: get('background');
           position: sticky;
-          max-height: 90vh;
+          max-height: 87vh;
           min-height: 300px;
           overflow: auto;
           top: 60px;
@@ -212,7 +212,7 @@ onMounted(() => {
         //   border-radius: 12px;
         //   background: get('background-no-tp');
         //   box-shadow: get('box-shadow');
-        //   margin: 0px;
+        //   margin:0;
         // }
       }
       .blog-user-component,

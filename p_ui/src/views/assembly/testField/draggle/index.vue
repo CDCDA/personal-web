@@ -438,7 +438,7 @@ function changeLayout() {
     align-content: space-around;
     .vdr-container {
       & > div {
-        margin: 0px !important;
+        margin: 0 !important;
       }
       display: flex;
       justify-content: center;
@@ -449,7 +449,7 @@ function changeLayout() {
       border-radius: 4px;
     }
     .draggableContainer {
-      margin: 0px 20px;
+      margin: 0 20px;
       width: calc(100% - 40px) !important;
     }
 
@@ -513,7 +513,7 @@ function changeLayout() {
       border-radius: 5px;
       // backdrop-filter: blur(20px);
       background: get('background');
-      box-shadow: 0px 1px 1px 1px #000000;
+      box-shadow: 0 1px 1px 1px #000000;
       box-shadow: get('box-shadow');
       height: 40px;
       margin: 5px 20px 10px 20px;
@@ -534,7 +534,7 @@ function changeLayout() {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0px 10px;
+      padding: 0 10px;
       backdrop-filter: blur(20px);
       background: get('background');
       box-shadow: get('box-shadow');
@@ -542,7 +542,7 @@ function changeLayout() {
       bottom: -31px;
       .el-icon {
         color: get('font-color');
-        margin: 0px 3px 2px 3px;
+        margin: 0 3px 2px 3px;
       }
       .vdr-tools-left,
       .vdr-tools-right {
@@ -553,11 +553,11 @@ function changeLayout() {
     }
     .show-tools {
       position: absolute;
-      bottom: 0px;
+      bottom: 0;
       backdrop-filter: none;
       .el-icon {
         visibility: hidden;
-        margin: 0px 10px;
+        margin: 0 10px;
         transform: rotate(90deg);
         color: get('font-color');
       }

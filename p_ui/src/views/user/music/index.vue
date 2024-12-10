@@ -5,7 +5,7 @@
   <div class="page-main music-main">
     <div class="music-song animated c-left">
       <div class="music-header">
-        <span>歌单</span><svg-icon iconName="切换" @click="changeSearch"> </svg-icon>
+        <span>歌单</span><svg-icon iconName="commonSvg-切换" @click="changeSearch"> </svg-icon>
       </div>
       <div class="music-search" v-if="isSearch">
         <el-input v-model="searchText"></el-input>
@@ -185,8 +185,8 @@ onMounted(() => {
   .song.is-selected {
     // height: 40px;
     transform: scale(1.01);
-    // font-size: 20px;
-    margin: 5px 0px;
+    // font-size: 1rem;
+    margin: 5px 0;
     .song-name {
       font-weight: bold;
     }
@@ -225,7 +225,7 @@ onMounted(() => {
     font-size: 22px;
   }
   p {
-    font-size: 20px;
+    font-size: 1rem;
     opacity: 0.8;
   }
 }
@@ -233,19 +233,19 @@ onMounted(() => {
   position: absolute;
   width: 100vw;
   height: 80px;
-  bottom: 0px;
-  left: 0px;
-  border-radius: 0px !important;
+  bottom: 0;
+  left: 0;
+  border-radius: 0 !important;
 }
 .music-header {
   padding: 5px 20px;
   width: calc(100% - 30px);
   text-align: left;
-  font-size: 20px;
+  font-size: 1rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  .svg-icon-wrap {
+  .svg-icon {
     width: 25px;
     height: 25px;
     cursor: pointer;

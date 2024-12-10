@@ -61,7 +61,7 @@
             <div class="essay-item-tag-list">
               <span class="essay-item-tag" v-for="tag in item.tags">{{ `# ${tag.tagName}` }}</span>
             </div>
-            <svg-icon iconName="评论" @click="toComment(item)"></svg-icon>
+            <svg-icon iconName="commonSvg-评论" @click="toComment(item)"></svg-icon>
           </div>
         </div>
       </grid-item>
@@ -126,6 +126,7 @@ async function getEssayList() {
             images: data.list[index].images,
             createTime: data.list[index].createTime,
             content: data.list[index].content,
+            userId: data.list[index].userId,
             tags: data.list[index].tags ? JSON.parse(data.list[index].tags) : []
           });
         index++;
@@ -201,7 +202,7 @@ onMounted(() => {
     backdrop-filter: none !important;
     // max-width: 1100px !important;
     .essay-header {
-      height: 45vh;
+      height: 40vh;
       width: 100%;
       border-radius: 12px;
       box-shadow: get('box-shadow');
@@ -300,7 +301,7 @@ onMounted(() => {
           min-height: 40px;
           flex-wrap: wrap;
           justify-content: start;
-          margin: 12px 0px;
+          margin: 12px 0;
           .img-list-item {
             // height: 100px;
             width: calc(33.33% - 10px);
@@ -325,7 +326,7 @@ onMounted(() => {
               border-radius: 4px;
             }
           }
-          .svg-icon-wrap {
+          .svg-icon {
             width: 20px;
             height: 20px;
             cursor: pointer;

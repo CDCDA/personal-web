@@ -35,11 +35,13 @@ import { getBlogById } from '@/api/blog';
 //编辑器内联样式   style:''
 //图表展示         noMermaid:false | true
 import axios from 'axios';
+
 const router = useRouter() as any;
 const userStore = useUserStore();
 const loading = ref('rotate' as any);
 const fullStatus = ref(false) as any;
 const editorRef = ref(null) as any;
+
 async function onUploadImg(files: any, callback: any) {
   const res = await Promise.all(
     files.map((file: any) => {
@@ -141,10 +143,11 @@ onMounted(() => {
     height: 100% !important;
     z-index: 9999 !important;
     position: absolute !important;
-    border-radius: 0px !important;
+    border-radius: 0 !important;
     margin: auto !important;
+
     #md-editor-v3 {
-      border-radius: 0px;
+      border-radius: 0;
     }
   }
   .mavon-editor-container.page-main {
@@ -153,42 +156,50 @@ onMounted(() => {
     color: get('font-color');
     display: flex;
     flex-direction: column;
-    min-height: 86vh !important;
+    min-height: calc(100vh - 3.7rem - 20px) !important;
     overflow: auto;
     overflow-x: hidden;
-    border-radius: 0px !important;
+    border-radius: 0 !important;
     transition: all 0.6s ease;
+
     .md-editor__toc-nav-title {
       color: get('font-color');
     }
+
     .md-editor--fullscreen {
       // background: get('background');
       box-shadow: get('box-shadow');
       backdrop-filter: blur(20px);
-      border-radius: 0px !important;
+      border-radius: 0 !important;
     }
+
     #md-editor-v3 {
       border-radius: 5px;
       overflow: hidden;
     }
+
     .md-editor {
-      height: calc(86vh - 35px);
+      height: calc(100vh - 3.7rem - 45px);
       border-radius: 5px;
       overflow: hidden;
       box-shadow: get('box-shadow');
     }
+
     .cm-content.cm-lineWrapping,
     .md-editor-preview-wrapper {
       text-align: left;
     }
+
     .ml-1 {
       width: 100px;
     }
+
     .blog-title-editor {
       .el-input__inner {
         text-align: center;
         font-size: 16px;
       }
+
       .el-input__wrapper {
         height: 32px !important;
       }
@@ -205,15 +216,18 @@ onMounted(() => {
     .blog-editor-footer {
       margin-top: 15px;
     }
+
     .blog-editor-header {
       display: flex;
       margin-bottom: 10px;
+
       .bt-save {
         margin-right: 10px;
         width: 100px;
         height: 35px;
         font-size: 16px;
       }
+
       .bt-release {
         margin-left: 10px;
         width: 100px;

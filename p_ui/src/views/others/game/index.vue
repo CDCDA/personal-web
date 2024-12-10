@@ -14,7 +14,7 @@
     </div>
     <div class="game-center">
       <div class="divider c-left animated-0s5">
-        <svg-icon iconName="手柄" /> 单机游戏<span
+        <svg-icon iconName="commonSvg-手柄" /> 单机游戏<span
           >我不知道我是谁，不知道我在哪，我只知道我要大开杀戒了</span
         >
       </div>
@@ -34,6 +34,7 @@
                 show-score
                 allow-half
                 text-color="#ff9900"
+                size="large"
                 :score-template="`${item.rate * 2}`"
               />
             </div>
@@ -43,7 +44,7 @@
         </div>
       </div>
       <div class="divider c-left animated-0s5">
-        <svg-icon iconName="手机" />
+        <svg-icon iconName="commonSvg-手机" />
         手机游戏<span>打发时间，遗憾的是我是个上线即下线的老咸鱼</span>
       </div>
       <div class="game-list">
@@ -55,7 +56,7 @@
           <c-image :src="item.coverUrl" />
           <div class="game-info">
             <div class="game-info-header">
-              <h3>{{ item.name }}</h3>
+              <h3 class="no-wrap">{{ item.name }}</h3>
               <el-rate
                 v-model="item.rate"
                 disabled
@@ -121,11 +122,11 @@ onMounted(() => {
     backdrop-filter: none !important;
   }
   .game-top {
-    height: 50vh;
+    height: 40vh;
     @include flex;
     border-radius: 8px;
     justify-content: space-between;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
 
     .game-top-item:hover {
       // animation: slide-in 0.4s forwards linear;
@@ -150,34 +151,34 @@ onMounted(() => {
         object-fit: cover;
       }
       &:last-child {
-        margin-right: 0px;
+        margin-right: 0;
       }
     }
   }
 
   .game-center {
     @include flex-column;
-    margin: 0px -10px;
+    margin: 0 -10px;
     .divider {
-      font-size: 25px;
+      font-size: 1.2rem;
       color: get('font-color');
       font-weight: bold;
       width: calc(100% - 40px);
       text-align: left;
-      margin: 15px 0px;
+      margin: 15px 0;
       background: get('background');
       box-shadow: get('box-shadow');
       padding: 10px;
       border-radius: 10px;
       @include flex;
       justify-content: start;
-      .svg-icon-wrap {
+      .svg-icon {
         height: 30px;
         width: 30px;
         margin-right: 5px;
       }
       span {
-        font-size: 18px;
+        font-size: 0.9rem;
         font-weight: 300;
         margin-left: 10px;
       }
@@ -195,11 +196,10 @@ onMounted(() => {
       position: relative;
       transition: all 0.2s linear;
       border-radius: 10px;
-      width: calc(25% - 26px);
-      margin: 10px;
+      width: calc(25% - 36px);
+      margin: 15px;
       cursor: pointer;
       padding: 5px 3px;
-      box-shadow: get('box-shadow');
       // height: 300px;
       aspect-ratio: 7/7;
       @include flex-column;
@@ -214,7 +214,7 @@ onMounted(() => {
       }
       span {
         width: calc(100% - 20px);
-        padding: 0px 10px;
+        padding: 0 10px;
         transition: all 0.6s ease;
       }
     }
@@ -233,15 +233,21 @@ onMounted(() => {
       position: absolute;
       height: 60%;
       color: get('font-color');
+      span {
+        padding: 0 12px;
+        text-align: left;
+      }
       .game-info-header {
         display: flex;
-        width: calc(100% - 30px);
-        padding: 0px 15px;
+        width: calc(100% - 24px);
+        padding: 0 12px;
         justify-content: space-between;
         align-items: center;
       }
       h3 {
-        margin: 15px 0px;
+        margin: 15px 0;
+        text-align: left;
+        width: calc(100% - 150px);
       }
     }
     .game-item:hover {
@@ -249,7 +255,7 @@ onMounted(() => {
         -webkit-line-clamp: 6 !important;
       }
       .game-info {
-        bottom: 0%;
+        bottom: 0;
       }
       .c-image {
         :deep(img) {

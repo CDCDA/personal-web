@@ -29,7 +29,7 @@
             ></TechnologyStackCard>
             <div class="recommend-left-top-cover" @click="toRange()">
               <div>随便逛逛</div>
-              <svg-icon iconName="right"></svg-icon>
+              <svg-icon iconName="commonSvg-right" style="color: white"></svg-icon>
             </div>
           </div>
           <div class="recommend-left-bottom">
@@ -37,16 +37,16 @@
               class="bottom-item"
               @click="router.push({ name: 'blogTypePage', query: { typeId: '1' } })"
             >
-              <span>前端小记</span><svg-icon iconName="book" />
+              <span>前端小记</span><svg-icon iconName="commonSvg-book" />
             </div>
             <div
               class="bottom-item"
               @click="router.push({ name: 'blogTypePage', query: { typeId: '2' } })"
             >
-              <span>后端总结</span><svg-icon iconName="hot" />
+              <span>后端总结</span><svg-icon iconName="commonSvg-hot" />
             </div>
             <div class="bottom-item" @click="router.push({ name: 'essay' })">
-              <span>生活随笔</span><svg-icon iconName="edit" />
+              <span>生活随笔</span><svg-icon iconName="commonSvg-edit" />
             </div>
           </div>
         </div>
@@ -90,7 +90,7 @@
                     ></div> </template
                   ><template #error>
                     <div class="image-error-slot">
-                      <svg-icon iconName="图片加载失败"></svg-icon>
+                      <svg-icon iconName="commonSvg-图片加载失败"></svg-icon>
                     </div> </template
                 ></el-image>
               </div>
@@ -236,7 +236,7 @@ let displacement = ref(72 as any);
 function headerRoll(header: any) {
   displacement.value -= 49;
   if (displacement.value == -75) displacement.value = 72;
-  header.style.transform = `translate3d(0px, ${displacement.value}px, 0px)`;
+  header.style.transform = `translate3d(0px, ${displacement.value}px,0)`;
 }
 
 function formateToDay(date: any) {
@@ -357,7 +357,7 @@ onMounted(() => {
     .main-top-vice-title {
       margin-top: 10px;
       margin-bottom: 100px;
-      font-size: 25px;
+      font-size: 1.2rem;
     }
     .main-top-back {
       height: 100vh;
@@ -390,7 +390,7 @@ onMounted(() => {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: 0px 30px;
+        padding: 0 30px;
         font-size: 22px;
         font-weight: bold;
         overflow: hidden;
@@ -398,7 +398,7 @@ onMounted(() => {
           @include flex-column;
           height: 100%;
           transition-duration: 300ms;
-          transform: translate3d(0px, 72px, 0px);
+          transform: translate3d(0px, 72px, 0);
           .main-header-text {
             height: 30px;
             margin: 10px;
@@ -406,7 +406,7 @@ onMounted(() => {
           }
         }
         .el-icon {
-          font-size: 25px;
+          font-size: 1.2rem;
           color: get('foont-color');
           cursor: pointer;
         }
@@ -429,10 +429,10 @@ onMounted(() => {
               background: get('background');
               box-shadow: get('box-shadow');
               border-radius: 8px;
-              padding: 0px 20px;
+              padding: 0 20px;
               position: relative;
               .header-item {
-                font-size: 18px;
+                font-size: 0.9rem;
                 font-weight: bold;
                 padding: 5px 15px 7px 15px;
                 cursor: pointer;
@@ -442,7 +442,7 @@ onMounted(() => {
                 position: absolute;
                 right: 10px;
                 cursor: pointer;
-                font-size: 18px;
+                font-size: 0.9rem;
                 font-weight: bold;
                 padding: 5px 15px;
               }
@@ -478,7 +478,7 @@ onMounted(() => {
                 @include flex-column;
                 justify-content: start;
                 .list-item-img {
-                  border-radius: 15px 15px 0px 0px;
+                  border-radius: 15px 15px 0 0;
                   width: 100%;
                   aspect-ratio: 7/4;
                   margin: 5px;
@@ -492,7 +492,7 @@ onMounted(() => {
                 .list-item-img {
                   position: relative;
                   /* 盒子阴影 */
-                  box-shadow: 0px 5px 45px rgba(0, 0, 0, 0.1);
+                  box-shadow: 0 5px 45px rgba(0, 0, 0, 0.1);
                   /* 背景模糊 */
                   backdrop-filter: blur(2px);
                   /* 加个动画过渡，动画才不会太过生硬 */
@@ -502,8 +502,8 @@ onMounted(() => {
                 .list-item-img::before {
                   content: '';
                   position: absolute;
-                  top: 0px;
-                  left: 0px;
+                  top: 0;
+                  left: 0;
                   width: 500px;
                   height: 100%;
                   background-color: #fff;
@@ -541,10 +541,10 @@ onMounted(() => {
                   display: flex;
                   justify-content: space-evenly;
                   flex-direction: column;
-                  padding: 0px 20px;
+                  padding: 0 20px;
                   align-items: start;
                   .list-item-title {
-                    font-size: 20px;
+                    font-size: 1rem;
                     font-weight: bold;
                   }
                   .list-item-tag {
@@ -565,7 +565,7 @@ onMounted(() => {
                       -webkit-box-orient: vertical;
                       .item-tag {
                         margin-right: 15px;
-                        font-size: 20px;
+                        font-size: 1rem;
                         display: inline-block;
                       }
                       .item-tag-pretend {
@@ -604,7 +604,7 @@ onMounted(() => {
       margin: 3px;
       border-radius: 10px;
       color: get('font-color');
-      font-size: 18px;
+      font-size: 0.9rem;
       transition: all 0.3s ease-in-out;
       // border: 2px solid get('border-color');
       .type-item-prefix {
@@ -617,7 +617,7 @@ onMounted(() => {
       }
       .type-item-count {
         background: #f7f7f9;
-        padding: 0px 5px;
+        padding: 0 5px;
         border-radius: 8px;
         text-align: center;
         min-width: 21px;

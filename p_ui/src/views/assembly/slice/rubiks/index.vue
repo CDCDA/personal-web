@@ -4,7 +4,7 @@
 <template>
   <div class="ui">
     <div class="ui__background"></div>
-    <div class="ui__game" style="height: calc(100% - 20px); bottom: 0px; top: initial"></div>
+    <div class="ui__game" style="height: calc(100% - 20px); bottom: 0; top: initial"></div>
     <div class="ui__texts">
       <h1 class="text text--title" style="opacity: 1">
         <span
@@ -117,7 +117,7 @@
       </button>
       <button
         class="btn btn--bl btn--prefs"
-        style="transform: translate3d(0px, 0em, 0px); opacity: 0.998656; pointer-events: all"
+        style="transform: translate3d(0px, 0em, 0); opacity: 0.998656; pointer-events: all"
       >
         <svg class="icon" viewBox="0 0 512 512" style="width: 1em; height: 1em">
           <path
@@ -141,7 +141,7 @@
         class="btn btn--br btn--pwa"
         style="
           color: rgb(65, 170, 200);
-          transform: translate3d(0px, 0em, 0px);
+          transform: translate3d(0px, 0em, 0);
           opacity: 0.998656;
           pointer-events: all;
         "

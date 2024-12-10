@@ -1,6 +1,7 @@
 <template>
   <div id="app-theme" data-theme="theme-white">
     <div class="dialog-base"></div>
+    <div class="select-base"></div>
     <el-container class="container">
       <el-header class="el-header">
         <common-header v-if="themeStore.isShow" />
@@ -229,8 +230,8 @@ body,
 html {
   height: 100%;
   width: 100% !important;
-  margin: 0px;
-  padding: 0px;
+  margin: 0;
+  padding: 0;
   overflow: hidden;
 }
 @keyframes blur-to-clear {
@@ -249,7 +250,7 @@ html {
   object-fit: cover;
   position: absolute;
   z-index: -1;
-  left: 0px;
+  left: 0;
 }
 .particles {
   position: fixed;
@@ -277,7 +278,7 @@ html {
 
 .el-main {
   text-align: center;
-  padding: 0px;
+  padding: 0;
   overflow: auto;
   padding: 0 0 0 0 !important;
 }
@@ -287,6 +288,6 @@ html {
   overflow: auto;
 }
 :v-deep(.el-menu.el-menu--horizontal) {
-  border-bottom: solid 0px #e6e6e6;
+  border-bottom: solid0 #e6e6e6;
 }
 </style>

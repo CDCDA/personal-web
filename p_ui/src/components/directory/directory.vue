@@ -191,13 +191,13 @@ onMounted(() => {
     }
 
     .directory-icon {
-      font-size: 18px;
+      font-size: 0.9rem;
       margin-right: 10px;
       color: #363c41;
     }
 
     .directory-header div > span {
-      font-size: 17px;
+      font-size: 0.9rem;
       color: get('font-color');
     }
 

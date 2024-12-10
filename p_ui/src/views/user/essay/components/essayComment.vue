@@ -34,7 +34,7 @@
       </div>
       <div class="c-divider" style="margin: 20px 1px"></div>
     </div>
-    <comment :type="1" :relevanceId="props.essayData.i" />
+    <comment :type="1" :relevanceId="props.essayData.i" :data="props.essayData" />
   </c-dialog>
 </template>
 
@@ -57,6 +57,12 @@ function close() {
 onMounted(() => {});
 </script>
 <style lang="scss">
+.essay-comment-dialog {
+  .el-dialog__body {
+    padding-top: 0;
+    overflow-y: auto !important;
+  }
+}
 @include theme() {
   .essay-item {
     transition: all 0.2s ease-in-out;
@@ -112,7 +118,7 @@ onMounted(() => {});
       .img-list-item {
         width: calc(25% - 10px);
         aspect-ratio: 3 / 2;
-        margin: 5px 10px 5px 0px;
+        margin: 5px 10px 5px 0;
         border-radius: 5px;
       }
     }
@@ -129,16 +135,11 @@ onMounted(() => {});
         border-radius: 4px;
       }
     }
-    .svg-icon-wrap {
+    .svg-icon {
       width: 20px;
       height: 20px;
       cursor: pointer;
     }
-  }
-}
-.essay-comment-dialog {
-  .el-dialog__body {
-    padding-top: 0px;
   }
 }
 </style>

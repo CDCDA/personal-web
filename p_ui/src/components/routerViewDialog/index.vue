@@ -46,11 +46,12 @@ defineExpose({
     height: 85%;
 
     .el-dialog__body {
-      height: calc(100% - 46px) !important;
-      padding-top: 0px !important;
+      height: calc(100% - 2.5rem - 13px) !important;
+      padding-top: 0 !important;
       & > :first-child {
         border-radius: 8px !important;
         height: 100% !important;
+        display: -webkit-box;
       }
     }
   }

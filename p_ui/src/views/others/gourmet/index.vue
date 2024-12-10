@@ -24,7 +24,7 @@ onMounted(() => {});
   }
   .gourmet-top {
     width: 100%;
-    height: 45vh;
+    height: 40vh;
     border-radius: 8px;
     overflow: hidden;
   }

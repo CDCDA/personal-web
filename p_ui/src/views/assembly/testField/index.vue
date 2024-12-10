@@ -5,7 +5,7 @@
   <div class="page-main testField-main">
     <div class="testField-header">
       <svg-icon
-        iconName="实验数据"
+        iconName="commonSvg-实验数据"
         style="width: 30px; height: 30px; margin-right: 15px"
       />大模块测试
     </div>
@@ -114,8 +114,8 @@ function getAnimate(i: any) {
       text-align: left;
       font-size: 22px;
       font-weight: bold;
-      padding: 12px 0px 5px 0px;
-      margin: 25px auto 0px auto;
+      padding: 12px 0 5px 0;
+      margin: 25px auto 0 auto;
       display: flex;
     }
     .testField-center {
@@ -124,8 +124,8 @@ function getAnimate(i: any) {
       justify-content: start;
       align-items: center;
       width: calc(100% - 60px);
-      padding: 10px 0px 30px 0px;
-      margin: 0px auto;
+      padding: 10px 0 30px 0;
+      margin: 0 auto;
       .testField-item {
         animation: fade-in 0.5s linear forwards;
         margin: 10px 10px;
@@ -159,7 +159,7 @@ function getAnimate(i: any) {
           color: white;
           top: 15%;
           left: 25px;
-          font-size: 20px;
+          font-size: 1rem;
         }
         .testField-item-divider {
           width: 0%;

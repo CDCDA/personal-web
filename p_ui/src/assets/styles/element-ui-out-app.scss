@@ -2,6 +2,28 @@
  * @Description: app外的element-ui样式
  */
 
+* {
+  scrollbar-width: initial !important;
+  scrollbar-color: initial !important;
+}
+::-webkit-scrollbar-thumb {
+  background-image: linear-gradient(
+    45deg,
+    get('border-color') 25%,
+    transparent 0,
+    transparent 50%,
+    get('border-color') 0,
+    get('border-color') 75%,
+    transparent 0,
+    transparent
+  ) !important;
+  border-radius: 4px !important;
+}
+
+::-webkit-scrollbar {
+  width: 8px !important; /* 修改宽度 */
+}
+
 //菜单下拉框
 .el-menu--horizontal .el-menu-item:not(.is-disabled):hover,
 .el-menu--horizontal > .el-sub-menu .el-sub-menu__title:hover,
@@ -13,10 +35,6 @@
   background-color: transparent;
 }
 
-.el-popper.is-light {
-  background-color: transparent;
-  backdrop-filter: blur(20px);
-}
 
 .el-menu--horizontal.el-menu,
 .el-menu {
@@ -24,24 +42,11 @@
   background-color: transparent;
 }
 
-.el-popper.is-pure.is-light {
-  // background: get('background');
-  // backdrop-filter: blur(10px);
-  box-shadow: get('box-shadow');
-  font-family: 'shark';
-  border-radius: 6px;
-  overflow: hidden;
-  .el-select-dropdown__item {
-    color: black;
-  }
-  .is-selected,
-  .is-hovering {
-    background: hsla(0, 0%, 100%, 0.19);
-  }
-}
+
 .el-button {
   background: transparent;
   color: get('font-color');
+  font-size:0.85rem;
   border: 1px solid get('border-color');
   transition: all 0.3s ease-in-out;
   font-family: 'Shark';
@@ -63,7 +68,6 @@
   background-repeat: no-repeat;
   background-size: 100px 100px;
   width: 100px;
-  border-radius: 100%;
   height: 100px;
   display: block;
   position: relative;
@@ -144,10 +148,15 @@
   backdrop-filter: blur(20px);
   box-shadow: get('box-shadow');
   border: 3px solid get('border-color');
-  .el-message-box__title,
+  max-width: 25rem;
   .el-message-box__message,
   .el-icon.el-message-box__close {
     color: get('font-color');
+    font-size:0.85rem;
+  }
+  .el-message-box__title{
+    color: get('font-color');
+    font-size:1rem;
   }
 }
 
@@ -168,8 +177,9 @@
 /* 树 -- 开始 */
 .el-tree {
   background: transparent !important;
-  backdrop-filter: 15px;
+  backdrop-filter: blur(15px);
   color: get('font-color');
+  font-size:0.85rem;
   .el-tree-node__content:hover {
     background: hsla(0, 0%, 100%, 0.18823529411764706); // hover 节点背景色，否则是白色
   }
@@ -178,5 +188,6 @@
   }
   .el-tree-node__expand-icon {
     color: get('font-color');
+    font-size:0.85rem;
   }
 }

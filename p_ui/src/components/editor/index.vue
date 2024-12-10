@@ -1,10 +1,9 @@
 <!--
- * @Description: 富文本编辑器组件 
+ * @Description: 富文本编辑器组件
 -->
 <template>
   <div class="c-editor-wrap">
     <Toolbar
-      style="border-bottom: 1px solid #ccc"
       class="c-editor-toolbar"
       :editor="editorRef"
       :defaultConfig="toolbarConfig"
@@ -18,18 +17,29 @@
       @onCreated="handleCreated"
     />
   </div>
+
+  <!-- <el-button @click="getC" style="position: absolute">aaa</el-button> -->
+  <!-- </div> -->
 </template>
 <script setup lang="ts">
 import '@wangeditor/editor/dist/css/style.css'; // 引入 css
 import { onBeforeUnmount, ref, shallowRef, onMounted, watch } from 'vue';
 import { Editor, Toolbar } from '@wangeditor/editor-for-vue';
-
+import { IEditorConfig } from '@wangeditor/editor';
 const emit = defineEmits(['update:modelValue']);
 const props = defineProps(['modelValue']);
 const text = ref(null);
-
+// 初始化 MENU_CONF 属性
+const editorConfig: Partial<IEditorConfig> = {
+  // JS 语法
+  // MENU_CONF: {
+  //   emotion: {
+  //     emotions: '😀 😃 😄 😁 😆 😅 😂 🤣 😊 😇 🙂 🙃 😉 '.split(' ') // 数组
+  //   }
+  // }
+};
 // 编辑器实例，必须用 shallowRef
-const editorRef = shallowRef();
+const editorRef = shallowRef() as any;
 // 内容 HTML
 const valueHtml = ref('<p>hello</p>');
 const mode = 'default';
@@ -41,6 +51,9 @@ const toolbarConfig = {
     'bold',
     'underline',
     'italic',
+    'through',
+    'code',
+    'clearStyle',
     // {
     //   key: 'group-more-style',
     //   title: '更多',
@@ -90,7 +103,7 @@ const toolbarConfig = {
     //   menuKeys: ['insertVideo', 'uploadVideo']
     // },
     // 'insertTable',
-    // 'codeBlock',
+    'codeBlock',
     // 'divider',
     '|',
     'undo',
@@ -99,7 +112,9 @@ const toolbarConfig = {
     // 'fullScreen'
   ]
 };
-const editorConfig = { placeholder: '请输入内容...' };
+function getC() {
+  console.log(editorRef.value.children);
+}
 
 const handleCreated = (editor: any) => {
   editorRef.value = editor; // 记录 editor 实例，重要！
@@ -120,24 +135,90 @@ onBeforeUnmount(() => {
   editor.destroy();
 });
 
+function insertNode(img: any) {
+  editorRef.value.focus();
+  editorRef.value.insertNode(img);
+}
+
+function insertText(text: String) {
+  editorRef.value.focus();
+  editorRef.value.insertText(text);
+}
+
+defineExpose({
+  insertNode,
+  insertText
+});
+
 onMounted(() => {
   text.value = props.modelValue;
+  // setTimeout(() => {
+  //   editorRef.value.insertNode({
+  //     type: 'image',
+  //     src: 'https://p5.itc.cn/q_70/images03/20231125/453f7f1783974a41aea9644da14e454c.gif',
+  //     style: {
+  //       width: '50px',
+  //       height: '50px'
+  //     },
+  //     children: [{ text: '' }]
+  //   });
+  // }, 2000);
 });
 </script>
 <style lang="scss" scoped>
 .c-editor-wrap {
-  border: 1px solid #ccc;
+  display: flex;
+  flex-direction: column;
+}
+.c-editor {
+  height: 160px;
   overflow: hidden;
-  border-radius: 6px;
-  .c-editor {
-    :deep(.w-e-scroll) {
-      background-image: url(/src/assets/png/comment-back.png);
-      background-repeat: no-repeat;
-      object-fit: cover;
-      background-size: 28% auto;
-      background-position: 100% 80%;
+  border-bottom: 1px solid rgb(204, 204, 204);
+  border-left: 1px solid rgb(204, 204, 204);
+  border-right: 1px solid rgb(204, 204, 204);
+  border-radius: 0 0 6px 6px;
+  :deep(.w-e-modal) {
+    padding: 25px 15px 0;
+  }
+  :deep(.w-e-scroll) {
+    background-image: url(/src/assets/png/comment-back.png);
+    background-repeat: no-repeat;
+    object-fit: cover;
+    background-size: 28% auto;
+    background-position: 100% 80%;
+  }
+  :deep(.babel-container) {
+    display: flex;
+    align-items: center;
+    margin: 10px 0;
+    span {
+      margin: 0;
+      width: 80px;
     }
-    height: calc(100% - 40px) !important;
+    &:nth-child(3) {
+      display: none;
+    }
+  }
+  :deep(.button-container) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    button {
+      height: 25px;
+      display: flex;
+      align-items: center;
+    }
+  }
+}
+.c-editor-toolbar {
+  border: none !important;
+  :deep(.w-e-drop-panel) {
+    height: 200px;
+    overflow: auto;
+  }
+  :deep(.w-e-toolbar) {
+    border-radius: 6px 6px 0 0;
+    border: 1px solid rgb(204, 204, 204);
   }
 }
 </style>

@@ -5,7 +5,8 @@
   <div class="sideNav">
     <div class="link" v-for="item in menuList">
       <div class="text">
-        <svg-icon :iconName="item.meta.svgIcon"></svg-icon> <span>{{ item.meta.remark }}</span>
+        <svg-icon :iconName="commonSvg - item.meta.svgIcon"></svg-icon>
+        <span>{{ item.meta.remark }}</span>
       </div>
     </div>
   </div>
@@ -28,10 +29,10 @@ onMounted(() => {
   max-width: 200px;
   background: rgba(0, 0, 0, 0.75);
   margin: 40px auto;
-  padding: 10px 0px 20px 0px;
+  padding: 10px 0 20px 0;
   border: 1px solid #111;
   border-radius: 4px;
-  box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.75);
+  box-shadow: 0 4px 5px rgba(0, 0, 0, 0.75);
 }
 .link {
   font-size: 16px;
@@ -61,7 +62,7 @@ onMounted(() => {
   left: 100%;
 }
 .link .text {
-  // text-shadow: 0px -40px 0px rgba(255, 255, 255, 1);
+  // text-shadow:0 -40px 0 rgba(255, 255, 255, 1);
   color: white;
   transition: all 0.75s;
   transform: translateY(100%) translateZ(0);
@@ -70,7 +71,7 @@ onMounted(() => {
   display: flex;
   justify-content: center;
   align-items: center;
-  .svg-icon-wrap {
+  .svg-icon {
     width: 30px;
     height: 30px;
     margin-right: 5px;
@@ -81,7 +82,7 @@ onMounted(() => {
 }
 .link:hover .text,
 .link.hover .text {
-  // text-shadow: 0px -40px 0px rgba(255, 255, 255, 1);
+  // text-shadow:0 -40px 0 rgba(255, 255, 255, 1);
   transform: translateY(0%) translateZ(0) scale(1.1);
   font-weight: 600;
 }

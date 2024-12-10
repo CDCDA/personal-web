@@ -29,7 +29,7 @@ import cardFlip from '@/components/cardFlip/index.vue';
 
 <style lang="scss" scoped>
 .stack-item-col {
-  margin: 0px 5px;
+  margin: 0 5px;
   @include flex-column;
   .stack-item {
     width: 110px;

@@ -16,7 +16,7 @@
       </el-carousel-item>
     </el-carousel>
     <div class="divider animated-0s5 c-left">
-      <svg-icon iconName="电影" /> 电影<span>没什么电影看啊</span>
+      <svg-icon iconName="commonSvg-电影" /> 电影<span>没什么电影看啊</span>
     </div>
     <div class="drama-list">
       <div class="drama-item" v-for="item in movies">
@@ -36,7 +36,9 @@
         </div>
       </div>
     </div>
-    <div class="divider"><svg-icon iconName="电视播放" />电视剧<span>没什么电视剧看啊</span></div>
+    <div class="divider">
+      <svg-icon iconName="commonSvg-电视播放" />电视剧<span>没什么电视剧看啊</span>
+    </div>
     <div class="drama-list">
       <div class="drama-item" v-for="item in teleplays">
         <c-image :src="item.coverUrl" />
@@ -55,7 +57,7 @@
         </div>
       </div>
     </div>
-    <div class="divider"><svg-icon iconName="animation" />动漫<span>没什么动漫看啊</span></div>
+    <div class="divider"><svg-icon iconName="commonSvg-动漫" />动漫<span>没什么动漫看啊</span></div>
     <div class="drama-list">
       <div class="drama-item" v-for="item in animations">
         <c-image :src="item.coverUrl" />
@@ -123,6 +125,7 @@ onMounted(() => {
   }
   .drama-carousel {
     margin-top: 10px;
+    margin-bottom: 10px;
     width: 100%;
     height: 45vh !important;
     :deep(.el-carousel__container) {
@@ -148,7 +151,7 @@ onMounted(() => {
     justify-content: start;
     align-items: center;
     flex-wrap: wrap;
-    width: calc(100% + 20px);
+    width: calc(100% + 25px);
   }
   .drama-item {
     box-shadow: get('box-shadow');
@@ -158,8 +161,7 @@ onMounted(() => {
     border-radius: 10px;
     width: calc(20% - 30px);
     aspect-ratio: 5/8;
-    margin: 10px;
-    box-shadow: get('box-shadow');
+    margin: 15px;
     @include flex-column;
     justify-content: start;
     overflow: hidden;
@@ -181,7 +183,7 @@ onMounted(() => {
     transition: all 0.6s ease;
     bottom: -60%;
     width: calc(100% - 40px);
-    padding: 0px 20px;
+    padding: 0 20px;
     position: absolute;
     background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(0, 0, 0, 0.5) 25%);
     height: 100%;
@@ -212,24 +214,24 @@ onMounted(() => {
     // }
   }
   .divider {
-    font-size: 25px;
+    font-size: 1.2rem;
     font-weight: bold;
     width: calc(100% - 20px);
     text-align: left;
-    margin: 15px 0px;
+    margin: 15px 0;
     background: get('background');
     box-shadow: get('box-shadow');
     padding: 10px;
     border-radius: 10px;
     @include flex;
     justify-content: start;
-    .svg-icon-wrap {
+    .svg-icon {
       height: 30px;
       width: 30px;
       margin-right: 5px;
     }
     span {
-      font-size: 18px;
+      font-size: 0.9rem;
       font-weight: 300;
       margin-left: 10px;
     }

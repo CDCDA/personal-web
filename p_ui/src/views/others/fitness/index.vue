@@ -284,7 +284,7 @@ function headerRoll(i: any) {
   let el = document.querySelector('.fitness-card') as any;
   let offset = 0;
   offset = -396.8 * i;
-  el.style.transform = `translate3d(0px, ${offset}px, 0px)`;
+  el.style.transform = `translate3d(0px, ${offset}px,0)`;
 }
 
 onMounted(() => {});
@@ -294,7 +294,7 @@ onMounted(() => {});
 @include theme() {
   .fitness-card {
     transition-duration: 300ms;
-    transform: translate3d(0px, 0px, 0px);
+    transform: translate3d(0px, 0, 0);
   }
   .fitness-card-main {
     overflow: hidden;
@@ -302,7 +302,7 @@ onMounted(() => {});
     @include flex-column;
     position: relative;
     border: 3px dashed #7d7d7d;
-    padding: 0px 20px;
+    padding: 0 20px;
     border-radius: 8px;
     margin: 15px;
     color: get('font-color');
@@ -341,14 +341,14 @@ onMounted(() => {});
         background: transparent;
         border-right: 2px solid #d1d1d1;
         // box-shadow: get('box-shadow');
-        border-radius: 15px 0px 0px 15px;
+        border-radius: 15px 0 0 15px;
       }
       .fitness-card {
         height: 100%;
-        // padding: 0px 200px;
+        // padding:0 200px;
         width: calc(100% - 90px);
         background: transparent;
-        border-radius: 0px 15px 15px 0px;
+        border-radius: 0 15px 15px 0;
       }
     }
     .fitness-stage-goal {
@@ -366,7 +366,7 @@ onMounted(() => {});
         @include flex;
         width: 100%;
         justify-content: start;
-        font-size: 19px;
+        font-size: 1rem;
         font-weight: bold;
         .el-icon {
           margin: 8px;
@@ -436,7 +436,7 @@ onMounted(() => {});
       left: 40px;
       writing-mode: vertical-rl; /* 设置文字竖排 */
       text-orientation: upright; /* 设置文字正立显示 */
-      font-size: 25px;
+      font-size: 1.2rem;
       position: absolute;
     }
     .fitness-grievance {
@@ -462,7 +462,7 @@ onMounted(() => {});
     width: calc(100% - 20px);
     justify-content: space-between;
     border-bottom: 3px dashed #7d7d7d;
-    padding: 10px 0px;
+    padding: 10px 0;
     span {
       width: 20%;
       text-align: left;

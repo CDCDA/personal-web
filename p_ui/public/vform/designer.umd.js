@@ -338,7 +338,7 @@ var Te = Object.defineProperty, Le = Object.defineProperties; var Be = Object.ge
   background: rgb(181, 213, 255);
 }
 .ace-tm.ace_multiselect .ace_selection.ace_start {
-  box-shadow: 0 0 3px 0px white;
+  box-shadow: 0 0 3px 0 white;
 }
 .ace-tm .ace_marker-layer .ace_step {
   background: rgb(252, 255, 0);
@@ -2601,7 +2601,7 @@ ${t.cssCode}`
     }
 
     ${r ? ":deep(.el-button)" : "::v-deep .el-button"} {
-      font-size: 18px;
+      font-size: 0.9rem;
       padding: 0;
       background: #DCDFE6;
       border: 4px solid #DCDFE6;

@@ -1,5 +1,5 @@
 <!--
- * @Description:  
+ * @Description:
 -->
 <template>
   <div class="error page-main" id="error">
@@ -76,8 +76,8 @@
 .terminal {
   box-sizing: inherit;
   position: absolute;
-  height: 100%;
-  width: 1000px;
+  height: calc(100% - 8rem);
+  width: calc(100% - 8rem);
   max-width: 100%;
   padding: 4rem;
   text-transform: uppercase;

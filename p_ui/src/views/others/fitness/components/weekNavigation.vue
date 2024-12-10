@@ -77,8 +77,8 @@ onMounted(() => {});
     box-shadow: 0 0 40px rgba(0, 0, 0, 0.03);
     height: 100%;
     * {
-      padding: 0px;
-      margin: 0px;
+      padding: 0;
+      margin: 0;
       list-style-image: none;
       list-style-type: none;
     }
@@ -165,7 +165,7 @@ onMounted(() => {});
     opacity: 1;
     z-index: -1;
     left: 1rem;
-    top: 0px;
+    top: 0;
     width: 3.5rem;
     height: 3.5rem;
     background: get('bk');

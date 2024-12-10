@@ -85,7 +85,7 @@ function clickMenu(item: any) {
       color: get('font-color');
     }
     .el-menu {
-      margin: 0px;
+      margin: 0;
     }
   }
 }

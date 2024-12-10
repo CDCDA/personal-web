@@ -15,7 +15,9 @@
 
       <div class="pagi-number" style="display: flex; align-items: center; margin-right: 30px">
         <div style="display: flex; align-items: center">
-          <svg-icon iconName="总共" style="height: 25px; width: 25px" /><span>{{ total }}条</span>
+          <svg-icon iconName="commonSvg-总共" style="height: 25px; width: 25px" /><span
+            >{{ total }}条</span
+          >
         </div>
         <template v-for="(group, index) in slices">
           <li
@@ -240,8 +242,8 @@ export default {
       justify-content: space-between;
       white-space: nowrap;
       align-items: center;
-      padding: 0px;
-      margin: 0px;
+      padding: 0;
+      margin: 0;
     }
     .pn {
       float: left;
@@ -254,7 +256,7 @@ export default {
       // box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.5);
       border: 1px solid get('border-color');
       border-radius: 2px;
-      font-size: 18px;
+      font-size: 0.9rem;
       color: get('font-color');
       font-weight: 400;
       outline: none;
@@ -282,7 +284,7 @@ export default {
       & > input {
         color: #666;
         border: 0;
-        font-size: 15px;
+        font-size: 0.8rem;
         max-width: 40px;
         padding: 2px 1px;
       }
@@ -324,7 +326,7 @@ export default {
         color: #666;
         border: 1px solid #e6e7eb;
         border-radius: 0;
-        font-size: 18px;
+        font-size: 0.9rem;
         margin: 0 10px 0 2px;
         padding-left: 10px;
         width: 60px;
@@ -349,7 +351,7 @@ export default {
       width: auto;
       height: 35px;
       padding: 10px 15px;
-      margin: 0px;
+      margin: 0;
       .page-select {
         white-space: nowrap;
         height: 100%;
@@ -357,8 +359,8 @@ export default {
         border: 1px solid get('border-color');
         background: get('background');
         min-width: 55px;
-        padding: 0 8px 0px 12px;
-        margin: 0px;
+        padding: 0 8px 0 12px;
+        margin: 0;
         outline: none;
         display: flex;
         align-items: center;
@@ -369,10 +371,10 @@ export default {
         border-radius: 4px;
         // &::after {
         //   content: '';
-        //   width: 0px;
+        //   width:0;
         //   display: block;
-        //   height: 0px;
-        //   line-height: 0px;
+        //   height:0;
+        //   line-height:0;
         //   margin-left: 6px;
         //   border-top: 6px solid #d8d8d8;
         //   border-left: 6px solid get('background-no-tp');

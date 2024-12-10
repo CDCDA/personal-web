@@ -8,7 +8,7 @@
         <el-timeline-item :timestamp="item.updateTime || item.createTime" placement="top">
           <el-card>
             <div class="card-line">
-              <p style="margin: 0px 5px 0px 0px">
+              <p style="margin: 0 5px 0 0">
                 {{ item.updateTime ? '更新' : '发布' }}
               </p>
             </div>
@@ -56,7 +56,7 @@ onMounted(() => {
       }
       overflow: auto;
       height: 100%;
-      padding: 20px 0px 0px 10px;
+      padding: 20px 0 0 10px;
       .el-card {
         border: none;
         background: transparent;
@@ -77,7 +77,7 @@ onMounted(() => {
           padding: 15px;
 
           h4 {
-            margin: 0px;
+            margin: 0;
             color: get('font-color');
           }
           p {

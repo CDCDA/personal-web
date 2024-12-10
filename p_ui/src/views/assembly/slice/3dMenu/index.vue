@@ -872,7 +872,7 @@ a {
   width: 100%;
   color: #ffffff;
   padding: 5px;
-  font-size: 13px;
+  font-size: 0.8rem;
   font-weight: bold;
   text-align: center;
   z-index: 1;
@@ -888,14 +888,14 @@ a {
 .element {
   width: 120px;
   height: 160px;
-  box-shadow: 0px 0px 12px rgba(0, 255, 255, 0.5);
+  box-shadow: 0 0 12px rgba(0, 255, 255, 0.5);
   border: 1px solid rgba(127, 255, 255, 0.25);
   text-align: center;
   cursor: default;
 }
 
 .element:hover {
-  box-shadow: 0px 0px 12px rgba(0, 255, 255, 0.75);
+  box-shadow: 0 0 12px rgba(0, 255, 255, 0.75);
   border: 1px solid rgba(127, 255, 255, 0.75);
 }
 
@@ -910,8 +910,8 @@ a {
 .element .symbol {
   position: absolute;
   top: 40px;
-  left: 0px;
-  right: 0px;
+  left: 0;
+  right: 0;
   font-size: 60px;
   font-weight: bold;
   color: rgba(255, 255, 255, 0.75);
@@ -921,8 +921,8 @@ a {
 .element .details {
   position: absolute;
   bottom: 15px;
-  left: 0px;
-  right: 0px;
+  left: 0;
+  right: 0;
   font-size: 12px;
   color: rgba(127, 255, 255, 0.75);
 }
@@ -931,7 +931,7 @@ button {
   color: rgba(0, 0, 0, 0.75);
   background: transparent;
   /* outline: 1px solid rgba(127, 255, 255, 0.75); */
-  border: 0px;
+  border: 0;
   padding: 5px 10px;
   color: white;
   cursor: pointer;

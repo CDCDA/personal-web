@@ -5,7 +5,7 @@
   <div class="page-main personal-profile-main">
     <PersonalInfo class="bounceInDown animated"></PersonalInfo>
     <div class="ps-welcome c-left animated">
-      <span>欢迎来到我的网站<svg-icon iconName="礼花" /></span>
+      <span>欢迎来到我的网站<svg-icon iconName="commonSvg-礼花" /></span>
       <span>我叫CCCC</span>
       <span>是一名全栈开发工程师</span>
     </div>
@@ -80,7 +80,7 @@ import GoalTimeLine from './components/goalTimeLine.vue';
         background-image: linear-gradient(to right, #f0c27b, #4b1248);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
-        .svg-icon-wrap {
+        .svg-icon {
           width: 40px;
           height: 40px;
           margin-left: 10px;
@@ -118,7 +118,7 @@ import GoalTimeLine from './components/goalTimeLine.vue';
         border-radius: 12px;
         margin-right: 20px;
         overflow: hidden;
-        padding: 20px 0px;
+        padding: 20px 0;
         position: relative;
         .title {
           text-align: left;
@@ -157,7 +157,7 @@ import GoalTimeLine from './components/goalTimeLine.vue';
             width: 100%;
             color: get('font-color');
             position: absolute;
-            bottom: 0px;
+            bottom: 0;
             background: white;
             backdrop-filter: blur(20px);
             @include flex;
@@ -171,12 +171,12 @@ import GoalTimeLine from './components/goalTimeLine.vue';
             bottom: -70px;
           }
           100% {
-            bottom: 0px;
+            bottom: 0;
           }
         }
         @keyframes tip-down {
           0% {
-            bottom: 0px;
+            bottom: 0;
           }
           100% {
             bottom: -70px;
@@ -243,7 +243,7 @@ import GoalTimeLine from './components/goalTimeLine.vue';
         text-align: left;
       }
       p {
-        margin: 10px 0px;
+        margin: 10px 0;
       }
       // <p class="character-name">执政官</p>
       //   <p class="character-abbreviation">ESFJ-A</p>
@@ -276,7 +276,7 @@ import GoalTimeLine from './components/goalTimeLine.vue';
         text-align: left;
       }
       p {
-        font-size: 25px;
+        font-size: 1.2rem;
       }
     }
   }
