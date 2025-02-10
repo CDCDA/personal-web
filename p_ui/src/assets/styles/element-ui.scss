@@ -20,18 +20,18 @@
 
 /* 标签 -- 开始 */
 .el-tag {
-  border: 1px solid get('border-color');
+  border: 1px solid #dddddd;
   background: get('background');
   margin-right: 6px;
-  padding: 0 12px;
-  height: 1.4rem;
+  //padding: 3px 12px;
+  height: 1.6rem;
   .el-icon {
     color: get('font-color');
-    font-size: 0.85rem;
+    font-size: 0.8rem;
   }
   .el-tag__content {
     color: get('font-color');
-    font-size: 0.85rem;
+    font-size: 0.8rem;
   }
   .el-tag__close:hover {
     color: get('re-font-color');
@@ -65,7 +65,8 @@
   background: get('background');
 }
 .el-input-group {
-  box-shadow: rgba(0, 0, 0, 0.125) 0 0 10px 0;
+  //box-shadow: rgba(0, 0, 0, 0.125) 0 0 10px 0;
+  border: 1px solid get('border-color');
   .el-input__wrapper {
     border-radius: 0 !important;
     box-shadow: none;
@@ -86,12 +87,12 @@
   height: 32px;
 }
 
-.el-rate{
-  width:145px;
-  .el-rate__icon{
+.el-rate {
+  width: 145px;
+  .el-rate__icon {
     font-size: 1rem;
   }
-  .el-rate__text{
+  .el-rate__text {
     font-size: 0.9rem;
   }
 }
@@ -155,6 +156,9 @@
     overflow: hidden;
     padding: 15px 13px 12px 13px;
     border-radius: 4px 4px 0 0;
+    display:flex;
+    justify-content: start;
+    flex-direction: column;
   }
 
   .el-dialog__headerbtn {
@@ -166,6 +170,18 @@
 }
 .el-dialog.filter {
   background: get('modal');
+  .finder__inner,.finder__input{
+    color:white
+  }
+  .finder__icon{
+    border-color: white !important;
+    &::before{
+      background-color: white !important;
+    }
+  }
+  .footer{
+    color:white;
+  }
   .el-icon,
   .el-input__count,
   .el-radio__label {
@@ -174,7 +190,12 @@
   .c-dialog-header {
     color: white;
   }
-
+  .el-tag {
+    background: transparent;
+    span{
+      color:white;
+    }
+  }
   .c-dialog-header {
     color: white;
     .svg-icon {
@@ -253,7 +274,7 @@
   .el-input-group__append,
   .el-textarea .el-textarea__inner,
   .el-input__wrapper {
-    background: rgba(255, 255, 255, 0.19);
+    background: transparent;
     color: white;
     box-shadow: rgba(0, 0, 0, 0.125) 0 0 10px 0;
   }
@@ -291,6 +312,9 @@
     .el-range-separator {
       color: white;
     }
+    //.el-select__placeholder {
+    //  color: #B1B4BC;
+    //}
   }
   .el-date-editor.el-input__wrapper {
     background: transparent;
@@ -330,6 +354,30 @@
     .svg-use {
       color: white;
       fill: white;
+    }
+  }
+  .el-table {
+    tr,
+    td,
+    th {
+      background: transparent;
+      color: white;
+    }
+  }
+  .manage-main {
+    .svg-icon {
+      color: white;
+    }
+  }
+  .c-pagination {
+    .pn,
+    .page-select {
+      background: transparent;
+      color: white;
+    }
+    .pn.active.active {
+      background: get('border-color');
+      color: white;
     }
   }
 }
@@ -470,8 +518,8 @@
     color: get('font-color');
     font-size: 0.85rem;
   }
-  .el-range-input::placeholder {
-    color: get('placeholder');
+  .el-range-input {
+    color: white;
   }
   .el-input__wrapper {
     border: none;

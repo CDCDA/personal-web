@@ -67,6 +67,14 @@ export const countBlogByType = (params: any) =>
     params
   });
 
+// 按分类统计
+export const countBlogByTag = (params: any) =>
+  request({
+    url: '/pw/blog/countBlogByTag',
+    method: 'get',
+    params
+  });
+
 // 随机博客
 export const getRandomBlog = () =>
   request({

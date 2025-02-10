@@ -2,7 +2,7 @@
  * @Description: 博客发布弹窗
 -->
 <template>
-  <c-dialog class="blog-release" v-model="dialogVisible" title="发布" width="700px" :modal="false">
+  <c-dialog class="blog-release" v-model="dialogVisible" title="发布" width="700px" :modal="true">
     <el-form class="blog-release-settings" :model="blogData" label-width="80px">
       <el-form-item label="博客标签">
         <el-tag
@@ -46,13 +46,13 @@
         </el-tree-select>
       </el-form-item>
       <el-form-item label="添加封面">
-        <upload v-model="props.blogData.coverUrl"></upload>
+        <upload v-model="blogData.coverUrl" path="blogCover"></upload>
       </el-form-item>
       <el-form-item label="博客摘要">
         <el-input
           v-model="blogData.blogAbstract"
-          :rows="2"
           type="textarea"
+          :rows="2"
           placeholder="请输入..."
         ></el-input>
       </el-form-item>
@@ -65,18 +65,21 @@
         <el-button @click="submit">发布 </el-button>
       </span>
     </template>
-    <c-dialog class="tag-dialog" v-model="tagVisible" title="标签选择" width="500px" :modal="false">
-      <el-tag
-        v-for="tag in tagList"
-        :key="tag"
-        class="tag-item"
-        :class="tag.isActive ? 'is-active' : ''"
-        :disable-transitions="false"
-        style="margin-bottom: 10px; cursor: pointer"
-        @click="chooseTag(tag)"
-      >
-        {{ tag.tagName }} </el-tag
-      ><template #footer>
+    <c-dialog class="tag-dialog" v-model="tagVisible" title="标签选择" width="500px" :modal="true">
+      <div class="tag-list">
+        <el-tag
+          v-for="tag in tagList"
+          :key="tag"
+          class="tag-item"
+          :class="tag.isActive ? 'is-active' : ''"
+          :disable-transitions="false"
+          style="margin-bottom: 10px; cursor: pointer"
+          @click="chooseTag(tag)"
+        >
+          {{ tag.tagName }}
+        </el-tag>
+      </div>
+      <template #footer>
         <span class="dialog-footer">
           <el-button @click="tagVisible = false">取消</el-button>
           <el-button @click="setTags()">确定</el-button>
@@ -100,7 +103,7 @@ const tagVisible = ref(false);
 
 const dialogVisible = ref(false);
 const props = defineProps({
-  blogData: null
+  blogData: null as any
 });
 const emit = defineEmits(['resetBlogData']);
 
@@ -154,7 +157,7 @@ async function submit() {
     ElMessageBox.confirm('博客发布成功', 'success', {
       distinguishCancelAndClose: true,
       confirmButtonText: '前往博客',
-      cancelButtonText: '继续写'
+      cancelButtonText: '写新博客'
     })
       .then(() => {
         router.push({ name: 'blogDisplay', query: { blogId: data } });

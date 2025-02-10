@@ -1,13 +1,13 @@
 import { defineAsyncComponent } from 'vue';
 
 // 动态加载脚本
-export function loadScript(url: any, callBack: any) {
+export function loadScript(url: any, callBack?: any) {
   const script = document.createElement('script');
   script.src = url;
   script.type = 'text/javascript';
   document.body.appendChild(script);
   script.addEventListener('load', function () {
-    callBack();
+    callBack ? callBack() : '';
   });
 }
 

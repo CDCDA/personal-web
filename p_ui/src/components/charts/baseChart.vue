@@ -23,12 +23,17 @@ watch(
     deep: true
   }
 );
-function init() {
+function init(options?: any) {
   // 基于准备好的dom，初始化echarts实例
-  var myChart = echarts.init(document.getElementById(id) as any);
+  let myChart = echarts.init(document.getElementById(id) as any);
+  if (options) {
+    console.log('CCC', options);
+  }
   // 绘制图表
-  myChart.setOption(props.options);
+  myChart.setOption(options || props.options);
 }
+
+defineExpose({ init });
 
 onMounted(() => {});
 </script>

@@ -48,6 +48,13 @@ public class UpdateLogController extends BaseController implements convertContro
         return resultIPage(result);
     }
 
+    @GetMapping("/countUpdateLogByDateRange")
+    @ApiOperation(value = "按时间范围查询更新日志计数", notes = "", httpMethod = "GET")
+    public Result countUpdateLogByDateRange(String startTime, String endTime) {
+        return resultData(updateLogService.countUpdateLogByDateRange(startTime, endTime));
+    }
+
+
     @GetMapping("/selectById")
     @ApiOperation(value = "根据id查询更新日志", notes = "", httpMethod = "GET")
     public Result selectById(String id) {

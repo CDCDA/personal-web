@@ -4,7 +4,11 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.pw.domain.DramaSeries;
 import com.pw.mapper.DramaSeriesMapper;
 import com.pw.service.DramaSeriesService;
+import com.pw.vo.DramaTypeCountVO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /***
  * @author cyd
@@ -13,4 +17,11 @@ import org.springframework.stereotype.Service;
  **/
 @Service
 public class DramaSeriesServiceImpl extends ServiceImpl<DramaSeriesMapper, DramaSeries> implements DramaSeriesService {
+
+    @Autowired
+    private DramaSeriesMapper dramaSeriesMapper;
+    @Override
+    public List<DramaTypeCountVO> countDramaByType(String userId) {
+        return dramaSeriesMapper.countDramaByType(userId);
+    }
 }

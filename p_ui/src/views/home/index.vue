@@ -453,8 +453,8 @@ onMounted(() => {
                   border-radius: 8px;
                   // height: calc(100% - 100px);
                   aspect-ratio: 5/3;
-                  margin: 5px;
-                  width: calc(100% - 10px);
+                  margin: 8px;
+                  width: calc(100% - 16px);
                   .c-image {
                     height: 100%;
                     width: 100%;

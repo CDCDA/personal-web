@@ -8,7 +8,7 @@
     title="换肤"
     style="height: 75%"
     width="60%"
-    :modal="false"
+    :modal="true"
     align-center
     @close="emit('closeThemeDialog')"
   >

@@ -293,7 +293,7 @@ onMounted(() => {
   if (header) {
     setInterval(() => {
       headerRoll(header);
-    }, 5000);
+    }, 3000);
   }
 });
 </script>
@@ -470,7 +470,7 @@ onMounted(() => {
               .list-item {
                 cursor: pointer;
                 width: calc(50% - 10px);
-                aspect-ratio: 3/2;
+                aspect-ratio: 3/2.5;
                 margin-bottom: 20px;
                 background: get('background');
                 box-shadow: get('box-shadow');
@@ -478,8 +478,6 @@ onMounted(() => {
                 @include flex-column;
                 justify-content: start;
                 .list-item-img {
-                  border-radius: 15px 15px 0 0;
-                  width: 100%;
                   aspect-ratio: 7/4;
                   margin: 5px;
                   width: calc(100% - 10px);

@@ -2,7 +2,7 @@
  * @Description: 封装图片组件
 -->
 <template>
-  <el-image class="c-image" :src="props.src" lazy fit="cover">
+  <el-image class="c-image" :src="props.src" lazy :fit="fit">
     <template #placeholder>
       <div class="image-slot" v-cLoading="'rotate'" style="width: 100%; height: 100%" />
     </template>
@@ -21,6 +21,9 @@ const props = defineProps({
   },
   preview: {
     default: false
+  },
+  fit: {
+    default: 'cover'
   }
 });
 </script>

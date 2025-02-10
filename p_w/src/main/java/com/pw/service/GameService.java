@@ -2,6 +2,9 @@ package com.pw.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.pw.domain.Game;
+import com.pw.vo.GameTypeCountVO;
+
+import java.util.List;
 
 /***
  * @author cyd
@@ -9,4 +12,5 @@ import com.pw.domain.Game;
  * @description <壁纸接口>
  **/
 public interface GameService extends IService<Game> {
+    List<GameTypeCountVO> countGameByType(String userId);
 }

@@ -76,7 +76,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
                 } catch (JWTVerificationException e) {
                     throw new CustomException("token已失效,请重新登录", 401);
                 }
-                BaseContext.setLoginUser(userId);
+                BaseContext.setLoginUserId(userId);
                 return true;
             }
         }

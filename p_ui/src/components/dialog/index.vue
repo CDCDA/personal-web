@@ -10,7 +10,7 @@
     v-model="props.modelValue"
     :title="props.title"
     :width="props.width"
-    :modal="true"
+    :modal="props.modal"
     :fullscreen="isFull"
     destroy-on-close
     :show-close="false"
@@ -66,6 +66,9 @@ const props = defineProps({
   },
   draggable: {
     default: true
+  },
+  type: {
+    default: null
   }
 });
 const isFull = ref(false);
@@ -157,6 +160,9 @@ function init() {
   isFull.value = props.isFull;
   draggable.value = props.draggable;
   dialogType.value = themeStore.options.dialogType;
+  if (props.type) {
+    dialogType.value = props.type;
+  }
 }
 onMounted(() => {
   init();

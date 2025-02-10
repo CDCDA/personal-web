@@ -32,8 +32,8 @@ function menuClick(item: any) {
 onMounted(() => {
   menuList.value = (router.options.routes as any).find((x: any) => x.name == 'manage').children;
   if (menuList.value.length > 0) {
-    activeMenu.value = menuList.value[0];
-    router.push({ name: activeMenu.value.name });
+    // activeMenu.value = menuList.value[0];
+    // router.push({ name: activeMenu.value.name });
   }
 });
 </script>

@@ -18,6 +18,14 @@ export const listEssay = (params: any) =>
     params
   });
 
+//根据日期范围查询随笔统计数据
+export const countEssayByDateRange = (params: any) =>
+  request({
+    url: '/pw/essay/countEssayByDateRange',
+    method: 'get',
+    params
+  });
+
 // 保存随笔
 export const saveEssay = (params: any) =>
   request({

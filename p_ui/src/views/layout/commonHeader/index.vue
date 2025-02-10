@@ -64,7 +64,7 @@
             iconName="commonSvg-控制台"
             class="header-icon console"
             v-permission="'show'"
-            @click="router.push({ name: 'manage' })"
+            @click="toManage"
           />
         </i>
       </el-tooltip>
@@ -73,14 +73,15 @@
           <svg-icon iconName="commonSvg-登出" class="header-icon logout" @click="logout" />
         </i>
       </el-tooltip>
-      <span
-        @click="returnTop"
-        class="progress"
-        :class="progress == '100' ? 'is-progress-full' : ''"
-      >
-        {{ progress }}
-        <el-icon @click="returnTop"><Top /></el-icon>
-      </span>
+      <c-image class="avatar" :src="userStore.avatar" @click="toPersonal"></c-image>
+      <!--      <span-->
+      <!--        @click="returnTop"-->
+      <!--        class="progress"-->
+      <!--        :class="progress == '100' ? 'is-progress-full' : ''"-->
+      <!--      >-->
+      <!--        {{ progress }}-->
+      <!--        <el-icon @click="returnTop"><Top /></el-icon>-->
+      <!--      </span>-->
     </div>
   </div>
 
@@ -91,6 +92,8 @@
 import { ElMessageBox } from 'element-plus';
 import { ref, onMounted, watch } from 'vue';
 import { getRandomBlog } from '@/api/blog';
+import commonLink from './components/commonLink.vue';
+import searchDialog from './components/blogSearchDialog.vue';
 import { vMiniWeather, vMiniWeatherIcon } from 'vue3-mini-weather';
 import { autoClearTimer } from '@/utils/timer';
 import { useRouter, onBeforeRouteUpdate } from 'vue-router';
@@ -98,8 +101,7 @@ import useUserStore from '@/store/modules/user';
 import useThemeStore from '@/store/modules/theme.ts';
 const themeStore = useThemeStore();
 const userStore = useUserStore();
-import commonLink from './components/commonLink.vue';
-import searchDialog from './components/searchDialog.vue';
+
 const router = useRouter() as any;
 const articleElement = ref(null as any);
 const progress = ref('0' as any);
@@ -157,6 +159,12 @@ function setWeatherData(weather: any) {
   (localStorage as any).setItem('weather', JSON.stringify(weather));
 }
 
+function toManage() {
+  let routeUrl = router.resolve({ name: 'manage' }).href;
+  console.log(routeUrl);
+  window.open('http://localhost:8086/#/manage', '_blank');
+}
+
 watch(
   () => progress.value,
   (newVal, oldVal) => {
@@ -169,12 +177,8 @@ watch(
         headerBarMenu.style.transform = 'translateY(0px)';
         headerBarTitle.style.transform = 'translateY(100px)';
       }
-    if (newVal === '0') {
-      isHideen.value = true;
-      // if (headerBar) headerBar.style.transform = 'translateY(50%)';
-    } else {
-      isHideen.value = false;
-    }
+    console.log(newVal);
+    isHideen.value = newVal === '0' || newVal === 'NaN';
   },
   { deep: true, immediate: true }
 );
@@ -246,6 +250,10 @@ function returnTop() {
   articleElement.value?.scrollTo({ top: '0', behavior: 'smooth' });
 }
 
+function toPersonal() {
+  router.push({ path: '/personalInfo' });
+}
+
 function logout() {
   ElMessageBox.confirm('确定注销并退出系统吗？', '提示', {
     confirmButtonText: '确定',
@@ -286,7 +294,7 @@ function setHeaderFontColor() {
     let header = document.querySelector('.common-header') as any;
     if (header) {
       header.style.color = mhFontColor;
-      let icons = header.querySelectorAll('.theme-icon');
+      // let icons = header.querySelectorAll('.theme-icon');
       // Object.keys(icons).forEach((e: any) => {
       //   icons[e].style.fill = mhFontColor;
       // });
@@ -301,10 +309,18 @@ onMounted(() => {
     // 监听滚动事件并更新样式
     window.addEventListener('scroll', scrollEvent, true);
     setHeaderFontColor();
-  }, 200);
+  }, 500);
 });
 </script>
 <style lang="scss" scoped>
+.avatar {
+  height: 2rem;
+  width: 2rem;
+  border-radius: 2rem;
+  margin-left: 0.5rem;
+  border: 3px solid white;
+  cursor: pointer;
+}
 .side-setting {
   opacity: 1;
 }

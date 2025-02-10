@@ -2,7 +2,6 @@ package com.pw.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.pw.domain.BlogTag;
-import com.pw.domain.User;
 
 import java.util.List;
 
@@ -12,5 +11,5 @@ import java.util.List;
  * @description <博客标签>
  **/
 public interface BlogTagService extends IService<BlogTag> {
-
+    List<BlogTag> listTypeAndBlog();
 }

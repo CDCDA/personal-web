@@ -39,6 +39,7 @@ import sakura from '@/components/sakura/index.vue';
 import rightClickMenu from '@/components/rightClickMenu/index.vue';
 import { useRouter } from 'vue-router';
 import useThemeStore from '@/store/modules/theme.ts';
+import useWebSocketStore from '@/store/modules/webSocket.js';
 import useUserStore from './store/modules/user';
 import CommonHeader from '@/views/layout/commonHeader/index.vue';
 import CommonFooter from '@/views/layout/commonFooter/index.vue';
@@ -51,6 +52,7 @@ const sakuraOptions = ref({
   show: true,
   zIndex: -1
 } as any);
+
 const src = ref(null) as any;
 var userStore = useUserStore();
 var themeStore = useThemeStore();
@@ -185,6 +187,7 @@ function init() {
   //查看是否有token
   if (userStore.token) {
     router.push({ path: '/home' });
+    // router.push({ name: 'testField' });
   } else {
     router.push({ path: '/login' });
   }
@@ -214,7 +217,19 @@ function init() {
 }
 
 onMounted(() => {
-  init();
+  if (!window.location.href.includes('/manage')) {
+    init();
+  }
+
+  // setTimeout(() => {
+  //   const webSocketStore = useWebSocketStore();
+  //   webSocketStore.connectWebSocket({
+  //     // onsend: event => {
+  //     //   console.log('订阅数据', 'AAAAAAAAA');
+  //     //   event.currentTarget.send(`{"type": "subscribe", "data": "${'AAA'}"}`);
+  //     // }
+  //   });
+  // }, 3000);
 });
 </script>
 
@@ -287,7 +302,7 @@ html {
   background: transparent;
   overflow: auto;
 }
-:v-deep(.el-menu.el-menu--horizontal) {
-  border-bottom: solid0 #e6e6e6;
+:deep(.el-menu.el-menu--horizontal) {
+  border-bottom: solid #e6e6e6;
 }
 </style>

@@ -37,28 +37,45 @@
       >
     </el-col>
     <div class="manage-tools">
+      <el-tooltip content="菜单" placement="top">
+        <svg-icon iconName="commonSvg-菜单" @click="openMenu" />
+      </el-tooltip>
       <el-tooltip content="刷新" placement="top">
         <svg-icon iconName="commonSvg-刷新" @click="emit('refresh')" />
       </el-tooltip>
-      <el-tooltip content="全屏" placement="top">
-        <svg-icon iconName="commonSvg-全屏" @click="fullScreen" />
-      </el-tooltip>
+      <!--      <el-tooltip content="全屏" placement="top">-->
+      <!--        <svg-icon iconName="commonSvg-全屏" @click="fullScreen" />-->
+      <!--      </el-tooltip>-->
       <el-tooltip content="搜索栏" placement="top">
         <svg-icon iconName="commonSvg-搜索" @click="showSearch" />
       </el-tooltip>
     </div>
   </el-row>
+  <c-dialog
+    class="circle-menu-dialog"
+    type="filter"
+    :isFull="true"
+    v-model="menuShow"
+    style="height: 70%"
+  >
+    <circleMenu style="z-index: 9999; width: 100%; height: 60vh" />
+  </c-dialog>
 </template>
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
-import { useTableResize } from '@/utils/manage';
+import circleMenu from './circleMenu.vue';
 import { useRouter } from 'vue-router';
 const props = defineProps({
   selection: {
     default: []
   }
 });
+const menuShow = ref(false);
 const emit = defineEmits(['handleAdd', 'handleEdit', 'handleView', 'handleDel', 'refresh']);
+
+function openMenu() {
+  menuShow.value = true;
+}
 
 function fullScreen() {
   let pageMain = document.querySelector('.page-main') as any;
@@ -77,10 +94,19 @@ function showSearch() {
   } else {
     manageMain.classList.add('is-hidden');
   }
-  useTableResize();
+  // useTableResize();
 }
 onMounted(() => {});
 </script>
+<style>
+.circle-menu-dialog {
+  .el-dialog__body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+</style>
 <style lang="scss" scoped>
 @include theme() {
   .manage-tools {
@@ -91,8 +117,7 @@ onMounted(() => {});
     align-items: center;
     height: 100%;
     .svg-icon {
-      height: 22px;
-      width: 22px;
+      font-size: 1.2rem;
       cursor: pointer;
       margin-left: 8px;
       position: relative;
@@ -107,13 +132,10 @@ onMounted(() => {});
         width: 28px;
         height: 28px;
         background: get('border-color');
+        color: get('re-font-color');
         border-radius: 4px;
         position: absolute;
         z-index: -1;
-      }
-
-      :deep(.theme-icon) {
-        fill: white !important;
       }
     }
   }

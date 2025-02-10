@@ -1,7 +1,5 @@
 package com.pw.common.entity;
 
-import com.pw.domain.User;
-
 /***
  * @author cyd
  * @date 2023/6/5 18:00
@@ -17,7 +15,7 @@ public class BaseContext {
      *
      * @param userId
      */
-    public static void setLoginUser(String userId) {
+    public static void setLoginUserId(String userId) {
         threadLocal.set(userId);
     }
 
@@ -26,7 +24,7 @@ public class BaseContext {
      *
      * @return
      */
-    public static String getLoginUser() {
+    public static String getLoginUserId() {
         return threadLocal.get();
     }
 

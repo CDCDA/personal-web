@@ -86,13 +86,13 @@
     />
   </div>
   <!-- 新增或编辑 -->
-  <c-dialog v-model="open" :title="title" width="500" :modal="false">
+  <c-dialog v-model="open" :title="title" width="500" :modal="true">
     <el-form :model="form" label-width="80">
       <el-form-item label="影视名称">
         <el-input v-model="form.name" clearable />
       </el-form-item>
       <el-form-item label="封面">
-        <upload v-if="!fromNet" v-model="form.coverUrl" />
+        <upload v-if="!fromNet" v-model="form.coverUrl" path="drama" />
         <el-input v-else v-model="form.coverUrl" clearable />
       </el-form-item>
       <el-form-item label="分类">

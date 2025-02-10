@@ -8,6 +8,7 @@ import com.pw.common.controller.convertController;
 import com.pw.common.token.UserLoginToken;
 import com.pw.common.utils.Result;
 import com.pw.common.utils.SnowFlake;
+import com.pw.common.utils.TokenUtil;
 import com.pw.domain.DramaSeries;
 import com.pw.service.DramaSeriesService;
 import io.swagger.annotations.Api;
@@ -39,6 +40,12 @@ public class DramaSeriesController extends BaseController implements convertCont
         return resultIPage(result);
     }
 
+    @GetMapping("/countDramaByType")
+    @ApiOperation(value = "按分类查询影视列表计数", notes = "", httpMethod = "GET")
+    public Result countDramaByType() {
+        return resultData(dramaSeriesService.countDramaByType(String.valueOf(TokenUtil.getTokenUserId())));
+    }
+
     @GetMapping("/count")
     @ApiOperation(value = "查询影视数", notes = "", httpMethod = "GET")
     public Result count(DramaSeries dramaSeries) {
@@ -58,6 +65,7 @@ public class DramaSeriesController extends BaseController implements convertCont
         if (!isEmpty(dramaSeries.getId())) {
             return resultExit(dramaSeriesService.updateById(dramaSeries));
         }
+        dramaSeries.setUserId(TokenUtil.getTokenUserId());
         dramaSeries.setId(new SnowFlake(1,0).nextId());
         dramaSeriesService.save(dramaSeries);
         return Result.ok();

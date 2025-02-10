@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.pw.domain.Blog;
 import com.pw.dto.BlogPageDTO;
 import com.pw.vo.BlogCountVO;
+import com.pw.vo.BlogTagCountVO;
 import com.pw.vo.BlogTypeCountVO;
 import com.pw.vo.BlogVO;
 
@@ -24,6 +25,8 @@ public interface BlogService extends IService<Blog> {
     List<BlogCountVO> countBlogByDateRange(String userId, String startTime,String endTime);
 
     List<BlogTypeCountVO> countBlogByType(String userId, String startTime,String endTime);
+
+    List<BlogTagCountVO> countBlogByTag(String userId, String startTime, String endTime);
 
     String getRandomBlog();
 

@@ -61,11 +61,8 @@
       class="pagi page-content"
     />
   </div>
-  <el-drawer v-model="drawer" title="I am the title" :with-header="false">
-    <span>Hi there!</span>
-  </el-drawer>
   <!-- 新增或编辑 -->
-  <c-dialog v-model="open" :title="title" width="500" :modal="false">
+  <c-dialog v-model="open" :title="title" width="500" :modal="true">
     <el-form :model="form" label-width="40">
       <el-form-item label="名称">
         <el-input v-model="form.dictName" clearable></el-input>

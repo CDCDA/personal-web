@@ -45,7 +45,7 @@
         @closeEditor="showEditor"
       />
       <div v-if="props.commentData.children && props.commentData.children.length != 0">
-        <div class="c-divider" style="margin: 15px 0 0 0"></div>
+        <div class="c-divider" style="margin: 15px 0 0 0; width: calc(100% - 50px)"></div>
         <commentItem
           v-for="item in props.commentData.children"
           :commentData="item"

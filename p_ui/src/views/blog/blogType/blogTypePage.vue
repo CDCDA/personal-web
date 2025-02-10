@@ -160,7 +160,7 @@ onMounted(() => {
     flex-direction: column;
     .pagi {
       margin: 6px 7px 15px 7px;
-      width: calc(100% - 66px);
+      width: calc(100% - 66px) !important;
     }
     .page-right {
       width: 300px;
@@ -224,14 +224,14 @@ onMounted(() => {
     }
     .blog-list-wrap {
       margin: 4px 25px 0 25px;
-      min-height: calc(100vh - 249px);
+      min-height: calc(100vh - 260px);
       width: calc(100% - 50px);
       position: relative;
       .blog-list-loading {
         position: absolute !important;
         margin-top: 7px;
         width: calc(100% - 12px);
-        height: calc(100% - 5px);
+        height: calc(100% - 22px);
         top: 0;
         left: 6px;
         border-radius: 10px;

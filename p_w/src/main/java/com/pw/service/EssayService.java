@@ -3,6 +3,7 @@ package com.pw.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.pw.domain.Essay;
 import com.pw.dto.EssayDTO;
+import com.pw.vo.EssayCountVO;
 import com.pw.vo.EssayVO;
 
 import java.util.List;
@@ -21,4 +22,7 @@ public interface EssayService extends IService<Essay> {
     EssayVO getEssayById(String essayId);
 
     Integer count(EssayDTO essayDTO);
+
+    List<EssayCountVO> countEssayByDateRange(String userId, String startTime, String endTime);
+
 }

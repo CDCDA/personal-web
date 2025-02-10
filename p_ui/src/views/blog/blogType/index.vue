@@ -64,7 +64,7 @@ onMounted(() => {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      margin: 60px;
+      margin: 55px;
     }
     .type-item {
       width: 320px;

@@ -9,7 +9,6 @@
       ref="queryRef"
       :inline="true"
       label-width="40"
-      size="mini"
     >
       <el-form-item label="标题" prop="blogTitle">
         <el-input
@@ -73,7 +72,7 @@
           {{ scope.row.isOriginal == '1' ? '转载' : '原创' }}
         </template>
       </el-table-column>
-      <el-table-column label="创建时间" width="180" align="center" prop="createTime" />
+      <el-table-column label="创建时间" width="250" align="center" prop="createTime" />
       <el-table-column label="作者" width="150" align="center" prop="author" />
       <!-- <el-table-column label="操作" width="120" align="center" prop="isOriginal" fixed="right">
         <template #default="scope">

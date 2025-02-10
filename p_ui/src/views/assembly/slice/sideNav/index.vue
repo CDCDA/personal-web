@@ -5,7 +5,7 @@
   <div class="sideNav">
     <div class="link" v-for="item in menuList">
       <div class="text">
-        <svg-icon :iconName="commonSvg - item.meta.svgIcon"></svg-icon>
+        <svg-icon :iconName="`commonSvg-${item.meta.svgIcon}`"></svg-icon>
         <span>{{ item.meta.remark }}</span>
       </div>
     </div>
@@ -54,7 +54,7 @@ onMounted(() => {
   border-bottom: 1px solid rgba(255, 255, 255, 0.5);
   bottom: 50%;
   left: -100%;
-  transition-delay: all 0.5s;
+  transition-delay: 0.5s;
   transition: all 0.5s;
 }
 .link:hover:after,
@@ -66,7 +66,7 @@ onMounted(() => {
   color: white;
   transition: all 0.75s;
   transform: translateY(100%) translateZ(0);
-  transition-delay: all 0.25s;
+  transition-delay: 0.25s;
   width: 100%;
   display: flex;
   justify-content: center;

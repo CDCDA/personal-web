@@ -13,6 +13,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,10 +42,15 @@ public class UserController extends BaseController implements convertController 
     @Autowired
     private TokenService tokenService;
 
+    @Autowired
+    private RedisTemplate<String, String> redisTemplate;
+
     //    @UserLoginToken
     @GetMapping("/list")
     @ApiOperation(value = "用户列表分页查询", notes = "", httpMethod = "GET")
     public Result list(User user) {
+        redisTemplate.opsForValue().set("AAA", "aaa");
+        System.out.println("REDIS" + redisTemplate.opsForValue().get("AAA").toString());
         IPage<User> result = userService.page(setPage(user), convertWrap(user));
         return resultIPage(result);
     }

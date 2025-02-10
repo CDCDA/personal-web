@@ -9,7 +9,7 @@
     width="30rem"
     @close="emit('close')"
     style="height: 400px"
-    :modal="false"
+    :modal="true"
   >
     <div class="finder">
       <div class="finder__outer">

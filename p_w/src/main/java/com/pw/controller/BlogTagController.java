@@ -55,6 +55,12 @@ public class BlogTagController extends BaseController implements convertControll
 //        List<BlogTagVO> result = blogTagRelationSerivce.li(userId);
 //        return resultList(result, blogTagRelationMapper.countBlogTag(userId));
 //    }
+@GetMapping("/listTagAndBlog")
+@ApiOperation(value = "查询标签列表并列出指定数量的博客", notes = "", httpMethod = "GET")
+public Result lisTagAndBlog() {
+    return resultList(blogTagService.listTypeAndBlog());
+}
+
 
     @GetMapping("/selectById")
     @ApiOperation(value = "根据id查询标签", notes = "", httpMethod = "GET")
@@ -79,7 +85,7 @@ public class BlogTagController extends BaseController implements convertControll
         } else {
             String tagId = blogTagRelationSerivce.isTagExit(blogTag.getTagName());
             if (isEmpty(tagId)) {
-                blogTag.setTagId(new SnowFlake(1, 0).nextId());
+                blogTag.setTagId(String.valueOf(new SnowFlake(1, 0).nextId()));
                 blogTagService.save(blogTag);
                 return blogTag.getTagId().toString();
             } else

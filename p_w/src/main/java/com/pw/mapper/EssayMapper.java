@@ -3,6 +3,7 @@ package com.pw.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.pw.domain.Essay;
 import com.pw.dto.EssayDTO;
+import com.pw.vo.EssayCountVO;
 import com.pw.vo.EssayVO;
 import org.springframework.stereotype.Repository;
 
@@ -21,4 +22,6 @@ public interface EssayMapper extends BaseMapper<Essay> {
 
 
     Integer count(EssayDTO essayDTO);
+
+    List<EssayCountVO> countEssayByDateRange(String userId, String startTime, String endTime);
 }

@@ -11,10 +11,10 @@
     </div>
     <div class="testField-center">
       <div class="testField-item" v-for="(item, i) in testFieldList" @click="totestField(item)">
-        <c-image class="testField-item-cover" :src="item.url" />
-        <span class="testField-item-name">{{ item.label }}</span>
+        <c-image class="testField-item-cover" :src="item.meta.url" />
+        <span class="testField-item-name">{{ item.meta.remark }}</span>
         <span class="testField-item-divider"></span>
-        <span class="testField-item-instoction no-wrap">{{ item.introduction }}</span>
+        <span class="testField-item-instoction no-wrap">{{ item.meta.introduction }}</span>
         <!-- <div class="instoction-cover">
           {{ item.introduction }}
         </div> -->
@@ -25,73 +25,29 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import routerViewDialog from '@/components/routerViewDialog/index.vue';
 const router = useRouter();
 const routerDialog = ref(null as any);
 const title = ref(null as any);
-const testFieldList = ref([
-  {
-    label: '低代码',
-    routerName: 'vForm',
-    introduction: '低代码表单平台',
-    url: 'http://1.92.159.74:8008/低代码.png'
-  },
-  {
-    label: '自由拖拽',
-    routerName: 'draggle',
-    introduction: '一个自由拖拽组件的页面',
-    url: 'http://1.92.159.74:8008/自由拖拽.png'
-  },
-  {
-    label: '甘特图',
-    routerName: 'ganttChart',
-    introduction: '复杂甘特图',
-    url: 'http://1.92.159.74:8008/甘特图.png'
-  },
-  {
-    label: '富文本编辑器',
-    routerName: 'editor',
-    introduction: '富文本编辑器',
-    url: 'http://1.92.159.74:8008/富文本编辑器.png'
-  }
-  // {
-  //   label: 'canvas研究',
-  //   routerName: 'canvas',
-  //   introduction: 'canvas研究',
-  //   url: 'http://1.92.159.74:8008/canvas.png'
-  // }
-] as any);
+const testFieldList = ref([] as any);
 
 function totestField(item: any) {
-  title.value = item.label;
+  title.value = item.meta.remark;
   routerDialog.value.open();
-  router.push({ name: item.routerName });
+  router.push({ name: item.name });
 }
 
 function close() {
   routerDialog.value.close();
 }
 
-function getAnimate(i: any) {
-  if (i % 5 === 0) {
-    return 'animated-0s5';
-  }
-  if (i % 5 === 1) {
-    return 'animated';
-  }
-  if (i % 5 === 2) {
-    return 'animated-1s5';
-  }
-  if (i % 5 === 3) {
-    return 'animated-2s';
-  }
-  if (i % 5 === 4) {
-    return 'animated-2s5';
-  }
-  return 'animated';
-}
+onMounted(() => {
+  testFieldList.value = (router.options.routes as any).find(
+    (x: any) => x.name == 'testField'
+  ).children;
+});
 </script>
 <style lang="scss" scoped>
 @include theme() {
@@ -138,19 +94,14 @@ function getAnimate(i: any) {
         opacity: 0.9;
         box-shadow: get('box-shadow');
         background: get('background');
-        position: relative;
         color: get('font-color');
         display: flex;
         justify-content: space-between;
         align-items: center;
         flex-direction: column;
-        overflow: hidden;
         .testField-item-cover {
           width: 100%;
           height: calc(100%);
-          object-fit: cover;
-          object-position: 70%;
-          background-repeat: no-repeat;
           transition: transform 0.3s ease;
         }
         .testField-item-name {

@@ -31,6 +31,9 @@ function scroll() {
   var first = children[0];
   setInterval(function () {
     var interv = current * -1 * height;
+    if (!first) {
+      return;
+    }
     first.style.marginTop = interv + 'px';
     if (current == number) {
       first.style.marginTop = '0px';

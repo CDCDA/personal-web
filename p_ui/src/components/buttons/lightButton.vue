@@ -1,353 +1,274 @@
 <template>
-  <div role="button">
-    <span class="glow"></span>
-    <div><span>cool</span>Glowing shadows</div>
+  <div class="sparkle-button">
+    <button>
+      <span class="spark"></span>
+      <span class="backdrop"></span>
+      <span class="text">确定</span>
+    </button>
+    <div class="bodydrop"></div>
   </div>
 </template>
+<script>
+export default {
+  name: 'neonRain',
+  mounted() {
+    // JavaScript used to set randomness for particles.
+    // Could be done via SSR
+
+    const RANDOM = (min, max) => Math.floor(Math.random() * (max - min + 1) + min);
+    const PARTICLES = document.querySelectorAll('.particle');
+    PARTICLES.forEach(P => {
+      P.setAttribute(
+        'style',
+        `
+		--x: ${RANDOM(20, 80)};
+		--y: ${RANDOM(20, 80)};
+		--duration: ${RANDOM(6, 20)};
+		--delay: ${RANDOM(1, 10)};
+		--alpha: ${RANDOM(40, 90) / 100};
+		--origin-x: ${Math.random() > 0.5 ? RANDOM(300, 800) * -1 : RANDOM(300, 800)}%;
+		--origin-y: ${Math.random() > 0.5 ? RANDOM(300, 800) * -1 : RANDOM(300, 800)}%;
+		--size: ${RANDOM(40, 90) / 100};
+	`
+      );
+    });
+  }
+};
+</script>
 <style scoped lang="scss">
-@charset "UTF-8";
-@property --hue {
-  syntax: '<number>';
-  inherits: true;
-  initial-value: 0;
-}
-@property --rotate {
-  syntax: '<number>';
-  inherits: true;
-  initial-value: 0;
-}
-@property --bg-y {
-  syntax: '<number>';
-  inherits: true;
-  initial-value: 0;
-}
-@property --bg-x {
-  syntax: '<number>';
-  inherits: true;
-  initial-value: 0;
-}
-@property --glow-translate-y {
-  syntax: '<number>';
-  inherits: true;
-  initial-value: 0;
-}
-@property --bg-size {
-  syntax: '<number>';
-  inherits: true;
-  initial-value: 0;
-}
-@property --glow-opacity {
-  syntax: '<number>';
-  inherits: true;
-  initial-value: 0;
-}
-@property --glow-blur {
-  syntax: '<number>';
-  inherits: true;
-  initial-value: 0;
-}
-@property --glow-scale {
-  syntax: '<number>';
-  inherits: true;
-  initial-value: 2;
-}
-@property --glow-radius {
-  syntax: '<number>';
-  inherits: true;
-  initial-value: 2;
-}
-@property --white-shadow {
-  syntax: '<number>';
-  inherits: true;
-  initial-value: 0;
-}
-:root {
-  --debug: 0;
-  --supported: 0;
-  --not-supported: 0;
-  --card-color: hsl(260deg 100% 3%);
-  --text-color: hsl(260deg 10% 55%);
-  --card-radius: 3.6vw;
-  --card-width: 35vw;
-  --border-width: 3px;
-  --bg-size: 1;
-  --hue: 0;
-  --hue-speed: 1;
-  --rotate: 0;
-  --animation-speed: 4s;
-  --interaction-speed: 0.55s;
-  --glow-scale: 1.5;
-  --scale-factor: 1;
-  --glow-blur: 6;
-  --glow-opacity: 1;
-  --glow-radius: 100;
-  --glow-rotate-unit: 1deg;
-}
-
-body::before,
-body::after {
-  content: 'CSS.registerProperty is supported ?';
-  position: absolute;
-  display: block;
-  top: 8px;
-  left: 0;
-  right: 0;
-  margin: auto;
-  width: calc(100% - 160px);
-  max-width: 380px;
-  height: auto;
-  padding: 8px;
-  border-radius: 8px;
-  background: #48b93c;
-  color: white;
-  text-align: center;
-  z-index: var(--supported, 0);
-  opacity: var(--supported, 0);
-}
-
-body::after {
-  content: 'CSS.registerProperty is NOT supported ?';
-  background: #b93c3c;
-  z-index: var(--not-supported, 0);
-  opacity: var(--not-supported, 0);
-}
-
-body::before,
-body::after {
-  display: none !important;
-}
-
-html,
-body {
-  height: 100%;
-  width: 100%;
-  padding: 0;
-  margin: 0;
-}
-
-*,
-*:before,
-*:after {
-  outline: calc(var(--debug) * 1px) red dashed;
-}
-
-body {
-  background-color: var(--card-color);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-body > div {
-  width: var(--card-width);
-  width: min(480px, var(--card-width));
-  aspect-ratio: 1.5/1;
-  color: white;
-  margin: auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  z-index: 2;
-  border-radius: var(--card-radius);
-  cursor: pointer;
-}
-body > div:hover > div {
-  mix-blend-mode: darken;
-  --text-color: white;
-  box-shadow: 0 0 calc(var(--white-shadow) * 1vw) calc(var(--white-shadow) * 0.15vw)
-    rgba(255, 255, 255, 0.2);
-  animation: shadow-pulse calc(var(--animation-speed) * 2) linear infinite;
-}
-body > div:hover > div:before {
-  --bg-size: 15;
-  animation-play-state: paused;
-  transition: --bg-size var(--interaction-speed) ease;
-}
-body > div:hover .glow {
-  --glow-blur: 1.5;
-  --glow-opacity: 0.6;
-  --glow-scale: 2.5;
-  --glow-radius: 0;
-  --rotate: 900;
-  --glow-rotate-unit: 0;
-  --scale-factor: 1.25;
-  animation-play-state: paused;
-}
-body > div:hover .glow:after {
-  --glow-translate-y: 0;
-  animation-play-state: paused;
-  transition: --glow-translate-y 0s ease, --glow-blur 0.05s ease, --glow-opacity 0.05s ease,
-    --glow-scale 0.05s ease, --glow-radius 0.05s ease;
-}
-body > div:before,
-body > div:after {
-  content: '';
-  display: block;
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  border-radius: var(--card-radius);
-}
-body > div > div {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background: var(--card-color);
-  border-radius: calc(calc(var(--card-radius) * 0.9));
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 800;
-  text-transform: uppercase;
-  font-stretch: 150%;
-  font-size: 0.9rem;
-  font-size: clamp(1.5vw, 1.5vmin, 32px);
-  color: var(--text-color);
-  padding: calc(var(--card-width) / 8);
-}
-body > div > div span {
-  display: inline-block;
-  padding: 0.25em;
-  border-radius: 4px;
-  background: var(--text-color);
-  color: black;
-  margin-right: 8px;
-  font-weight: 900;
-}
-body > div > div:before {
-  content: '';
-  display: block;
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  border-radius: calc(calc(var(--card-radius) * 0.9));
-  box-shadow: 0 0 20px black;
-  mix-blend-mode: color-burn;
-  z-index: -1;
-  background: #292929
+button {
+  --active: 0;
+  background: radial-gradient(
+      40% 50% at center 100%,
+      hsl(270 calc(var(--active) * 97%) 72% / var(--active)),
+      transparent
+    ),
     radial-gradient(
-      30% 30% at calc(var(--bg-x) * 1%) calc(var(--bg-y) * 1%),
-      hsl(calc(calc(var(--hue) * var(--hue-speed)) * 1deg), 100%, 90%) calc(0% * var(--bg-size)),
-      hsl(calc(calc(var(--hue) * var(--hue-speed)) * 1deg), 100%, 80%) calc(20% * var(--bg-size)),
-      hsl(calc(calc(var(--hue) * var(--hue-speed)) * 1deg), 100%, 60%) calc(40% * var(--bg-size)),
-      transparent 100%
-    );
-  width: calc(100% + var(--border-width));
-  height: calc(100% + var(--border-width));
-  animation: hue-animation var(--animation-speed) linear infinite,
-    rotate-bg var(--animation-speed) linear infinite;
-  transition: --bg-size var(--interaction-speed) ease;
-}
-body > div .glow {
-  --glow-translate-y: 0;
-  display: block;
-  position: absolute;
-  width: calc(var(--card-width) / 5);
-  height: calc(var(--card-width) / 5);
-  animation: rotate var(--animation-speed) linear infinite;
-  transform: rotateZ(calc(var(--rotate) * var(--glow-rotate-unit)));
-  transform-origin: center;
-  border-radius: calc(var(--glow-radius) * 10vw);
-}
-body > div .glow:after {
-  content: '';
-  display: block;
-  z-index: -2;
-  filter: blur(calc(var(--glow-blur) * 10px));
-  width: 130%;
-  height: 130%;
-  left: -15%;
-  top: -15%;
-  background: hsl(calc(calc(var(--hue) * var(--hue-speed)) * 1deg), 100%, 60%);
+      80% 100% at center 120%,
+      hsl(260 calc(var(--active) * 97%) 70% / var(--active)),
+      transparent
+    ),
+    hsl(260 calc(var(--active) * 97%) calc((var(--active) * 44%) + 12%));
+  font-size: 1rem;
+  border: 0;
+  cursor: pointer;
+  padding: 5px 20px;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  border-radius: 8px;
   position: relative;
-  border-radius: calc(var(--glow-radius) * 10vw);
-  animation: hue-animation var(--animation-speed) linear infinite;
-  transform: scaleY(calc(var(--glow-scale) * var(--scale-factor) / 1.1))
-    scaleX(calc(var(--glow-scale) * var(--scale-factor) * 1.2))
-    translateY(calc(var(--glow-translate-y) * 1%));
-  opacity: var(--glow-opacity);
+  box-shadow: 0 0 calc(var(--active) * 6em) calc(var(--active) * 3em) hsl(260 97% 61% / 0.75),
+    0 0.05em 0 0 hsl(260 calc(var(--active) * 97%) calc((var(--active) * 50%) + 30%)) inset,
+    0 -0.05em 0 0 hsl(260 calc(var(--active) * 97%) calc(var(--active) * 60%)) inset;
+  transition: box-shadow 0.25s, scale 0.25s, background 0.25s;
+  scale: calc(1 + (var(--active) * 0.1));
+}
+svg {
+  overflow: visible !important;
 }
 
-@keyframes shadow-pulse {
-  0%,
-  24%,
-  46%,
-  73%,
-  96% {
-    --white-shadow: 0.5;
-  }
-  12%,
-  28%,
-  41%,
-  63%,
-  75%,
-  82%,
-  98% {
-    --white-shadow: 2.5;
-  }
-  6%,
-  32%,
-  57% {
-    --white-shadow: 1.3;
-  }
-  18%,
-  52%,
-  88% {
-    --white-shadow: 3.5;
+.sparkle path {
+  color: hsl(0 0% calc((var(--active, 0) * 70%) + var(--base)));
+  transform-box: fill-box;
+  transform-origin: center;
+  fill: currentColor;
+  stroke: currentColor;
+  animation-delay: calc((0.25s * 1.5) + (var(--delay) * 1s));
+  animation-duration: 0.6s;
+  transition: color 0.25s;
+}
+
+button:is(:hover, :focus-visible) path {
+  animation-name: bounce;
+}
+
+@keyframes bounce {
+  35%,
+  65% {
+    scale: var(--scale);
   }
 }
-@keyframes rotate-bg {
-  0% {
-    --bg-x: 0;
-    --bg-y: 0;
-  }
-  25% {
-    --bg-x: 100;
-    --bg-y: 0;
-  }
-  50% {
-    --bg-x: 100;
-    --bg-y: 100;
-  }
-  75% {
-    --bg-x: 0;
-    --bg-y: 100;
-  }
-  100% {
-    --bg-x: 0;
-    --bg-y: 0;
-  }
+.sparkle path:nth-of-type(1) {
+  --scale: 0.5;
+  --delay: 0.1;
+  --base: 40%;
 }
-@keyframes rotate {
-  from {
-    --rotate: -70;
-    --glow-translate-y: -65;
-  }
-  25% {
-    --glow-translate-y: -65;
-  }
-  50% {
-    --glow-translate-y: -65;
-  }
-  60%,
-  75% {
-    --glow-translate-y: -65;
-  }
-  85% {
-    --glow-translate-y: -65;
-  }
+
+.sparkle path:nth-of-type(2) {
+  --scale: 1.5;
+  --delay: 0.2;
+  --base: 20%;
+}
+
+.sparkle path:nth-of-type(3) {
+  --scale: 2.5;
+  --delay: 0.35;
+  --base: 30%;
+}
+
+button:before {
+  content: '';
+  position: absolute;
+  inset: -0.25em;
+  z-index: -1;
+  border: 0.25em solid hsl(260 97% 50% / 0.5);
+  border-radius: 8px;
+  opacity: var(--active, 0);
+  transition: opacity 0.25s;
+}
+
+.spark {
+  position: absolute;
+  inset: 0;
+  border-radius: 8px;
+  rotate: 0deg;
+  overflow: hidden;
+  mask: linear-gradient(white, transparent 50%);
+  animation: flip calc(var(--spark) * 2) infinite steps(2, end);
+}
+
+@keyframes flip {
   to {
-    --rotate: calc(360 - 70);
-    --glow-translate-y: -65;
+    rotate: 360deg;
   }
 }
-@keyframes hue-animation {
-  0% {
-    --hue: 0;
-  }
+
+.spark:before {
+  content: '';
+  position: absolute;
+  width: 200%;
+  aspect-ratio: 1;
+  top: 0;
+  left: 50%;
+  z-index: -1;
+  translate: -50% -15%;
+  transform: rotate(-90deg);
+  opacity: calc((var(--active)) + 0.4);
+  background: conic-gradient(from 0deg, transparent 0 340deg, white 360deg);
+  transition: opacity 0.25s;
+  animation: rotate1 1.8s linear infinite both;
+}
+
+.spark:after {
+  content: '';
+  position: absolute;
+  inset: 0.1em;
+  border-radius: 8px;
+}
+
+.backdrop {
+  position: absolute;
+  inset: 0.1em;
+  background: radial-gradient(
+      40% 50% at center 100%,
+      hsl(270 calc(var(--active) * 97%) 72% / var(--active)),
+      transparent
+    ),
+    radial-gradient(
+      80% 100% at center 120%,
+      hsl(260 calc(var(--active) * 97%) 70% / var(--active)),
+      transparent
+    ),
+    hsl(260 calc(var(--active) * 97%) calc((var(--active) * 44%) + 12%));
+  border-radius: 8px;
+  transition: background 0.25s;
+}
+
+@keyframes rotate1 {
   100% {
-    --hue: 360;
+    transform: rotate(90deg);
   }
+}
+
+@supports (selector(:has(:is(+ *)))) {
+  body:has(button:is(:hover, :focus-visible)) {
+    --active: 1;
+    --play-state: running;
+  }
+  .bodydrop {
+    display: none;
+  }
+}
+
+button:is(:hover, :focus-visible) ~ :is(.bodydrop, .particle-pen) {
+  --active: 1;
+  --play-state: runnin;
+}
+
+.bodydrop {
+  background: hsl(260 calc(var(--active) * 97%) 6%);
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+}
+
+button:is(:hover, :focus-visible) {
+  --active: 1;
+  --play-state: running;
+}
+
+.sparkle-button {
+  position: relative;
+}
+
+.particle-pen {
+  position: absolute;
+  width: 200%;
+  aspect-ratio: 1;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  -webkit-mask: radial-gradient(white, transparent 65%);
+  z-index: -1;
+  opacity: var(--active, 0);
+  transition: opacity 0.25s;
+}
+
+.particle {
+  fill: white;
+  width: calc(var(--size, 0.25) * 1rem);
+  aspect-ratio: 1;
+  position: absolute;
+  top: calc(var(--y) * 1%);
+  left: calc(var(--x) * 1%);
+  opacity: var(--alpha, 1);
+  animation: float-out calc(var(--duration, 1) * 1s) calc(var(--delay) * -1s) infinite linear;
+  transform-origin: var(--origin-x, 1000%) var(--origin-y, 1000%);
+  z-index: -1;
+  animation-play-state: var(--play-state, paused);
+}
+
+.particle path {
+  fill: hsl(0 0% 90%);
+  stroke: none;
+}
+
+.particle:nth-of-type(even) {
+  animation-direction: reverse;
+}
+
+@keyframes float-out {
+  to {
+    rotate: 360deg;
+  }
+}
+
+.text {
+  translate: 2% -6%;
+  letter-spacing: 0.01ch;
+  background: linear-gradient(
+    90deg,
+    hsl(0 0% calc((var(--active) * 100%) + 65%)),
+    hsl(0 0% calc((var(--active) * 100%) + 26%))
+  );
+  -webkit-background-clip: text;
+  color: transparent;
+  transition: background 0.25s;
+}
+
+button svg {
+  inline-size: 1.25em;
+  translate: -25% -5%;
 }
 </style>

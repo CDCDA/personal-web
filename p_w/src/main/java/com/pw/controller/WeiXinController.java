@@ -28,7 +28,7 @@ import static com.pw.common.utils.WeixinUtils.*;
 
 @Component
 @RestController
-@Api(tags = "用户")
+@Api(tags = "微信公众号")
 @RequestMapping("/pw/weixin")
 public class WeiXinController extends BaseController implements convertController {
 

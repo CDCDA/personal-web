@@ -1,10 +1,8 @@
 package com.pw.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.pw.domain.Album;
 import com.pw.domain.UpdateLog;
-import com.pw.dto.AlbumDTO;
-import com.pw.vo.AlbumVO;
+import com.pw.vo.UpdateLogCountVO;
 
 import java.util.List;
 
@@ -16,5 +14,5 @@ import java.util.List;
  **/
 
 public interface UpdateLogService extends IService<UpdateLog> {
-
+    List<UpdateLogCountVO> countUpdateLogByDateRange(String startTime, String endTime);
 }

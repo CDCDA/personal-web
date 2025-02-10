@@ -18,6 +18,14 @@ export const listUpdateLog = (params: any) =>
     params
   });
 
+// 列表
+export const countUpdateLogByDateRange = (params: any) =>
+  request({
+    url: '/pw/updateLog/countUpdateLogByDateRange',
+    method: 'get',
+    params
+  });
+
 // 删除更新日志
 export const delUpdateLog = (data: any) =>
   request({

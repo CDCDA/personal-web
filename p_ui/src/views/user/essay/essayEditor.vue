@@ -21,7 +21,7 @@
         ></el-input>
       </el-form-item>
       <el-form-item label="随笔图片">
-        <upload v-model="essayData.imageRelations"></upload>
+        <upload v-model="essayData.imageRelations" path="essay"></upload>
         <c-dialog v-model="dialogVisible">
           <img w-full :src="dialogImageUrl" alt="Preview Image" />
         </c-dialog>

@@ -11,6 +11,14 @@ export const listGame = (params: any) =>
     params
   });
 
+// 按分类查询游戏数量
+export const countGameByType = (params: any) =>
+  request({
+    url: '/pw/game/countGameByType',
+    method: 'get',
+    params
+  });
+
 // 保存游戏
 export const saveGame = (params: any) =>
   request({

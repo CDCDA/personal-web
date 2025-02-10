@@ -7,7 +7,7 @@
     v-model="dialogVisible"
     :title="title"
     width="28rem"
-    :modal="false"
+    :modal="true"
     @keyup.enter.native="submit()"
     @close="emit('close')"
   >

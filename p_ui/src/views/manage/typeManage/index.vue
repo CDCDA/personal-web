@@ -60,7 +60,7 @@
     />
   </div>
   <!-- 新增或编辑 -->
-  <c-dialog :title="title" v-model="open" width="450" :modal="false">
+  <c-dialog :title="title" v-model="open" width="450" :modal="true">
     <el-form ref="submitForm" :model="form" label-width="55" :rules="rules">
       <el-form-item label="名称" prop="typeName">
         <el-input v-model="form.typeName" clearable></el-input>
@@ -69,7 +69,7 @@
         <el-input v-model="form.intro" clearable></el-input>
       </el-form-item>
       <el-form-item label="封面" prop="coverUrl">
-        <upload v-model="form.coverUrl"></upload>
+        <upload v-model="form.coverUrl" path="blogType"></upload>
       </el-form-item>
     </el-form>
     <template #footer>

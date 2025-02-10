@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.pw.domain.Blog;
 import com.pw.dto.BlogPageDTO;
 import com.pw.vo.BlogCountVO;
+import com.pw.vo.BlogTagCountVO;
 import com.pw.vo.BlogTypeCountVO;
 import com.pw.vo.BlogVO;
 import org.springframework.stereotype.Repository;
@@ -21,6 +22,8 @@ public interface BlogMapper extends BaseMapper<Blog> {
     List<BlogCountVO> countBlogByDateRange(String userId, String startTime, String endTime);
 
     List<BlogTypeCountVO> countBlogByType(String userId, String startTime, String endTime);
+
+    List<BlogTagCountVO> countBlogByTag(String userId, String startTime, String endTime);
 
     String getRandomBlog();
 

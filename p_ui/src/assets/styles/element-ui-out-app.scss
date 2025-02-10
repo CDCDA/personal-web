@@ -51,6 +51,8 @@
   transition: all 0.3s ease-in-out;
   font-family: 'Shark';
   outline: none !important;
+  height: 100%;
+  border-radius: 4px;
 }
 .el-button:hover {
   background: get('border-color') !important;

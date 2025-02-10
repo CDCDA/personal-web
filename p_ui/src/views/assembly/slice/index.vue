@@ -43,25 +43,6 @@ function close() {
   routerDialog.value.close();
 }
 
-function getAnimate(i: any) {
-  if (i % 5 === 0) {
-    return 'animated-0s5';
-  }
-  if (i % 5 === 1) {
-    return 'animated';
-  }
-  if (i % 5 === 2) {
-    return 'animated-1s5';
-  }
-  if (i % 5 === 3) {
-    return 'animated-2s';
-  }
-  if (i % 5 === 4) {
-    return 'animated-2s5';
-  }
-  return 'animated';
-}
-
 onMounted(() => {
   sliceList.value = (router.options.routes as any).find((x: any) => x.name == 'slice').children;
 });

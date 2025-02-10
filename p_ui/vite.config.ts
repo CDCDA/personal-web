@@ -1,24 +1,12 @@
-/*
- * @Description:打包配置
- * @Author: cyd 1205489124@qq.com
- * @Date: 2023-06-26 16:41:56
- * @LastEditTime: 2024-10-26 15:28:33
- */
 import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
-import commonjs from '@rollup/plugin-commonjs';
 import path from 'path';
 import viteCompression from 'vite-plugin-compression';
-import legacy from '@vitejs/plugin-legacy';
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons';
-// https://vitejs.dev/config/
+
 export default defineConfig({
   base: './',
   plugins: [
-    // commonjs() as any,
-    // legacy({
-    //   targets: ['defaults', 'not IE 11']
-    // }),
     vue(),
     createSvgIconsPlugin({
       iconDirs: [
@@ -28,7 +16,7 @@ export default defineConfig({
         path.resolve(process.cwd(), 'src/assets/svg/linkSvg'),
         path.resolve(process.cwd(), 'src/assets/svg/techStackSvg'),
         path.resolve(process.cwd(), 'src/assets/svg/audioSvg'),
-        path.resolve(process.cwd(), 'src/assets/svg/socialSvg'),
+        path.resolve(process.cwd(), 'src/assets/svg/socialSvg')
       ],
       symbolId: '[dir]-[name]'
     }),
@@ -50,8 +38,7 @@ export default defineConfig({
   resolve: {
     alias: {
       // 这里就是需要配置resolve里的别名
-      '@': path.join(__dirname, './src') // path记得引入
-      // 'vue': 'vue/dist/vue.esm-bundler.js' // 定义vue的别名，如果使用其他的插件，可能会用到别名
+      '@': path.join(__dirname, './src') // path记得引
     }
   },
   optimizeDeps: {
@@ -94,7 +81,7 @@ export default defineConfig({
     proxy: {
       '/dev-api': {
         // target: 'http://localhost:5008',
-        target: 'http://1.92.159.74:80',
+        target: 'http://1.92.159.74:5008',
         changeOrigin: true,
         rewrite: p => p.replace(/^\/dev-api/, '')
       },

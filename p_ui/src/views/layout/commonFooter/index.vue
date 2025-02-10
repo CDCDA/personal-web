@@ -4,21 +4,21 @@
 <template>
   <div class="common-footer">
     <div class="footer-top">~到底了~</div>
-    <div class="footer-main">
-      <div class="footer-col" v-for="item in menuData">
-        <span>{{ item.label }}</span>
-        <div class="footer-row" v-for="child in item.children" @click="routerTo(child)">
-          {{ child.label }}
-        </div>
-      </div>
-    </div>
+    <!--    <div class="footer-main">-->
+    <!--      <div class="footer-col" v-for="item in menuData">-->
+    <!--        <span>{{ item.label }}</span>-->
+    <!--        <div class="footer-row" v-for="child in item.children" @click="routerTo(child)">-->
+    <!--          {{ child.label }}-->
+    <!--        </div>-->
+    <!--      </div>-->
+    <!--    </div>-->
     <div class="footer-bottom">
       <div>©2023 - 2023 By 记录</div>
       <div>
         距离下一次英仙座流星雨还有{{ meteorDifference }}
         <svg-icon iconName="commonSvg-流星" />
       </div>
-      <div>本站已运行{{ timeDifference }} <svg-icon iconName="commonSvg-pixelSvg房子" /></div>
+      <div>本站已运行{{ timeDifference }} <svg-icon iconName="commonSvg-火箭" /></div>
     </div>
   </div>
 </template>
@@ -67,7 +67,7 @@ onMounted(() => {
 @include theme() {
   .common-footer {
     height: auto;
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgb(255 255 255 / 70%) 25%);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgb(255 255 255 / 60%) 25%);
     // background: get('back-tr');
     // backdrop-filter: blur(5px);
     display: flex;
@@ -82,7 +82,7 @@ onMounted(() => {
     }
     .footer-top {
       height: auto;
-      margin: 22px 0;
+      margin: 50px 0 20px 0;
     }
     .footer-bottom {
       @keyframes upDown {
@@ -102,13 +102,12 @@ onMounted(() => {
           transform: translateY(0);
         }
       }
-      margin: 30px 0 30px 0;
+      margin: 0 0 30px 0;
       & > div {
         margin: 8px 0;
         @include flex;
         .svg-icon {
-          height: 25px;
-          width: 25px;
+          font-size: 1.25rem;
           margin-left: 8px;
           animation: upDown 2s infinite linear;
         }
@@ -121,7 +120,6 @@ onMounted(() => {
       height: auto;
       display: flex;
       align-items: flex-start;
-      flex-direction: center;
       justify-content: center;
       // padding:0 20%;
       .footer-col {

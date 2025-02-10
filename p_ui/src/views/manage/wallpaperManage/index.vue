@@ -66,7 +66,7 @@
     />
   </div>
   <!-- 新增或编辑 -->
-  <c-dialog v-model="open" width="500" :title="title" :modal="false">
+  <c-dialog v-model="open" width="500" :title="title" :modal="true">
     <el-form :model="form" label-width="80">
       <el-form-item label="壁纸名称">
         <el-input v-model="form.name" clearable></el-input>
@@ -82,7 +82,7 @@
         <el-input v-model="form.url" clearable></el-input>
       </el-form-item>
       <el-form-item label="封面" v-if="form.type == 'video'">
-        <upload v-model="form.coverUrl"></upload>
+        <upload v-model="form.coverUrl" path="wallpaper"></upload>
       </el-form-item>
     </el-form>
     <template #footer>
@@ -232,12 +232,8 @@ async function handleDel() {
     }
   });
 }
-
-function hideSearch() {
-  isSearchShow.value = !isSearchShow.value;
-  useTableResize();
-}
 onMounted(() => {
+  getList();
   useTableResize();
 });
 </script>

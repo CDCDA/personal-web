@@ -159,7 +159,6 @@
         </where>
         GROUP BY
         DATE_FORMAT( create_time, "%Y年%m月" )
-
     </select>
 
     <!--按分类统计-->
@@ -176,7 +175,25 @@
             b.create_time between startTime and endTime
         </if>
         GROUP BY b.type_id
+    </select>
 
+    <!--按标签统计-->
+    <select id="countBlogByTag" resultType="com.pw.vo.BlogTagCountVO">
+        SELECT
+        bt.tag_name,
+        count(*) as total
+        FROM `blog` b
+        JOIN `blog_tag_relation` btr ON btr.blog_id = b.blog_id
+        JOIN `blog_tag` bt ON btr.tag_id = bt.tag_id
+        <if test="userId != null and userId!=''">
+            and b.user_id = #{userId}
+        </if>
+        <if test="startTime != null and startTime!='' and endTime != null and endTime!=''">
+            and
+            b.create_time between startTime and endTime
+        </if>
+        GROUP BY
+        bt.tag_id
     </select>
 
     <select id="getRandomBlog" resultType="String">

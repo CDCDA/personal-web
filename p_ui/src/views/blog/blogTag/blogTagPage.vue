@@ -155,7 +155,7 @@ onMounted(() => {
     transition: all 0.5s ease-in-out;
     .pagi {
       margin: 6px 7px 15px 7px;
-      width: calc(100% - 66px);
+      width: calc(100% - 66px) !important;
     }
     .page-right {
       width: 300px;
@@ -216,7 +216,7 @@ onMounted(() => {
         position: absolute !important;
         margin-top: 7px;
         width: calc(100% - 12px);
-        height: calc(100% - 5px);
+        height: calc(100% - 22px);
         top: 0;
         left: 6px;
         border-radius: 10px;

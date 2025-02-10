@@ -4,22 +4,20 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.pw.common.controller.BaseController;
 import com.pw.common.controller.convertController;
 import com.pw.common.token.UserLoginToken;
-import com.pw.common.utils.ArraysToTreeUtil;
 import com.pw.common.utils.Result;
 import com.pw.common.utils.SnowFlake;
-import com.pw.common.utils.emptyJugeUtil;
-import com.pw.domain.BlogTagRealation;
-import com.pw.domain.BlogType;
+import com.pw.common.utils.TokenUtil;
 import com.pw.domain.Essay;
 import com.pw.domain.ImageRelation;
-import com.pw.dto.AlbumDTO;
 import com.pw.dto.EssayDTO;
-import com.pw.service.*;
+import com.pw.service.EssayService;
+import com.pw.service.ImageRelationService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,14 +39,23 @@ public class EssayController extends BaseController implements convertController
 
     @GetMapping("/list")
     @ApiOperation(value = "查询随笔列表", notes = "", httpMethod = "GET")
-    public Result list(EssayDTO essayDTO) {
-        return resultList(essayService.listEssay(essayDTO), essayService.count(essayDTO));
+    public Result list(EssayDTO essay) {
+        essay.setUserId(TokenUtil.getTokenUserId());
+        return resultList(essayService.listEssay(essay), essayService.count(essay));
     }
 
     @GetMapping("/count")
     @ApiOperation(value = "查询随笔数", notes = "", httpMethod = "GET")
     public Result count(EssayDTO essayDTO) {
         return resultData(essayService.count(essayDTO));
+    }
+
+
+    @GetMapping("/countEssayByDateRange")
+    @ApiOperation(value = "按时间范围查询随笔列表计数", notes = "", httpMethod = "GET")
+    public Result countEsssayByDateRange(String startTime, String endTime) throws ParseException {
+        String userId = String.valueOf(TokenUtil.getTokenUserId());
+        return resultData(essayService.countEssayByDateRange(userId, startTime, endTime));
     }
 
     @GetMapping("/getEssayById")

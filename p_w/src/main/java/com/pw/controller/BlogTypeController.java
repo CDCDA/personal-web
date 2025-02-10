@@ -1,5 +1,6 @@
 package com.pw.controller;
 
+import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.pw.common.controller.BaseController;
@@ -65,6 +66,9 @@ public class BlogTypeController extends BaseController implements convertControl
     @GetMapping("/count")
     @ApiOperation(value = "查询分类数", notes = "", httpMethod = "GET")
     public Result count(String userId) {
+        if (ObjectUtil.isEmpty(userId)) {
+            userId = BaseContext.getLoginUserId();
+        }
         QueryWrapper<BlogType> wrapper = new QueryWrapper<>();
         if (StringUtils.isEmpty((userId))) {
             userId = String.valueOf(TokenUtil.getTokenUserId());
@@ -104,7 +108,7 @@ public class BlogTypeController extends BaseController implements convertControl
 
         if (!emptyJugeUtil.isEmpty(blogType.getTypeId())) {
             blogType.setUpdateTime(new Date());
-            blogType.setUpdateBy(BaseContext.getLoginUser());
+            blogType.setUpdateBy(BaseContext.getLoginUserId());
             return resultExit(blogTypeService.updateById(blogType));
         }
 

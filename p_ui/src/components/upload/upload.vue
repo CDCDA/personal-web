@@ -29,6 +29,7 @@
         class="c-uploader"
         :action="uploadAction"
         :show-file-list="false"
+        :data="{ path: props.path }"
         :on-success="handleAvatarSuccess"
         :before-upload="beforeAvatarUpload"
         crossorigin="anonymous"
@@ -40,6 +41,7 @@
         v-else
         v-model:file-list="imageValue"
         :action="uploadAction"
+        :data="{ path: props.path }"
         list-type="picture-card"
         :on-preview="handlePictureCardPreview"
         :on-success="handleSuccess"
@@ -69,7 +71,8 @@ const dialogVisible = ref(false);
 const emit = defineEmits(['update:modelValue']);
 const props = defineProps({
   modelValue: null as any,
-  isUrl: false as any
+  isUrl: false as any,
+  path: '' as any
 });
 
 const handleAvatarSuccess: UploadProps['onSuccess'] = (response: any) => {
@@ -147,6 +150,16 @@ watch(
     deep: true
   }
 );
+
+watch(
+  () => imageValue,
+  val => {
+    emit('update:modelValue', val);
+  },
+  {
+    deep: true
+  }
+);
 </script>
 <style lang="scss" scoped>
 @include theme() {
@@ -163,9 +176,6 @@ watch(
     :deep(.theme-icon) {
       fill: get('border-color') !important;
     }
-  }
-  .el-input {
-    z-index: 11;
   }
   .upload-switch:hover {
     opacity: 1;

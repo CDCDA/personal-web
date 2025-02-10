@@ -258,5 +258,10 @@ function closeThemeDialog() {
   .setting-item-img {
     background: get('background');
   }
+  .side-setting {
+    .setting-item {
+      color: get('font-color');
+    }
+  }
 }
 </style>

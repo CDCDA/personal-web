@@ -8,6 +8,7 @@ import com.pw.common.controller.convertController;
 import com.pw.common.token.UserLoginToken;
 import com.pw.common.utils.Result;
 import com.pw.common.utils.SnowFlake;
+import com.pw.common.utils.TokenUtil;
 import com.pw.domain.Game;
 import com.pw.service.GameService;
 import io.swagger.annotations.Api;
@@ -39,6 +40,13 @@ public class GameController extends BaseController implements convertController 
         return resultIPage(result);
     }
 
+    @GetMapping("/countGameByType")
+    @ApiOperation(value = "按分类查询游戏列表计数", notes = "", httpMethod = "GET")
+    public Result countGameByType() {
+        return resultData(gameService.countGameByType(String.valueOf(TokenUtil.getTokenUserId())));
+    }
+
+
     @GetMapping("/count")
     @ApiOperation(value = "查询游戏数", notes = "", httpMethod = "GET")
     public Result count(Game game) {
@@ -58,6 +66,7 @@ public class GameController extends BaseController implements convertController 
         if (!isEmpty(game.getId())) {
             return resultExit(gameService.updateById(game));
         }
+        game.setUserId(TokenUtil.getTokenUserId());
         game.setId(new SnowFlake(1,0).nextId());
         gameService.save(game);
         return Result.ok();

@@ -52,7 +52,7 @@
         </template>
       </el-table-column>
       <el-table-column label="内容" align="center" prop="content" show-overflow-tooltip />
-      <el-table-column label="创建时间" width="220" align="center" prop="createTime" />
+      <el-table-column label="创建时间" width="250" align="center" prop="createTime" />
     </el-table>
     <Pagination
       v-model:page="queryParams.pageNum"

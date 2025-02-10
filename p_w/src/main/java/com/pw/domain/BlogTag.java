@@ -23,7 +23,7 @@ public class BlogTag extends BaseEntity {
 
     @TableId
     @ApiModelProperty(value = "标签id")
-    private Long tagId;
+    private String tagId;
 
     @ApiModelProperty(value = "标签名")
     private String tagName;

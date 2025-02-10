@@ -50,5 +50,5 @@ public class Game extends BaseEntity implements Serializable {
 
     @JsonSerialize(using = ToStringSerializer.class)
     @ApiModelProperty(value = "用户id")
-    private Long user_id;
+    private Long userId;
 }

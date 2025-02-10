@@ -26,6 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.InetAddress;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -155,6 +156,12 @@ public class BlogController extends BaseController implements convertController 
         return resultData(blogService.countBlogByType(userId, startTime, endTime));
     }
 
+    @GetMapping("/countBlogByTag")
+    @ApiOperation(value = "按标签查询博客列表计数", notes = "", httpMethod = "GET")
+    public Result countBlogByTag(String userId, String startTime, String endTime) {
+        return resultData(blogService.countBlogByTag(userId, startTime, endTime));
+    }
+
     @GetMapping("/getPreAndNextBlog")
     @ApiOperation(value = "获取博客的前一个博客和后一个博客", notes = "", httpMethod = "GET")
     public Result getPreAndNextBlog(String blogId) {
@@ -168,15 +175,20 @@ public class BlogController extends BaseController implements convertController 
 
     @PostMapping("/uploadImg")
     @ApiOperation(value = "上传文件并保存", notes = "测试上传")
-    public Result uploadImg(@RequestParam MultipartFile file) throws IOException {
+    public Result uploadImg(@RequestParam MultipartFile file, @RequestParam String path) throws IOException {
         //获取文件名(包含后缀)
         String fileName = file.getOriginalFilename();
         //获取文件后缀
         String suffix = fileName.substring(fileName.lastIndexOf("."));
         //生成文件名
         fileName = UUID.randomUUID() + suffix;
+        if (ObjectUtil.isEmpty(path)) {
+            path = "";
+        } else {
+            path = "/" + path;
+        }
         //保存图片的路径
-        String dirPath = "/www/wwwroot/files";
+        String dirPath = "/www/wwwroot/files" + path;
         File dirFile = new File(dirPath);
         //判断文件如果不存在则创建
         if (!dirFile.exists()) {
@@ -187,7 +199,9 @@ public class BlogController extends BaseController implements convertController 
         String filePath = dirPath + "/" + fileName;
         //保存文件
         file.transferTo(new File(filePath));
+        InetAddress address = InetAddress.getLocalHost();
+        String host = address.getHostAddress();
         //把图片路径返回给前端
-        return resultData("http://111.229.144.36:8008/" + fileName);
+        return resultData("http://" + "1.92.159.74" + ":8008/" + path + "/" + fileName);
     }
 }

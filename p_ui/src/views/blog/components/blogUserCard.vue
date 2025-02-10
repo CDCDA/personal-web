@@ -28,7 +28,7 @@
     </div>
   </div>
 
-  <c-dialog class="weixin-qrcode" v-model="dialogVisible" width="300" :modal="false">
+  <c-dialog class="weixin-qrcode" v-model="dialogVisible" width="300" :modal="true">
     <c-image :src="weixinQrcodeUrl"></c-image>
   </c-dialog>
 </template>
@@ -83,7 +83,7 @@ onMounted(() => {
     overflow: hidden;
     padding: 0 !important;
     width: calc(100%) !important;
-    background: url('http://1.92.159.74:8008/Ruins.jpg') center 28% / cover no-repeat !important;
+    background: url('http://1.92.159.74:8008/avatar/Ruins.jpg') center 28% / cover no-repeat !important;
     color: get('re-font-color') !important;
     .user-header {
       height: 24px;

@@ -5,10 +5,10 @@
   <c-dialog
     v-model="props.visible"
     :title="title"
-    width="800"
+    width="60%"
     dialogClass="dialog-normal"
     class="essay-comment-dialog"
-    :modal="false"
+    :modal="true"
     @close="close"
     style="height: 80%; margin-top: 5%"
   >

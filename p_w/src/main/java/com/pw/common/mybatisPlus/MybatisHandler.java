@@ -33,7 +33,7 @@ public class MybatisHandler implements MetaObjectHandler {
         //属性名
         this.setFieldValByName("updateTime", new Date(), metaObject);
         System.out.println("公共字段自动填充[update]...");
-        if (!isEmpty(BaseContext.getLoginUser())) {
+        if (!isEmpty(BaseContext.getLoginUserId())) {
             this.setFieldValByName("updateBy", String.valueOf(TokenUtil.getTokenUserId()), metaObject);
         }
     }

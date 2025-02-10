@@ -82,5 +82,26 @@
     </select>
 
 
+    <!--按月份查询-->
+    <select id="countEssayByDateRange" resultType="com.pw.vo.EssayCountVO">
+        SELECT
+        create_time,
+        count(*) as total
+        FROM
+        essay
+        <where>
+            <if test="userId != null and userId!=''">
+                and user_id = "${userId}"
+            </if>
+            <if test="startTime != null and endTime != null">
+                and
+                create_time between "${startTime}" and "${endTime}"
+            </if>
+        </where>
+        GROUP BY
+        DATE_FORMAT( create_time, "%Y年%m月" )
+    </select>
+
+
 </mapper>
 

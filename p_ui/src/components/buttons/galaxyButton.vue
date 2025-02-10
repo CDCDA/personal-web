@@ -8,7 +8,6 @@
 import { onMounted } from 'vue';
 </script>
 <style scoped>
-@charset "UTF-8";
 @property --hue {
   syntax: '<number>';
   inherits: true;

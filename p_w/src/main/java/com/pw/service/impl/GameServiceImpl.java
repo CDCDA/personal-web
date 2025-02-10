@@ -2,12 +2,13 @@ package com.pw.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.pw.domain.Game;
-import com.pw.domain.Wallpaper;
 import com.pw.mapper.GameMapper;
-import com.pw.mapper.WallpaperMapper;
 import com.pw.service.GameService;
-import com.pw.service.WallpaperService;
+import com.pw.vo.GameTypeCountVO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /***
  * @author cyd
@@ -16,4 +17,11 @@ import org.springframework.stereotype.Service;
  **/
 @Service
 public class GameServiceImpl extends ServiceImpl<GameMapper, Game> implements GameService {
+
+    @Autowired
+    private GameMapper gameMapper;
+    @Override
+    public List<GameTypeCountVO> countGameByType(String userId) {
+        return gameMapper.countGameByType(userId);
+    }
 }

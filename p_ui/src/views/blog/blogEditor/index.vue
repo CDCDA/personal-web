@@ -5,7 +5,12 @@
       <el-input class="blog-title-editor" placeholder="请输入标题" v-model="blogData.blogTitle" />
       <el-button @click="openRelease" class="bt-release">发布</el-button>
     </div>
-    <MdEditor ref="editorRef" v-model="blogData.content" @onUploadImg="onUploadImg" />
+    <MdEditor
+      ref="editorRef"
+      v-model="blogData.content"
+      @onSave="blogSave"
+      @onUploadImg="onUploadImg"
+    />
   </div>
   <BlogRelease :blog-data="blogData" ref="blogRelease" @resetBlogData="resetBlogData" />
 </template>
@@ -41,13 +46,18 @@ const userStore = useUserStore();
 const loading = ref('rotate' as any);
 const fullStatus = ref(false) as any;
 const editorRef = ref(null) as any;
-
+const editorOptions = ref({
+  codeTheme: 'stackoverflow',
+  theme: 'dark',
+  previewTheme: 'default'
+});
 async function onUploadImg(files: any, callback: any) {
   const res = await Promise.all(
     files.map((file: any) => {
       return new Promise((rev, rej) => {
         const form = new FormData();
         form.append('file', file);
+        form.append('path', 'blogMaterial');
         axios
           .post(
             ` ${
@@ -65,7 +75,8 @@ async function onUploadImg(files: any, callback: any) {
       });
     })
   );
-  callback(res.map(item => item.data));
+  console.log(res);
+  callback(res.map(item => item.data.data));
 }
 
 const blogData = ref({
@@ -167,7 +178,7 @@ onMounted(() => {
     }
 
     .md-editor--fullscreen {
-      // background: get('background');
+      background: get('background');
       box-shadow: get('box-shadow');
       backdrop-filter: blur(20px);
       border-radius: 0 !important;

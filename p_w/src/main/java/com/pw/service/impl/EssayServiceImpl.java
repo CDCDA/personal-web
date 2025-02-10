@@ -5,9 +5,11 @@ import com.pw.domain.Essay;
 import com.pw.dto.EssayDTO;
 import com.pw.mapper.EssayMapper;
 import com.pw.service.EssayService;
+import com.pw.vo.EssayCountVO;
 import com.pw.vo.EssayVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -16,6 +18,7 @@ public class EssayServiceImpl extends ServiceImpl<EssayMapper, Essay> implements
 
     @Autowired
     EssayMapper essayMapper;
+
     @Override
     public List<Essay> listEssay(EssayDTO essayDTO) {
         return essayMapper.listEssay(essayDTO);
@@ -29,5 +32,11 @@ public class EssayServiceImpl extends ServiceImpl<EssayMapper, Essay> implements
     @Override
     public Integer count(EssayDTO essayDTO) {
         return essayMapper.count(essayDTO);
-    };
+    }
+
+    @Override
+    @Transactional
+    public List<EssayCountVO> countEssayByDateRange(String userId, String startTime, String endTime) {
+        return essayMapper.countEssayByDateRange(userId,startTime, endTime);
+    }
 }

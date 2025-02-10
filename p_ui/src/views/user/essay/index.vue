@@ -109,7 +109,7 @@ function handle() {
  * @return {*}
  */
 async function getEssayList() {
-  const { code, data } = (await listEssay({ userId: userStore.userId })) as any;
+  const { code, data } = (await listEssay({ pageNum: 1, pageSize: 10 })) as any;
   if (code === 200 && data) {
     essayList.value = [];
     let length = data.list.length;

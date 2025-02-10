@@ -21,8 +21,15 @@
     "noUnusedLocals": false,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "types": ["vite-plugin-svg-icons/client"]
+    "types": ["vite-plugin-svg-icons/client","node"]
   },
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue", "src/utils/drag.js"],
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.d.ts",
+    "src/**/*.tsx",
+    "src/**/*.vue",
+    "src/utils/drag.js",
+    "node_modules/unplugin-auto-import/auto-imports.d.ts"
+  ],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

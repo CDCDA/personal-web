@@ -2,7 +2,7 @@
  * @Description:
  */
 import { createApp, Directive } from 'vue';
-import Loading from '@/components/loading/loading.vue';
+import Loading from '/src/components/loading/loading.vue';
 
 export const isEmptyObj = (obj: any) => {
   return JSON.stringify(obj) === '{}';

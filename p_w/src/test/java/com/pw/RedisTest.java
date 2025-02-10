@@ -1,9 +1,6 @@
 package com.pw;
 
 import org.junit.jupiter.api.Test;
-import redis.clients.jedis.Jedis;
-
-import java.util.Set;
 
 /***
  * @author cyd
@@ -14,17 +11,17 @@ public class RedisTest {
     @Test
     public void testRedis(){
         //1 获取连接
-        Jedis jedis = new Jedis("127.0.0.1", 6379);
-        jedis.auth("123456");
-        jedis.select(7);
-        System.out.println(jedis.ping());
-
-        //2 执行具体的操作
-        jedis.set("username","xiaoming");
-
-        //输出打印
-        String value = jedis.get("username");
-        System.out.println(value);
+//        Jedis jedis = new Jedis("1.92.159.74", 5009);
+////        jedis.auth("123456");
+//        jedis.select(0);
+//        System.out.println(jedis.ping());
+//
+//        //2 执行具体的操作
+//        jedis.set("username","xiaoming");
+//
+//        //输出打印
+//        String value = jedis.get("username");
+//        System.out.println(value);
 
         //删除操作
         //jedis.del("username");
@@ -42,6 +39,6 @@ public class RedisTest {
 //        }
 
         //3 关闭连接
-        jedis.close();
+//        jedis.close();
     }
 }

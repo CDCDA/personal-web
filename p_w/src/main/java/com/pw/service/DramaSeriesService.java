@@ -2,6 +2,9 @@ package com.pw.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.pw.domain.DramaSeries;
+import com.pw.vo.DramaTypeCountVO;
+
+import java.util.List;
 
 /***
  * @author cyd
@@ -9,4 +12,5 @@ import com.pw.domain.DramaSeries;
  * @description <壁纸接口>
  **/
 public interface DramaSeriesService extends IService<DramaSeries> {
+    List<DramaTypeCountVO> countDramaByType(String userId);
 }

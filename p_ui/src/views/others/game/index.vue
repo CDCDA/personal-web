@@ -201,14 +201,14 @@ onMounted(() => {
       cursor: pointer;
       padding: 5px 3px;
       // height: 300px;
-      aspect-ratio: 7/7;
+      aspect-ratio: 7/6.5;
       @include flex-column;
       justify-content: start;
       overflow: hidden;
       .el-image {
         width: calc(100% - 6px);
         border-radius: 8px;
-        aspect-ratio: 7/5;
+        aspect-ratio: 7/4.6;
         object-fit: cover;
         background-position: center;
       }

@@ -5,7 +5,7 @@
   <div class="footerMenu" :class="isShowMenu ? 'is-show' : ''">
     <div class="menu-back"></div>
     <div v-for="item in menuList" class="menu-item" @click="menuClick(item)">
-      <svg-icon class="menu-icon" :iconName="commonSvg - item.meta.svgIcon"></svg-icon>
+      <svg-icon class="menu-icon" :iconName="`commonSvg-${item.meta.svgIcon}`"></svg-icon>
       <span class="menu-title">{{ item.meta.remark.replace('管理', '') }}</span>
     </div>
   </div>

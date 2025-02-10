@@ -51,7 +51,7 @@
             <svg-icon
               id="expression-icon"
               :class="rotate ? 'rotate' : ''"
-              :iconName="commonSvg - expressionIcon"
+              :iconName="`commonSvg-${expressionIcon}`"
               slot="reference"
             />
           </template>

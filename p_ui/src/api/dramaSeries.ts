@@ -11,6 +11,14 @@ export const listDrama = (params: any) =>
     params
   });
 
+// 按分类查询影视数量
+export const countDramaByType = (params: any) =>
+  request({
+    url: '/pw/dramaSeries/countDramaByType',
+    method: 'get',
+    params
+  });
+
 // 保存影视
 export const saveDrama = (params: any) =>
   request({

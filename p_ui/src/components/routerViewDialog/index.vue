@@ -7,19 +7,30 @@
     v-model="dialogVisible"
     :fullscreen="isFull"
     width="88%"
-    top="60px"
+    top="80px"
     :title="props.title"
-    :modal="false"
+    :modal="props.modal"
+    v-if="dialogVisible"
+    @close="emit('close')"
   >
-    <KeepAlive> <router-view /></KeepAlive>
+    <slot></slot>
+    <router-view />
   </c-dialog>
 </template>
 <script setup lang="ts">
 import { ref, onMounted, watch } from 'vue';
 const dialogVisible = ref(false);
 const props = defineProps({
-  title: null
+  title: {
+    type: String,
+    default: null
+  },
+  modal: {
+    type: Boolean,
+    default: true
+  }
 });
+const emit = defineEmits(['close']);
 const isFull = ref(false);
 function close() {
   dialogVisible.value = false;
@@ -43,7 +54,7 @@ defineExpose({
 <style lang="scss">
 @include theme() {
   .router-view-dialog {
-    height: 85%;
+    height: 88%;
 
     .el-dialog__body {
       height: calc(100% - 2.5rem - 13px) !important;
@@ -51,7 +62,6 @@ defineExpose({
       & > :first-child {
         border-radius: 8px !important;
         height: 100% !important;
-        display: -webkit-box;
       }
     }
   }

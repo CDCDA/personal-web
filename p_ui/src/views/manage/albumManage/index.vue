@@ -67,7 +67,7 @@
     />
   </div>
   <!-- 新增或编辑 -->
-  <c-dialog v-model="open" :title="title" width="60%" style="height: 70%" :modal="false">
+  <c-dialog v-model="open" :title="title" width="60%" style="height: 70%" :modal="true">
     <el-form :model="form" label-width="40" style="height: calc(100% - 40px); overflow: auto">
       <el-form-item label="名称">
         <el-input v-model="form.name" clearable></el-input>
@@ -84,10 +84,10 @@
         />
       </el-form-item>
       <el-form-item label="封面">
-        <upload v-model="form.coverUrl"></upload>
+        <upload v-model="form.coverUrl" path="album"></upload>
       </el-form-item>
       <el-form-item label="图片">
-        <upload v-model="form.images"></upload>
+        <upload v-model="form.images" path="album"></upload>
       </el-form-item>
     </el-form>
     <template #footer>
