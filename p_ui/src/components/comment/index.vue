@@ -66,7 +66,7 @@ onMounted(() => {
 @include theme() {
   .comment {
     border-radius: 12px;
-    // background: get('background');
+    // background: get('back');
     // padding: 20px;
     padding-bottom: 20px;
     width: 100%;
@@ -90,7 +90,7 @@ onMounted(() => {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: get('background');
+    background: get('back');
     padding: 15px 22px 0 22px;
     .comment-count {
       font-size: 1rem;

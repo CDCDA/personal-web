@@ -236,7 +236,7 @@ onMounted(() => {
       justify-content: start;
       position: relative;
       .blog-item {
-        background: get('background-no-tp');
+        background: get('back');
         cursor: pointer;
         width: calc(50% - 1rem);
         position: relative;

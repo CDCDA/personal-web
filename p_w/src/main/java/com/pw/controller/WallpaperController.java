@@ -1,5 +1,6 @@
 package com.pw.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.pw.common.controller.BaseController;
 import com.pw.common.controller.convertController;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Random;
 
 import static com.pw.common.utils.ResultUtil.*;
 import static com.pw.common.utils.convertWrapper.convertWrap;
@@ -41,6 +43,18 @@ public class WallpaperController extends BaseController implements convertContro
         return resultData(wallpaperService.count());
     }
 
+    @GetMapping("/getRandomWallpaper")
+    @ApiOperation(value = "获取随机壁纸", notes = "", httpMethod = "GET")
+    public Result getRandomBlog() {
+        LambdaQueryWrapper<Wallpaper> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(Wallpaper::getType, "img"); // 添加条件
+        List<Wallpaper> wallpaperList = wallpaperService.list(wrapper); // 查询所有数据
+        Random random = new Random();
+        Wallpaper wallpaper = wallpaperList.get(random.nextInt(wallpaperList.size()));
+        return resultData(wallpaper);
+    }
+
+
     @GetMapping("/getWallpaperById")
     @ApiOperation(value = "根据壁纸id查询壁纸", notes = "", httpMethod = "GET")
     public Result selectWallpaperById(String wallpaperId) {
@@ -55,7 +69,7 @@ public class WallpaperController extends BaseController implements convertContro
         if (!isEmpty(wallpaper.getId())) {
             return resultExit(wallpaperService.updateById(wallpaper));
         }
-        wallpaper.setId(new SnowFlake(1,0).nextId());
+        wallpaper.setId(new SnowFlake(1, 0).nextId());
         wallpaperService.save(wallpaper);
         return Result.ok();
     }

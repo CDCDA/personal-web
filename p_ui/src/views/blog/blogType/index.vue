@@ -54,7 +54,7 @@ onMounted(() => {
 @include theme() {
   .blog-type.page-main {
     display: flex;
-    background: get('background');
+    background: get('back');
     box-shadow: get('box-shadow');
     border-radius: 8px;
     transform-style: preserve-3d;

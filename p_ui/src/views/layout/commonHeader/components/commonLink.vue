@@ -74,7 +74,7 @@ function clickLink(item: any) {
     .link-content {
       position: absolute;
       visibility: hidden;
-      background: get('background-no-tp');
+      background: get('back');
       opacity: 1;
       transition: all 0.6s ease-in-out;
       top: 50px;

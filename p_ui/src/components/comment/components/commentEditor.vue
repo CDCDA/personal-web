@@ -221,7 +221,7 @@ onMounted(() => {
 @include theme() {
   .comment-editor {
     height: 288px;
-    background: get('background');
+    background: get('back');
     border-radius: 8px;
     padding: 20px;
 

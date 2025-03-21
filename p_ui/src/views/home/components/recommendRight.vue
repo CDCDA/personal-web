@@ -68,7 +68,7 @@ onMounted(() => {
     height: 100%;
     width: calc(50% - 5px);
     margin-left: 10px;
-    color: get('font-color');
+    color: white;
     border-radius: 12px;
     overflow: hidden;
     cursor: pointer;
@@ -214,7 +214,7 @@ onMounted(() => {
 //     .right-item {
 //       height: calc(50% - 5px);
 //       width: calc(33.33% - 7px);
-//       background: get('background');
+//       background: get('back');
 //       box-shadow: get('box-shadow');
 //       position: relative;
 //       cursor: pointer;

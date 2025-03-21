@@ -128,7 +128,6 @@ onMounted(() => {
   isArr.value = Array.isArray(props.modelValue);
   if (isArr.value && props.modelValue.length == 0) {
     imageValue.value = [];
-    console.log(isUrl.value, isArr.value, imageValue.value);
   } else {
     imageValue.value = props.modelValue;
     console.log(imageValue.value);
@@ -140,7 +139,6 @@ watch(
     isArr.value = Array.isArray(val);
     if (isArr.value && val.length == 0) {
       imageValue.value = [];
-      console.log(isUrl.value, isArr.value, imageValue.value);
     } else {
       imageValue.value = val;
       console.log(imageValue.value);

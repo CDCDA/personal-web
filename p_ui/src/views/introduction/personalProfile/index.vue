@@ -68,7 +68,7 @@ import GoalTimeLine from './components/goalTimeLine.vue';
       height: 300px;
       @include flex-column;
       justify-content: space-evenly;
-      background: get('background');
+      background: get('back');
       box-shadow: get('box-shadow');
       margin: 20px;
       border-radius: 12px;
@@ -113,7 +113,7 @@ import GoalTimeLine from './components/goalTimeLine.vue';
       .ps-info-left {
         width: 50%;
         height: calc(100% - 40px);
-        background: get('background');
+        background: get('back');
         box-shadow: get('box-shadow');
         border-radius: 12px;
         margin-right: 20px;
@@ -142,7 +142,7 @@ import GoalTimeLine from './components/goalTimeLine.vue';
         .ps-info-map {
           height: calc(100% - 170px);
           width: 100%;
-          background: get('background');
+          background: get('back');
           box-shadow: get('box-shadow');
           border-radius: 12px;
           margin-bottom: 20px;
@@ -205,7 +205,7 @@ import GoalTimeLine from './components/goalTimeLine.vue';
           width: 100%;
           @include flex;
           justify-content: space-evenly;
-          background: get('background');
+          background: get('back');
           box-shadow: get('box-shadow');
           border-radius: 12px;
           .life-college,
@@ -226,7 +226,7 @@ import GoalTimeLine from './components/goalTimeLine.vue';
     .ps-character {
       width: calc(60% - 40px);
       height: calc(100% - 40px);
-      background: get('background');
+      background: get('back');
       box-shadow: get('box-shadow');
       border-radius: 12px;
       margin-right: 20px;
@@ -266,7 +266,7 @@ import GoalTimeLine from './components/goalTimeLine.vue';
     .ps-strong-point {
       width: calc(40% - 60px);
       height: calc(100% - 40px);
-      background: get('background');
+      background: get('back');
       box-shadow: get('box-shadow');
       border-radius: 12px;
       overflow: hidden;

@@ -1,3 +1,4 @@
+<!--suppress ALL -->
 <template>
   <div id="app-theme" data-theme="theme-white">
     <div class="dialog-base"></div>
@@ -30,7 +31,7 @@
       </el-main>
     </el-container>
     <SideSetting :isHideen="false" v-if="themeStore.isShow"></SideSetting>
-    <rightClickMenu :visible="visible" :left="left" :top="top" />
+    <!--    <rightClickMenu :visible="visible" :left="left" :top="top" />-->
   </div>
 </template>
 <script setup lang="ts">
@@ -39,12 +40,14 @@ import sakura from '@/components/sakura/index.vue';
 import rightClickMenu from '@/components/rightClickMenu/index.vue';
 import { useRouter } from 'vue-router';
 import useThemeStore from '@/store/modules/theme.ts';
+import { verifyTokenNoIntercept } from '@/api/system/user.ts';
 import useWebSocketStore from '@/store/modules/webSocket.js';
 import useUserStore from './store/modules/user';
 import CommonHeader from '@/views/layout/commonHeader/index.vue';
 import CommonFooter from '@/views/layout/commonFooter/index.vue';
 import { autoClearTimer } from './utils/timer';
 import SideSetting from '@/views/layout/sideSetting/index.vue';
+import { listWallpaper } from '@/api/system/wallpaper.ts';
 const sakuraOptions = ref({
   staticx: false,
   stop: null,
@@ -56,11 +59,12 @@ const sakuraOptions = ref({
 const src = ref(null) as any;
 var userStore = useUserStore();
 var themeStore = useThemeStore();
+themeStore.isFooterShow = false;
+themeStore.isShow = false;
 const router = useRouter() as any;
 const visible = ref(false);
 const top = ref(0);
 const left = ref(0);
-const isFooterShow = ref(false);
 const options = ref({
   background: {
     color: {
@@ -139,22 +143,22 @@ const options = ref({
   detectRetina: true
 } as any);
 
-watch(
-  () => visible.value,
-  newValue => {
-    if (newValue) {
-      //菜单显示的时候
-      // document.body.addEventListener，document.body.removeEventListener它们都接受3个参数
-      // ("事件名" , "事件处理函数" , "布尔值");
-      // 在body上添加事件处理程序
-      document.body.addEventListener('click', closeMenu);
-    } else {
-      //菜单隐藏的时候
-      // 移除body上添加的事件处理程序
-      document.body.removeEventListener('click', closeMenu);
-    }
-  }
-);
+// watch(
+//   () => visible.value,
+//   newValue => {
+//     if (newValue) {
+//       //菜单显示的时候
+//       // document.body.addEventListener，document.body.removeEventListener它们都接受3个参数
+//       // ("事件名" , "事件处理函数" , "布尔值");
+//       // 在body上添加事件处理程序
+//       document.body.addEventListener('click', closeMenu);
+//     } else {
+//       //菜单隐藏的时候
+//       // 移除body上添加的事件处理程序
+//       document.body.removeEventListener('click', closeMenu);
+//     }
+//   }
+// );
 
 //右击
 function openMenu(e: any) {
@@ -170,7 +174,7 @@ function closeMenu() {
 }
 let userData = window.localStorage.getItem('userData') as any;
 if (userData) {
-  userData = JSON.parse(userData);
+  userData = JSON.parse(userData) as any;
   userStore.token = userData.token;
   userStore.userId = userData.userId;
   userStore.userName = userData.userName;
@@ -179,27 +183,27 @@ if (userData) {
   userStore.email = userData.email;
   userStore.avatar = userData.avatar;
 }
-function init() {
-  autoClearTimer(() => {
-    themeStore.isFooterShow = true;
-  }, 4500);
-  let appTheme = document.querySelector('#app-theme') as any;
-  //查看是否有token
-  if (userStore.token) {
-    router.push({ path: '/home' });
-    // router.push({ name: 'testField' });
-  } else {
-    router.push({ path: '/login' });
+
+async function getBackList(themeStore: any) {
+  const { code, data } = (await listWallpaper({ type: 'img' })) as any;
+  if (code == 200) {
+    themeStore.imgWallpaperList = data.list;
+    window.localStorage.setItem('themeData', JSON.stringify(themeStore));
   }
+}
+
+async function init() {
+  let appTheme = document.querySelector('#app-theme') as any;
   // 获取缓存的主题数据
   let themeData = window.localStorage.getItem('themeData') as any;
   if (themeData) {
-    themeData = JSON.parse(themeData);
-    themeStore.theme = themeData.theme ? themeData.theme : null;
-    themeStore.backUrl = themeData.backUrl ? themeData.backUrl : null;
-    themeStore.backType = themeData.backType ? themeData.backType : null;
-    themeStore.options = themeData.options ? themeData.options : null;
+    themeData = JSON.parse(themeData) as any;
+    themeStore.theme = themeData.theme ? themeData.theme : 'theme-white';
+    themeStore.backUrl = themeData.backUrl ? themeData.backUrl : '@/assets/images/开始.jpg';
+    themeStore.backType = themeData.backType ? themeData.backType : 'img';
+    themeStore.options = themeData.options ? themeData.options : [];
   }
+  getBackList(themeStore);
   var { theme, backUrl, options, backType } = themeStore;
   // 设置主题
   appTheme.setAttribute('data-theme', theme);
@@ -214,9 +218,26 @@ function init() {
   }
   // 设置字体
   appTheme.style.fontFamily = options.fontFamily;
+  if (!userData) {
+    router.push({ path: '/login' });
+    return;
+  }
+  //查看是否有token
+  if (userStore.token) {
+    const res = (await verifyTokenNoIntercept()) as any;
+    if (res.data.code === 200) {
+      router.push({ path: '/home' });
+    } else {
+      router.push({ path: '/login' });
+    }
+  } else {
+    userStore.token = '';
+    router.push({ path: '/login' });
+  }
 }
 
 onMounted(() => {
+  themeStore.isShow = true;
   if (!window.location.href.includes('/manage')) {
     init();
   }

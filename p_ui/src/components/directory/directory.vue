@@ -176,7 +176,7 @@ onMounted(() => {
 @include theme() {
   .directory {
     border-radius: 8px;
-    background: get('background');
+    background: get('back');
     box-shadow: get('box-shadow');
     padding: 20px 24px;
     width: 100%;

@@ -12,6 +12,7 @@ import dialog from './components/dialog/index.vue';
 import '@/assets/styles/animate.scss';
 import '@/assets/styles/element-ui-out-app.scss';
 import '@/assets/styles/mobile.scss';
+import 'md-editor-v3/lib/preview.css';
 import VueGridLayout from 'vue-grid-layout';
 import router from './router';
 import * as ElementPlusIconsVue from '@element-plus/icons-vue';

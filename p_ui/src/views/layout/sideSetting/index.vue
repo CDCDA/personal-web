@@ -256,7 +256,7 @@ function closeThemeDialog() {
 }
 @include theme() {
   .setting-item-img {
-    background: get('background');
+    background: get('back');
   }
   .side-setting {
     .setting-item {

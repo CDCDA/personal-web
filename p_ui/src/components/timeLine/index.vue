@@ -60,7 +60,7 @@ const goalList = ref([
     align-items: center;
     color: get('font-color');
     position: relative;
-    background: get('background');
+    background: get('back');
     .timeline-main {
       height: auto;
       margin: 0;
@@ -131,7 +131,7 @@ const goalList = ref([
               width: 8px;
               height: 8px;
               border: 4px solid get('font-color');
-              background: get('background');
+              background: get('back');
               border-radius: 100%;
               top: 50%;
               // transform: translateY(-50%);

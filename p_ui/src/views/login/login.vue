@@ -1,23 +1,53 @@
 <template>
-  <div class="logIn">
-    <div class="box">
-      <h2>Login</h2>
-      <div class="input-box">
-        <label>账号</label>
-        <input type="text" v-model="account" />
-      </div>
-      <div class="input-box">
-        <label>密码</label>
-        <input type="password" v-model="password" />
-      </div>
-      <div class="btn-box">
-        <a href="#">忘记密码?</a>
-        <div>
-          <button class="bt-logIn" @click="logIn">登录</button>
-          <button class="bt-register" @click="register">注册</button>
+  <div class="login-container">
+    <div class="login-main">
+      <div class="login" :class="pageType === 'register' ? 'login-hidden' : ''">
+        <h3 class="login-title">登录</h3>
+        <div class="login-input">
+          <input
+            type="text"
+            placeholder="用户名/邮箱"
+            class="account"
+            v-model="loginForm.account"
+          />
+          <input type="password" placeholder="密码" class="password" v-model="loginForm.password" />
         </div>
-        <div style="width: 100%">
-          <button class="bt-tourist-logIn" @click="handleTouristLogIn">游客登录</button>
+        <div class="login-edit">
+          <span class="edit-pw">修改密码?</span>
+        </div>
+        <div class="login-btn">
+          <el-button @click="handleLogin" :loading="loading" :disabled="loading">登录</el-button>
+        </div>
+      </div>
+      <div class="register" :class="pageType === 'register' ? 'register-show' : ''">
+        <h3 class="register-title">注册</h3>
+        <div class="register-input">
+          <input type="text" placeholder="昵称" class="nickName" v-model="registerForm.nickName" />
+          <input
+            type="password"
+            placeholder="密码"
+            class="password"
+            v-model="registerForm.password"
+          />
+          <input type="text" placeholder="邮箱" class="email" v-model="registerForm.email" />
+          <input type="text" placeholder="验证码" class="code" v-model="registerForm.code" />
+        </div>
+        <div class="register-edit">
+          <span class="edit-pw" @click="getRegisterCode">获取验证码</span>
+        </div>
+        <div class="register-btn">
+          <el-button @click="handleRegister" :loading="loading" :disabled="loading">注册</el-button>
+        </div>
+      </div>
+      <div class="register-pre" :class="pageType === 'register' ? 'login-pre' : ''">
+        <h3 class="register-title">{{ `${pageType === 'login' ? '没有账号' : '已有账号'}?` }}</h3>
+        <div class="register-tip">
+          {{ `${pageType === 'login' ? '立即注册' : '请登录🚀'}` }}
+        </div>
+        <div class="register-btn">
+          <el-button @click="openRegister">{{
+            `${pageType === 'login' ? '注册' : '登录'}`
+          }}</el-button>
         </div>
       </div>
     </div>
@@ -25,77 +55,150 @@
 </template>
 
 <script setup lang="ts" name="login">
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import jwtDecode from 'jwt-decode';
 import { autoClearTimer } from '@/utils/timer';
-import { ElMessage } from 'element-plus';
+import { ElMessage, ElNotification } from 'element-plus';
 import { login, touristLogIn } from '@/api/system/login.ts';
 import { useRouter } from 'vue-router';
 import useUserStore from '@/store/modules/user';
 import Cookies from 'js-cookie';
-import { getUserById } from '@/api/system/user';
+import { getUserById, register, getCode } from '@/api/system/user';
 import useThemeStore from '@/store/modules/theme.ts';
 var themeStore = useThemeStore();
+themeStore.isShow = false;
+themeStore.isFooterShow = false;
 const userStore = useUserStore();
 const router = useRouter();
-const account = ref('' as any);
-const password = ref('' as any);
+const loading = ref(false);
+const loginForm = ref({
+  password: '',
+  account: ''
+});
+const registerForm = ref({
+  nickName: '',
+  password: '',
+  email: '',
+  code: ''
+});
+const pageType = ref('login');
+
+function resetLoginForm() {
+  loginForm.value = {
+    password: '',
+    account: ''
+  };
+}
+
+function resetRegisterForm() {
+  registerForm.value = {
+    nickName: '',
+    password: '',
+    email: '',
+    code: ''
+  };
+}
+
+//切换注册页面
+function openRegister() {
+  if (pageType.value === 'register') pageType.value = 'login';
+  else pageType.value = 'register';
+}
 
 // 登录
-async function logIn() {
-  if (account.value && password.value) {
-    const { code, data, msg } = (await login({
-      account: account.value,
-      password: password.value
-    })) as any;
-    console.log(code, data, msg);
-    if (code == 200) {
-      //缓存用户数据
-      const token = jwtDecode(Cookies.get('token')) as any;
-      userStore.token = Cookies.get('token');
-      userStore.userId = token.aud;
-      userStore.userName = token.username;
-
-      userStore.permission = ['add', 'delete', 'show', 'operate'];
-      getUserInfo(token.aud);
-
-      logInFadeOut();
-      autoClearTimer(() => {
-        console.log('登录成功，跳转至首页');
-        router.push('/home');
-        const { mhFontColor } = themeStore.options;
-        let header = document.querySelector('.common-header') as any;
-        let homeTop = document.querySelector('.home-top') as any;
-        let CycleUpDown = document.querySelector('.CycleUpDown') as any;
-        if (header) {
-          header.style.color = mhFontColor;
-          // let icons = header.querySelectorAll('.theme-icon');
-          // Object.keys(icons).forEach((e: any) => {
-          //   icons[e].style.fill = mhFontColor;
-          // });
-        }
-        if (homeTop) homeTop.style.color = mhFontColor;
-        if (CycleUpDown) {
-          let themeIcon = CycleUpDown.querySelector('.theme-icon') as any;
-          if (themeIcon) {
-            themeIcon.style.fill = mhFontColor;
-          }
-        }
-      }, 1200);
-    }
-  } else {
-    ElMessage.error('请输入账号密码');
+async function handleLogin() {
+  if (!loginForm.value.account) {
+    ElNotification.warning('请输入账号/邮箱');
+    return;
   }
-}
-async function register() {
-  ElMessage.warning('暂不开放注册');
+  if (!loginForm.value.account) {
+    ElNotification.warning('请输入密码');
+    return;
+  }
+  loading.value = true;
+  const { code } = (await login(loginForm.value)) as any;
+  if (code == 200) {
+    //缓存用户数据
+    const token = jwtDecode(Cookies.get('token')) as any;
+    userStore.token = Cookies.get('token');
+    userStore.userId = token.aud;
+    userStore.userName = token.username;
+    userStore.permission = ['add', 'delete', 'show', 'operate'];
+    getUserInfo(token.aud);
+    logInFadeOut();
+    router.push('/home');
+    autoClearTimer(() => {
+      console.log('登录成功，跳转至首页');
+      themeStore.isFooterShow = true;
+      themeStore.isShow = true;
+      // const { mhFontColor } = themeStore.options;
+      // let header = document.querySelector('.common-header') as any;
+      // let homeTop = document.querySelector('.home-top') as any;
+      // let CycleUpDown = document.querySelector('.CycleUpDown') as any;
+      // if (header) {
+      //   header.style.color = mhFontColor;
+      //   // let icons = header.querySelectorAll('.theme-icon');
+      //   // Object.keys(icons).forEach((e: any) => {
+      //   //   icons[e].style.fill = mhFontColor;
+      //   // });
+      // }
+      // if (homeTop) homeTop.style.color = mhFontColor;
+      // if (CycleUpDown) {
+      //   let themeIcon = CycleUpDown.querySelector('.theme-icon') as any;
+      //   if (themeIcon) {
+      //     themeIcon.style.fill = mhFontColor;
+      //   }
+      // }
+    }, 1200);
+  }
+  loading.value = false;
 }
 
 function logInFadeOut() {
-  (document.querySelector('.box') as any).classList.add('top-fade-out');
+  (document.querySelector('.login-main') as any).classList.add('top-fade-out');
   autoClearTimer(() => {
-    (document.querySelector('.box') as any).classList.add('top-fade-out');
+    (document.querySelector('.login-main') as any).classList.add('top-fade-out');
   });
+}
+
+//注册
+async function handleRegister() {
+  // ElNotification.warning('暂不开放注册');
+  if (!registerForm.value.nickName) {
+    ElNotification.warning('请输入昵称');
+    return;
+  }
+  if (!registerForm.value.password) {
+    ElNotification.warning('请输入密码');
+    return;
+  }
+  if (!registerForm.value.email) {
+    ElNotification.warning('请输入邮箱');
+    return;
+  }
+  if (!registerForm.value.code) {
+    ElNotification.warning('请输入验证码');
+    return;
+  }
+  loading.value = true;
+  const { code } = (await register(registerForm.value)) as any;
+  if (code === 200) {
+    ElNotification.success('注册成功');
+    loginForm.value.account = registerForm.value.email;
+    loginForm.value.password = registerForm.value.password;
+    resetRegisterForm();
+    openRegister();
+  }
+  loading.value = false;
+}
+
+//获取验证码
+async function getRegisterCode() {
+  let params = { email: registerForm.value.email };
+  const { code } = (await getCode(params)) as any;
+  if (code === 200) {
+    ElNotification.success('验证码发送成功,请注意查收');
+  }
 }
 
 // 获取用户信息
@@ -141,139 +244,152 @@ async function handleTouristLogIn() {
     router.push('/home');
   }
 }
+onMounted(() => {
+  loginForm.value.account = 'CCCC';
+  loginForm.value.password = '1';
+});
 </script>
 <style lang="scss" scoped>
 @include theme() {
-  .logIn {
+  .login-container {
     height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
   }
-  .box {
-    width: 500px;
-    height: 400px;
-    border-top: 1px solid rgba(255, 255, 255, 0.5);
-    border-left: 1px solid rgba(255, 255, 255, 0.5);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-    border-right: 1px solid rgba(255, 255, 255, 0.3);
-    backdrop-filter: blur(20px);
-    background: rgba(50, 50, 50, 0.2);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+  .login-main {
+    opacity: 0.9;
     border-radius: 10px;
-    margin: 0 0 100px 0;
-  }
-
-  .box > h2 {
-    color: rgba(255, 255, 255, 0.9);
-    margin: 0 0 20px 0;
-  }
-
-  .box .input-box {
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15), 0 10px 10px rgba(0, 0, 0, 0.15);
+    position: relative;
+    overflow: hidden;
+    width: 750px;
+    max-width: 100%;
+    min-height: 450px;
+    margin: 10px;
+    height: 50vh;
     display: flex;
-    flex-direction: column;
-    box-sizing: border-box;
-    margin-bottom: 10px;
-  }
-
-  .box .input-box label {
-    font-size: 0.8rem;
-    color: rgba(255, 255, 255, 0.9);
-    margin-bottom: 5px;
-  }
-
-  .box .input-box input {
-    letter-spacing: 1px;
-    font-size: 14px;
-    box-sizing: border-box;
-    width: 250px;
-    height: 35px;
-    border-radius: 5px;
-    border: 1px solid rgba(255, 255, 255, 0.5);
-    background: rgba(255, 255, 255, 0.2);
-    outline: none;
-    padding: 0 12px;
-    color: rgba(255, 255, 255, 0.9);
-    transition: 0.2s;
-  }
-
-  .box .input-box input:focus {
-    border: 1px solid rgba(255, 255, 255, 0.8);
-  }
-
-  .box .btn-box {
-    width: 250px;
-    display: flex;
-    flex-direction: column;
-    align-items: start;
-  }
-
-  .box .btn-box > a {
-    outline: none;
-    display: block;
-    width: 250px;
-    text-align: end;
-    text-decoration: none;
-    font-size: 0.8rem;
-    color: rgba(255, 255, 255, 0.9);
-  }
-
-  .box .btn-box > a:hover {
-    color: rgba(255, 255, 255, 1);
-  }
-
-  .box .btn-box > div {
-    margin-top: 10px;
-    display: flex;
-    justify-content: center;
     align-items: center;
   }
-
-  .box .btn-box > div > button {
-    outline: none;
-    margin-top: 10px;
-    display: block;
-    font-size: 14px;
-    border-radius: 5px;
-    transition: 0.2s;
+  .login {
+    width: 50%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    transition: all 0.5s ease-in-out;
+    background: white;
+    .login-title {
+      margin-top: 22%;
+      margin-bottom: 10%;
+      font-size: 1.6rem;
+    }
+    .login-input {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .login-edit {
+      color: black;
+      font-size: 0.7rem;
+      text-decoration: none;
+      margin: 15px 0;
+    }
+  }
+  .login-hidden.login {
+    opacity: 0;
+    top: 100%;
+  }
+  .login-pre.register-pre {
+    left: 0;
+  }
+  .register-show.register {
+    opacity: 1;
+    left: 50%;
+    top: 0;
+    z-index: 0;
+  }
+  .register {
+    width: 50%;
+    height: 100%;
+    position: absolute;
+    opacity: 0;
+    left: 0;
+    top: 0;
+    z-index: -1;
+    transition: all 0.5s ease-in-out;
+    background: white;
+    .register-title {
+      margin-top: 10%;
+      margin-bottom: 4%;
+      font-size: 1.6rem;
+    }
+    .register-input {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .register-edit {
+      color: black;
+      font-size: 0.7rem;
+      text-decoration: none;
+      margin: 15px 0;
+    }
+  }
+  .register-pre {
+    width: 50%;
+    height: 100%;
+    position: absolute;
+    left: 50%;
+    top: 0;
+    transition: all 0.5s ease-in-out;
+    background: linear-gradient(90deg, #ff4b2b, #ff416c);
+    color: white;
+    .register-title {
+      margin-top: 40%;
+      margin-bottom: 13%;
+      font-size: 1.6rem;
+    }
+    .register-tip {
+      font-size: 0.7rem;
+      letter-spacing: 1px;
+      margin: 20px 0 30px;
+    }
+  }
+  .el-button {
+    border-radius: 2rem;
+    border: none;
+    background: linear-gradient(90deg, #ff4b2b, #ff416c) !important;
+    color: white !important;
+    font-size: 16px;
+    font-weight: 700;
+    padding: 12px 45px !important;
+    letter-spacing: 2px;
     cursor: pointer;
   }
-
-  .bt-logIn {
-    width: 120px;
-    height: 35px;
-    color: rgba(255, 255, 255, 0.9);
-    border: 1px solid get('bk');
-    background: get('bk');
+  .el-button:hover {
+    transform: scale(1.05);
   }
-
-  .bt-register {
-    width: 120px;
-    height: 35px;
-    margin-left: 10px;
-    color: rgba(255, 255, 255, 0.9);
-    border: 1px solid rgba(192, 119, 91, 0.7);
-    background: rgba(192, 119, 91, 0.5);
+  .el-button:active {
+    transform: translateY(2px);
   }
-  .bt-tourist-logIn {
-    width: 100%;
-    height: 35px;
-    color: rgba(255, 255, 255, 0.9);
-    border: 1px solid rgba(192, 119, 91, 0.7);
-    background: rgba(192, 119, 91, 0.5);
+  input {
+    background-color: #eee !important;
+    border-radius: 2px;
+    border: none;
+    padding: 12px 15px;
+    margin: 10px 0;
+    width: calc(100% - 80px);
+    outline: none;
+    &:active {
+      background-color: #eee;
+    }
+    &::selection {
+      background-color: #eee;
+    }
   }
-
-  .box .btn-box > div > button:hover {
-    border: 1px solid rgba(251, 128, 71, 0.7);
-    background: rgba(251, 128, 71, 0.5);
-  }
-}
-button:active {
-  transform: translateY(2px);
-  transition: all ease-in-out linear 2s;
 }
 </style>

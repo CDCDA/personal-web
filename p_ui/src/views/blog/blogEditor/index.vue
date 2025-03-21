@@ -178,7 +178,7 @@ onMounted(() => {
     }
 
     .md-editor--fullscreen {
-      background: get('background');
+      background: get('back');
       box-shadow: get('box-shadow');
       backdrop-filter: blur(20px);
       border-radius: 0 !important;

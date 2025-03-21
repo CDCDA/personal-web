@@ -151,11 +151,11 @@ onMounted(() => {
   img,
   .music-song,
   .music-info {
-    background: get('background');
+    background: get('back');
     box-shadow: get('box-shadow');
   }
   .music-player {
-    background: get('background-no-tp');
+    background: get('back');
   }
 }
 

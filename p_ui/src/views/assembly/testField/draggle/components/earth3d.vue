@@ -45,7 +45,7 @@ onMounted(() => {
   .earth-3d {
     @include full();
     box-shadow: get('box-shadow');
-    background: get('background');
+    background: get('back');
     border-radius: 8px;
   }
 }

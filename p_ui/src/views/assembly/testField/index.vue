@@ -93,7 +93,7 @@ onMounted(() => {
         position: relative;
         opacity: 0.9;
         box-shadow: get('box-shadow');
-        background: get('background');
+        background: get('back');
         color: get('font-color');
         display: flex;
         justify-content: space-between;

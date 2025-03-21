@@ -69,6 +69,10 @@ public class Result<T> extends HashMap<String, Object> {
         return new Result(HttpStatus.OK.value(), "success");
     }
 
+    public static Result ok(String message) {
+        return new Result(HttpStatus.OK.value(), message);
+    }
+
     /**
      * 返回一个自定义 成功操作 的结果
      *
@@ -87,6 +91,10 @@ public class Result<T> extends HashMap<String, Object> {
      */
     public static Result error() {
         return new Result(HttpStatus.INTERNAL_SERVER_ERROR.value(), "error");
+    }
+
+    public static Result error(String message) {
+        return new Result(HttpStatus.INTERNAL_SERVER_ERROR.value(), message);
     }
 
     /**
@@ -162,7 +170,7 @@ public class Result<T> extends HashMap<String, Object> {
      * @param value 数据
      * @return 当前实例对象
      */
-    public Result  data(String key, Object value) {
+    public Result data(String key, Object value) {
         super.put("data", new HashMap<>().put(key, value));
         return this;
     }

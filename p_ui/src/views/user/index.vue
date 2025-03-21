@@ -79,7 +79,7 @@ function clickMenu(item: any) {
     .user-left,
     .user-right {
       height: calc(100% - 15px);
-      background: get('background');
+      background: get('back');
       border-radius: 10px;
       box-shadow: get('box-shadow');
       color: get('font-color');

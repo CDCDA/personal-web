@@ -124,6 +124,7 @@ import useThemeStore from '@/store/modules/theme.ts';
 
 import rollText from '@/components/rollText/index.vue';
 const themeStore = useThemeStore();
+
 const recommends = ref([] as any);
 
 const userStore = useUserStore();
@@ -294,6 +295,7 @@ onMounted(() => {
   autoClearTimer(() => {
     setHomeColor();
   }, 500);
+  themeStore.isFooterShow = true;
 });
 </script>
 <style lang="scss" scoped>
@@ -341,7 +343,7 @@ onMounted(() => {
         width: calc(100% - 60px);
         color: get('font-color');
         border-radius: 12px;
-        background: get('background');
+        background: get('back');
         box-shadow: get('box-shadow');
         display: flex;
         align-items: center;
@@ -398,7 +400,7 @@ onMounted(() => {
               }
               @include flex;
               justify-content: space-between;
-              background: get('background');
+              background: get('back');
               box-shadow: get('box-shadow');
               border-radius: 8px;
               padding: 8px 20px;
@@ -443,7 +445,7 @@ onMounted(() => {
                 width: calc(33% - 10px);
                 aspect-ratio: 3/2;
                 margin-bottom: 20px;
-                background: get('background');
+                background: get('back');
                 box-shadow: get('box-shadow');
                 border-radius: 10px;
                 @include flex-column;

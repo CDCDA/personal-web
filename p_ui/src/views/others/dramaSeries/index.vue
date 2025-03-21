@@ -155,7 +155,7 @@ onMounted(() => {
   }
   .drama-item {
     box-shadow: get('box-shadow');
-    background: get('background');
+    background: get('back');
     position: relative;
     transition: all 0.2s linear;
     border-radius: 10px;
@@ -219,7 +219,7 @@ onMounted(() => {
     width: calc(100% - 20px);
     text-align: left;
     margin: 15px 0;
-    background: get('background');
+    background: get('back');
     box-shadow: get('box-shadow');
     padding: 10px;
     border-radius: 10px;

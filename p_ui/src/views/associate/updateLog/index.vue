@@ -110,7 +110,7 @@ onMounted(() => {
   .page-main.update-log {
     @include flex-column;
     font: normal 16px/1.5 'Titillium Web', sans-serif;
-    background: get('background');
+    background: get('back');
     color: #3c3f64;
     overflow-x: hidden;
     border-radius: 8px;

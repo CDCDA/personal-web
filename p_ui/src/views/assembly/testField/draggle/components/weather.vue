@@ -32,7 +32,7 @@ onMounted(() => {
 @include theme() {
   #he-plugin-standard {
     box-shadow: get('box-shadow');
-    background: get('background');
+    background: get('back');
     background: transparent !important;
     width: 100% !important;
     height: 100% !important;

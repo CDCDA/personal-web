@@ -1,5 +1,6 @@
 package com.pw.domain;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -63,4 +64,8 @@ public class User extends BaseEntity implements Serializable {
 
     @ApiModelProperty(value = "浏览器")
     private String browser;
+
+    @TableField(exist = false)
+    @ApiModelProperty(value = "验证码")
+    private String code;
 }

@@ -120,7 +120,7 @@ onMounted(() => {
         border-radius: 10px;
         margin: 10px 0;
         box-shadow: get('box-shadow');
-        background: get('background');
+        background: get('back');
         position: relative;
         color: get('font-color');
         position: relative;

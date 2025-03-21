@@ -61,7 +61,7 @@ onMounted(() => {
       }
     }
     @include flex-column;
-    background: get('background');
+    background: get('back');
     border-radius: 8px;
     justify-content: start;
     .slice-header {
@@ -93,7 +93,7 @@ onMounted(() => {
         position: relative;
         opacity: 0.9;
         box-shadow: get('box-shadow');
-        background: get('background');
+        background: get('back');
         position: relative;
         color: get('font-color');
         display: flex;

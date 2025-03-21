@@ -445,7 +445,7 @@ function changeLayout() {
       border: none;
       @include full();
       // box-shadow: get('box-shadow');
-      // background: get('background');
+      // background: get('back');
       border-radius: 4px;
     }
     .draggableContainer {
@@ -512,7 +512,7 @@ function changeLayout() {
       color: get('font-color');
       border-radius: 5px;
       // backdrop-filter: blur(20px);
-      background: get('background');
+      background: get('back');
       box-shadow: 0 1px 1px 1px #000000;
       box-shadow: get('box-shadow');
       height: 40px;
@@ -536,7 +536,7 @@ function changeLayout() {
       justify-content: space-between;
       padding: 0 10px;
       backdrop-filter: blur(20px);
-      background: get('background');
+      background: get('back');
       box-shadow: get('box-shadow');
       position: absolute;
       bottom: -31px;

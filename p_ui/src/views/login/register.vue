@@ -147,7 +147,7 @@ async function register() {}
     height: 35px;
     color: rgba(255, 255, 255, 0.9);
     border: 1px solid rgba(192, 119, 91, 0.7);
-    background: get('background');
+    background: get('back');
   }
 
   .box .btn-box > div > button:nth-of-type(2) {

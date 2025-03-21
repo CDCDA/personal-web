@@ -117,7 +117,7 @@ onMounted(() => {
 <style lang="scss" scoped>
 @include theme() {
   .statistic-main {
-    background: get('background');
+    background: get('back');
     display: flex;
     flex-direction: column;
     justify-content: start;

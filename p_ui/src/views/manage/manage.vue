@@ -2,7 +2,7 @@
  * @Description: 视差管理页
 -->
 <template>
-  <div class="manage-main">
+  <div class="page-main manage-main">
     <side-bar></side-bar>
     <div class="manage-wrap"></div>
   </div>
@@ -12,7 +12,7 @@ import { onMounted } from 'vue';
 import SideBar from '@/views/manage/components/sideBar.vue';
 import useThemeStore from '@/store/modules/theme.ts';
 const themeStore = useThemeStore();
-themeStore.isShow = false;
+// themeStore.isShow = false;
 themeStore.isFooterShow = false;
 onMounted(() => {});
 </script>

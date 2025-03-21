@@ -45,10 +45,7 @@ import { autoClearTimer } from '@/utils/timer';
 import { listBlog } from '@/api/blog.ts';
 const dialogVisible = ref(true as any);
 const router = useRouter();
-const routes = router.getRoutes().filter((e: any) => {
-  return e.meta.isHidden !== true && e.meta.remark;
-}) as any;
-var resultRoutes = JSON.parse(JSON.stringify(routes));
+const total = ref(0);
 const searchText = ref('' as String);
 const emit = defineEmits(['close']);
 const queryParams = ref({
@@ -56,18 +53,12 @@ const queryParams = ref({
 } as any);
 const blogList = ref([] as any);
 async function getBlogList() {
-  const { code, msg, data } = (await listBlog(queryParams.value)) as any;
+  const { code, t, data } = (await listBlog(queryParams.value)) as any;
   if (code == 200) {
     blogList.value = data.list;
+    total.value = data.total;
   }
 }
-
-function findRoute() {
-  resultRoutes = routes.filter((r: any) => {
-    if (r.meta.remark) return r.meta.remark.includes(searchText.value);
-  });
-}
-
 function routeTo(item: any) {
   router.push({ name: 'blogDisplay', query: { blogId: item.blogId } });
   emit('close');

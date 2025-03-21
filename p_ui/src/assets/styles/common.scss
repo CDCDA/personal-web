@@ -38,7 +38,7 @@ input {
 // 卡片外圈样式
 .c-card {
   width: calc(100% - 20px);
-  background: get('background');
+  background: get('back');
   backdrop-filter: blur(5px);
   box-shadow: get('box-shadow');
   color: get('font-color');
@@ -68,10 +68,9 @@ input {
   min-height: calc(100vh - 80px);
   border-radius: 10px;
   animation: slide-in 1s forwards ease;
-  //background: get('back-tr');
   //backdrop-filter: blur(5px);
   position: relative;
-  background:get('back-tr');
+  background: get('back-tr');
   z-index: 1;
   overflow: hidden;
   // transition: all 0.4s ease;
@@ -158,8 +157,6 @@ input {
 }
 /* 旋转边框 -- 结束 */
 
-
-
 /* 管理 -- 结束 */
 .manage-main {
   height: calc(100% - 10px);
@@ -172,7 +169,7 @@ input {
   .c-divider {
     margin-top: 0;
   }
-  .c-pagination{
+  .c-pagination {
     position: absolute;
   }
   //border:1px solid get('border-color');
@@ -250,10 +247,10 @@ input {
 /* 管理 -- 结束 */
 
 .md-editor-dark {
-  //--md-bk-color: get('background');
+  //--md-bk-color: get('back');
 }
 .default-theme pre code {
-  //background-color: get('background');
+  //background-color: get('back');
 }
 .md-editor-catalog-link span {
   //color: get('font-color');

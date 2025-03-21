@@ -53,7 +53,7 @@ onMounted(() => {
 <style lang="scss" scoped>
 @include theme() {
   .album-page {
-    background: get('background');
+    background: get('back');
     border-radius: 8px;
     padding: 30px;
     height: auto !important;

@@ -357,7 +357,7 @@ export default {
         height: 100%;
         // box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.5);
         border: 1px solid get('border-color');
-        background: get('background');
+        background: get('back');
         min-width: 55px;
         padding: 0 8px 0 12px;
         margin: 0;
@@ -377,15 +377,15 @@ export default {
         //   line-height:0;
         //   margin-left: 6px;
         //   border-top: 6px solid #d8d8d8;
-        //   border-left: 6px solid get('background-no-tp');
-        //   border-right: 6px solid get('background-no-tp');
+        //   border-left: 6px solid get('back');
+        //   border-right: 6px solid get('back');
         // }
         .select-box {
           position: absolute;
           left: -2px;
           width: 100%;
           bottom: 40px;
-          background: get('background-no-tp');
+          background: get('back');
           // box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.5);
           border: 1px solid get('border-color');
           border-radius: 4px;

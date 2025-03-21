@@ -191,7 +191,7 @@ onMounted(() => {
 <style lang="scss" scoped>
 @include theme() {
   .essay-editor {
-    background: get('background-no-tp') !important;
+    background: get('back') !important;
     box-shadow: get('box-shadow');
     padding: 30px;
     width: calc(80% - 60px) !important;

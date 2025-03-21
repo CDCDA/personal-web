@@ -22,7 +22,7 @@ const props = defineProps({
 @include theme() {
   .contextmenu {
     margin: 0;
-    background: get('background');
+    background: get('back');
     z-index: 3000;
     position: fixed;
     list-style-type: none;

@@ -76,7 +76,7 @@ onMounted(() => {
     text-align: left;
     padding: 10px;
     border-radius: 5px;
-    background: get('background');
+    background: get('back');
     color: get('font-color');
     display: flex;
     box-shadow: get('box-shadow');
@@ -84,10 +84,10 @@ onMounted(() => {
     /* border: 1px solid; */
     margin: 5px 0;
     height: 60px;
-    background: get('background');
+    background: get('back');
   }
   .blog-article-item:hover {
-    background: get('background');
+    background: get('back');
     width: calc(100% - 16px);
     height: 60px;
     margin-left: -2px;

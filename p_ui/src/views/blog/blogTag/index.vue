@@ -74,7 +74,7 @@ onMounted(() => {
   .blog-tag {
     @include flex;
     flex-direction: column;
-    background: get('background');
+    background: get('back');
     box-shadow: get('box-shadow');
     border-radius: 8px;
     min-height: calc(100vh - 75px) !important;
@@ -174,7 +174,7 @@ onMounted(() => {
   }
 
   .card .card-face {
-    background: get('background');
+    background: get('back');
     // box-shadow: get('box-shadow');
     border-radius: 10px;
     transform: translateY(15px) rotate(5deg);

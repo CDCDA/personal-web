@@ -260,7 +260,7 @@ onMounted(() => {
         padding: 12px 11px 10px 12px;
         text-align: left;
         // box-shadow: get('box-shadow');
-        background: get('background-no-tp');
+        background: get('back');
         color: get('font-color');
         .essay-item-user {
           display: flex;

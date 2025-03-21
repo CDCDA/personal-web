@@ -1,6 +1,8 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router';
 import useThemeStore from '@/store/modules/theme.ts';
 import { autoClearTimer } from '@/utils/timer.ts';
+import { getRandomWallpaper } from '@/api/system/wallpaper.ts';
+import { random } from 'lodash';
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -259,6 +261,12 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('/src/views/assembly/svg/index.vue')
   },
   {
+    path: '/ai',
+    name: 'ai',
+    meta: { remark: 'AI', icon: 'Orange', parent: 'assembly' },
+    component: () => import('/src/views/assembly/ai/chatAi.vue')
+  },
+  {
     path: '/slice',
     name: 'slice',
     meta: { remark: '切片', icon: 'Orange', parent: 'assembly' },
@@ -349,6 +357,16 @@ const routes: Array<RouteRecordRaw> = [
           url: 'http://1.92.159.74:8008/slice/视差.png'
         },
         component: () => import('/src/views/assembly/slice/parallax/index.vue')
+      },
+      {
+        path: '/rain',
+        name: 'rain',
+        meta: {
+          remark: '雨',
+          introduction: '雨',
+          url: 'http://1.92.159.74:8008/slice/雨.png'
+        },
+        component: () => import('/src/views/assembly/slice/rain/index.vue')
       }
     ]
   },
@@ -492,35 +510,51 @@ const router = createRouter({
 });
 
 const navShowRoute = ['login', 'register'];
-const footerNotShowRoute = ['manage', 'statistics', 'personalInfo', 'blogEditor'];
+const footerNotShowRoute = ['manage', 'statistics', 'personalInfo', 'blogEditor', 'ai'];
 //切换路由后回到顶部
 router.afterEach(() => {
   scrollToView();
 });
 
-router.beforeEach((to: any) => {
+router.beforeEach(async (to: any) => {
   let themeStore = useThemeStore();
-  if (!themeStore) return;
-  if (navShowRoute.includes(to.name)) {
-    themeStore.isShow = false;
-    themeStore.isFooterShow = false;
-  } else if (footerNotShowRoute.includes(to.name)) {
-    console.log(to.name);
-    themeStore.isShow = true;
-    themeStore.isFooterShow = false;
-  } else if (to.name == 'home') {
-    themeStore.isShow = true;
-    themeStore.isFooterShow = false;
-    autoClearTimer(() => {
-      themeStore.isFooterShow = true;
-    }, 3000);
-  } else {
-    themeStore.isShow = true;
-    // themeStore.isFooterShow = false;
-    autoClearTimer(() => {
-      themeStore.isFooterShow = true;
-    }, 2000);
+  let themeData = window.localStorage.getItem('themeData') as any;
+  if (themeData) {
+    themeStore = JSON.parse(themeData);
   }
+  if (!themeStore) return;
+  if (themeStore.options && themeStore.options.isRandom) {
+    let backUrl =
+      themeStore.imgWallpaperList[random(0, themeStore.imgWallpaperList.length - 1)]?.url;
+    if (backUrl) {
+      let back = document.getElementById('tsparticles') as any;
+      back.style.background = 'left/cover fixed no-repeat url(' + backUrl + ')';
+    }
+  }
+  themeStore.isShow = true;
+  if (to.fullPath !== '/' && to.fullPath !== '/login' && to.fullPath !== '/home')
+    themeStore.isFooterShow = true;
+
+  // if (navShowRoute.includes(to.name)) {
+  //   themeStore.isShow = false;
+  //   themeStore.isFooterShow = false;
+  // } else if (footerNotShowRoute.includes(to.name)) {
+  //   console.log(to.name);
+  //   themeStore.isShow = true;
+  //   themeStore.isFooterShow = false;
+  // } else if (to.name == 'home') {
+  //   themeStore.isShow = true;
+  //   themeStore.isFooterShow = false;
+  //   autoClearTimer(() => {
+  //     themeStore.isFooterShow = true;
+  //   }, 3000);
+  // } else {
+  //   themeStore.isShow = true;
+  //   // themeStore.isFooterShow = false;
+  //   autoClearTimer(() => {
+  //     themeStore.isFooterShow = true;
+  //   }, 2000);
+  // }
 });
 
 // 滚动到指定的位置

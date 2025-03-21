@@ -113,7 +113,7 @@ onMounted(() => {});
       margin-top: 15px;
     }
     // border-radius: 8px;
-    background: get('background');
+    background: get('back');
     .svg-icon {
       cursor: pointer;
     }

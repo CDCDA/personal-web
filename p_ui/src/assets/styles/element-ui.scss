@@ -7,7 +7,7 @@
 .el-sub-menu {
   color: get('font-color');
   font-size: 0.85rem;
-  background: get('background');
+  background: get('back');
 }
 .el-menu-item:hover {
   box-shadow: get('box-shadow');
@@ -21,7 +21,7 @@
 /* 标签 -- 开始 */
 .el-tag {
   border: 1px solid #dddddd;
-  background: get('background');
+  background: get('back');
   margin-right: 6px;
   //padding: 3px 12px;
   height: 1.6rem;
@@ -42,7 +42,7 @@
 
 /* 输入框 -- 开始 */
 .el-input {
-  background: get('background');
+  background: get('back');
   // box-shadow: get('box-shadow');
   border-radius: 4px;
 }
@@ -62,7 +62,7 @@
 
 /* 输入框 -- 结束 */
 .el-popper.is-pure.is-light {
-  background: get('background');
+  background: get('back');
 }
 .el-input-group {
   //box-shadow: rgba(0, 0, 0, 0.125) 0 0 10px 0;
@@ -112,7 +112,7 @@
   // object-fit: cover;
   // background-position: center;
   // background-size: 100% 100%;
-  background: get('background');
+  background: get('back');
   position: relative;
   border-radius: 8px;
   box-shadow: get('box-shadow');
@@ -156,7 +156,7 @@
     overflow: hidden;
     padding: 15px 13px 12px 13px;
     border-radius: 4px 4px 0 0;
-    display:flex;
+    display: flex;
     justify-content: start;
     flex-direction: column;
   }
@@ -170,17 +170,18 @@
 }
 .el-dialog.filter {
   background: get('modal');
-  .finder__inner,.finder__input{
-    color:white
+  .finder__inner,
+  .finder__input {
+    color: white;
   }
-  .finder__icon{
+  .finder__icon {
     border-color: white !important;
-    &::before{
+    &::before {
       background-color: white !important;
     }
   }
-  .footer{
-    color:white;
+  .footer {
+    color: white;
   }
   .el-icon,
   .el-input__count,
@@ -192,8 +193,8 @@
   }
   .el-tag {
     background: transparent;
-    span{
-      color:white;
+    span {
+      color: white;
     }
   }
   .c-dialog-header {
@@ -419,7 +420,7 @@
 /* 弹窗 -- 结束 */
 
 .el-textarea .el-textarea__inner {
-  background: get('background');
+  background: get('back');
   color: get('font-color');
   font-size: 0.85rem;
 }
@@ -433,12 +434,12 @@
 
 .el-message--error {
   box-shadow: get('box-shadow');
-  background: get('background');
+  background: get('back');
   border: 1px solid var(--el-color-error);
 }
 .el-message.el-message--success {
   box-shadow: get('box-shadow');
-  background: get('background');
+  background: get('back');
   .el-icon,
   .el-message__content {
     color: get('font-color');
@@ -530,7 +531,7 @@
 .el-picker-panel,
 .el-picker-panel__footer,
 .el-time-panel {
-  background: get('background');
+  background: get('back');
   color: get('font-color');
   font-size: 0.85rem;
 }
@@ -716,7 +717,7 @@
   border: 1px dashed get('border-color');
   color: get('font-color');
   font-size: 0.85rem;
-  background: get('background');
+  background: get('back');
 }
 
 .el-rate .el-rate__icon {
@@ -729,11 +730,11 @@
 
 //悬浮框
 .el-popper {
-  background-color: get('background');
+  background-color: get('back');
   backdrop-filter: blur(20px);
 }
 .el-popper {
-  background: get('background');
+  background: get('back');
   box-shadow: get('box-shadow');
   font-family: 'shark';
   border-radius: 6px;

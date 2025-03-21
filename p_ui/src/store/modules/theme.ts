@@ -16,6 +16,7 @@ const useThemeStore = defineStore('theme', () => {
   const theme = ref('theme-white');
   //背景类型
   const backType = ref('img');
+  const imgWallpaperList = ref([]) as any;
   //背景url
   const backUrl = ref(new URL('@/assets/images/123123123.jpg', import.meta.url).href);
   //外观设置
@@ -36,7 +37,8 @@ const useThemeStore = defineStore('theme', () => {
     theme,
     backType,
     options,
-    backUrl
+    backUrl,
+    imgWallpaperList
   };
 });
 

@@ -385,7 +385,7 @@ onMounted(() => {
         width: calc(100% - 60px);
         color: get('font-color');
         border-radius: 8px;
-        background: get('background');
+        background: get('back');
         box-shadow: get('box-shadow');
         display: flex;
         align-items: center;
@@ -426,7 +426,7 @@ onMounted(() => {
               @include flex;
               justify-content: start;
               height: 8vh;
-              background: get('background');
+              background: get('back');
               box-shadow: get('box-shadow');
               border-radius: 8px;
               padding: 0 20px;
@@ -472,7 +472,7 @@ onMounted(() => {
                 width: calc(50% - 10px);
                 aspect-ratio: 3/2.5;
                 margin-bottom: 20px;
-                background: get('background');
+                background: get('back');
                 box-shadow: get('box-shadow');
                 border-radius: 8px;
                 @include flex-column;
@@ -580,7 +580,7 @@ onMounted(() => {
           }
           .display-left {
             width: 300px;
-            // background: get('background');
+            // background: get('back');
             // box-shadow: get('box-shadow');
             // border-radius: 8px;
           }

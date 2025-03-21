@@ -226,7 +226,7 @@ computed(() => {
   width: calc(100% - 20px);
   padding: 0 10px;
   box-shadow: get('box-shadow');
-  background: get('background');
+  background: get('back');
 }
 @include theme() {
   .el-icon {
@@ -275,7 +275,7 @@ computed(() => {
     width: 100%;
     height: 100%;
     color: get('font-color');
-    background: get('background');
+    background: get('back');
     border-radius: 6px;
     display: flex;
     align-items: center;

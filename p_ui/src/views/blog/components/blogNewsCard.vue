@@ -44,7 +44,7 @@ const newsList = ref([
     margin-bottom: 10px;
     text-align: left;
     border-radius: 5px;
-    background: get('background');
+    background: get('back');
     color: get('font-color');
     padding-bottom: 7px;
     // border-radius: 10px;

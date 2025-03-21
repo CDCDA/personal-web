@@ -3,8 +3,8 @@ server:
 spring:
   redis:
     host: 1.92.159.74
-    port: 5009
-    #    password: 123456
+    port: 6379
+    password: 123456
     database: 0 #操作的是0号数据库
     jedis:
       #Redis连接池配置
@@ -24,6 +24,20 @@ spring:
     #    username: root  #数据库的登录用户名
     #    password: root   #数据库的登录密码
     driver-class-name: com.mysql.cj.jdbc.Driver #数据库驱动
+  # 邮箱 SMTP 配置
+  mail:
+    host: smtp.qq.com
+    port: 587
+    username: 1205489124@qq.com
+    password: keyjcuwigjlhhfac
+    protocol: smtp
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
   mvc:
     pathmatch:
       # Springfox使用的路径匹配是基于AntPathMatcher的，而Spring Boot 2.6.X使用的是PathPatternMatcher

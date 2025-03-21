@@ -25,8 +25,6 @@
         select
         DISTINCT (b.blog_id),
         b.blog_title,
-        b.content,
-        b.mk_content,
         b.user_id,
         b.type_id,
         b.cover_url,

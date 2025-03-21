@@ -11,7 +11,7 @@ const useUserStore = defineStore('user', () => {
   const token = ref('');
   const nickName = ref('');
   const email = ref('');
-  const permission = ref([] as any);
+  const permission = ref([]) as any;
   return {
     userName,
     token,

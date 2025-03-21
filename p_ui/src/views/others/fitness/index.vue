@@ -315,7 +315,7 @@ onMounted(() => {});
     backdrop-filter: none !important;
   }
   .fitness-right {
-    background: get('background');
+    background: get('back');
     box-shadow: get('box-shadow');
     border-radius: 8px;
     height: 95vh;
@@ -331,7 +331,7 @@ onMounted(() => {});
       height: 420px;
       width: 100%;
       @include flex;
-      background: get('background');
+      background: get('back');
       box-shadow: get('box-shadow');
       border-radius: 8px;
       overflow: hidden;
@@ -357,7 +357,7 @@ onMounted(() => {});
       color: get('font-color');
       margin-top: 20px;
       padding: 10px 10px 20px 10px;
-      background: get('background');
+      background: get('back');
       box-shadow: get('box-shadow');
       border-radius: 8px;
       @include flex-column;

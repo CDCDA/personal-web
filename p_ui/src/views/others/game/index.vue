@@ -166,7 +166,7 @@ onMounted(() => {
       width: calc(100% - 40px);
       text-align: left;
       margin: 15px 0;
-      background: get('background');
+      background: get('back');
       box-shadow: get('box-shadow');
       padding: 10px;
       border-radius: 10px;
@@ -192,7 +192,7 @@ onMounted(() => {
     }
     .game-item {
       box-shadow: get('box-shadow');
-      background: get('background');
+      background: get('back');
       position: relative;
       transition: all 0.2s linear;
       border-radius: 10px;
@@ -226,7 +226,7 @@ onMounted(() => {
     .game-info {
       @include flex-column;
       justify-content: start;
-      background: get('background');
+      background: get('back');
       transition: all 0.6s ease;
       bottom: -30%;
       width: 100%;

@@ -224,7 +224,7 @@ onMounted(() => {
 }
 
 .inner-header {
-  height: 60vh;
+  height: 45vh;
   width: 100%;
   margin: 0;
   padding: 0;

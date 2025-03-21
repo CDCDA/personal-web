@@ -14,7 +14,7 @@
   >
     <el-tabs v-model="activeName" class="skin-tabs" v-loading.fullscreen.lock="loading">
       <el-tab-pane label="主题" name="theme">
-        <div class="theme-main">
+        <div class="theme-main" v-if="activeName === 'theme'">
           <div
             v-for="item in themes"
             :class="['theme-item', activeTheme.key == item.key ? 'theme-item-active' : '']"
@@ -26,7 +26,7 @@
         </div></el-tab-pane
       >
       <el-tab-pane label="静态壁纸" name="static">
-        <div class="back-main" v-loading="false">
+        <div class="back-main" v-loading="false" v-if="activeName === 'static'">
           <div
             v-for="item in backs.filter((e:any)=> e.type !== 'video')"
             :class="['back-item', item.active ? 'back-item-active' : '']"
@@ -39,7 +39,7 @@
         </div></el-tab-pane
       >
       <el-tab-pane label="动态壁纸" name="dynamic">
-        <div class="back-main" v-loading="false">
+        <div class="back-main" v-loading="false" v-if="activeName === 'dynamic'">
           <div
             v-for="item in backs.filter((e:any)=> e.type == 'video')"
             :class="['back-item', item.active ? 'back-item-active' : '']"
@@ -51,7 +51,7 @@
         </div></el-tab-pane
       >
       <el-tab-pane label="其他" name="other">
-        <div class="other-main">
+        <div class="other-main" v-if="activeName === 'other'">
           <div class="setting-item">
             <div class="setting-item-label">粒子效果(仅静态壁纸)</div>
             <el-switch
@@ -62,6 +62,10 @@
           <div class="setting-item">
             <div class="setting-item-label">樱花特效</div>
             <el-switch v-model="themeStore.options.isSakura" @change="setIsSakura()"></el-switch>
+          </div>
+          <div class="setting-item">
+            <div class="setting-item-label">随机壁纸</div>
+            <el-switch v-model="themeStore.options.isRandom" @change="setIsRandom()"></el-switch>
           </div>
           <div class="setting-item">
             <div class="setting-item-label">首页字体颜色</div>
@@ -103,7 +107,7 @@ const emit = defineEmits(['closeThemeDialog']);
 var themeStore = useThemeStore();
 const dialogVisible = ref(true);
 const loading = ref(false as any);
-const activeName = ref('theme');
+const activeName = ref('static');
 var activeBack = {} as any;
 const activeTheme = ref({}) as any;
 //背景图
@@ -170,6 +174,11 @@ function setParticles() {
 
 // 设置樱花特效
 function setIsSakura() {
+  saveThemeData();
+}
+
+// 开启随机壁纸
+function setIsRandom() {
   saveThemeData();
 }
 

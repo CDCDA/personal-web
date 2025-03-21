@@ -6,6 +6,7 @@
   <div class="blog-display-main page-main">
     <div class="blog-diaplay">
       <div class="blog-display-left">
+        <blogAi :blog-content="blogData.content"></blogAi>
         <md-preview :editorId="'preview-only'" :modelValue="blogData.content" />
         <div></div>
         <blogPreAndNext :blog-id="blogData.blogId" v-show="preNextShow" />
@@ -45,6 +46,7 @@ import { getBlogById } from '@/api/blog';
 import { MdPreview, MdCatalog } from 'md-editor-v3';
 import comment from '@/components/comment/index.vue';
 import 'md-editor-v3/lib/preview.css';
+import blogAi from './components/blogAi.vue';
 import BlogUserCard from '@/views/blog/components/blogUserCard.vue';
 import VisitorCard from '@/views/home/components/visitorCard.vue';
 import blogPreAndNext from './components/blogPreAndNext.vue';
@@ -184,7 +186,7 @@ onMounted(() => {
         overflow: hidden;
         width: calc(100% - 16rem);
         border-radius: 12px;
-        background: get('background');
+        background: get('back');
         box-shadow: get('box-shadow');
         min-height: 300px;
         height: fit-content;
@@ -197,7 +199,7 @@ onMounted(() => {
         top: 80px;
         border-radius: 12px;
         .affix {
-          background: get('background');
+          background: get('back');
           position: sticky;
           max-height: 87vh;
           min-height: 300px;
@@ -210,14 +212,14 @@ onMounted(() => {
         }
         // .directory {
         //   border-radius: 12px;
-        //   background: get('background-no-tp');
+        //   background: get('back');
         //   box-shadow: get('box-shadow');
         //   margin:0;
         // }
       }
       .blog-user-component,
       .directory {
-        background: get('background');
+        background: get('back');
         // box-shadow: get('box-shadow');
         border-radius: 5px;
         margin-top: 5px;

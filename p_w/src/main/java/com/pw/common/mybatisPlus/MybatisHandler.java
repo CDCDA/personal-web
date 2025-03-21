@@ -23,7 +23,7 @@ public class MybatisHandler implements MetaObjectHandler {
         this.setFieldValByName("createTime", new Date(), metaObject);
         System.out.println("公共字段自动填充[insert]...");
         String userId = String.valueOf(TokenUtil.getTokenUserId());
-        if (!emptyJugeUtil.isEmpty(userId)) {
+        if (!emptyJugeUtil.isEmpty(userId) && !"0".equals(userId)) {
             this.setFieldValByName("createBy", userId, metaObject);
         }
     }
@@ -33,8 +33,9 @@ public class MybatisHandler implements MetaObjectHandler {
         //属性名
         this.setFieldValByName("updateTime", new Date(), metaObject);
         System.out.println("公共字段自动填充[update]...");
-        if (!isEmpty(BaseContext.getLoginUserId())) {
-            this.setFieldValByName("updateBy", String.valueOf(TokenUtil.getTokenUserId()), metaObject);
+        String userId = String.valueOf(TokenUtil.getTokenUserId());
+        if (!isEmpty(BaseContext.getLoginUserId()) && !"0".equals(userId)) {
+            this.setFieldValByName("updateBy", userId, metaObject);
         }
     }
 }

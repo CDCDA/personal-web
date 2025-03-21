@@ -1,3 +1,4 @@
+<!--suppress ALL -->
 <template>
   <div class="common-header" :class="isHideen ? 'is-hidden' : 'is-show'">
     <div class="header-name">
@@ -27,15 +28,6 @@
           <div class="item-content" v-if="item.children">
             <div class="item-menu">
               <div class="item" @click="clickMenu(e)" v-for="e in item.children">
-                <!--                <el-icon v-if="e.icon" class="menu-icon">-->
-                <!--                  <component :is="e.icon" />-->
-                <!--                </el-icon>-->
-                <!--                <svg-icon-->
-                <!--                  v-else-->
-                <!--                  class="menu-icon"-->
-                <!--                  :iconName="commonSvg - e.svgIcon"-->
-                <!--                  style="height: 22px; width: 22px"-->
-                <!--                />-->
                 {{ e.label }}
               </div>
             </div>
@@ -74,14 +66,6 @@
         </i>
       </el-tooltip>
       <c-image class="avatar" :src="userStore.avatar" @click="toPersonal"></c-image>
-      <!--      <span-->
-      <!--        @click="returnTop"-->
-      <!--        class="progress"-->
-      <!--        :class="progress == '100' ? 'is-progress-full' : ''"-->
-      <!--      >-->
-      <!--        {{ progress }}-->
-      <!--        <el-icon @click="returnTop"><Top /></el-icon>-->
-      <!--      </span>-->
     </div>
   </div>
 
@@ -95,6 +79,7 @@ import { getRandomBlog } from '@/api/blog';
 import commonLink from './components/commonLink.vue';
 import searchDialog from './components/blogSearchDialog.vue';
 import { vMiniWeather, vMiniWeatherIcon } from 'vue3-mini-weather';
+import { debounce } from 'lodash';
 import { autoClearTimer } from '@/utils/timer';
 import { useRouter, onBeforeRouteUpdate } from 'vue-router';
 import useUserStore from '@/store/modules/user';
@@ -160,63 +145,41 @@ function setWeatherData(weather: any) {
 }
 
 function toManage() {
-  let routeUrl = router.resolve({ name: 'manage' }).href;
-  console.log(routeUrl);
-  window.open('http://localhost:8086/#/manage', '_blank');
+  router.push({ path: '/manage' });
 }
+
+const changeHeaderBar = debounce((newVal: any, oldVal: any) => {
+  let difference = newVal - oldVal;
+  if (headerBarMenu && headerBarTitle)
+    if (difference > 0) {
+      headerBarMenu.style.transform = 'translateY(-100px)';
+      headerBarTitle.style.transform = 'translateY(0px)';
+    } else {
+      headerBarMenu.style.transform = 'translateY(0px)';
+      headerBarTitle.style.transform = 'translateY(100px)';
+    }
+  isHideen.value = newVal === '0' || newVal === 'NaN';
+}, 300); // 500ms 防抖时间
 
 watch(
   () => progress.value,
   (newVal, oldVal) => {
-    let difference = newVal - oldVal;
-    if (headerBarMenu && headerBarTitle)
-      if (difference > 0) {
-        headerBarMenu.style.transform = 'translateY(-100px)';
-        headerBarTitle.style.transform = 'translateY(0px)';
-      } else {
-        headerBarMenu.style.transform = 'translateY(0px)';
-        headerBarTitle.style.transform = 'translateY(100px)';
-      }
-    console.log(newVal);
-    isHideen.value = newVal === '0' || newVal === 'NaN';
+    changeHeaderBar(newVal, oldVal);
   },
   { deep: true, immediate: true }
 );
 
-watch(
-  () => pageName.value,
-  val => {
-    val;
-    pageChange.value = false;
-    autoClearTimer(() => {
-      pageChange.value = true;
-    }, 200);
-    autoClearTimer(() => {
-      let el = document.querySelector('.page-name') as any;
-      if (el) el.classList.toggle('is-change');
-    }, 1000);
-  },
-  {
-    immediate: true
-  }
-);
-
 const isWaveShow = ref(false as any);
 
-onBeforeRouteUpdate(to => {
-  if (to.path === '/blogDisplay') isWaveShow.value = true;
-  (document as any).querySelector('.el-main')?.scrollTo({ top: 0 });
-});
-
-function scrollEvent() {
-  articleElement.value = document.querySelector('.el-main');
+// 页面滚动时间(防抖)
+const scrollEvent = debounce(() => {
   progress.value =
     Math.round(
       (articleElement.value.scrollTop /
         (articleElement.value.scrollHeight - articleElement.value.clientHeight)) *
         100
     ) + '';
-}
+}, 300); // 500ms 防抖时间
 
 function close() {
   searchVisible.value = false;
@@ -226,9 +189,9 @@ function searchClick() {
   searchVisible.value = true;
 }
 
+//随机博客
 async function toRandom() {
   const { data, code } = (await getRandomBlog()) as any;
-
   if (code == 200) {
     router.push({
       name: 'refresh'
@@ -240,14 +203,6 @@ async function toRandom() {
       });
     }, 0);
   }
-}
-
-/**
- * @description: 回到顶部
- * @return {*}
- */
-function returnTop() {
-  articleElement.value?.scrollTo({ top: '0', behavior: 'smooth' });
 }
 
 function toPersonal() {
@@ -289,17 +244,11 @@ menuData.value = menuHeader;
 
 // 设置首页和顶栏颜色
 function setHeaderFontColor() {
-  if (themeStore.options) {
-    const { mhFontColor } = themeStore.options;
-    let header = document.querySelector('.common-header') as any;
-    if (header) {
-      header.style.color = mhFontColor;
-      // let icons = header.querySelectorAll('.theme-icon');
-      // Object.keys(icons).forEach((e: any) => {
-      //   icons[e].style.fill = mhFontColor;
-      // });
-    }
-  }
+  if (!themeStore.options) return;
+  const { mhFontColor } = themeStore.options;
+  let header = document.querySelector('.common-header') as any;
+  if (!header) return;
+  header.style.color = mhFontColor;
 }
 
 onMounted(() => {
@@ -307,9 +256,10 @@ onMounted(() => {
   headerBarTitle = document.querySelector('.header-bar-title-text') as any;
   autoClearTimer(() => {
     // 监听滚动事件并更新样式
+    articleElement.value = document.querySelector('.el-main');
     window.addEventListener('scroll', scrollEvent, true);
     setHeaderFontColor();
-  }, 500);
+  }, 0);
 });
 </script>
 <style lang="scss" scoped>
@@ -374,7 +324,7 @@ onMounted(() => {
     font-weight: bold;
     height: 2.8rem;
     margin-bottom: 10px;
-    //background: get('background');
+    //background: get('back');
     background: get('back-tr');
     align-items: center;
     .page-name {
@@ -392,7 +342,7 @@ onMounted(() => {
       left: -53px;
       border-radius: 4px;
       position: absolute;
-      background: get('background');
+      background: get('back');
       animation: label-in 2s forwards linear;
       .page-name-text {
         animation: scroll 0.5s forwards linear;
@@ -782,7 +732,7 @@ onMounted(() => {
     .dropdown-content {
       position: absolute;
       visibility: hidden;
-      background: get('background');
+      background: get('back');
       opacity: 0;
       transition: all 0.6s ease-in-out;
       right: -25px;
@@ -825,7 +775,7 @@ onMounted(() => {
   }
   .is-show.common-header {
     color: get('font-color') !important;
-    backdrop-filter: blur(15px);
+    backdrop-filter: blur(5px);
     box-shadow: get('box-shadow');
     .svg-icon {
       color: get('font-color');

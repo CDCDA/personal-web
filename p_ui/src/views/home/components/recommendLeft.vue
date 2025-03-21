@@ -57,7 +57,7 @@ async function toRange() {
     cursor: pointer;
     .recommend-left-top {
       height: 100%;
-      background: get('background');
+      background: get('back');
       border-radius: 8px;
       width: calc(100%);
       box-shadow: get('box-shadow');
@@ -113,7 +113,7 @@ async function toRange() {
         cursor: pointer;
         box-shadow: get('box-shadow');
         width: calc(100%);
-        background: get('background');
+        background: get('back');
         border-radius: 8px;
         @include flex;
         position: relative;

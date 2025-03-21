@@ -10,12 +10,11 @@
         v-for="item in typeList"
         @click="getList(item)"
       >
-        <!-- <span class="type-item-prefix" v-if="item.typeId">#</span> -->
         <span class="type-item-content">{{ item.typeName }}</span>
         <span class="type-item-count">{{ item.total }}</span>
       </div>
     </div>
-    <div class="c-divider" style="margin: 15px 32px 6px 32px; width: calc(100% - 64px)"></div>
+    <div class="c-divider"></div>
     <div class="blog-list-wrap">
       <div
         v-if="loading"
@@ -180,11 +179,12 @@ onMounted(() => {
         cursor: pointer;
         padding: 3px 8px;
         margin: 5px 8px;
-        border-radius: 12px 0 12px 0;
+        //border-radius: 12px 0 12px 0;
+        border-radius: 6px;
         color: get('font-color');
         font-size: 0.9rem;
         transition: all 0.3s ease;
-        border: 3px solid get('border-color');
+        border: 3px solid get('page-border-color');
         .type-item-prefix {
           opacity: 0.8;
           font-weight: bold;
@@ -212,7 +212,7 @@ onMounted(() => {
       }
       .type-item:hover,
       .type-item.is-active {
-        background: get('border-color');
+        background: get('page-border-color');
         color: get('re-font-color');
 
         // box-shadow: get('box-shadow');
@@ -253,7 +253,7 @@ onMounted(() => {
       width: 100%;
 
       .blog-item {
-        background: get('background-no-tp');
+        background: get('back');
         cursor: pointer;
         color: get('font-color');
         width: calc(50% - 1rem);
@@ -267,10 +267,11 @@ onMounted(() => {
         overflow: hidden;
         justify-content: space-between;
         // box-shadow: get('box-shadow');
-        border: 3px solid get('border-color');
+        border: 3px solid get('page-border-color');
         .blog-cursor-cover {
           position: absolute;
-          background: get('border-color');
+          //background: get('border-color');
+          background: get('page-border-color');
           width: calc(85% - 20px);
           height: calc(100% - 20px);
           padding: 10px 20px 10px 15%;
@@ -380,6 +381,11 @@ onMounted(() => {
     justify-content: end;
     align-items: center;
     width: 100px;
+  }
+  .c-divider {
+    margin: 15px 32px 6px 32px;
+    border-color: get('page-border-color') !important;
+    width: calc(100% - 64px);
   }
 }
 </style>

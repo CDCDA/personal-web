@@ -108,6 +108,11 @@ export default defineConfig({
         target: 'http://music.163.com',
         changeOrigin: true,
         rewrite: p => p.replace(/^\/wyy/, '')
+      },
+      '/chatApi': {
+        target: 'https://api.siliconflow.cn',
+        changeOrigin: true,
+        rewrite: p => p.replace(/^\/chatApi/, '')
       }
     }
   }

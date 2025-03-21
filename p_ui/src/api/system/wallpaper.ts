@@ -11,6 +11,12 @@ export const listWallpaper = (params: any) =>
     params
   });
 
+export const getRandomWallpaper = () =>
+  request({
+    url: '/pw/wallpaper/getRandomWallpaper',
+    method: 'get'
+  });
+
 // 根据id查询壁纸
 export const getWallpaperById = (params: any) =>
   request({

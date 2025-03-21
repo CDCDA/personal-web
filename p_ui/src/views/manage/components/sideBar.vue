@@ -45,10 +45,10 @@ onMounted(() => {
   .cover-top,
   .cover-center,
   .cover-bottom {
-    background: get('background');
+    background: get('back');
   }
   .menu-count-wrap {
-    background: get('background');
+    background: get('back');
     box-shadow: get('box-shadow');
     .menu-count {
       span {

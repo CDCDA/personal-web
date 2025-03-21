@@ -72,7 +72,7 @@ onMounted(() => {});
     // padding-top: 11px;
     text-align: left;
     // box-shadow: get('box-shadow');
-    background: get('background-no-tp');
+    background: get('back');
     color: get('font-color');
     .essay-item-user {
       display: flex;

@@ -63,7 +63,7 @@ function toBlogEdit() {
     .blog-tags,
     .blog-news-down {
       // background: rgba(29, 32, 33, 0.6);
-      background: get('background');
+      background: get('back');
       border-radius: 10px;
       box-shadow: get('box-shadow');
       color: rgba(255, 255, 255, 0.6);
