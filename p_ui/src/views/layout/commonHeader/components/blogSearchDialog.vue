@@ -219,7 +219,7 @@ onMounted(() => {
     align-items: center;
     justify-content: end;
     color: get('font-color');
-    font-size: 0.85rem;
+    font-size: 0.8rem;
   }
 }
 </style>

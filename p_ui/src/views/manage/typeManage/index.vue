@@ -3,51 +3,50 @@
 -->
 <template>
   <div class="type-manage manage-main" :class="isSearchShow ? 'is-hidden' : ''">
-    <el-form
-      class="manage-query-form"
-      :model="queryParams"
-      ref="queryRef"
-      :inline="true"
-      label-width="40"
-      size="mini"
-    >
-      <el-form-item label="名称">
+    <el-form class="manage-query-form" :model="queryParams" ref="queryRef" :inline="true">
+      <el-form-item>
         <el-input
           v-model="queryParams.typeName"
           placeholder="请输入分类名称"
           clearable
-          style="width: 200px"
           @keyup.enter="getList"
         />
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="Search" @click="getList">搜索</el-button>
-        <el-button icon="Refresh" @click="resetQuery">重置</el-button>
+        <el-button type="danger" icon="Refresh" @click="resetQuery">重置</el-button>
       </el-form-item>
     </el-form>
-    <div class="c-divider"></div>
-    <tools
-      @handleAdd="handleAdd"
-      @handleEdit="handleEdit"
-      @handleDel="handleDel"
-      :selection="selection"
-      @refresh="getList"
-    />
-    <el-table :data="tableList" class="manage-table" style="" @selection-change="selectionChange">
-      <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="封面" align="center" prop="isOriginal" width="150">
-        <template #default="scope">
-          <el-image :src="scope.row.coverUrl"
-            ><template #placeholder>
-              <div class="image-slot" v-cLoading="'rotate'" style="width: 100%; height: 100%"></div>
-            </template>
-          </el-image>
-        </template>
-      </el-table-column>
-      <el-table-column label="标题" align="center" prop="typeName" show-overflow-tooltip />
-      <el-table-column label="简介" align="center" prop="intro" show-overflow-tooltip />
-      <el-table-column label="创建时间" width="auto" align="center" prop="createTime" />
-    </el-table>
+    <div class="manage-table-wrap">
+      <tools
+        @handleAdd="handleAdd"
+        @handleEdit="handleEdit"
+        @handleDel="handleDel"
+        :selection="selection"
+        @refresh="getList"
+      />
+      <el-table
+        :data="tableList"
+        border
+        class="manage-table"
+        @row-click="handleRowClick"
+        ref="manageTable"
+        @selection-change="selectionChange"
+      >
+        <el-table-column type="selection" width="55" align="center" />
+        <el-table-column type="index" width="60" label="序号" align="center" />
+        <el-table-column label="封面" align="center" prop="isOriginal" width="150">
+          <template #default="scope">
+            <c-image :src="scope.row.coverUrl" />
+          </template>
+        </el-table-column>
+        <el-table-column label="分类名称" align="center" prop="typeName" show-overflow-tooltip />
+        <el-table-column label="简介" align="center" prop="intro" show-overflow-tooltip />
+        <el-table-column label="创建时间" width="auto" align="center" prop="createTime" />
+        <el-table-column label="修改时间" width="auto" align="center" prop="updateTime" />
+        <el-table-column label="备注" width="auto" align="center" prop="remark" />
+      </el-table>
+    </div>
     <Pagination
       v-model:page="queryParams.pageNum"
       v-model:page-size="queryParams.pageSize"
@@ -56,11 +55,11 @@
       :showSizes="true"
       :pageSizeList="[10, 20, 30]"
       :on-page-size-change="getList"
-      class="pagi page-content"
+      class="manage-pagination"
     />
   </div>
   <!-- 新增或编辑 -->
-  <c-dialog :title="title" v-model="open" width="450" :modal="true">
+  <c-dialog :title="title" v-model="open" width="500" :modal="true">
     <el-form ref="submitForm" :model="form" label-width="55" :rules="rules">
       <el-form-item label="名称" prop="typeName">
         <el-input v-model="form.typeName" clearable></el-input>
@@ -87,7 +86,7 @@ import { useRouter } from 'vue-router';
 import Pagination from '@/components/pagination/index.vue';
 import { ElMessageBox, ElNotification } from 'element-plus';
 import upload from '@/components/upload/upload.vue';
-import { useTableResize } from '@/utils/manage';
+
 import tools from '../components/tools.vue';
 const submitForm = ref(null as any);
 const router = useRouter();
@@ -96,6 +95,9 @@ const queryParams = ref({
   pageNum: 1,
   pageSize: 10
 } as any);
+
+const manageTable = ref(null) as any;
+
 const rules = ref({
   typeName: [{ required: true, message: '名称不能为空', trigger: 'blur' }],
   intro: [{ required: true, message: '简介不能为空', trigger: 'blur' }]
@@ -106,13 +108,17 @@ const isSearchShow = ref(false as any);
 const selectIds = ref([] as any);
 const title = ref('新增' as String);
 const form = ref({
-  coverUrl: '111',
+  coverUrl: '',
   intro: '',
   typeName: ''
 } as any);
 const tableList = ref([] as any);
 const open = ref(false as any);
 const total = ref(0);
+
+function handleRowClick(row: any) {
+  manageTable.value.toggleRowSelection(row);
+}
 
 async function getList() {
   const { code, msg, data } = (await listType(queryParams.value)) as any;
@@ -125,7 +131,7 @@ async function getList() {
 async function submit() {
   submitForm.value.validate(async (valid: any) => {
     if (valid) {
-      const { code, msg, data } = (await saveBlogType(form.value)) as any;
+      const { code } = (await saveBlogType(form.value)) as any;
       if (code == 200) {
         if (!form.value.typeId) {
           ElNotification.success({
@@ -166,7 +172,7 @@ function selectionChange(val: any) {
 
 function resetForm() {
   form.value = {
-    coverUrl: '11',
+    coverUrl: '',
     intro: '',
     typeName: ''
   };
@@ -192,7 +198,7 @@ async function handleDel() {
   }).then(async () => {
     let ids = [];
     ids = selectIds.value;
-    const { code, msg, data } = (await delBlogType(ids)) as any;
+    const { code } = (await delBlogType(ids)) as any;
     if (code == 200) {
       ElNotification.success({
         title: 'Success',
@@ -206,11 +212,9 @@ async function handleDel() {
 
 function hideSearch() {
   isSearchShow.value = !isSearchShow.value;
-  useTableResize();
 }
 onMounted(() => {
   getList();
-  useTableResize();
 });
 </script>
 <style lang="scss" scoped>

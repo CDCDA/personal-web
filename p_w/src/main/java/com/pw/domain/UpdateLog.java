@@ -1,6 +1,5 @@
 package com.pw.domain;
 
-import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -16,7 +15,6 @@ import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
-import java.util.List;
 
 /***
  * @author cyd
@@ -42,4 +40,17 @@ public class UpdateLog extends BaseEntity {
     @JsonFormat(pattern = "yyyy-MM-dd")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date operateTime;
+
+    @ApiModelProperty(value = "起始时间")
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @TableField(exist = false)
+    private Date startTime;
+
+
+    @ApiModelProperty(value = "起始时间")
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @TableField(exist = false)
+    private Date endTime;
 }

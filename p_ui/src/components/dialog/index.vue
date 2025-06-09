@@ -179,15 +179,18 @@ defineExpose({
     margin: 0 0.5rem -3px 0.8rem;
     height: 100%;
     display: flex;
-    font-size: 1rem;
+    font-size: 0.9rem;
     justify-content: space-between;
     align-items: center;
     .c-dialog-bt-group {
       display: flex;
-      font-size: 1.15rem;
+      font-size: 1rem;
     }
     .svg-icon {
       font-size: inherit;
+    }
+    .svg-icon:hover {
+      color: #4ca4ff !important;
     }
     .svg-icon:active {
       transform: translateY(1px);

@@ -3,77 +3,70 @@
 -->
 <template>
   <div class="blog-manage manage-main" :class="isSearchShow ? 'is-hidden' : ''">
-    <el-form
-      class="manage-query-form"
-      :model="queryParams"
-      ref="queryRef"
-      :inline="true"
-      label-width="40"
-      size="mini"
-    >
-      <el-form-item label="名称" prop="blogTitle">
+    <el-form class="manage-query-form" :model="queryParams" ref="queryRef" :inline="true">
+      <el-form-item prop="blogTitle">
         <el-input
-          v-model="queryParams.blogTitle"
+          v-model="queryParams.name"
           placeholder="请输入影视名称"
           clearable
-          style="width: 200px"
           @keyup.enter="getList"
         />
       </el-form-item>
-      <el-form-item label="分类" prop="typeId">
-        <el-select v-model="queryParams.typeId" style="width: 200px" placeholder="请选择分类">
-          <el-option
-            v-for="item in typeList"
-            :value="item.typeId"
-            :label="item.typeName"
-          ></el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item label="标签" prop="tagId">
-        <el-select v-model="queryParams.tagId" placeholder="请选择标签">
-          <el-option v-for="item in tagList" :value="item.tagId" :label="item.tagName"></el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item label="时间" prop="tagId">
-        <el-date-picker
-          v-model="dateRange"
-          type="daterange"
-          range-separator="至"
-          start-placeholder="开始日期"
-          end-placeholder="结束日期"
-          value-format="YYYY-MM-DD"
+      <el-form-item prop="typeId">
+        <el-select
+          v-model="queryParams.type"
+          clearable
+          placeholder="请选择分类"
+          @keyup.enter="getList"
         >
-        </el-date-picker>
+          <el-option v-for="item in dict.drama_type" :value="item.value" :label="item.label" />
+        </el-select>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="Search" @click="getList">搜索</el-button>
-        <el-button icon="Refresh" @click="resetQuery">重置</el-button>
+        <el-button type="danger" icon="Refresh" @click="resetQuery">重置</el-button>
       </el-form-item>
     </el-form>
-    <div class="c-divider"></div>
-    <tools
-      @handleAdd="handleAdd"
-      @handleEdit="handleEdit"
-      @handleDel="handleDel"
-      :selection="selection"
-      @refresh="getList"
-    />
-    <el-table :data="blogList" class="manage-table" style="" @selection-change="selectionChange">
-      <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="封面" align="center" prop="isOriginal" width="150">
-        <template #default="scope">
-          <c-image :src="scope.row.coverUrl" />
-        </template>
-      </el-table-column>
-      <el-table-column label="名称" align="center" prop="name" show-overflow-tooltip />
-      <el-table-column label="分类" align="center" prop="type">
-        <template #default="scope">
-          <!-- 影视分类(0:电影;1:电视剧;2:动漫) -->
-          {{ getDramaType(scope.row.type) }}
-        </template>
-      </el-table-column>
-      <el-table-column label="创建时间" align="center" prop="createTime" />
-    </el-table>
+    <div class="manage-table-wrap">
+      <tools
+        @handleAdd="handleAdd"
+        @handleEdit="handleEdit"
+        @handleDel="handleDel"
+        :selection="selection"
+        @refresh="getList"
+      />
+      <el-table
+        :data="blogList"
+        border
+        class="manage-table"
+        @row-click="handleRowClick"
+        ref="manageTable"
+        @selection-change="selectionChange"
+      >
+        <el-table-column type="selection" width="55" align="center" />
+        <el-table-column type="index" width="60" label="序号" align="center" />
+        <el-table-column label="封面" align="center" prop="isOriginal" width="150">
+          <template #default="scope">
+            <c-image :src="scope.row.coverUrl" />
+          </template>
+        </el-table-column>
+        <el-table-column
+          label="名称"
+          align="center"
+          prop="name"
+          width="220"
+          show-overflow-tooltip
+        />
+        <el-table-column label="简介" align="center" prop="intro" show-overflow-tooltip />
+        <el-table-column label="分类" align="center" prop="type" width="150">
+          <template #default="scope">
+            <DictTag :options="dict.drama_type" :value="scope.row.type" />
+          </template>
+        </el-table-column>
+        <el-table-column label="创建时间" align="center" width="220" prop="createTime" />
+        <el-table-column label="修改时间" align="center" width="220" prop="updateTime" />
+      </el-table>
+    </div>
     <Pagination
       v-model:page="queryParams.pageNum"
       v-model:page-size="queryParams.pageSize"
@@ -82,27 +75,26 @@
       :showSizes="true"
       :pageSizeList="[10, 20, 30]"
       :on-page-size-change="getList"
-      class="pagi page-content"
+      class="manage-pagination"
     />
   </div>
   <!-- 新增或编辑 -->
-  <c-dialog v-model="open" :title="title" width="500" :modal="true">
-    <el-form :model="form" label-width="80">
-      <el-form-item label="影视名称">
+  <c-dialog v-model="open" :title="title" width="600" :modal="true">
+    <el-form :model="form" label-width="85" ref="formEl" :rules="rules">
+      <el-form-item label="影视名称" prop="name">
         <el-input v-model="form.name" clearable />
       </el-form-item>
-      <el-form-item label="封面">
-        <upload v-if="!fromNet" v-model="form.coverUrl" path="drama" />
-        <el-input v-else v-model="form.coverUrl" clearable />
+      <el-form-item label="封面" prop="coverUrl">
+        <upload v-model="form.coverUrl" path="drama" />
       </el-form-item>
-      <el-form-item label="分类">
+      <el-form-item label="分类" prop="type">
         <el-radio-group v-model="form.type" class="ml-4">
-          <el-radio :label="'0'" size="mini">电影</el-radio>
-          <el-radio :label="'1'" size="mini">电视剧</el-radio>
-          <el-radio :label="'2'" size="mini">动漫</el-radio>
+          <el-radio :value="item.value" v-for="item in dict.drama_type">
+            {{ item.label }}
+          </el-radio>
         </el-radio-group>
       </el-form-item>
-      <el-form-item label="播放地址">
+      <el-form-item label="播放地址" prop="url">
         <el-input v-model="form.url" clearable />
       </el-form-item>
       <el-form-item label="简介">
@@ -131,10 +123,13 @@ import { listDrama, delDrama, saveDrama, getDramaById } from '@/api/dramaSeries.
 import { useRouter } from 'vue-router';
 import Pagination from '@/components/pagination/index.vue';
 import { ElMessageBox, ElNotification } from 'element-plus';
-import { useTableResize } from '@/utils/manage';
+import Upload from '@/components/upload/upload.vue';
 import tools from '../components/tools.vue';
+import { useDict } from '@/utils/dict.ts';
+import DictTag from '@/components/dict/dictTag.vue';
+const dict = useDict('drama_type');
 const title = ref('');
-const fromNet = ref(true as any);
+
 const form = ref({
   coverUrl: null,
   url: null,
@@ -158,27 +153,20 @@ const selection = ref([] as any);
 const isSearchShow = ref(false as any);
 const selectIds = ref([] as any);
 const blogList = ref([] as any);
-const typeList = ref([] as any);
-const tagList = ref([] as any);
 const total = ref(0);
 
-function getDramaType(type: any) {
-  switch (type) {
-    case 0:
-      return '电影';
-    case 1:
-      return '电视剧';
-    case 2:
-      return '动漫';
-    default:
-      return '未知';
-  }
-}
+const formEl = ref(null) as any;
+const manageTable = ref(null) as any;
+const rules = ref({
+  coverUrl: [{ required: true, message: '请上传封面', trigger: 'blur' }],
+  name: [{ required: true, message: '请输入影视名称', trigger: 'blur' }],
+  type: [{ required: true, message: '请选择分类', trigger: 'blur' }]
+});
 
 async function getList() {
   queryParams.value.startTime = dateRange.value[0];
   queryParams.value.endTime = dateRange.value[1];
-  const { code, msg, data } = (await listDrama(queryParams.value)) as any;
+  const { code, data } = (await listDrama(queryParams.value)) as any;
   if (code == 200) {
     blogList.value = data.list;
     total.value = data.total;
@@ -214,6 +202,9 @@ function selectionChange(val: any) {
   });
 }
 
+function handleRowClick(row: any) {
+  manageTable.value.toggleRowSelection(row);
+}
 function handleAdd() {
   open.value = true;
   title.value = '新增';
@@ -232,9 +223,8 @@ async function handleDel() {
     type: 'warning'
   }).then(async () => {
     let ids = [];
-
     ids = selectIds.value;
-    const { code, msg, data } = (await delDrama(ids)) as any;
+    const { code } = (await delDrama(ids)) as any;
     if (code == 200) {
       ElNotification({
         title: 'Success',
@@ -247,33 +237,31 @@ async function handleDel() {
 }
 
 async function submit() {
-  const { code, msg } = (await saveDrama(form.value)) as any;
-  if (code == 200) {
-    console.log('FFF', form.value);
-    if (!form.value.id)
-      ElNotification({
-        title: 'Success',
-        message: '新增成功',
-        type: 'success'
-      });
-    else
-      ElNotification({
-        title: 'Success',
-        message: '修改成功',
-        type: 'success'
-      });
-    getList();
-    open.value = false;
-  }
+  formEl.value.validate(async (valid: any) => {
+    if (valid) {
+      const { code } = (await saveDrama(form.value)) as any;
+      if (code == 200) {
+        if (!form.value.id)
+          ElNotification({
+            title: 'Success',
+            message: '新增成功',
+            type: 'success'
+          });
+        else
+          ElNotification({
+            title: 'Success',
+            message: '修改成功',
+            type: 'success'
+          });
+        getList();
+        open.value = false;
+      }
+    }
+  });
 }
 
-function hideSearch() {
-  isSearchShow.value = !isSearchShow.value;
-  useTableResize();
-}
 onMounted(() => {
   getList();
-  useTableResize();
 });
 </script>
 <style lang="scss" scoped></style>

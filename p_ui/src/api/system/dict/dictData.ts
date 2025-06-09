@@ -6,9 +6,16 @@ import request from '@/utils/request';
 // 根据dictType获取字典数据
 export const getDicts = (dictType: any) =>
   request({
-    url: '/pw/dictData/getDictDataByDictType',
+    url: `/pw/dictData/getDictDataByDictType/${dictType}`,
+    method: 'get'
+  });
+
+// 根据dictType获取字典数据分页
+export const pageDicts = (params: any) =>
+  request({
+    url: `/pw/dictData/pageDictDataByDictType`,
     method: 'post',
-    data: dictType
+    data: params
   });
 
 // 查询字典数据数

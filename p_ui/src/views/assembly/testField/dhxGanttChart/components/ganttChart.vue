@@ -2,7 +2,7 @@
   <div style="width: 100%; height: 100%">
     <el-form :model="queryParams" :inline="true">
       <el-form-item label="分组查询">
-        <el-select v-model="queryParams.group" clearable style="width: 200px">
+        <el-select v-model="queryParams.group" clearable>
           <el-option value="x" label="x"></el-option>
           <el-option value="y" label="y"></el-option>
         </el-select>

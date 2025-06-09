@@ -44,13 +44,13 @@
               <el-statistic title="分类数" :value="typeNumValue" />
             </div>
             <div class="count-item">
-              <el-statistic title="标签数" :value="typeNumValue" />
+              <el-statistic title="标签数" :value="tagNumValue" />
             </div>
             <div class="count-item">
-              <el-statistic title="切片数" :value="typeNumValue" />
+              <el-statistic title="切片数" :value="sliceNumValue" />
             </div>
             <div class="count-item">
-              <el-statistic title="大模块数" :value="typeNumValue" />
+              <el-statistic title="大模块数" :value="moduleNumValue" />
             </div>
             <div class="count-item">
               <el-statistic title="网站更新数" :value="updateLogNumValue" />
@@ -89,6 +89,7 @@
 </template>
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
 import statisticBack from './components/statisticBack.vue';
 import blogCountChart from './components/blogCountLine.vue';
 import updateCountLineBar from './components/updateCountLineBar.vue';
@@ -98,6 +99,7 @@ import blogTagBar from './components/blogTagBar.vue';
 import blogTypePie from './components/blogTypePie.vue';
 import gameDramaPie from './components/gameDramaPie.vue';
 import clock from './components/clock.vue';
+import { countTag } from '@/api/tag.ts';
 import { countBlog } from '@/api/blog.ts';
 import { countAlbum } from '@/api/album.ts';
 import { countEssay } from '@/api/essay.ts';
@@ -111,12 +113,19 @@ const albumNum = ref(0 as any);
 const albumNumValue = useTransition(albumNum);
 const essayNum = ref(0 as any);
 const essayNumValue = useTransition(essayNum);
-const musicNum = ref(0 as any);
-const musicNumValue = useTransition(musicNum);
+// const musicNum = ref(0 as any);
+// const musicNumValue = useTransition(musicNum);
 const typeNum = ref(0 as any);
 const typeNumValue = useTransition(typeNum);
 const updateLogNum = ref(0 as any);
 const updateLogNumValue = useTransition(updateLogNum);
+const tagNum = ref(0 as any);
+const tagNumValue = useTransition(tagNum);
+const sliceNum = ref(0 as any);
+const sliceNumValue = useTransition(sliceNum);
+const moduleNum = ref(0 as any);
+const moduleNumValue = useTransition(moduleNum);
+const router = useRouter();
 
 async function blogCount() {
   const { code, data } = (await countBlog({})) as any;
@@ -139,17 +148,36 @@ async function essayCount() {
   }
 }
 
-async function musicCount() {
-  const { code, data } = (await countMusic()) as any;
-  if (code == 200) {
-    musicNum.value = data;
-  }
+function sliceCount() {
+  sliceNum.value = (router.options.routes as any).find(
+    (x: any) => x.name == 'slice'
+  ).children.length;
 }
+
+function moduleCount() {
+  moduleNum.value = (router.options.routes as any).find(
+    (x: any) => x.name == 'testField'
+  ).children.length;
+}
+
+// async function musicCount() {
+//   const { code, data } = (await countMusic()) as any;
+//   if (code == 200) {
+//     musicNum.value = data;
+//   }
+// }
 
 async function typeCount() {
   const { code, data } = (await countType()) as any;
   if (code == 200) {
     typeNum.value = data;
+  }
+}
+
+async function tagCount() {
+  const { code, data } = (await countTag()) as any;
+  if (code == 200) {
+    tagNum.value = data;
   }
 }
 
@@ -164,8 +192,10 @@ function init() {
   blogCount();
   albumCount();
   essayCount();
-  musicCount();
+  tagCount();
   typeCount();
+  sliceCount();
+  moduleCount();
   updateLogCount();
 }
 

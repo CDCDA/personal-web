@@ -31,6 +31,15 @@ public class BlogTag extends BaseEntity {
     @ApiModelProperty(value = "用户id")
     private String userId;
 
+    @ApiModelProperty(value = "标签类型")
+    private String tagType;
+
+    @ApiModelProperty(value = "主题")
+    private String effec;
+
+    @ApiModelProperty(value = "颜色")
+    private String color;
+
 
 
 

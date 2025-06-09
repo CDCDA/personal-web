@@ -3,6 +3,7 @@
   <div id="app-theme" data-theme="theme-white">
     <div class="dialog-base"></div>
     <div class="select-base"></div>
+    <div class="messageBox-base"></div>
     <el-container class="container">
       <el-header class="el-header">
         <common-header v-if="themeStore.isShow" />
@@ -24,9 +25,11 @@
           id="particles"
           :options="options"
         />
-        <router-view v-slot="{ Component }">
-          <component :is="Component" />
-        </router-view>
+        <div class="router-container">
+          <router-view v-slot="{ Component }">
+            <component :is="Component" />
+          </router-view>
+        </div>
         <common-footer v-if="themeStore.isFooterShow" />
       </el-main>
     </el-container>
@@ -199,7 +202,7 @@ async function init() {
   if (themeData) {
     themeData = JSON.parse(themeData) as any;
     themeStore.theme = themeData.theme ? themeData.theme : 'theme-white';
-    themeStore.backUrl = themeData.backUrl ? themeData.backUrl : '@/assets/images/开始.jpg';
+    themeStore.backUrl = themeData.backUrl ? themeData.backUrl : '@/assets/images/天使.png';
     themeStore.backType = themeData.backType ? themeData.backType : 'img';
     themeStore.options = themeData.options ? themeData.options : [];
   }
@@ -226,7 +229,11 @@ async function init() {
   if (userStore.token) {
     const res = (await verifyTokenNoIntercept()) as any;
     if (res.data.code === 200) {
-      router.push({ path: '/home' });
+      // 上次访问的路由
+      let path = window.localStorage.getItem('lastRouter');
+      if (!path) path = '/home';
+      if (path === '/') path = '/home';
+      router.push({ path });
     } else {
       router.push({ path: '/login' });
     }
@@ -238,8 +245,12 @@ async function init() {
 
 onMounted(() => {
   themeStore.isShow = true;
+  // console.log(window.location.href);
   if (!window.location.href.includes('/manage')) {
     init();
+  } else {
+    themeStore.isFooterShow = false;
+    themeStore.isShow = false;
   }
 
   // setTimeout(() => {
@@ -255,6 +266,26 @@ onMounted(() => {
 </script>
 
 <style lang="scss">
+@font-face {
+  font-family: 'DaoLiTi';
+  src: url(/AlimamaDaoLoTi/AlimamaDaoLiTi.ttf);
+}
+@font-face {
+  font-family: 'FangDaKai';
+  src: url(/font-family/AlimamaDongFangDaKai-Regular/AlimamaDongFangDaKai-Regular.ttf);
+}
+@font-face {
+  font-family: 'DingDing';
+  src: url(/font-family/iuMg2dm8ifws/2sjeZLl8aCWp.woff2);
+}
+@font-face {
+  font-family: 'Uranus';
+  src: url(/font-family/Uranus-Pixel-main/Uranus_Pixel_11Px.ttf);
+}
+@font-face {
+  font-family: 'Shark';
+  src: url(/font-family/Shark/优设鲨鱼菲特健康体.ttf);
+}
 #app-theme,
 #app {
   @include full();
@@ -297,9 +328,12 @@ html {
 }
 #app {
   @include getValue() {
-    @import '@/assets/styles/element-ui.scss';
     @import '@/assets/styles/common.scss';
+    @import '@/assets/styles/element-ui.scss';
   }
+}
+.router-container {
+  min-height: 100vh;
 }
 .el-header {
   text-align: center;

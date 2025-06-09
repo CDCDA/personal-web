@@ -3,10 +3,7 @@ package com.pw.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.pw.domain.Blog;
 import com.pw.dto.BlogPageDTO;
-import com.pw.vo.BlogCountVO;
-import com.pw.vo.BlogTagCountVO;
-import com.pw.vo.BlogTypeCountVO;
-import com.pw.vo.BlogVO;
+import com.pw.vo.*;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -14,6 +11,8 @@ import java.util.List;
 @Repository//代表持久层
 public interface BlogMapper extends BaseMapper<Blog> {
     List<BlogVO> list(BlogPageDTO blog);
+
+    List<BlogTypeDataVO> listByType(Integer number);
 
     BlogVO getBlogById(Long blogId);
 

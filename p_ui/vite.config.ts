@@ -42,7 +42,7 @@ export default defineConfig({
     }
   },
   optimizeDeps: {
-    include: ['@/../lib/vform/designer.umd.js'] //此处路径必须跟main.js中import路径完全一致！
+    include: ['@/../lib/vform/designer.umd.js', 'swiper'] //此处路径必须跟main.js中import路径完全一致！
   },
   build: {
     commonjsOptions: {
@@ -73,15 +73,15 @@ export default defineConfig({
     }
   },
   server: {
-    port: 8086,
+    port: 8088,
     host: '0.0.0.0',
     headers: {
       'Access-Control-Allow-Origin': '*'
     },
     proxy: {
       '/dev-api': {
-        // target: 'http://localhost:5008',
-        target: 'http://1.92.159.74:5008',
+        target: 'http://localhost:5008',
+        // target: 'http://1.92.159.74:5008',
         changeOrigin: true,
         rewrite: p => p.replace(/^\/dev-api/, '')
       },

@@ -179,7 +179,7 @@ onMounted(() => {
       position: relative;
       height: calc(100% - 30vh - 80px);
       span {
-        font-size: 0.85rem;
+        font-size: 0.8rem;
       }
       :deep(.el-input),
       :deep(.el-textarea) {

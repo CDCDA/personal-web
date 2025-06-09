@@ -23,3 +23,6 @@ dist-ssr
 *.sln
 *.sw?
 !/src/App.vue
+!/src/views/introduction/projectExperience/index.vue
+!/src/views/introduction/projectExperience/projectData.js
+!/src/views/introduction/projectExperience/projectData.js

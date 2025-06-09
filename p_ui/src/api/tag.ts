@@ -3,9 +3,9 @@
  */
 import request from '@/utils/request';
 
-export const countByUserId = (id: any) =>
+export const countTag = () =>
   request({
-    url: '/pw/blogTag/countByUserId/' + id,
+    url: '/pw/blogTag/countTag',
     method: 'get'
   });
 

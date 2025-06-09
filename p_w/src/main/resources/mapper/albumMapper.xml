@@ -56,9 +56,13 @@
                 and
                 a.user_id = "${userId}"
             </if>
+            <if test="name != null and name!=''">
+                and
+                a.name = "${name}"
+            </if>
             <if test="startTime != null and startTime!='' and endTime != null and endTime!=''">
                 and
-                a.create_time between startTime and endTime
+                a.create_time between #{startTime} and #{endTime}
             </if>
         </where>
         order by create_time desc
@@ -77,9 +81,13 @@
                 and
                 a.user_id = "${userId}"
             </if>
+            <if test="name != null and name!=''">
+                and
+                a.name = "${name}"
+            </if>
             <if test="startTime != null and startTime!='' and endTime != null and endTime!=''">
                 and
-                a.create_time between startTime and endTime
+                a.create_time between #{startTime} and #{endTime}
             </if>
         </where>
         order by create_time desc

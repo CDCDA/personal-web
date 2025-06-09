@@ -4,22 +4,26 @@
 <template>
   <el-row :gutter="10" class="manage-button-group" style="margin-bottom: 15px">
     <el-col :span="1.5">
-      <el-button type="primary" plain icon="Plus" @click="emit('handleAdd')">新增</el-button>
+      <el-button type="primary" plain size="small" icon="Plus" @click="emit('handleAdd')"
+        >新增</el-button
+      >
     </el-col>
     <el-col :span="1.5">
       <el-button
-        type="primary"
+        type="success"
         plain
+        size="small"
         icon="Edit"
         @click="emit('handleEdit')"
         :disabled="props.selection.length == 0"
         >修改</el-button
       >
     </el-col>
-    <el-col :span="1.5">
+    <el-col :span="1.5" v-if="props.viewButton === true">
       <el-button
         type="warning"
         plain
+        size="small"
         icon="View"
         @click="emit('handleView')"
         :disabled="props.selection.length == 0"
@@ -30,6 +34,7 @@
       <el-button
         type="danger"
         plain
+        size="small"
         icon="Delete"
         @click="emit('handleDel')"
         :disabled="props.selection.length == 0"
@@ -37,9 +42,9 @@
       >
     </el-col>
     <div class="manage-tools">
-      <el-tooltip content="菜单" placement="top">
-        <svg-icon iconName="commonSvg-菜单" @click="openMenu" />
-      </el-tooltip>
+      <!--      <el-tooltip content="菜单" placement="top">-->
+      <!--        <svg-icon iconName="commonSvg-菜单" @click="openMenu" />-->
+      <!--      </el-tooltip>-->
       <el-tooltip content="刷新" placement="top">
         <svg-icon iconName="commonSvg-刷新" @click="emit('refresh')" />
       </el-tooltip>
@@ -51,31 +56,18 @@
       </el-tooltip>
     </div>
   </el-row>
-  <c-dialog
-    class="circle-menu-dialog"
-    type="filter"
-    :isFull="true"
-    v-model="menuShow"
-    style="height: 70%"
-  >
-    <circleMenu style="z-index: 9999; width: 100%; height: 60vh" />
-  </c-dialog>
 </template>
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
-import circleMenu from './circleMenu.vue';
-import { useRouter } from 'vue-router';
 const props = defineProps({
   selection: {
     default: []
+  },
+  viewButton: {
+    default: false
   }
 });
-const menuShow = ref(false);
 const emit = defineEmits(['handleAdd', 'handleEdit', 'handleView', 'handleDel', 'refresh']);
-
-function openMenu() {
-  menuShow.value = true;
-}
 
 function fullScreen() {
   let pageMain = document.querySelector('.page-main') as any;
@@ -94,7 +86,7 @@ function showSearch() {
   } else {
     manageMain.classList.add('is-hidden');
   }
-  // useTableResize();
+  //
 }
 onMounted(() => {});
 </script>

@@ -247,12 +247,12 @@ function closeThemeDialog() {
       animation: rotate 2s linear infinite;
     }
   }
-  .blog,
-  .log {
-    .svg-icon {
-      margin-left: 4px;
-    }
-  }
+  //.blog,
+  //.log {
+  //  .svg-icon {
+  //    margin-left: 4px;
+  //  }
+  //}
 }
 @include theme() {
   .setting-item-img {
@@ -260,7 +260,7 @@ function closeThemeDialog() {
   }
   .side-setting {
     .setting-item {
-      color: get('font-color');
+      color: get('re-back');
     }
   }
 }

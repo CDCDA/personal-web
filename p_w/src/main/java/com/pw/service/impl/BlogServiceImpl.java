@@ -5,10 +5,7 @@ import com.pw.domain.Blog;
 import com.pw.dto.BlogPageDTO;
 import com.pw.mapper.BlogMapper;
 import com.pw.service.BlogService;
-import com.pw.vo.BlogCountVO;
-import com.pw.vo.BlogTagCountVO;
-import com.pw.vo.BlogTypeCountVO;
-import com.pw.vo.BlogVO;
+import com.pw.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,6 +28,12 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements Bl
     @Transactional
     public List<BlogVO> list(BlogPageDTO blog) {
         return blogMapper.list(blog);
+    }
+
+    @Override
+    @Transactional
+    public List<BlogTypeDataVO> listByType(Integer number){
+        return blogMapper.listByType(number);
     }
 
     @Override

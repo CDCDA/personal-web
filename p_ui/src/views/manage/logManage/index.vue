@@ -3,52 +3,59 @@
 -->
 <template>
   <div class="log-manage manage-main" :class="isSearchShow ? 'is-hidden' : ''">
-    <el-form
-      class="manage-query-form"
-      :model="queryParams"
-      ref="queryRef"
-      :inline="true"
-      label-width="40"
-      size="mini"
-    >
-      <el-form-item label="操作内容" label-width="70">
+    <el-form class="manage-query-form" :model="queryParams" ref="queryRef" :inline="true">
+      <el-form-item label-width="70">
         <el-input
           v-model="queryParams.operation"
-          placeholder="请输入操作内容"
+          placeholder="请输入更新内容"
           clearable
-          style="width: 200px"
           @keyup.enter="getList"
         />
+      </el-form-item>
+      <el-form-item prop="dateRange">
+        <el-date-picker
+          v-model="dateRange"
+          type="daterange"
+          range-separator="至"
+          start-placeholder="开始日期"
+          end-placeholder="结束日期"
+          value-format="YYYY-MM-DD"
+        >
+        </el-date-picker>
       </el-form-item>
       <el-form-item>
         <el-button log="primary" icon="Search" @click="getList">搜索</el-button>
         <el-button icon="Refresh" @click="resetQuery">重置</el-button>
       </el-form-item>
     </el-form>
-    <div class="c-divider"></div>
-    <tools
-      @handleAdd="handleAdd"
-      @handleEdit="handleEdit"
-      @handleDel="handleDel"
-      :selection="selection"
-      @refresh="getList"
-    />
-    <el-table
-      :data="tableList"
-      ref="table"
-      class="manage-table"
-      @selection-change="selectionChange"
-    >
-      <el-table-column type="selection" width="55" align="center" />
-      <el-table-column
-        label="更新内容"
-        align="center"
-        prop="operation"
-        width="auto"
-        show-overflow-tooltip
+    <div class="manage-table-wrap">
+      <tools
+        @handleAdd="handleAdd"
+        @handleEdit="handleEdit"
+        @handleDel="handleDel"
+        :selection="selection"
+        @refresh="getList"
       />
-      <el-table-column label="更新时间" width="auto" align="center" prop="operateTime" />
-    </el-table>
+      <el-table
+        :data="tableList"
+        border
+        class="manage-table"
+        @row-click="handleRowClick"
+        ref="manageTable"
+        @selection-change="selectionChange"
+      >
+        <el-table-column type="selection" width="55" align="center" />
+        <el-table-column type="index" width="60" label="序号" align="center" />
+        <el-table-column
+          label="更新内容"
+          align="center"
+          prop="operation"
+          width="auto"
+          show-overflow-tooltip
+        />
+        <el-table-column label="更新时间" width="auto" align="center" prop="operateTime" />
+      </el-table>
+    </div>
     <Pagination
       v-model:page="queryParams.pageNum"
       v-model:page-size="queryParams.pageSize"
@@ -57,7 +64,7 @@
       :showSizes="true"
       :pageSizeList="[10, 20, 30]"
       :on-page-size-change="getList"
-      class="pagi page-content"
+      class="manage-pagination"
     />
   </div>
   <!-- 新增或编辑 -->
@@ -75,13 +82,14 @@ import { listUpdateLog, delUpdateLog } from '@/api/system/updateLog';
 import Pagination from '@/components/pagination/index.vue';
 import { ElNotification, ElMessageBox } from 'element-plus';
 import addLog from '@/views/layout/sideSetting/components/addLog.vue';
-import { useTableResize } from '@/utils/manage';
+
 import tools from '../components/tools.vue';
 const addLogOpen = ref(false);
 const queryParams = ref({
   operation: '',
   pageNum: 1,
-  pageSize: 10
+  pageSize: 10,
+  orderBy: 'operate_time'
 } as any);
 const selection = ref([] as any);
 const isSearchShow = ref(false as any);
@@ -94,9 +102,22 @@ const form = ref({
 } as any);
 const tableList = ref([] as any);
 const total = ref(0);
+const dateRange = ref([] as any);
+const manageTable = ref(null) as any;
+
+function handleRowClick(row: any) {
+  manageTable.value.toggleRowSelection(row);
+}
 
 async function getList() {
-  const { code, msg, data } = (await listUpdateLog(queryParams.value)) as any;
+  if (dateRange.value) {
+    queryParams.value.startTime = dateRange.value[0];
+    queryParams.value.endTime = dateRange.value[1];
+  } else {
+    queryParams.value.startTime = '';
+    queryParams.value.endTime = '';
+  }
+  const { code, data } = (await listUpdateLog(queryParams.value)) as any;
   if (code == 200) {
     tableList.value = data.list;
     total.value = data.total;
@@ -107,7 +128,8 @@ function resetQuery() {
   queryParams.value = {
     operation: '',
     pageNum: 1,
-    pageSize: 10
+    pageSize: 10,
+    orderBy: 'operate_time'
   };
 }
 
@@ -161,13 +183,8 @@ async function handleDel() {
     });
 }
 
-function hideSearch() {
-  isSearchShow.value = !isSearchShow.value;
-  useTableResize();
-}
 onMounted(() => {
   getList();
-  useTableResize();
 });
 </script>
 <style lang="scss" scoped>

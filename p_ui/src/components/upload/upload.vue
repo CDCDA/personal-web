@@ -60,7 +60,7 @@ import { ref, nextTick, onMounted, watch } from 'vue';
 import type { UploadProps } from 'element-plus';
 import { ElMessage } from 'element-plus';
 import { Select, Switch } from '@element-plus/icons-vue';
-const imageValue = ref(null) as any;
+const imageValue = ref([] as any[]);
 const isArr = ref(false);
 const isUrl = ref(false);
 const uploadAction = ` ${
@@ -137,16 +137,9 @@ watch(
   () => props.modelValue,
   val => {
     isArr.value = Array.isArray(val);
-    if (isArr.value && val.length == 0) {
-      imageValue.value = [];
-    } else {
-      imageValue.value = val;
-      console.log(imageValue.value);
-    }
+    imageValue.value = val;
   },
-  {
-    deep: true
-  }
+  { deep: true }
 );
 
 watch(
@@ -198,7 +191,7 @@ watch(
     }
   }
   .c-uploader {
-    border: 1px solid get('border-color');
+    border: 2px dashed get('border-color');
     background: transparent;
 
     width: 146px;

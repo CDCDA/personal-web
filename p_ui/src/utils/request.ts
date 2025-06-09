@@ -32,7 +32,6 @@ service.interceptors.request.use(
 // 响应拦截器
 service.interceptors.response.use(
   (response: any) => {
-    console.log('QWE', response);
     if (!response) {
       ElNotification.error(response.data.msg || '无法连接到服务器');
     }

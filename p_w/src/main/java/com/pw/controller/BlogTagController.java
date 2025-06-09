@@ -5,6 +5,7 @@ import com.pw.common.controller.convertController;
 import com.pw.common.token.UserLoginToken;
 import com.pw.common.utils.Result;
 import com.pw.common.utils.SnowFlake;
+import com.pw.common.utils.TokenUtil;
 import com.pw.domain.BlogTag;
 import com.pw.mapper.BlogTagRelationMapper;
 import com.pw.service.BlogService;
@@ -49,17 +50,17 @@ public class BlogTagController extends BaseController implements convertControll
         return resultList(result, blogTagRelationMapper.countBlogTag(blogTag));
     }
 
-//    @GetMapping("/pageList")
+    //    @GetMapping("/pageList")
 //    @ApiOperation(value = "查询标签列表", notes = "", httpMethod = "GET")
 //    public Result pageList(@RequestBody BlogTag blogTag) {
 //        List<BlogTagVO> result = blogTagRelationSerivce.li(userId);
 //        return resultList(result, blogTagRelationMapper.countBlogTag(userId));
 //    }
-@GetMapping("/listTagAndBlog")
-@ApiOperation(value = "查询标签列表并列出指定数量的博客", notes = "", httpMethod = "GET")
-public Result lisTagAndBlog() {
-    return resultList(blogTagService.listTypeAndBlog());
-}
+    @GetMapping("/listTagAndBlog")
+    @ApiOperation(value = "查询标签列表并列出指定数量的博客", notes = "", httpMethod = "GET")
+    public Result lisTagAndBlog() {
+        return resultList(blogTagService.listTypeAndBlog());
+    }
 
 
     @GetMapping("/selectById")
@@ -69,10 +70,11 @@ public Result lisTagAndBlog() {
         return resultData(blogTag);
     }
 
-    @GetMapping("/countByUserId/{id}")
+    @GetMapping("/countTag")
     @ApiOperation(value = "根据用户id查询标签数", notes = "", httpMethod = "GET")
-    public Result countByUserId(@PathVariable String id) {
-        return resultData(blogTagRelationSerivce.countByUserId(id));
+    public Result countTag() {
+        String userId = String.valueOf(TokenUtil.getTokenUserId());
+        return resultData(blogTagRelationSerivce.countByUserId(userId));
     }
 
     @PostMapping("/save")

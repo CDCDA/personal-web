@@ -21,6 +21,7 @@ export function useDict(...args: any) {
           res.value[dictType] = resp.data.map((p: any) => ({
             label: p.dictLabel,
             value: p.dictValue,
+            listClass: p.listClass,
             elTagType: p.listClass,
             elTagClass: p.cssClass
           }));
@@ -28,6 +29,6 @@ export function useDict(...args: any) {
         });
       }
     });
-    return toRefs(res.value);
+    return res.value;
   })();
 }

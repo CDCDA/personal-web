@@ -3,47 +3,50 @@
 -->
 <template>
   <div class="tag-manage manage-main" :class="isSearchShow ? 'is-hidden' : ''">
-    <el-form
-      class="manage-query-form"
-      :model="queryParams"
-      ref="queryRef"
-      :inline="true"
-      label-width="40"
-      size="mini"
-    >
-      <el-form-item label="名称">
+    <el-form class="manage-query-form" :model="queryParams" ref="queryRef" :inline="true">
+      <el-form-item>
         <el-input
           v-model="queryParams.tagName"
           placeholder="请输入标签名称"
           clearable
-          style="width: 200px"
           @keyup.enter="getList"
         />
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="Search" @click="getList">搜索</el-button>
-        <el-button icon="Refresh" @click="resetQuery">重置</el-button>
+        <el-button type="danger" icon="Refresh" @click="resetQuery">重置</el-button>
       </el-form-item>
     </el-form>
-    <div class="c-divider"></div>
-    <tools
-      @handleAdd="handleAdd"
-      @handleEdit="handleEdit"
-      @handleDel="handleDel"
-      :selection="selection"
-      @refresh="getList"
-    />
-    <el-table :data="tableList" class="manage-table" style="" @selection-change="selectionChange">
-      <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="封面" align="center" prop="isOriginal" width="150">
-        <template #default="scope">
-          <c-image :src="scope.row.coverUrl" />
-        </template>
-      </el-table-column>
-      <el-table-column label="标题" align="center" prop="tagName" show-overflow-tooltip />
-      <el-table-column label="关联文章数" align="center" prop="total" show-overflow-tooltip />
-      <el-table-column label="创建时间" width="auto" align="center" prop="createTime" />
-    </el-table>
+    <div class="manage-table-wrap">
+      <tools
+        @handleAdd="handleAdd"
+        @handleEdit="handleEdit"
+        @handleDel="handleDel"
+        :selection="selection"
+        @refresh="getList"
+      />
+      <el-table
+        :data="tableList"
+        border
+        class="manage-table"
+        @row-click="handleRowClick"
+        ref="manageTable"
+        @selection-change="selectionChange"
+      >
+        <el-table-column type="selection" width="55" align="center" />
+        <el-table-column type="index" width="60" label="序号" align="center" />
+        <el-table-column label="封面" align="center" prop="isOriginal" width="150">
+          <template #default="scope">
+            <c-image :src="scope.row.coverUrl" />
+          </template>
+        </el-table-column>
+        <el-table-column label="标签名称" align="center" prop="tagName" show-overflow-tooltip />
+        <el-table-column label="关联文章数" align="center" prop="total" show-overflow-tooltip />
+        <el-table-column label="创建时间" width="auto" align="center" prop="createTime" />
+        <el-table-column label="修改时间" width="auto" align="center" prop="updateTime" />
+        <el-table-column label="备注" width="auto" align="center" prop="remark" />
+      </el-table>
+    </div>
     <Pagination
       v-model:page="queryParams.pageNum"
       v-model:page-size="queryParams.pageSize"
@@ -52,16 +55,16 @@
       :showSizes="true"
       :pageSizeList="[10, 20, 30]"
       :on-page-size-change="getList"
-      class="pagi page-content"
+      class="manage-pagination"
     />
   </div>
   <!-- 新增或编辑 -->
   <c-dialog v-model="open" :title="title" width="500" :modal="true">
-    <el-form :model="form" label-width="40">
-      <el-form-item label="名称">
+    <el-form :model="form" label-width="55" ref="formEl" :rules="rules">
+      <el-form-item label="名称" prop="tagName">
         <el-input v-model="form.tagName" clearable></el-input>
       </el-form-item>
-      <el-form-item label="封面">
+      <el-form-item label="封面" prop="coverUrl">
         <upload v-model="form.coverUrl" path="blogTag"></upload>
       </el-form-item>
     </el-form>
@@ -79,7 +82,6 @@ import { listTag, delTag, saveTag } from '@/api/tag.ts';
 import Pagination from '@/components/pagination/index.vue';
 import { ElNotification, ElMessageBox } from 'element-plus';
 import upload from '@/components/upload/upload.vue';
-import { useTableResize } from '@/utils/manage';
 import tools from '../components/tools.vue';
 const queryParams = ref({
   tagName: null,
@@ -100,6 +102,16 @@ const tableList = ref([] as any);
 const open = ref(false as any);
 const total = ref(0);
 
+const formEl = ref(null) as any;
+const manageTable = ref(null) as any;
+const rules = ref({
+  tagName: [{ required: true, message: '请输入标签名称', trigger: 'blur' }]
+});
+
+function handleRowClick(row: any) {
+  manageTable.value.toggleRowSelection(row);
+}
+
 async function getList() {
   const { code, msg, data } = (await listTag(queryParams.value)) as any;
   if (code == 200) {
@@ -109,23 +121,27 @@ async function getList() {
 }
 
 async function submit() {
-  const res = (await saveTag(form.value)) as any;
-  if (res) {
-    if (!form.value.tagId)
-      ElNotification({
-        title: 'Success',
-        message: '新增成功',
-        type: 'success'
-      });
-    else
-      ElNotification({
-        title: 'Success',
-        message: '修改成功',
-        type: 'success'
-      });
-    getList();
-    open.value = false;
-  }
+  formEl.value.validate(async (valid: any) => {
+    if (valid) {
+      const res = (await saveTag(form.value)) as any;
+      if (res) {
+        if (!form.value.tagId)
+          ElNotification({
+            title: 'Success',
+            message: '新增成功',
+            type: 'success'
+          });
+        else
+          ElNotification({
+            title: 'Success',
+            message: '修改成功',
+            type: 'success'
+          });
+        getList();
+        open.value = false;
+      }
+    }
+  });
 }
 
 function resetQuery() {
@@ -190,11 +206,9 @@ async function handleDel() {
 
 function hideSearch() {
   isSearchShow.value = !isSearchShow.value;
-  useTableResize();
 }
 onMounted(() => {
   getList();
-  useTableResize();
 });
 </script>
 <style lang="scss" scoped>

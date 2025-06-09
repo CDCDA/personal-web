@@ -59,6 +59,14 @@ public class BlogController extends BaseController implements convertController 
         return resultList(blogService.list(blog), blogService.count(blog));
     }
 
+    @GetMapping("/listByType")
+    @ApiOperation(value = "根据分类查询博客列表", notes = "", httpMethod = "GET")
+    public Result listByType(Integer number) {
+        Blog blog = new Blog();
+        blog.setUserId(TokenUtil.getTokenUserId());
+        return resultData(blogService.listByType(number));
+    }
+
     @GetMapping("/count")
     @ApiOperation(value = "查询博客列表计数", notes = "", httpMethod = "GET")
     public Result count(BlogPageDTO blog) {

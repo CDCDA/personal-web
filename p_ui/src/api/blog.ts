@@ -13,6 +13,13 @@ export const listBlog = (params: any) =>
     params
   });
 
+export const listByType = (params: any) =>
+  request({
+    url: '/pw/blog/listByType',
+    method: 'get',
+    params
+  });
+
 // 保存或修改
 export const saveBlog = (params: any) =>
   request({

@@ -27,17 +27,17 @@
             <BlogUserCard />
             <WeatherCard />
             <VisitorCard />
-            <!-- <BlogTypeCard />
-            <BlogTagCard /> -->
+            <BlogTypeCard />
+            <BlogTagCard />
             <BlogCountCard />
           </div>
           <div class="display-right">
-            <div v-for="name in Object.keys(typeBlogList)">
+            <div v-for="typeBlog in typeBlogList">
               <div class="display-header">
                 <div class="display-header-left">
-                  <svg-icon iconName="commonSvg-分类"></svg-icon>{{ name }}
+                  <svg-icon iconName="commonSvg-分类"></svg-icon>{{ typeBlog.typeName }}
                 </div>
-                <div class="display-header-right" @click="toBlogType(name)">
+                <div class="display-header-right" @click="toBlogType(typeBlog.typeName)">
                   <svg-icon iconName="commonSvg-更多"></svg-icon>MORE
                 </div>
               </div>
@@ -46,7 +46,7 @@
                   @click="toDetail(item)"
                   class="list-item"
                   :class="`list-item-${item.blogId}`"
-                  v-for="(item, i) in typeBlogList[name]"
+                  v-for="(item, i) in typeBlog.blogList"
                 >
                   <div class="list-item-img">
                     <c-image :src="item.coverUrl" />
@@ -72,17 +72,6 @@
                 </div>
               </div>
             </div>
-
-            <!-- <Pagination
-              v-model:page="queryParams.pageNum"
-              v-model:page-size="queryParams.pageSize"
-              :total="total"
-              :on-page-change="getBlogList"
-              :showSizes="true"
-              :pageSizeList="[10, 20, 30]"
-              :on-page-size-change="getBlogList"
-              class="pagi page-content"
-            /> -->
           </div>
         </div>
       </div>
@@ -91,7 +80,7 @@
 </template>
 <script setup lang="ts">
 import { onMounted, defineAsyncComponent, ref, watch } from 'vue';
-import { listBlog } from '@/api/blog';
+import { listBlog, listByType } from '@/api/blog';
 import { ElMessage } from 'element-plus';
 import { listTotalType } from '@/api/type';
 import useUserStore from '@/store/modules/user';
@@ -99,23 +88,23 @@ import { useRouter } from 'vue-router';
 import { listUpdateLog } from '@/api/system/updateLog';
 import { autoClearTimer } from '@/utils/timer';
 import Pagination from '@/components/pagination/index.vue';
-import BlogUserCard from '@/views/blog/components/blogUserCard.vue';
-import WeatherCard from './components/weatherCard.vue';
-import BlogTypeCard from '@/views/blog/components/blogTypeCard.vue';
-import BlogTagCard from '@/views/blog/components/blogTagCard.vue';
+// import BlogUserCard from '@/views/blog/components/blogUserCard.vue';
+// import WeatherCard from './components/weatherCard.vue';
+// import BlogTypeCard from '@/views/blog/components/blogTypeCard.vue';
+// import BlogTagCard from '@/views/blog/components/blogTagCard.vue';
 import { verifyToken } from '@/api/system/user';
 
-import BlogCountCard from '@/views/blog/components/blogCountCard.vue';
-import VisitorCard from './components/visitorCard.vue';
+// import BlogCountCard from '@/views/blog/components/blogCountCard.vue';
+// import VisitorCard from './components/visitorCard.vue';
 import { useLazyAppear } from '@/utils/lazy';
-// const BlogUserCard = defineAsyncComponent(() => import('@/views/blog/components/blogUserCard.vue'));
-// const WeatherCard = defineAsyncComponent(() => import('./components/weatherCard.vue'));
-// const BlogTypeCard = defineAsyncComponent(() => import('@/views/blog/components/blogTypeCard.vue'));
-// const BlogTagCard = defineAsyncComponent(() => import('@/views/blog/components/blogTagCard.vue'));
-// const BlogCountCard = defineAsyncComponent(
-//   () => import('@/views/blog/components/blogCountCard.vue')
-// );
-// const VisitorCard = defineAsyncComponent(() => import('./components/visitorCard.vue'));
+const BlogUserCard = defineAsyncComponent(() => import('@/views/blog/components/blogUserCard.vue'));
+const WeatherCard = defineAsyncComponent(() => import('./components/weatherCard.vue'));
+const BlogTypeCard = defineAsyncComponent(() => import('@/views/blog/components/blogTypeCard.vue'));
+const BlogTagCard = defineAsyncComponent(() => import('@/views/blog/components/blogTagCard.vue'));
+const BlogCountCard = defineAsyncComponent(
+  () => import('@/views/blog/components/blogCountCard.vue')
+);
+const VisitorCard = defineAsyncComponent(() => import('./components/visitorCard.vue'));
 // const RecommendLeft = defineAsyncComponent(() => import('./components/recommendLeft.vue'));
 // const RecommendRight = defineAsyncComponent(() => import('./components/recommendRight.vue'));
 import RecommendRight from './components/recommendRight.vue';
@@ -124,23 +113,8 @@ import useThemeStore from '@/store/modules/theme.ts';
 
 import rollText from '@/components/rollText/index.vue';
 const themeStore = useThemeStore();
-
-const recommends = ref([] as any);
-
-const userStore = useUserStore();
 const theme = ref('' as any);
 const loading = ref('rotate' as any);
-
-watch(
-  () => themeStore.theme,
-  newValue => {
-    theme.value = newValue;
-  },
-  {
-    deep: true,
-    immediate: true
-  }
-);
 
 const slogans = ref([
   '记录',
@@ -185,33 +159,23 @@ function toMainPage() {
  * @return {*}
  */
 
-async function getTypeBlog(type: any) {
-  let params = {
-    pageNum: 1,
-    pageSize: 3,
-    typeId: type.typeId
-  };
-  const { code, data } = (await listBlog(params)) as any;
-  if (code === 200) {
-    if (data.list.length > 0) {
-      typeBlogList.value[type.typeName] = data.list;
+async function getTypeBlogList() {
+  // 添加加载状态
+  loading.value = true;
+  try {
+    const { code, data } = (await listByType({ number: 3 })) as any;
+    if (code === 200 && data.length > 0) {
+      typeBlogList.value = data;
       autoClearTimer(() => {
-        data.list.forEach((item: any) => {
-          useLazyAppear(document.querySelector(`.list-item-${item.blogId}`) as any);
-        });
+        for (const typeBlog of typeBlogList.value) {
+          typeBlog.blogList.forEach((item: any) => {
+            useLazyAppear(document.querySelector(`.list-item-${item.blogId}`) as any);
+          });
+        }
       }, 500);
     }
-  }
-}
-
-async function getTypeTree() {
-  const { code, data } = (await listTotalType(queryParams.value)) as any;
-  if (code === 200) {
-    typeList.value = data.list;
-    typeList.value.forEach(async (item: any) => {
-      typeBlogList.value[item.typeName] = [];
-      await getTypeBlog(item);
-    });
+  } finally {
+    loading.value = false;
   }
 }
 
@@ -228,19 +192,23 @@ function toDetail(item: any) {
 function setTyping() {
   let wrapper = null as any;
   const sleep = (ms: any) => new Promise(resolve => autoClearTimer(resolve, ms));
-  async function writingAll(container: any) {
-    wrapper = document.querySelector('[' + container + ']');
-    // const stringsContainer = document.getElementsByClassName(stringTarget);
 
-    while (wrapper) {
-      for (let i = 0; i < slogans.value.length; i++) {
-        const string = slogans.value[i];
-        await write(string);
-        await sleep(2000);
-        await erase();
-        await sleep(1000);
+  // 使用requestAnimationFrame优化动画性能
+  function writingAll(container: any) {
+    requestAnimationFrame(async () => {
+      wrapper = document.querySelector('[' + container + ']');
+      // const stringsContainer = document.getElementsByClassName(stringTarget);
+
+      while (wrapper) {
+        for (let i = 0; i < slogans.value.length; i++) {
+          const string = slogans.value[i];
+          await write(string);
+          await sleep(2000);
+          await erase();
+          await sleep(1000);
+        }
       }
-    }
+    });
   }
 
   async function write(text: any) {
@@ -290,7 +258,7 @@ function setHomeColor() {
 onMounted(() => {
   verifyToken();
   getHeaderList();
-  getTypeTree();
+  getTypeBlogList();
   setTyping();
   autoClearTimer(() => {
     setHomeColor();
@@ -302,6 +270,7 @@ onMounted(() => {
 @include theme() {
   .home-container {
     @include flex-column;
+    min-height: 100vh;
     color: get('font-color');
     .home-top {
       width: 100%;
@@ -439,10 +408,11 @@ onMounted(() => {
                 cursor: pointer;
               }
               .list-item:hover {
-                transition: all 0.4s ease;
+                transition: transform 0.4s ease;
               }
               .list-item {
                 width: calc(33% - 10px);
+                will-change: transform;
                 aspect-ratio: 3/2;
                 margin-bottom: 20px;
                 background: get('back');
@@ -460,12 +430,13 @@ onMounted(() => {
                   .c-image {
                     height: 100%;
                     width: 100%;
-                    transition: all 0.6s;
+                    transition: transform 0.6s;
                   }
                 }
                 .list-item-img:hover {
                   .c-image {
                     transform: scale(1.2);
+                    transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
                   }
                 }
                 // .list-item-img::before {
@@ -545,7 +516,7 @@ onMounted(() => {
                       }
                       .item-tag-pretend {
                         opacity: 0.8;
-                        font-size: 0.85rem;
+                        font-size: 0.8rem;
                         font-weight: bold;
                         margin-right: 2px;
                       }
@@ -585,7 +556,7 @@ onMounted(() => {
       border-radius: 10px;
       color: get('font-color');
       font-size: 0.9rem;
-      transition: all 0.3s ease-in-out;
+      transition: transform 0.3s ease-in-out;
       // border: 2px solid get('border-color');
       .type-item-prefix {
         opacity: 0.8;

@@ -31,7 +31,7 @@ public class DramaSeries extends BaseEntity implements Serializable {
     private Long id;
 
     @ApiModelProperty(value = "影视分类(0:电影;1:电视剧;2:动漫)")
-    private Integer type;
+    private String type;
 
     @ApiModelProperty(value = "封面")
     private String coverUrl;

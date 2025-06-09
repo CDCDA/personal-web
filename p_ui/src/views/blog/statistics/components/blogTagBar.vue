@@ -28,7 +28,7 @@ const options = reactive({
   xAxis: [
     {
       type: 'category',
-      name: '单位:篇',
+      name: '',
       data: [],
       axisTick: {
         alignWithLabel: true
@@ -45,6 +45,7 @@ const options = reactive({
   yAxis: [
     {
       type: 'value',
+      name: '单位:个',
       axisLabel: {
         textStyle: {
           // fontSize: '0.7rem',

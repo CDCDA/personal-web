@@ -17,8 +17,9 @@ const useThemeStore = defineStore('theme', () => {
   //背景类型
   const backType = ref('img');
   const imgWallpaperList = ref([]) as any;
+  const isCollapse = ref(false);
   //背景url
-  const backUrl = ref(new URL('@/assets/images/123123123.jpg', import.meta.url).href);
+  const backUrl = ref(new URL('@/assets/images/feitu-bridge.jpg', import.meta.url).href);
   //外观设置
   const options = ref({
     //粒子特效
@@ -38,6 +39,7 @@ const useThemeStore = defineStore('theme', () => {
     backType,
     options,
     backUrl,
+    isCollapse,
     imgWallpaperList
   };
 });

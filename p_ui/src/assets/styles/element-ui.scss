@@ -3,35 +3,36 @@
  */
 
 /* 菜单 -- 开始 */
-.el-menu-item,
-.el-sub-menu {
-  color: get('font-color');
-  font-size: 0.85rem;
-  background: get('back');
+.el-menu-item {
+  .el-menu-tooltip__trigger {
+    display: flex;
+    justify-content: center;
+    padding: 0px;
+  }
 }
-.el-menu-item:hover {
-  box-shadow: get('box-shadow');
-  border-radius: 5px;
-}
-.el-sub-menu__title {
-  border-bottom: none;
-}
+//.el-menu-item:hover {
+//  box-shadow: get('box-shadow');
+//  border-radius: 5px;
+//}
+//.el-sub-menu__title {
+//  border-bottom: none;
+//}
 /* 菜单 -- 结束 */
 
 /* 标签 -- 开始 */
 .el-tag {
-  border: 1px solid #dddddd;
-  background: get('back');
-  margin-right: 6px;
-  //padding: 3px 12px;
-  height: 1.6rem;
+  //border: 1px solid #dddddd;
+  margin-right: 4px;
+  margin-left: 4px;
+  height: 1.3rem;
+  padding: 2px 12px;
   .el-icon {
-    color: get('font-color');
-    font-size: 0.8rem;
+    //color: get('font-color');
+    font-size: 0.73rem;
   }
   .el-tag__content {
-    color: get('font-color');
-    font-size: 0.8rem;
+    //color: get('font-color');
+    font-size: 0.75rem;
   }
   .el-tag__close:hover {
     color: get('re-font-color');
@@ -41,21 +42,28 @@
 /* 标签 -- 结束 */
 
 /* 输入框 -- 开始 */
-.el-input {
-  background: get('back');
-  // box-shadow: get('box-shadow');
-  border-radius: 4px;
+.el-form--inline{
+  .el-input {
+    background: get('back');
+    // box-shadow: get('box-shadow');
+    border-radius: 4px;
+    height: 100%;
+    width: 200px;
+  }
 }
+
 
 .el-input__count {
   background: transparent;
 }
 .el-input__inner::placeholder {
   color: get('placeholder');
+  font-weight: 100;
+  font-size: 0.75rem;
 }
 .el-textarea__inner {
   color: get('font-color');
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   box-shadow: none;
   border: 1px solid get('border-color');
 }
@@ -108,7 +116,7 @@
   // }
   padding: 0;
   // background: center / cover fixed no-repeat url('@/assets/images/snow-rail.jpg');
-  transition: opacity 0.3s, transform 0.3s, margin-top 0.3s, height 0.3s;
+  //transition: opacity 0.3s, transform 0.3s, margin-top 0.3s, height 0.3s;
   // object-fit: cover;
   // background-position: center;
   // background-size: 100% 100%;
@@ -168,6 +176,15 @@
     margin-right: 5px;
   }
 }
+.el-select__placeholder {
+  color: get('font-color');
+  font-weight: 100;
+  font-size: 0.75rem;
+}
+.el-select__placeholder.is-transparent{
+  color: get('placeholder');
+}
+
 .el-dialog.filter {
   background: get('modal');
   .finder__inner,
@@ -224,7 +241,7 @@
     margin-right: 5px;
   }
   // color: get('font-color');
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   color: white;
   .el-dialog__footer {
     padding: 3px 18px 15px 3px;
@@ -280,7 +297,9 @@
     box-shadow: rgba(0, 0, 0, 0.125) 0 0 10px 0;
   }
   .el-textarea__inner::placeholder {
-    color: rgba(255, 255, 255, 0.7);
+    color: get('placeholder');
+    font-weight: 100;
+    font-size: 0.75rem;
   }
   // .el-textarea__inner:hover {
   //   background: hsla(0, 0%, 100%, 0.4392156862745098);
@@ -304,6 +323,9 @@
   }
   .el-form-item .el-form-item__label {
     color: white;
+  }
+  .el-form-item__error {
+    font-size: 0.7rem;
   }
   .el-select__wrapper {
     background: transparent;
@@ -341,15 +363,15 @@
   .el-time-panel__btn {
     color: white;
   }
-  .el-button {
-    background: transparent !important;
-    color: white;
-    border: 1px solid hsla(0, 0%, 100%, 0.4);
-  }
-  .el-button:hover {
-    background: hsla(0, 0%, 100%, 0.4) !important;
-    color: white;
-  }
+  //.el-button {
+  //  background: transparent !important;
+  //  color: white;
+  //  border: 1px solid hsla(0, 0%, 100%, 0.4);
+  //}
+  //.el-button:hover {
+  //  background: hsla(0, 0%, 100%, 0.4) !important;
+  //  color: white;
+  //}
   .finder-list-item {
     span,
     .svg-use {
@@ -364,6 +386,7 @@
       background: transparent;
       color: white;
     }
+
   }
   .manage-main {
     .svg-icon {
@@ -422,15 +445,36 @@
 .el-textarea .el-textarea__inner {
   background: get('back');
   color: get('font-color');
-  font-size: 0.85rem;
+  font-size: 0.8rem;
 }
-.el-form-item .el-form-item__label {
-  color: get('font-color');
-  font-size: 0.85rem;
-  width: 3.8rem !important;
+.el-form-item {
+  .el-form-item__label {
+    color: get('font-color');
+    font-size: 0.8rem;
+    width: 4.2rem;
+  }
+  .el-form-item__error {
+    font-size: 0.7rem;
+  }
 }
 
 //提示
+
+.el-message-box {
+  background: get('back');
+  box-shadow: get('box-shadow');
+  border: 3px solid get('border-color');
+  max-width: 25rem;
+  .el-message-box__message,
+  .el-icon.el-message-box__close {
+    color: get('font-color');
+    font-size: 0.8rem;
+  }
+  .el-message-box__title {
+    color: get('font-color');
+    font-size: 1rem;
+  }
+}
 
 .el-message--error {
   box-shadow: get('box-shadow');
@@ -443,23 +487,35 @@
   .el-icon,
   .el-message__content {
     color: get('font-color');
-    font-size: 0.85rem;
+    font-size: 0.8rem;
   }
   border: 1px solid white;
 }
 
+.el-drawer{
+  background: #f0f3f4;
+  .el-drawer__header{
+    margin-bottom: 0;
+    .el-drawer__title{
+      font-size: 1rem;
+    }
+  }
+}
+
 /* 表格 -- 开始 */
 .el-table {
+  //.cell{
+  //  display: flex;
+  //  align-items: center;
+  //  justify-content: center;
+  //}
   background: transparent;
-  // box-shadow: get('box-shadow');
-  border: 1px solid get('border-color');
   tr,
   th,
   td {
     color: get('font-color');
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     background: get('re-font-color');
-    border-bottom: 1px solid get('border-color');
     // box-shadow: get('box-shadow');
   }
   td.el-table__cell,
@@ -482,28 +538,29 @@
 
 /* 按钮 -- 开始 */
 .el-button {
-  background: get('re-font-color');
-  color: get('font-color');
-  font-size: 0.85rem;
-  border: 1px solid get('border-color');
-  transition: all 0.3s ease-in-out;
+  //background: get('re-font-color');
+  //color: get('font-color');
+  font-size: 0.8rem;
+  //border: 1px solid get('border-color');
+  //transition: all 0.3s ease-in-out;
   font-family: 'Shark';
 }
-.el-button:hover {
-  background: get('border-color');
-  color: get('re-font-color');
-}
-.el-button:active {
-  transform: translateY(1px);
-}
+//.el-button:hover {
+//  background: get('border-color');
+//  color: get('re-font-color');
+//}
+//.el-button:active {
+//  transform: translateY(1px);
+//}
 /* 按钮 -- 结束 */
 
 /* 下拉框 -- 开始 */
 .el-select {
+  min-width: 200px;
   .el-select__wrapper {
     border: 1px solid get('border-color');
     box-shadow: none;
-    font-size: 0.85rem;
+    font-size: 0.8rem;
   }
 }
 /* 下拉框 -- 结束 */
@@ -514,13 +571,14 @@
   box-shadow: none;
   height: 31.2px;
   color: get('font-color');
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   .el-range-separator {
     color: get('font-color');
-    font-size: 0.85rem;
+    font-size: 0.8rem;
   }
   .el-range-input {
-    color: white;
+    color: get('font-color');
+    font-family: 'Shark';
   }
   .el-input__wrapper {
     border: none;
@@ -533,7 +591,7 @@
 .el-time-panel {
   background: get('back');
   color: get('font-color');
-  font-size: 0.85rem;
+  font-size: 0.8rem;
 }
 
 .el-date-range-picker__time-picker-wrap .el-time-panel {
@@ -541,11 +599,11 @@
   box-shadow: none;
   backdrop-filter: blur(20px);
   color: get('font-color');
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   border: 1px solid get('border-color');
   .el-time-spinner__item {
     color: get('font-color');
-    font-size: 0.85rem;
+    font-size: 0.8rem;
   }
 }
 
@@ -556,7 +614,7 @@
 }
 .el-time-panel__btn {
   color: get('font-color');
-  font-size: 0.85rem;
+  font-size: 0.8rem;
 }
 
 /* 日期 -- 结束 */
@@ -566,11 +624,11 @@
   float: right;
   span {
     color: get('font-color');
-    font-size: 0.85rem;
+    font-size: 0.8rem;
   }
   .el-input__inner {
     color: get('font-color');
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     height: 25.2px;
   }
   .btn-prev,
@@ -579,7 +637,7 @@
     border: 1px solid white;
     i {
       color: get('font-color');
-      font-size: 0.85rem;
+      font-size: 0.8rem;
     }
   }
   .is-active.number {
@@ -594,7 +652,7 @@
 /* el-message-box -- 开始 */
 
 .el-overlay {
-  backdrop-filter: blur(8px);
+  backdrop-filter: blur(1px);
 }
 .el-tabs__nav-scroll {
   display: flex !important;
@@ -686,11 +744,11 @@
   .el-input__inner {
     font-family: 'Shark';
     color: get('font-color');
-    font-size: 0.85rem;
+    font-size: 0.8rem;
   }
   .el-range-separator {
     color: get('font-color');
-    font-size: 0.85rem;
+    font-size: 0.8rem;
   }
 }
 .el-input__wrapper.is-focus {
@@ -711,12 +769,12 @@
 .el-upload--picture-card:hover {
   border: 1px dashed get('border-color');
   color: get('font-color');
-  font-size: 0.85rem;
+  font-size: 0.8rem;
 }
 .el-upload--picture-card {
   border: 1px dashed get('border-color');
   color: get('font-color');
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   background: get('back');
 }
 
@@ -730,19 +788,15 @@
 
 //悬浮框
 .el-popper {
-  background-color: get('back');
-  backdrop-filter: blur(20px);
-}
-.el-popper {
-  background: get('back');
+  //background: get('back');
   box-shadow: get('box-shadow');
   font-family: 'shark';
   border-radius: 6px;
   overflow: hidden;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   .el-select-dropdown__item {
     color: get('font-color');
-    font-size: 0.85rem;
+    font-size: 0.8rem;
   }
   .is-selected,
   .is-hovering {
@@ -752,5 +806,5 @@
 }
 
 .el-radio__label {
-  font-size: 0.85rem;
+  font-size: 0.8rem;
 }

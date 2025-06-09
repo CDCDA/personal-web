@@ -163,7 +163,7 @@ onMounted(() => {
   position: absolute;
   background: #f5af19;
   color: white;
-  width: 120px;
+  width: fit-content;
   height: 30px;
   top: -15px;
   border-radius: 5px;

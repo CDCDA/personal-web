@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 import static com.pw.common.utils.ResultUtil.*;
+import static com.pw.common.utils.convertWrapper.convertWrap;
 import static com.pw.common.utils.pageUtil.setPage;
 import static org.apache.commons.lang3.ObjectUtils.isEmpty;
 
@@ -42,8 +43,7 @@ public class UpdateLogController extends BaseController implements convertContro
     @GetMapping("/list")
     @ApiOperation(value = "查询更新日志列表", notes = "", httpMethod = "GET")
     public Result list(UpdateLog updateLog) {
-        QueryWrapper<UpdateLog> wrapper = new QueryWrapper<>();
-        wrapper.orderByDesc("operate_time").like("operation",updateLog.getOperation());
+        QueryWrapper<UpdateLog> wrapper = convertWrap(updateLog);
         IPage<BlogType> result = updateLogService.page(setPage(updateLog), wrapper);
         return resultIPage(result);
     }

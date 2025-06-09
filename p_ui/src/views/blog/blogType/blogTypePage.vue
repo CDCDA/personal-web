@@ -115,16 +115,18 @@ function getList(item: any) {
 
 async function getBlogList() {
   loading.value = 'rotate';
-  const { code, msg, data } = (await listBlog(queryParams.value)) as any;
-  if (code === 200) {
-    blogList.value = data.list;
-    blogList.value.forEach((e: any) => {
-      e.tags.length > 5 ? (e.tags.length = 5) : '';
-    });
-    total.value = data.total;
-    loading.value = false;
-  } else {
-    ElMessage.error('博客数据获取失败', msg);
+  try {
+    const { code, msg, data } = (await listBlog(queryParams.value)) as any;
+    if (code === 200) {
+      blogList.value = data.list.map((item: any) => ({
+        ...item,
+        tags: item.tags.slice(0, 5) // 直接截取前5个标签
+      }));
+      total.value = data.total;
+    }
+  } catch (error) {
+    ElMessage.error('博客数据获取失败');
+  } finally {
     loading.value = false;
   }
 }

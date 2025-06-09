@@ -1,7 +1,6 @@
 package com.pw.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.core.metadata.OrderItem;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pw.common.controller.BaseController;
 import com.pw.common.controller.convertController;
@@ -35,7 +34,6 @@ public class DramaSeriesController extends BaseController implements convertCont
     @ApiOperation(value = "查询影视列表", notes = "", httpMethod = "GET")
     public Result list(DramaSeries dramaSeries) {
         Page page =setPage(dramaSeries);
-        page.addOrder(OrderItem.desc("create_time"));
         IPage<DramaSeries> result = dramaSeriesService.page(page, convertWrap(dramaSeries));
         return resultIPage(result);
     }

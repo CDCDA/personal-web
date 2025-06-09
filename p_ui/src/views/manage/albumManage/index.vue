@@ -3,58 +3,61 @@
 -->
 <template>
   <div class="album-manage manage-main" :class="isSearchShow ? 'is-hidden' : ''">
-    <el-form
-      class="manage-query-form"
-      :model="queryParams"
-      ref="queryRef"
-      :inline="true"
-      label-width="40"
-      size="mini"
-    >
-      <el-form-item label="名称">
+    <el-form class="manage-query-form" :model="queryParams" ref="queryRef" :inline="true">
+      <el-form-item>
         <el-input
           v-model="queryParams.name"
           placeholder="请输入相册名称"
           clearable
-          style="width: 200px"
           @keyup.enter="getList"
         />
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="Search" @click="getList">搜索</el-button>
-        <el-button icon="Refresh" @click="resetQuery">重置</el-button>
+        <el-button type="danger" icon="Refresh" @click="resetQuery">重置</el-button>
       </el-form-item>
     </el-form>
-    <div class="c-divider"></div>
-    <tools
-      @handleAdd="handleAdd"
-      @handleEdit="handleEdit"
-      @handleDel="handleDel"
-      :selection="selection"
-      @refresh="getList"
-    />
-    <el-table :data="tableList" class="manage-table" style="" @selection-change="selectionChange">
-      <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="封面" align="center" prop="isOriginal" width="150">
-        <template #default="scope">
-          <el-image :src="scope.row.coverUrl">
-            <template #placeholder>
-              <div
-                class="image-slot"
-                v-cLoading="'rotate'"
-                style="width: 100%; height: 100%"
-              ></div> </template
-            ><template #error>
-              <div class="image-error-slot">
-                <svg-icon iconName="commonSvg-图片加载失败"></svg-icon>
-              </div> </template
-          ></el-image>
-        </template>
-      </el-table-column>
-      <el-table-column label="标题" align="center" prop="name" show-overflow-tooltip />
-      <el-table-column label="简介" align="center" prop="intro" show-overflow-tooltip />
-      <el-table-column label="创建时间" width="auto" align="center" prop="createTime" />
-    </el-table>
+    <div class="manage-table-wrap">
+      <tools
+        @handleAdd="handleAdd"
+        @handleEdit="handleEdit"
+        @handleDel="handleDel"
+        :selection="selection"
+        @refresh="getList"
+      />
+      <el-table
+        :data="tableList"
+        border
+        class="manage-table"
+        @row-click="handleRowClick"
+        ref="manageTable"
+        @selection-change="selectionChange"
+      >
+        <el-table-column type="selection" width="55" align="center" />
+        <el-table-column type="index" width="60" label="序号" align="center" />
+        <el-table-column label="封面" align="center" prop="isOriginal" width="150">
+          <template #default="scope">
+            <el-image :src="scope.row.coverUrl">
+              <template #placeholder>
+                <div
+                  class="image-slot"
+                  v-cLoading="'rotate'"
+                  style="width: 100%; height: 100%"
+                ></div> </template
+              ><template #error>
+                <div class="image-error-slot">
+                  <svg-icon iconName="commonSvg-图片加载失败"></svg-icon>
+                </div> </template
+            ></el-image>
+          </template>
+        </el-table-column>
+        <el-table-column label="标题" align="center" prop="name" show-overflow-tooltip />
+        <el-table-column label="简介" align="center" prop="intro" show-overflow-tooltip />
+        <el-table-column label="创建时间" width="auto" align="center" prop="createTime" />
+        <el-table-column label="修改时间" width="auto" align="center" prop="updateTime" />
+        <el-table-column label="备注" width="auto" align="center" prop="remark" />
+      </el-table>
+    </div>
     <Pagination
       v-model:page="queryParams.pageNum"
       v-model:page-size="queryParams.pageSize"
@@ -63,13 +66,19 @@
       :showSizes="true"
       :pageSizeList="[10, 20, 30]"
       :on-page-size-change="getList"
-      class="pagi page-content"
+      class="manage-pagination"
     />
   </div>
   <!-- 新增或编辑 -->
   <c-dialog v-model="open" :title="title" width="60%" style="height: 70%" :modal="true">
-    <el-form :model="form" label-width="40" style="height: calc(100% - 40px); overflow: auto">
-      <el-form-item label="名称">
+    <el-form
+      :model="form"
+      label-width="55"
+      style="height: calc(100% - 40px); overflow: auto"
+      ref="formEl"
+      :rules="rules"
+    >
+      <el-form-item label="名称" prop="name">
         <el-input v-model="form.name" clearable></el-input>
       </el-form-item>
       <el-form-item label="简介">
@@ -79,14 +88,14 @@
           maxlength="100"
           show-word-limit
           v-model="form.intro"
-          placeholder="写点什么吧[]~(￣▽￣)~*"
+          placeholder="写点什么吧~(￣▽￣)~*"
           clearable
         />
       </el-form-item>
       <el-form-item label="封面">
         <upload v-model="form.coverUrl" path="album"></upload>
       </el-form-item>
-      <el-form-item label="图片">
+      <el-form-item label="图片" prop="images">
         <upload v-model="form.images" path="album"></upload>
       </el-form-item>
     </el-form>
@@ -104,14 +113,20 @@ import { listAlbum, delAlbum, saveAlbum } from '@/api/album.ts';
 import Pagination from '@/components/pagination/index.vue';
 import { ElMessageBox, ElNotification } from 'element-plus';
 import upload from '@/components/upload/upload.vue';
-import { useTableResize } from '@/utils/manage';
-import { autoClearTimer } from '@/utils/timer';
 import tools from '../components/tools.vue';
 const queryParams = ref({
   name: null,
   pageNum: 1,
   pageSize: 10
 } as any);
+
+const formEl = ref(null) as any;
+const manageTable = ref(null) as any;
+const rules = ref({
+  name: [{ required: true, message: '请输入相册名称', trigger: 'blur' }],
+  images: [{ required: true, message: '请上传图片', trigger: 'blur' }]
+});
+
 const dateRange = ref([null, null] as any);
 const selection = ref([] as any);
 const isSearchShow = ref(false as any);
@@ -129,21 +144,29 @@ const open = ref(false as any);
 const total = ref(0);
 
 async function getList() {
-  const { code, msg, data } = (await listAlbum(queryParams.value)) as any;
+  const { code, data } = (await listAlbum(queryParams.value)) as any;
   if (code == 200) {
     tableList.value = data.list;
     total.value = data.total;
   }
 }
 
+function handleRowClick(row: any) {
+  manageTable.value.toggleRowSelection(row);
+}
+
 async function submit() {
-  const res = (await saveAlbum(form.value)) as any;
-  if (res) {
-    if (!form.value.albumId) ElNotification.success('新增成功');
-    else ElNotification.success('修改成功');
-    getList();
-    open.value = false;
-  }
+  formEl.value.validate(async (valid: any) => {
+    if (valid) {
+      const res = (await saveAlbum(form.value)) as any;
+      if (res) {
+        if (!form.value.id) ElNotification.success('新增成功');
+        else ElNotification.success('修改成功');
+        getList();
+        open.value = false;
+      }
+    }
+  });
 }
 
 function resetQuery() {
@@ -207,15 +230,8 @@ async function handleDel() {
   });
 }
 
-function hideSearch() {
-  isSearchShow.value = !isSearchShow.value;
-  autoClearTimer(() => {
-    useTableResize();
-  }, 100);
-}
 onMounted(() => {
   getList();
-  useTableResize();
 });
 </script>
 <style lang="scss" scoped>

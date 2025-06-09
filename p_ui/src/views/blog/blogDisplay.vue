@@ -152,6 +152,8 @@ onMounted(() => {
   }
   .md-editor-previewOnly {
     color: get('font-color');
+    margin: 20px;
+    width: calc(100% - 40px);
     // min-height: 100%;
   }
   .blog-display-left:hover {

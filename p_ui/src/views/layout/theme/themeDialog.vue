@@ -369,7 +369,7 @@ defineExpose({
     .back-label {
       height: 2rem;
       line-height: 2rem;
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       color: get('font-color');
       text-align: center;
     }
@@ -380,7 +380,7 @@ defineExpose({
       width: calc(100% - 20px);
       height: 100%;
       padding: 0 10px;
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       .setting-item {
         .setting-item-label {
           height: 1.5rem;

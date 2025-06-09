@@ -1,23 +1,4 @@
-@font-face {
-  font-family: 'DaoLiTi';
-  src: url(//AlimamaDaoLoTi/AlimamaDaoLiTi.ttf);
-}
-@font-face {
-  font-family: 'FangDaKai';
-  src: url(/font-family/AlimamaDongFangDaKai-Regular/AlimamaDongFangDaKai-Regular.ttf);
-}
-@font-face {
-  font-family: 'DingDing';
-  src: url(/font-family/iuMg2dm8ifws/2sjeZLl8aCWp.woff2);
-}
-@font-face {
-  font-family: 'Uranus';
-  src: url(/font-family/Uranus-Pixel-main/Uranus_Pixel_11Px.ttf);
-}
-@font-face {
-  font-family: 'Shark';
-  src: url(/font-family/Shark/优设鲨鱼菲特健康体.ttf);
-}
+
 
 // 网格
 //linear-gradient(90deg,rgba(60,10,30,.05) 5%,transparent 0),linear-gradient(1turn,rgba(60,10,30,.05) 5%,transparent 0)
@@ -32,7 +13,7 @@
 
 input {
   font-family: 'Shark', serif;
-  font-size: 0.85rem;
+  font-size: 0.75rem;
 }
 
 // 卡片外圈样式
@@ -159,20 +140,56 @@ input {
 
 /* 管理 -- 结束 */
 .manage-main {
-  height: calc(100% - 10px);
-  width: calc(100% - 30px);
-  padding: 0px 15px 0 15px;
+  width: calc(100% - 22px);
+  height: calc(100% - 20px);
+  margin: 10px;
   position: relative;
   display: flex;
   flex-direction: column;
   justify-content: start;
-  .c-divider {
-    margin-top: 0;
+  .manage-query-form {
+    display: flex;
+    justify-content: start;
+    padding: 0 15px;
+    .el-form-item {
+      margin-bottom: 10px;
+      margin-top: 10px;
+      margin-right:15px
+    }
+    background: white;
+    border-radius: 6px;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+    margin-bottom: 10px;
   }
-  .c-pagination {
-    position: absolute;
+  .manage-table-wrap {
+    background: white;
+    border-radius: 6px;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+    margin-bottom: 10px;
+    width: calc(100% - 30px);
+    height: calc(100% - 160px);
+    padding: 15px;
+    .manage-table {
+      height: calc(100% - 47px);
+    }
+    .el-table__body {
+      border-bottom: 1px solid #dcdcdc;
+    }
+    .el-image {
+      border-radius: 4px;
+      width: 120px;
+      height: 80px;
+      box-shadow: get('box-shadow');
+      margin: 3px;
+    }
   }
-  //border:1px solid get('border-color');
+  .manage-pagination {
+    background: white;
+    border-radius: 6px;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+    width: calc(100% - 30px);
+    padding: 0 15px;
+  }
 }
 
 .c-pagination {
@@ -189,41 +206,25 @@ input {
   border: 2px dashed get('border-color');
   margin: 15px 0px;
 }
-.manage-query-form {
-  text-align: left;
-  overflow: hidden;
-  padding-top: 10px;
-  margin-bottom: 0;
-  animation: re-slide-in 1s forwards ease;
-  .el-form-item .el-form-item__label {
-    width: auto !important;
-  }
-}
+//.manage-query-form {
+//  text-align: left;
+//  overflow: hidden;
+//  padding-top: 10px;
+//  margin-bottom: 0;
+//  animation: re-slide-in 1s forwards ease;
+//  .el-form-item .el-form-item__label {
+//    width: auto !important;
+//  }
+//}
 .is-hidden {
   .manage-query-form {
     display: none;
   }
-  .c-divider {
-    display: none;
-  }
-  .manage-button-group {
-    margin-top: 5px;
+  .manage-table-wrap{
+    height: calc(100% - 95px) ;
   }
 }
-.manage-table {
-  width: calc(100% - 30px);
-  height: calc(100% - 270px);
-  position: absolute;
-  bottom: 66px;
-  .el-image {
-    border-radius: 4px;
-    width: 120px;
-    height: 80px;
-    box-shadow: get('box-shadow');
-    margin: 3px;
-  }
-  transition: all 0.4s ease-in-out;
-}
+
 .operation-icon {
   font-size: 1rem;
   margin: 0 5px;
@@ -264,6 +265,12 @@ input {
   align-items: center;
   justify-content: center;
 }
+.flex-column-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
 .flex-between {
   display: flex;
   align-items: center;
@@ -278,4 +285,20 @@ input {
   display: flex;
   align-items: center;
   justify-content: end;
+}
+.btn-purple{
+  background: #AA20FF;
+  color: white;
+  border: none;
+  height: 35px;
+  padding: 19px 20px;
+  font-size: 0.9rem !important;
+  &:active{ background:#AA20FF;}
+}
+.btn-white{
+  background: white;
+  height: 35px;
+  padding: 18px 19px;
+  font-size: 0.9rem !important;
+  &:active{ background:#AA20FF;}
 }

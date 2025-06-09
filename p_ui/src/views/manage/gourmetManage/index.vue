@@ -16,7 +16,6 @@
           v-model="queryParams.cateName"
           placeholder="请输入美食名称"
           clearable
-          style="width: 200px"
           @keyup.enter="getList"
         />
       </el-form-item>
@@ -62,6 +61,8 @@
         show-overflow-tooltip
       />
       <el-table-column label="创建时间" width="auto" align="center" prop="createTime" />
+      <el-table-column label="修改时间" width="auto" align="center" prop="updateTime" />
+      <el-table-column label="备注" width="auto" align="center" prop="remark" />
     </el-table>
     <Pagination
       v-model:page="queryParams.pageNum"
@@ -121,7 +122,7 @@ import { useRouter } from 'vue-router';
 import Pagination from '@/components/pagination/index.vue';
 import { ElNotification, ElMessageBox } from 'element-plus';
 import upload from '@/components/upload/upload.vue';
-import { useTableResize } from '@/utils/manage';
+
 import tools from '../components/tools.vue';
 const router = useRouter();
 const queryParams = ref({
@@ -238,11 +239,9 @@ async function handleDel() {
 
 function hideSearch() {
   isSearchShow.value = !isSearchShow.value;
-  useTableResize();
 }
 onMounted(() => {
   getList();
-  useTableResize();
 });
 </script>
 <style lang="scss" scoped>

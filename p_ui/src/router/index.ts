@@ -1,8 +1,8 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router';
 import useThemeStore from '@/store/modules/theme.ts';
-import { autoClearTimer } from '@/utils/timer.ts';
-import { getRandomWallpaper } from '@/api/system/wallpaper.ts';
+
 import { random } from 'lodash';
+import { autoClearTimer } from '@/utils/timer.ts';
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -40,10 +40,17 @@ const routes: Array<RouteRecordRaw> = [
         meta: {
           remark: '博客管理',
           isHidden: true,
-          svgIcon: '博客',
-          src: '/images/manageImages/博客.png'
+          svgIcon: 'commonSvg-博客',
+          src: '/images/manageImages/博客.png',
+          affix: true
         },
         component: () => import('/src/views/manage/blogManage/index.vue')
+      },
+      {
+        path: '/blogManageEditor',
+        name: 'blogManageEditor',
+        meta: { remark: '博客编辑' },
+        component: () => import('/src/views/blog/blogEditor/editor.vue')
       },
       {
         path: '/typeManage',
@@ -51,7 +58,7 @@ const routes: Array<RouteRecordRaw> = [
         meta: {
           remark: '分类管理',
           isHidden: true,
-          svgIcon: '分类',
+          svgIcon: 'commonSvg-分类1',
           src: '/images/manageImages/分类.png'
         },
         component: () => import('/src/views/manage/typeManage/index.vue')
@@ -62,7 +69,7 @@ const routes: Array<RouteRecordRaw> = [
         meta: {
           remark: '标签管理',
           isHidden: true,
-          svgIcon: '标签',
+          svgIcon: 'commonSvg-标签',
           src: '/images/manageImages/标签.png'
         },
         component: () => import('/src/views/manage/tagManage/index.vue')
@@ -73,10 +80,16 @@ const routes: Array<RouteRecordRaw> = [
         meta: {
           remark: '随笔管理',
           isHidden: true,
-          svgIcon: '随笔',
+          svgIcon: 'commonSvg-随笔',
           src: '/images/manageImages/随笔.png'
         },
         component: () => import('/src/views/manage/essayManage/index.vue')
+      },
+      {
+        path: '/essayManageEditor',
+        name: 'essayManageEditor',
+        meta: { remark: '博客编辑' },
+        component: () => import('/src/views/user/essay/components/editor.vue')
       },
       {
         path: '/albumManage',
@@ -84,7 +97,7 @@ const routes: Array<RouteRecordRaw> = [
         meta: {
           remark: '相册管理',
           isHidden: true,
-          svgIcon: '相册',
+          svgIcon: 'commonSvg-相册',
           src: '/images/manageImages/相册.png'
         },
         component: () => import('/src/views/manage/albumManage/index.vue')
@@ -95,7 +108,7 @@ const routes: Array<RouteRecordRaw> = [
         meta: {
           remark: '游戏管理',
           isHidden: true,
-          svgIcon: '游戏',
+          svgIcon: 'commonSvg-游戏',
           src: '/images/manageImages/游戏.png'
         },
         component: () => import('/src/views/manage/gameManage/index.vue')
@@ -106,7 +119,7 @@ const routes: Array<RouteRecordRaw> = [
         meta: {
           remark: '影视管理',
           isHidden: true,
-          svgIcon: '影视',
+          svgIcon: 'audioSvg-影视',
           src: '/images/manageImages/影视.png'
         },
         component: () => import('/src/views/manage/dramaManage/index.vue')
@@ -117,24 +130,24 @@ const routes: Array<RouteRecordRaw> = [
       //   meta: { remark: '美食管理', isHidden: true, svgIcon: '美食', src: '/images/manageImages/美食.png' },
       //   component: () => import('/src/views/manage/gourmetManage/index1.vue')
       // },
-      {
-        path: '/musicManage',
-        name: 'musicManage',
-        meta: {
-          remark: '音乐管理',
-          isHidden: true,
-          svgIcon: '音乐',
-          src: '/images/manageImages/音乐.png'
-        },
-        component: () => import('/src/views/manage/musicManage/index.vue')
-      },
+      // {
+      //   path: '/musicManage',
+      //   name: 'musicManage',
+      //   meta: {
+      //     remark: '音乐管理',
+      //     isHidden: true,
+      //     svgIcon: 'audioSvg-音乐',
+      //     src: '/images/manageImages/音乐.png'
+      //   },
+      //   component: () => import('/src/views/manage/musicManage/index.vue')
+      // },
       {
         path: '/wallpaperManage',
         name: 'wallpaperManage',
         meta: {
           remark: '壁纸管理',
           isHidden: true,
-          svgIcon: '壁纸',
+          svgIcon: 'commonSvg-壁纸',
           src: '/images/manageImages/壁纸.png'
         },
         component: () => import('/src/views/manage/wallpaperManage/index.vue')
@@ -145,7 +158,7 @@ const routes: Array<RouteRecordRaw> = [
         meta: {
           remark: '字典管理',
           isHidden: true,
-          svgIcon: '字典',
+          svgIcon: 'commonSvg-字典',
           src: '/images/manageImages/字典.png'
         },
         component: () => import('/src/views/manage/dictManage/index.vue')
@@ -156,7 +169,7 @@ const routes: Array<RouteRecordRaw> = [
         meta: {
           remark: '更新日志管理',
           isHidden: true,
-          svgIcon: '日志',
+          svgIcon: 'commonSvg-日志',
           src: '/images/manageImages/日志.png'
         },
         component: () => import('/src/views/manage/logManage/index.vue')
@@ -248,12 +261,12 @@ const routes: Array<RouteRecordRaw> = [
   //   meta: { remark: '装备', icon: 'Suitcase', parent: 'user' },
   //   component: () => import('/src/views/user/equipment/index1.vue')
   // },
-  {
-    path: '/music',
-    name: 'music',
-    meta: { remark: '音乐', icon: 'Headset', parent: 'user' },
-    component: () => import('/src/views/user/music/index.vue')
-  },
+  // {
+  //   path: '/music',
+  //   name: 'music',
+  //   meta: { remark: '音乐', icon: 'Headset', parent: 'user' },
+  //   component: () => import('/src/views/user/music/index.vue')
+  // },
   {
     path: '/svg',
     name: 'svg',
@@ -367,6 +380,16 @@ const routes: Array<RouteRecordRaw> = [
           url: 'http://1.92.159.74:8008/slice/雨.png'
         },
         component: () => import('/src/views/assembly/slice/rain/index.vue')
+      },
+      {
+        path: '/swiper',
+        name: 'swiper',
+        meta: {
+          remark: '倾斜轮播',
+          introduction: '倾斜轮播',
+          url: 'http://1.92.159.74:8008/slice/雨.png'
+        },
+        component: () => import('/src/views/assembly/slice/swiper/index.vue')
       }
     ]
   },
@@ -444,12 +467,12 @@ const routes: Array<RouteRecordRaw> = [
     meta: { remark: '个人信息', icon: 'User', parent: 'intro' },
     component: () => import('/src/views/introduction/personalProfile/index.vue')
   },
-  // {
-  //   path: '/projectExperience',
-  //   name: 'projectExperience',
-  //   meta: { remark: '项目经历' },
-  //   component: () => import('/src/views/introduction/projectExperience/index1.vue')
-  // },
+  {
+    path: '/projectExperience',
+    name: 'projectExperience',
+    meta: { remark: '项目经历', icon: 'User', parent: 'intro' },
+    component: () => import('/src/views/introduction/projectExperience/index.vue')
+  },
   // {
   //   path: '/fitness',
   //   name: 'fitness',
@@ -517,11 +540,10 @@ router.afterEach(() => {
 });
 
 router.beforeEach(async (to: any) => {
+  // 记录路由
+  window.localStorage.setItem('lastRouter', to.path);
+  // 随机壁纸
   let themeStore = useThemeStore();
-  let themeData = window.localStorage.getItem('themeData') as any;
-  if (themeData) {
-    themeStore = JSON.parse(themeData);
-  }
   if (!themeStore) return;
   if (themeStore.options && themeStore.options.isRandom) {
     let backUrl =
@@ -531,30 +553,15 @@ router.beforeEach(async (to: any) => {
       back.style.background = 'left/cover fixed no-repeat url(' + backUrl + ')';
     }
   }
-  themeStore.isShow = true;
-  if (to.fullPath !== '/' && to.fullPath !== '/login' && to.fullPath !== '/home')
-    themeStore.isFooterShow = true;
-
-  // if (navShowRoute.includes(to.name)) {
-  //   themeStore.isShow = false;
-  //   themeStore.isFooterShow = false;
-  // } else if (footerNotShowRoute.includes(to.name)) {
-  //   console.log(to.name);
-  //   themeStore.isShow = true;
-  //   themeStore.isFooterShow = false;
-  // } else if (to.name == 'home') {
-  //   themeStore.isShow = true;
-  //   themeStore.isFooterShow = false;
-  //   autoClearTimer(() => {
-  //     themeStore.isFooterShow = true;
-  //   }, 3000);
-  // } else {
-  //   themeStore.isShow = true;
-  //   // themeStore.isFooterShow = false;
-  //   autoClearTimer(() => {
-  //     themeStore.isFooterShow = true;
-  //   }, 2000);
-  // }
+  if (to.path.includes('login') || to.path.includes('anage')) {
+    themeStore.isFooterShow = false;
+    themeStore.isShow = false;
+  } else {
+    autoClearTimer(() => {
+      themeStore.isFooterShow = true;
+    }, 2000);
+    themeStore.isShow = true;
+  }
 });
 
 // 滚动到指定的位置

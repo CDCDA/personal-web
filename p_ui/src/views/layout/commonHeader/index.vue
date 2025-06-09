@@ -78,7 +78,7 @@ import { ref, onMounted, watch } from 'vue';
 import { getRandomBlog } from '@/api/blog';
 import commonLink from './components/commonLink.vue';
 import searchDialog from './components/blogSearchDialog.vue';
-import { vMiniWeather, vMiniWeatherIcon } from 'vue3-mini-weather';
+// import { vMiniWeather, vMiniWeatherIcon } from 'vue3-mini-weather';
 import { debounce } from 'lodash';
 import { autoClearTimer } from '@/utils/timer';
 import { useRouter, onBeforeRouteUpdate } from 'vue-router';
@@ -145,7 +145,14 @@ function setWeatherData(weather: any) {
 }
 
 function toManage() {
-  router.push({ path: '/manage' });
+  // 获取完整的路由地址
+  const routeUrl = router.resolve({
+    name: 'blogManage'
+  });
+  // 使用 window.open 打开新标签页
+  window.open(routeUrl.href, '_blank');
+  // window.open(item.url, '_blank');
+  // router.push({ path: '/manage' });
 }
 
 const changeHeaderBar = debounce((newVal: any, oldVal: any) => {

@@ -51,6 +51,15 @@ public class BaseEntity implements Serializable {
     @ApiModelProperty(value = "最大记录数")
     private Integer pageSize;
 
+    @TableField(exist = false)
+    @ApiModelProperty(value = "排序字段")
+    private String orderBy;
+
+    @TableField(exist = false)
+    @ApiModelProperty(value = "排序方式")
+    private String asc;
+
+
     /**
      * 初始化实体
      *

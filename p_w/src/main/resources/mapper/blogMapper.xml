@@ -20,6 +20,17 @@
         </collection>
     </resultMap>
 
+    <resultMap type="com.pw.vo.BlogTypeDataVO" id="blogTypeDataMap">
+        <result property="typeName" column="type_name"/>
+        <result property="typeId" column="type_id"/>
+        <result property="count" column="count"/>
+        <collection property="blogList" javaType="list" ofType="String" select="subList"
+                    column="{typeId = type_id}">
+            <result column="tag_id"/>
+            <result column="tag_name"/>
+        </collection>
+    </resultMap>
+
     <!--博客列表查询-->
     <select id="list" resultMap="blogMap">
         select
@@ -76,6 +87,39 @@
 
     </select>
 
+    <!--博客列表查询-->
+    <select id="listByType" resultMap="blogTypeDataMap">
+        SELECT bt.type_name,
+               bt.type_id,
+               count(*) as count
+        FROM `blog` b
+            JOIN `blog_type` bt
+        ON b.type_id = bt.type_id
+        GROUP BY b.type_id
+    </select>
+
+    <!--博客列表查询-->
+    <select id="subList" resultMap="blogMap">
+        select
+        b.blog_id,
+        b.blog_title,
+        b.user_id,
+        b.type_id,
+        b.cover_url,
+        b.create_time,
+        b.update_time,
+        b.blog_abstract,
+        b.is_original
+        from `blog` b
+        <where>
+            <if test="typeId != null and typeId!=''">
+                and b.type_id = #{typeId}
+            </if>
+        </where>
+        order by b.create_time desc
+        LIMIT 0, 3
+    </select>
+
     <select id="getTagsByBlogId" resultType="com.pw.vo.BlogTagVO">
         select bt.tag_id, bt.tag_name
         from `blog` b
@@ -84,7 +128,7 @@
                  join `blog_tag` bt on btr.tag_id = bt.tag_id
     </select>
 
-    <!--博客列表计数-->
+    <!--按分类博客列表-->
     <select id="count" resultType="integer">
         select count(*)
         from `blog` b

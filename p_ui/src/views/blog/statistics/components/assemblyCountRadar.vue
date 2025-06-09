@@ -32,7 +32,7 @@ const options = reactive({
         { text: '大模块', max: 150 }
       ],
       center: ['25%', '50%'],
-      radius: 80,
+      radius: 60,
       startAngle: 90,
       splitNumber: 5,
       shape: 'circle',
@@ -71,7 +71,7 @@ const options = reactive({
         }
       },
       center: ['75%', '60%'],
-      radius: 95,
+      radius: 75,
       axisName: {
         color: '#fff',
         backgroundColor: '#666',

@@ -1,5 +1,7 @@
 package com.pw.controller;
 
+import cn.hutool.core.util.ObjectUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.pw.common.controller.BaseController;
 import com.pw.common.controller.convertController;
 import com.pw.common.utils.Result;
@@ -44,6 +46,14 @@ public class DictTypeController extends BaseController implements convertControl
     @PostMapping("/save")
     @ApiOperation(value = "保存或修改字典类型", notes = "", httpMethod = "POST")
     public Result save(@RequestBody DictType dictType) {
+        if (ObjectUtil.isEmpty(dictType.getId())) {
+            DictType existDict = dictTypeService.list(new LambdaQueryWrapper<DictType>()
+                            .eq(DictType::getDictType, dictType.getDictType()))
+                    .stream().findFirst().orElse(null);
+            if (ObjectUtil.isNotEmpty(existDict)) {
+                return Result.error("字典类型已存在");
+            }
+        }
         dictTypeService.saveOrUpdate(dictType);
         return Result.ok();
     }

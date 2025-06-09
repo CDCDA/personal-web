@@ -1,27 +1,38 @@
 /*
- * @Description:
- */
-/*
- * @Description:
+ * @Description: 优化后的懒加载动画工具函数
  */
 
 import { autoClearTimer } from './timer';
 
-//进入视野加载动画
-export const useLazyAppear = (el: Element, delay: any = 0, animationName: string = 'appear') => {
+// 全局观察器实例
+const observerMap = new WeakMap<Element, IntersectionObserver>();
+
+export const useLazyAppear = (el: Element, delay: number = 0, animationName: string = 'appear') => {
   if (!el) return;
-  //监听组件是否进入可视区域
-  const io = new IntersectionObserver(entries => {
-    if (entries[0].isIntersecting) {
-      //解除监听
-      io.disconnect();
-      autoClearTimer(() => {
-        el.classList.add(animationName);
+
+  // 复用已有观察器
+  if (observerMap.has(el)) return;
+
+  const io = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const target = entry.target;
+        observer.unobserve(target);
+        observerMap.delete(target);
+
         autoClearTimer(() => {
-          el.classList.remove(animationName);
-        }, 1000);
-      }, delay);
-    }
+          target.classList.add(animationName);
+          autoClearTimer(() => {
+            target.classList.remove(animationName);
+          }, 1000);
+        }, delay);
+      }
+    });
+  }, {
+    threshold: 0.01,  // 降低触发阈值
+    rootMargin: '20px' // 预加载区域
   });
+
   io.observe(el);
+  observerMap.set(el, io);
 };

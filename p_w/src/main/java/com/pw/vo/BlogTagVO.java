@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import com.pw.common.entity.BaseEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -36,6 +35,16 @@ public class BlogTagVO {
 
     @ApiModelProperty(value = "标签文章数")
     private Integer total;
+
+    @ApiModelProperty(value = "标签类型")
+    private String tagType;
+
+    @ApiModelProperty(value = "主题")
+    private String effec;
+
+    @ApiModelProperty(value = "颜色")
+    private String color;
+
 
 
 

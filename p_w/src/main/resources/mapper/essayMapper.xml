@@ -50,9 +50,13 @@
                 and
                 e.user_id = "${userId}"
             </if>
-            <if test="startTime != null and startTime!='' and endTime != null and endTime!=''">
+            <if test="content != null and content!=''">
                 and
-                e.create_time between startTime and endTime
+                e.content like "%${content}%"
+            </if>
+            <if test="startTime != null and endTime != null">
+                and
+                e.create_time between #{startTime} and #{endTime}
             </if>
         </where>
         order by create_time desc
@@ -70,9 +74,13 @@
                 and
                 e.user_id = "${userId}"
             </if>
-            <if test="startTime != null and startTime!='' and endTime != null and endTime!=''">
+            <if test="content != null and content!=''">
                 and
-                e.create_time between startTime and endTime
+                e.content like "%${content}%"
+            </if>
+            <if test="startTime != null and endTime != null">
+                and
+                e.create_time between #{startTime} and #{endTime}
             </if>
         </where>
         order by create_time desc

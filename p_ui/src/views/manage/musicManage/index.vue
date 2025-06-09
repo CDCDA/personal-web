@@ -16,12 +16,11 @@
           v-model="queryParams.blogTitle"
           placeholder="请输入博客标题"
           clearable
-          style="width: 200px"
           @keyup.enter="getBlogList"
         />
       </el-form-item>
       <el-form-item label="分类" prop="typeId">
-        <el-select v-model="queryParams.typeId" style="width: 200px" placeholder="请选择分类">
+        <el-select v-model="queryParams.typeId" placeholder="请选择分类">
           <el-option
             v-for="item in typeList"
             :value="item.typeId"
@@ -101,7 +100,7 @@ import { listTag } from '@/api/tag.ts';
 import { useRouter } from 'vue-router';
 import Pagination from '@/components/pagination/index.vue';
 import { ElMessage } from 'element-plus';
-import { useTableResize } from '@/utils/manage';
+
 import tools from '../components/tools.vue';
 const router = useRouter();
 const queryParams = ref({
@@ -186,13 +185,11 @@ async function handleDel(item: any) {
 
 function hideSearch() {
   isSearchShow.value = !isSearchShow.value;
-  useTableResize();
 }
 onMounted(() => {
   getBlogList();
   getTypeList();
   getTagList();
-  useTableResize();
 });
 </script>
 <style lang="scss" scoped></style>

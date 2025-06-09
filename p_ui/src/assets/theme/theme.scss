@@ -25,6 +25,8 @@ $light: (
 $white: (
   //主背景色
   back: rgb(255 255 255 / 100%),
+  //反转背景色
+  re-back: rgb(0 0 0 / 100%),
   //主背景色（透明）
   back-tr: hsla(0, 0%, 100%, 0.8),
   //遮罩层
@@ -32,7 +34,7 @@ $white: (
   //背景色
   bk: #b4b4b4,
   //文字颜色
-  font-color: black,
+  font-color: #606266,
   //文字反转色
   re-font-color: white,
   //边框色

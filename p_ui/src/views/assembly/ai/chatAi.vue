@@ -204,6 +204,7 @@ onMounted(() => {
   .md-editor-previewOnly {
     border: 1px solid get('border-color');
     //box-shadow: get('box-shadow');
+    padding: 0.5rem;
     border-radius: 6px;
     text-align: left;
   }

@@ -3,57 +3,58 @@
 -->
 <template>
   <div class="essay-manage manage-main" :class="isSearchShow ? 'is-hidden' : ''">
-    <el-form
-      class="manage-query-form"
-      :model="queryParams"
-      ref="queryRef"
-      :inline="true"
-      label-width="40"
-      size="mini"
-    >
-      <el-form-item label="内容">
+    <el-form class="manage-query-form" :model="queryParams" ref="queryRef" :inline="true">
+      <el-form-item>
         <el-input
-          v-model="queryParams.tagName"
+          v-model="queryParams.content"
           placeholder="请输入随笔内容"
           clearable
-          style="width: 200px"
           @keyup.enter="getList"
         />
       </el-form-item>
       <el-form-item>
+        <el-date-picker
+          v-model="dateRange"
+          type="daterange"
+          range-separator="至"
+          start-placeholder="开始日期"
+          end-placeholder="结束日期"
+          value-format="YYYY-MM-DD"
+        >
+        </el-date-picker>
+      </el-form-item>
+      <el-form-item>
         <el-button type="primary" icon="Search" @click="getList">搜索</el-button>
-        <el-button icon="Refresh" @click="resetQuery">重置</el-button>
+        <el-button type="danger" icon="Refresh" @click="resetQuery">重置</el-button>
       </el-form-item>
     </el-form>
-    <div class="c-divider"></div>
-    <tools
-      @handleAdd="handleAdd"
-      @handleEdit="handleEdit"
-      @handleDel="handleDel"
-      :selection="selection"
-      @refresh="getList"
-    />
-    <el-table :data="tableList" class="manage-table" style="" @selection-change="selectionChange">
-      <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="图片(仅展示第一张)" align="center" prop="isOriginal" width="300">
-        <template #default="scope">
-          <el-image :src="scope.row.images[0]">
-            <template #placeholder>
-              <div
-                class="image-slot"
-                v-cLoading="'rotate'"
-                style="width: 100%; height: 100%"
-              ></div> </template
-            ><template #error>
-              <div class="image-error-slot">
-                <svg-icon iconName="commonSvg-图片加载失败"></svg-icon>
-              </div> </template
-          ></el-image>
-        </template>
-      </el-table-column>
-      <el-table-column label="内容" align="center" prop="content" show-overflow-tooltip />
-      <el-table-column label="创建时间" width="250" align="center" prop="createTime" />
-    </el-table>
+    <div class="manage-table-wrap">
+      <tools
+        @handleAdd="handleAdd"
+        @handleEdit="handleEdit"
+        @handleDel="handleDel"
+        :selection="selection"
+        @refresh="getList"
+      />
+      <el-table
+        :data="tableList"
+        border
+        class="manage-table"
+        @row-click="handleRowClick"
+        ref="manageTable"
+        @selection-change="selectionChange"
+      >
+        <el-table-column type="selection" width="55" align="center" />
+        <el-table-column type="index" width="60" label="序号" align="center" />
+        <el-table-column label="图片(仅展示第一张)" align="center" prop="isOriginal" width="150">
+          <template #default="scope">
+            <c-image :src="scope.row.images[0]" />
+          </template>
+        </el-table-column>
+        <el-table-column label="内容" align="center" prop="content" show-overflow-tooltip />
+        <el-table-column label="创建时间" width="250" align="center" prop="createTime" />
+      </el-table>
+    </div>
     <Pagination
       v-model:page="queryParams.pageNum"
       v-model:page-size="queryParams.pageSize"
@@ -62,7 +63,7 @@
       :showSizes="true"
       :pageSizeList="[10, 20, 30]"
       :on-page-size-change="getList"
-      class="pagi page-content"
+      class="manage-pagination"
     />
   </div>
 </template>
@@ -73,7 +74,7 @@ import { useRouter } from 'vue-router';
 import { autoClearTimer } from '@/utils/timer';
 import Pagination from '@/components/pagination/index.vue';
 import { ElMessageBox, ElNotification } from 'element-plus';
-import { useTableResize } from '@/utils/manage';
+const dateRange = ref([null, null] as any);
 import tools from '../components/tools.vue';
 const router = useRouter();
 const queryParams = ref({
@@ -93,30 +94,30 @@ const form = ref({
 const tableList = ref([] as any);
 const total = ref(0);
 
+const formEl = ref(null) as any;
+const manageTable = ref(null) as any;
+const rules = ref({
+  coverUrl: [{ required: true, message: '请上传封面', trigger: 'blur' }],
+  name: [{ required: true, message: '请输入影视名称', trigger: 'blur' }],
+  type: [{ required: true, message: '请选择分类', trigger: 'blur' }]
+});
+
+function handleRowClick(row: any) {
+  manageTable.value.toggleRowSelection(row);
+}
+
 async function getList() {
-  const { code, msg, data } = (await listEssay(queryParams.value)) as any;
+  if (dateRange.value) {
+    queryParams.value.startTime = dateRange.value[0];
+    queryParams.value.endTime = dateRange.value[1];
+  } else {
+    queryParams.value.startTime = '';
+    queryParams.value.endTime = '';
+  }
+  const { code, data } = (await listEssay(queryParams.value)) as any;
   if (code == 200) {
     tableList.value = data.list;
     total.value = data.total;
-  }
-}
-
-async function submit() {
-  const res = (await saveEssay(form.value)) as any;
-  if (res) {
-    if (!form.value.tagId)
-      ElNotification({
-        title: 'Success',
-        message: '新增成功',
-        type: 'success'
-      });
-    else
-      ElNotification({
-        title: 'Success',
-        message: '修改成功',
-        type: 'success'
-      });
-    getList();
   }
 }
 
@@ -146,11 +147,11 @@ function resetForm() {
 
 function handleAdd() {
   resetForm();
-  router.push({ name: 'essayEditor' });
+  router.push({ name: 'essayManageEditor' });
 }
 
 function handleEdit() {
-  router.push({ name: 'essayEditor', query: { id: selection.value[0].id } });
+  router.push({ name: 'essayManageEditor', query: { id: selection.value[0].id } });
 }
 
 async function handleDel() {
@@ -173,16 +174,8 @@ async function handleDel() {
   });
 }
 
-function hideSearch() {
-  isSearchShow.value = !isSearchShow.value;
-  autoClearTimer(() => {
-    useTableResize();
-  }, 100);
-}
-
 onMounted(() => {
   getList();
-  useTableResize();
 });
 </script>
 <style lang="scss" scoped>

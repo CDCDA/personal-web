@@ -45,9 +45,11 @@
           {{ `${pageType === 'login' ? '立即注册' : '请登录🚀'}` }}
         </div>
         <div class="register-btn">
-          <el-button @click="openRegister">{{
-            `${pageType === 'login' ? '注册' : '登录'}`
-          }}</el-button>
+          <el-button
+            @click="openRegister"
+            :class="pageType === 'register' ? 'login-btn' : 'register-btn'"
+            >{{ `${pageType === 'login' ? '注册' : '登录'}` }}</el-button
+          >
         </div>
       </div>
     </div>
@@ -65,7 +67,7 @@ import useUserStore from '@/store/modules/user';
 import Cookies from 'js-cookie';
 import { getUserById, register, getCode } from '@/api/system/user';
 import useThemeStore from '@/store/modules/theme.ts';
-var themeStore = useThemeStore();
+const themeStore = useThemeStore();
 themeStore.isShow = false;
 themeStore.isFooterShow = false;
 const userStore = useUserStore();
@@ -155,10 +157,10 @@ async function handleLogin() {
 }
 
 function logInFadeOut() {
-  (document.querySelector('.login-main') as any).classList.add('top-fade-out');
-  autoClearTimer(() => {
-    (document.querySelector('.login-main') as any).classList.add('top-fade-out');
-  });
+  // (document.querySelector('.login-main') as any).classList.add('top-fade-out');
+  // autoClearTimer(() => {
+  //   (document.querySelector('.login-main') as any).classList.add('top-fade-out');
+  // });
 }
 
 //注册
@@ -252,7 +254,7 @@ onMounted(() => {
 <style lang="scss" scoped>
 @include theme() {
   .login-container {
-    height: 100%;
+    height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -366,9 +368,10 @@ onMounted(() => {
     color: white !important;
     font-size: 16px;
     font-weight: 700;
-    padding: 12px 45px !important;
+    padding: 20px 45px !important;
     letter-spacing: 2px;
     cursor: pointer;
+    border: 1px solid #fafaf9;
   }
   .el-button:hover {
     transform: scale(1.05);
@@ -376,6 +379,7 @@ onMounted(() => {
   .el-button:active {
     transform: translateY(2px);
   }
+
   input {
     background-color: #eee !important;
     border-radius: 2px;
