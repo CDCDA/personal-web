@@ -3,6 +3,13 @@ import vue from '@vitejs/plugin-vue';
 import path from 'path';
 import viteCompression from 'vite-plugin-compression';
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons';
+import { visualizer } from 'rollup-plugin-visualizer';
+const vendorLibs = [
+  { match: ['vue', 'vue-router', 'pinia'], output: 'vue-vendor' },
+  { match: ['element-plus'], output: 'element-plus-vendor' },
+  { match: ['echarts'], output: 'echarts-vendor' },
+  { match: ['three'], output: 'three-vendor' }
+];
 
 export default defineConfig({
   base: './',
@@ -26,6 +33,12 @@ export default defineConfig({
       threshold: 10240,
       algorithm: 'gzip',
       ext: '.gz'
+    }),
+    visualizer({
+      open: true,
+      gzipSize: true,
+      brotliSize: true,
+      filename: 'visualizer/stats.html'
     })
   ],
   css: {
@@ -57,8 +70,15 @@ export default defineConfig({
         entryFileNames: 'static/js/[name]-[hash].js',
         assetFileNames: 'static/[ext]/[name]-[hash].[ext]',
         manualChunks(id) {
+          // 处理第三方库
           if (id.includes('node_modules')) {
-            return id.toString().split('node_modules/')[1].split('/')[0].toString();
+            for (const lib of vendorLibs) {
+              if (lib.match.some(item => id.includes(item))) {
+                return lib.output;
+              }
+            }
+            // 其他所有 node_modules 的包都打到这一个 vendor chunk 里
+            return 'vendor';
           }
         }
       }
@@ -80,14 +100,14 @@ export default defineConfig({
     },
     proxy: {
       '/dev-api': {
-        target: 'http://localhost:5008',
-        // target: 'http://1.92.159.74:5008',
+        // target: 'http://localhost:5008',
+        target: 'http://120.48.127.181:5008',
         changeOrigin: true,
         rewrite: p => p.replace(/^\/dev-api/, '')
       },
       // 服务器图片接口
       '/img': {
-        target: 'http://1.92.159.74:8008',
+        target: 'http://120.48.127.181:8008',
         changeOrigin: true,
         rewrite: p => p.replace(/^\/img/, '')
       },

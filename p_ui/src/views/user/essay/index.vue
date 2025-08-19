@@ -224,7 +224,7 @@ onMounted(() => {
       .essay-header-center {
         position: absolute;
         top: 47px;
-        left: 14px;
+        left: 24px;
         font-size: 35px;
         font-weight: bold;
         text-align: left;

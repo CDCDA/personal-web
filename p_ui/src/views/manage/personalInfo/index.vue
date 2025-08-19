@@ -4,7 +4,7 @@
 <template>
   <div
     class="personal-main"
-    style="background: url('http://1.92.159.74:8008/樱花古风.jpg') center 28% / cover no-repeat"
+    style="background: url('http://120.48.127.181:8008/樱花古风.jpg') center 28% / cover no-repeat"
   >
     <div class="personal-page page-main">
       <div class="user-left">

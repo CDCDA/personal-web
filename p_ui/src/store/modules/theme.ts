@@ -19,7 +19,7 @@ const useThemeStore = defineStore('theme', () => {
   const imgWallpaperList = ref([]) as any;
   const isCollapse = ref(false);
   //背景url
-  const backUrl = ref(new URL('@/assets/images/feitu-bridge.jpg', import.meta.url).href);
+  const backUrl = ref(new URL('@/assets/images/天使.png', import.meta.url).href);
   //外观设置
   const options = ref({
     //粒子特效

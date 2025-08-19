@@ -5,7 +5,7 @@
   <div class="update-log page-main">
     <div class="update-log-top fade-in">
       <c-image
-        :src="'http://1.92.159.74:8008/quiet-forest.jpg'"
+        :src="'http://120.48.127.181:8008/quiet-forest.jpg'"
         style="width: 100%; height: 100%"
       />
     </div>

@@ -206,7 +206,7 @@ async function init() {
     themeStore.backType = themeData.backType ? themeData.backType : 'img';
     themeStore.options = themeData.options ? themeData.options : [];
   }
-  getBackList(themeStore);
+  // getBackList(themeStore);
   var { theme, backUrl, options, backType } = themeStore;
   // 设置主题
   appTheme.setAttribute('data-theme', theme);

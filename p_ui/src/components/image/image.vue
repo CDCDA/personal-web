@@ -6,6 +6,8 @@
     class="c-image"
     :src="src"
     :fit="fit"
+    :lazy="true"
+    :scroll-container="scrollContainer"
     :preview-src-list="previewSrcList"
     :preview-teleported="true"
     :initialIndex="initialIndex"
@@ -43,6 +45,9 @@ const props = defineProps({
   },
   initialIndex: {
     default: 0
+  },
+  scrollContainer: {
+    default: ''
   }
 });
 </script>

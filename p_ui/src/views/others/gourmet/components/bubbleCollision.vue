@@ -180,13 +180,13 @@ function onClick(evt: any) {
 }
 
 const images = [
-  'http://1.92.159.74:8008/snowflake.jpg',
-  'http://1.92.159.74:8008/ultraman.jpg',
-  'http://1.92.159.74:8008/strange-life.jpg',
-  'http://1.92.159.74:8008/resting-hexenbiest.jpg',
-  'http://1.92.159.74:8008/rainy-night-coffee-shop.jpg',
-  'http://1.92.159.74:8008/rain-cyberpunk-city.jpg',
-  'http://1.92.159.74:8008/rain-cyberpunk-city.jpg'
+  'http://120.48.127.181:8008/snowflake.jpg',
+  'http://120.48.127.181:8008/ultraman.jpg',
+  'http://120.48.127.181:8008/strange-life.jpg',
+  'http://120.48.127.181:8008/resting-hexenbiest.jpg',
+  'http://120.48.127.181:8008/rainy-night-coffee-shop.jpg',
+  'http://120.48.127.181:8008/rain-cyberpunk-city.jpg',
+  'http://120.48.127.181:8008/rain-cyberpunk-city.jpg'
 ];
 
 onMounted(() => {

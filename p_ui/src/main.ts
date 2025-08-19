@@ -23,8 +23,8 @@ import SvgIcon from './components/icon-component.vue';
 import 'virtual:svg-icons-register';
 import visibleLazy from '@/components/visibleLazy/visibleLazy.vue';
 /* vForm 表单构建器 */
-import VForm3 from '@/../lib/vform/designer.umd.js';
-import '@/../lib/vform/designer.style.css';
+// import VForm3 from '@/../lib/vform/designer.umd.js';
+// import '@/../lib/vform/designer.style.css';
 // import { useRouter } from 'vue-router';
 
 // const router = useRouter();
@@ -41,7 +41,7 @@ app.component('c-dialog', dialog);
 app.component('c-image', image);
 app.provide('$theme', 'theme-light');
 app.use(directives);
-app.use(VForm3);
+// app.use(VForm3);
 app.use(pinia);
 app.use(ElementPlus, { zIndex: 3000 });
 app.use(Particles);

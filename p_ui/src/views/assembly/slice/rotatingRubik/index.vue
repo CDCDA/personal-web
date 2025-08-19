@@ -296,7 +296,7 @@ body {
   opacity: 0.7;
   border: 1px solid white;
   transition: all 0.3s;
-  background: center / cover fixed no-repeat url('http://1.92.159.74:8008/lol.jpg');
+  background: center / cover fixed no-repeat url('http://120.48.127.181:8008/lol.jpg');
 }
 /*前*/
 .t1 {

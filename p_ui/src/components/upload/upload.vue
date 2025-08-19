@@ -115,7 +115,7 @@ function handleSuccess(response: any) {
   imageRelations.pop();
   if (response.code == 200) {
     imageRelations.push({
-      name: response.data.replace('http://1.92.159.74:8008/', ''),
+      name: response.data.replace('http://120.48.127.181:8008/', ''),
       url: response.data
     });
   } else {

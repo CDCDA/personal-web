@@ -20,7 +20,7 @@
       </div>
       <div class="ps-info-right">
         <div class="ps-info-map c-right animated">
-          <c-image class="map-img" :src="'http://1.92.159.74:8008/location.png'" />
+          <c-image class="map-img" :src="'http://120.48.127.181:8008/location.png'" />
           <div class="map-tip">现居 福州</div>
         </div>
         <div class="ps-info-life c-right animated">

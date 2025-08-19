@@ -83,7 +83,7 @@ onMounted(() => {
     overflow: hidden;
     padding: 0 !important;
     width: calc(100%) !important;
-    background: url('http://1.92.159.74:8008/avatar/Ruins.jpg') center 28% / cover no-repeat !important;
+    background: url('http://120.48.127.181:8008/avatar/Ruins.jpg') center 28% / cover no-repeat !important;
     color: get('re-font-color') !important;
     .user-header {
       height: 24px;

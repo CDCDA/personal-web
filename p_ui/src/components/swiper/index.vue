@@ -7,8 +7,8 @@
     :loop="loop"
     class="mySwiper"
   >
-    <swiper-slide v-for="item in itemList">
-      <c-image :src="item.src" @click="emit('itemClick', item)"></c-image>
+    <swiper-slide v-for="(item, index) in itemList" :key="index">
+      <c-image :src="(item as any).src" @click="emit('itemClick', item)"></c-image>
     </swiper-slide>
   </swiper>
 </template>

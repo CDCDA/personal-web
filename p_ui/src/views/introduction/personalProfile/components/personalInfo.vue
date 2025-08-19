@@ -9,7 +9,7 @@
     <span class="glossary">业余健身爱好者</span>
     <span class="glossary">没游戏玩了</span>
     <span class="glossary">日常找新歌</span>
-    <el-avatar class="avatar" :src="'http://1.92.159.74:8008/cat-star.jpg'"></el-avatar>
+    <el-avatar class="avatar" :src="'http://120.48.127.181:8008/cat-star.jpg'"></el-avatar>
   </div>
 </template>
 <script setup lang="ts"></script>

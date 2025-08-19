@@ -82,7 +82,7 @@ watch(
         loading.value = false;
       };
     }
-    // else background.value = `url('http://1.92.159.74:8008/dragon-maiden.jpg') left/cover  no-repeat`;
+    // else background.value = `url('http://120.48.127.181:8008/dragon-maiden.jpg') left/cover  no-repeat`;
     else {
       background.value = '';
     }
